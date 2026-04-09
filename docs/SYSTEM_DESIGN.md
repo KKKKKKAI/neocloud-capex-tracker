@@ -45,13 +45,15 @@ as needed.
 
 ## 3. Guiding principles
 
-- **Provenance over plausibility.** Every value carries the quote and page it came from.
+- **Provenance over plausibility.** Every value carries the verbatim quote and the section reference it came from. Quotes are verbatim from the source text so a human can ctrl-F them in the original document.
+- **Database stores facts, not files.** The DB holds extracted data points (one row per `(company, period, metric)`), with FK pointers to the original report files. The reports themselves live as their original bytes (HTML or PDF) in `data/_sources/`. We never insert report content into a SQLite column.
 - **Mechanical checks before model checks.** Substring verification, range rules, and SQL constraints run before any eval model is consulted.
-- **DB is the trunk, everything else is a branch.** The SQLite database is the single source of truth. Excel, CSV, and future web dashboards are read-only exports derived from it.
+- **DB is the trunk for facts, `_sources/` is the trunk for files.** The SQLite database is the single source of truth for *extracted data*. The `data/_sources/` archive is the single source of truth for *the documents themselves*. Excel, CSV, JSON exports read from the DB; humans verify by clicking through to the original file in `_sources/`.
 - **Model-agnostic interchange.** Swapping models is a config change, not a refactor.
-- **Per-report context isolation.** Extraction runs one PDF per subagent invocation so context never overflows.
+- **Per-report context isolation.** Extraction runs one source document per subagent invocation so context never overflows.
 - **Cheap watcher, expensive worker.** LLM inference runs only when a new filing is detected.
 - **Skills as the front door.** Every significant operation has a skill that Claude can invoke. The skill is the contract; the Python in `src/capex/` is the implementation.
+- **Identity-only YAML.** `_identity.yaml` records what we monitor (ticker, regulator, CIK or HK code, FYE month). It never contains URLs to specific filings. The fetch skill is a monitor: given a ticker and form_type, it asks the regulator "what's the latest matching this?" and downloads from there.
 - **Defer features that aren't justified yet.**
 
 ## 4. Architecture — six layers
@@ -153,19 +155,20 @@ of the v0.5 design that is unchanged.
 
 ```
 data/_sources/
-├── _identity.yaml             # company registry (authoritative)
+├── _identity.yaml             # company registry (authoritative, identity-only)
 ├── _organizer_log.csv         # append-only log from organize-sources
 └── <TICKER>/
     ├── _raw/                  # immutable, original regulator bytes
-    │   ├── <sanitized>.pdf
-    │   └── <sanitized>.fetch.json
+    │   ├── <sanitized>.<htm|pdf>      # whatever the regulator served
+    │   └── <sanitized>.fetch.json     # sidecar metadata
     └── <YYYY>/                # canonical, regeneratable from _raw/
-        └── [dd.mm.yyyy][TICKER][PERIOD][FORM].pdf
+        └── [dd.mm.yyyy][TICKER][PERIOD][FORM].<htm|pdf>
 ```
 
-- `_raw/` is written by `fetch-company-report` and read by nothing else except `organize-sources`. A bug in naming cannot corrupt this layer.
+- `_raw/` stores the regulator's bytes **as-is**, no conversion. SEC 10-Ks and 20-Fs are typically HTML; HKEXnews annual reports are PDFs. We do not render HTML to PDF — the extraction layer parses text from whatever format we have, and the locator references humans use are section headings + verbatim quotes (not page numbers).
+- `_raw/` is written by `fetch-company-report` and read by nothing else except `organize-sources` and the read layer. A bug in naming cannot corrupt this layer.
 - `<YYYY>/` is written by `organize-sources` and can be regenerated from scratch by deleting the year folders and re-running the sweep.
-- The `sha256` of the `_raw/` bytes is the document's permanent identity and feeds the `source_documents.sha256` column as a uniqueness key.
+- The `sha256` of the `_raw/` bytes is the document's permanent identity and feeds the `source_documents.sha256` column as a uniqueness key. Because we don't render anything, the hash is stable across re-fetches as long as the regulator's bytes don't change.
 
 See `skills/fetch-company-report/SKILL.md` and `skills/organize-sources/SKILL.md`
 for the skill contracts. Phase 2 will slim those files to contract-only and
@@ -177,9 +180,13 @@ One worker skill — `read-and-extract` — is the only thing in the system
 that calls an LLM. Its contract (landing in Phase 3):
 
 - **Input:** one `source_document_id` + a list of `metric_key`s to extract.
-- **Context isolation:** one invocation sees one PDF. The parent agent never accumulates the contents of multiple filings in a single context window.
+- **Context isolation:** one invocation sees one source document. The parent agent never accumulates the contents of multiple filings in a single context window.
 - **Output:** rows inserted into `extractions` and `validation_results`. Returns the list of extraction IDs for the caller's convenience.
-- **Provenance:** every row carries `quote` (verbatim, ≤30 words), `locator_page`, `locator_section`, and `extraction_type` ∈ {direct, inferred, derived}.
+- **Provenance — section + verbatim quote, not page numbers.** Every row carries:
+  - `quote` — a verbatim span (≤30 words) lifted directly from the source document text. Must be exactly searchable via ctrl-F so a human can locate it in the original file.
+  - `locator_section` — a section reference humans can navigate to, e.g. `"Item 8 - Consolidated Statements of Cash Flows, line 'Additions to property and equipment'"`.
+  - `locator_page` — kept nullable in the schema for cases where the source is a paginated PDF (HKEX) and a page number adds value. For HTML sources (most SEC filings) this is left null because HTML has no stable pagination.
+  - `extraction_type` ∈ `{direct, inferred, derived}` — was the value lifted directly from a labeled line, computed from other lines, or inferred from narrative?
 
 The extraction layer depends only on the `ModelBackend` protocol in
 `src/capex/adapters/base.py` (defined in Phase 3). Concrete backends

@@ -16,6 +16,8 @@ INSERT INTO "audit_log" VALUES(1,'2026-04-09T17:47:23+00:00','sync-companies@0.0
 INSERT INTO "audit_log" VALUES(2,'2026-04-09T17:47:23+00:00','sync-metric-definitions@0.0.1','metric_definitions_sync','metric_definitions',NULL,'{"deleted": 0, "inserted": 5, "total": 5, "updated": 0, "yaml_path": "data/seeds/metric_definitions.yaml"}');
 INSERT INTO "audit_log" VALUES(3,'2026-04-09T17:47:58+00:00','sync-companies@0.0.1','companies_sync','companies',NULL,'{"deleted": 0, "inserted": 0, "total": 1, "updated": 1, "yaml_path": "data/_sources/_identity.yaml"}');
 INSERT INTO "audit_log" VALUES(4,'2026-04-09T17:47:58+00:00','sync-metric-definitions@0.0.1','metric_definitions_sync','metric_definitions',NULL,'{"deleted": 0, "inserted": 0, "total": 5, "updated": 5, "yaml_path": "data/seeds/metric_definitions.yaml"}');
+INSERT INTO "audit_log" VALUES(5,'2026-04-09T18:24:16+00:00','sync-companies@0.0.1','companies_sync','companies',NULL,'{"deleted": 0, "inserted": 12, "total": 13, "updated": 1, "yaml_path": "data/_sources/_identity.yaml"}');
+INSERT INTO "audit_log" VALUES(6,'2026-04-09T18:37:24+00:00','sync-companies@0.0.1','companies_sync','companies',NULL,'{"deleted": 0, "inserted": 0, "total": 13, "updated": 13, "yaml_path": "data/_sources/_identity.yaml"}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -25,7 +27,19 @@ CREATE TABLE companies (
     fiscal_year_end_month INTEGER NOT NULL CHECK(fiscal_year_end_month BETWEEN 1 AND 12),
     synced_at             TEXT NOT NULL
 );
-INSERT INTO "companies" VALUES('MSFT','Microsoft Corporation','sec_edgar','0000789019',NULL,6,'2026-04-09T17:47:58+00:00');
+INSERT INTO "companies" VALUES('MSFT','Microsoft Corporation','sec_edgar','0000789019',NULL,6,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('AMZN','Amazon.com, Inc.','sec_edgar','0001018724',NULL,12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('GOOGL','Alphabet Inc.','sec_edgar','0001652044',NULL,12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('META','Meta Platforms, Inc.','sec_edgar','0001326801',NULL,12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('ORCL','Oracle Corporation','sec_edgar','0001341439',NULL,5,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('BABA','Alibaba Group Holding Limited','sec_edgar','0001577552',NULL,3,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('BIDU','Baidu, Inc.','sec_edgar','0001329099',NULL,12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('GDS','GDS Holdings Limited','sec_edgar','0001526125',NULL,12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('0700','Tencent Holdings Limited','hkex',NULL,'0700',12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('CRWV','CoreWeave, Inc.','sec_edgar','0001769628',NULL,12,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('APLD','Applied Digital Corporation','sec_edgar','0001144879',NULL,5,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('IREN','IREN Limited','sec_edgar','0001878848',NULL,6,'2026-04-09T18:37:24+00:00');
+INSERT INTO "companies" VALUES('NBIS','Nebius Group N.V.','sec_edgar','0001513845',NULL,12,'2026-04-09T18:37:24+00:00');
 CREATE TABLE extractions (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
     source_document_id INTEGER NOT NULL REFERENCES source_documents(id),
@@ -107,5 +121,5 @@ CREATE INDEX idx_validation_results_extraction
 CREATE INDEX idx_audit_log_ts
     ON audit_log(ts);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',6);
 COMMIT;

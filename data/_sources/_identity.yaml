@@ -11,17 +11,52 @@
 # For HKEX-only filers this is the 4-digit stock code, zero-padded, quoted as a string.
 #
 # preferred_source: one of "sec_edgar" or "hkex". For dual-listed companies
-# (e.g. Alibaba, JD, Baidu, NetEase) always prefer "sec_edgar" because SEC
-# 20-F filings are more uniform and EDGAR's API is more reliable.
+# (e.g. Alibaba, JD, Baidu, NetEase, GDS) always prefer "sec_edgar" because
+# SEC 20-F filings are more uniform and EDGAR's API is more reliable.
 #
 # fiscal_year_end_month: integer 1-12, the month in which the company's fiscal
 # year ends. Used by organize-sources to map period_of_report to the correct
 # fiscal quarter/half and fiscal year folder.
 #
 # This table is hand-maintained for v1. Add new companies here before running
-# fetch-company-report against them.
+# fetch-company-report against them. After editing, refresh the DB mirror with:
+#     capex db sync-companies
+#
+# DESIGN PRINCIPLE — IDENTITY ONLY, NO URLS.
+#
+# This file records the *identity* of each company we monitor: ticker,
+# regulator, CIK or HK code, fiscal year end. It does NOT contain URLs
+# to specific filings. The fetch skill is a monitor: given a ticker and
+# form_type, it asks the regulator (SEC EDGAR or HKEXnews) "what's the
+# latest filing matching this?" and downloads it. URLs come from the
+# regulator at fetch time, never from this file.
+#
+# If you find yourself wanting to put a URL here, you're describing a
+# different system. Talk to the architecture doc instead.
 
 companies:
+
+  # =====================================================================
+  # US-listed hyperscalers (SEC EDGAR primary)
+  # =====================================================================
+
+  AMZN:
+    name: Amazon.com, Inc.
+    preferred_source: sec_edgar
+    edgar_cik: "0001018724"
+    fiscal_year_end_month: 12
+
+  GOOGL:
+    name: Alphabet Inc.
+    preferred_source: sec_edgar
+    edgar_cik: "0001652044"
+    fiscal_year_end_month: 12
+
+  META:
+    name: Meta Platforms, Inc.
+    preferred_source: sec_edgar
+    edgar_cik: "0001326801"
+    fiscal_year_end_month: 12
 
   MSFT:
     name: Microsoft Corporation
@@ -29,12 +64,89 @@ companies:
     edgar_cik: "0000789019"
     fiscal_year_end_month: 6
 
-  # Additional companies will be added here as the v1 scope is locked.
-  # Planned initial set:
-  #   - NVDA (Nvidia, FYE January)
-  #   - GOOGL (Alphabet, FYE December)
-  #   - META (Meta, FYE December)
-  #   - AMZN (Amazon, FYE December)
-  #   - ORCL (Oracle, FYE May)
-  #   - BABA (Alibaba, FYE March, dual-listed, prefer SEC 20-F)
-  #   - "0700" (Tencent, FYE December, HKEX-only)
+  ORCL:
+    name: Oracle Corporation
+    preferred_source: sec_edgar
+    edgar_cik: "0001341439"
+    fiscal_year_end_month: 5
+
+  # =====================================================================
+  # Chinese hyperscalers (SEC 20-F preferred for dual-listed names)
+  # =====================================================================
+
+  BABA:
+    # Dual-listed on NYSE (BABA) and HKEX (9988). SEC 20-F preferred.
+    name: Alibaba Group Holding Limited
+    preferred_source: sec_edgar
+    edgar_cik: "0001577552"
+    fiscal_year_end_month: 3
+
+  BIDU:
+    # Dual-listed on NASDAQ (BIDU) and HKEX (9888). SEC 20-F preferred.
+    name: Baidu, Inc.
+    preferred_source: sec_edgar
+    edgar_cik: "0001329099"
+    fiscal_year_end_month: 12
+
+  GDS:
+    # Dual-listed on NASDAQ (GDS) and HKEX (9698). SEC 20-F preferred.
+    name: GDS Holdings Limited
+    preferred_source: sec_edgar
+    edgar_cik: "0001526125"
+    fiscal_year_end_month: 12
+
+  # =====================================================================
+  # HKEX-only filers (HKEXnews primary)
+  # =====================================================================
+
+  "0700":
+    # Tencent Holdings: HKEX-only. Parent company is NOT SEC-registered;
+    # only the Tencent Music Entertainment Group subsidiary (NYSE: TME)
+    # files with SEC, and that's a separate company. Fetched from HKEXnews.
+    name: Tencent Holdings Limited
+    preferred_source: hkex
+    hkex_stock_code: "0700"
+    fiscal_year_end_month: 12
+
+  # =====================================================================
+  # Pure-play AI neoclouds (SEC primary; mostly recent listings)
+  # =====================================================================
+
+  CRWV:
+    # CoreWeave: IPO'd March 2025 on NASDAQ. First 10-K filed Feb 2026 for FY2025.
+    name: CoreWeave, Inc.
+    preferred_source: sec_edgar
+    edgar_cik: "0001769628"
+    fiscal_year_end_month: 12
+
+  APLD:
+    name: Applied Digital Corporation
+    preferred_source: sec_edgar
+    edgar_cik: "0001144879"
+    fiscal_year_end_month: 5
+
+  IREN:
+    # IREN Limited (formerly Iris Energy). Australian incorporation, NASDAQ-listed,
+    # files 20-F as a foreign private issuer. FYE June.
+    name: IREN Limited
+    preferred_source: sec_edgar
+    edgar_cik: "0001878848"
+    fiscal_year_end_month: 6
+
+  NBIS:
+    # Nebius Group N.V. — Dutch holding company spun out of Yandex's restructuring.
+    # NASDAQ-listed, files 20-F as a foreign private issuer.
+    name: Nebius Group N.V.
+    preferred_source: sec_edgar
+    edgar_cik: "0001513845"
+    fiscal_year_end_month: 12
+
+  # =====================================================================
+  # Deliberately excluded from v1
+  # =====================================================================
+  #
+  # SoftBank Group (TSE 9984) — Japan-listed, files with EDINET, not SEC
+  # or HKEX. The current fetch skill spec only supports SEC EDGAR and
+  # HKEXnews. Adding Japan support would require a new source ("edinet"),
+  # a new form_type token (e.g. "JP-AR"), and a new fetcher implementation.
+  # Out of v1 scope per user decision 2026-04-09.

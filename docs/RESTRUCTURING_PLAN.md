@@ -13,6 +13,20 @@ land. When the plan is fully executed, the contents move into
 
 ---
 
+## 0. Database scope (load-bearing clarification, 2026-04-09)
+
+**The database does NOT store the content of annual reports.**
+
+The annual reports themselves live as their original files (HTML or PDF, exactly as the regulator served them) in `data/_sources/<TICKER>/_raw/` (immutable archive) and `data/_sources/<TICKER>/<YYYY>/` (canonical layer maintained by `organize-sources`). The full text of a report is never inserted into a SQLite column — it would be inaccessible to humans and counterproductive for review.
+
+The database stores **specific data points extracted from those reports**: one row per `(company, period, metric)` in the `extractions` table, e.g. "MSFT FY2025 capital_expenditures = 88,000 USD millions". Each extraction row carries provenance back to its source file via `source_document_id` (FK to the file's row in `source_documents`) plus a verbatim quote and a section reference (e.g. `"Item 8 - Consolidated Statements of Cash Flows, line 'Additions to property and equipment'"`).
+
+The DB is the **structured fact ledger**. The `_sources/` directory is the **document archive**. The two are linked by `source_document_id` but they store different things: facts vs. files.
+
+This is what makes the architecture useful: a human reviewer can read `dump.sql` to see exactly what numbers came from where, then click through to the original PDF in `_sources/` to verify. The DB never tries to be a document store.
+
+---
+
 ## 1. Why we're restructuring
 
 The v0.5 design memo committed the project to **workbook-as-engine**: an Excel
@@ -345,23 +359,56 @@ proceeding to Phase 4.
 - `tests/test_smoke.py` updated to test imports + migrator + dump
 - Verified end-to-end: `capex db sync-all` produces 1 company + 5 metrics + 2 audit entries; idempotent on re-run
 
-### Phase 2 — Skill ↔ src refactor + fetch/organize wiring
+### Phase 2 — Source acquisition pipeline (split: 2a SEC then 2b HKEX)
 
-- [ ] 2.1 Slim `skills/fetch-company-report/SKILL.md` to contract-only
-- [ ] 2.2 Slim `skills/organize-sources/SKILL.md` to contract-only
-- [ ] 2.3 Implement `src/capex/fetch/sec.py` end-to-end for MSFT 10-K
-- [ ] 2.4 Implement `src/capex/fetch/sidecar.py` (JSON sidecar writer)
-- [ ] 2.5 Wire fetch success → `source_documents` insert + `audit_log` row
-- [ ] 2.6 Implement `src/capex/organize/namer.py` (canonical filename grammar)
-- [ ] 2.7 Implement `src/capex/organize/walker.py` (sweep `_raw/`, copy to canonical)
-- [ ] 2.8 Wire organize success → update `canonical_path` on the existing `source_documents` row
-- [ ] 2.9 Vertical test (manual): fetch MSFT 10-K → `_raw/` → organize → `2025/` → DB row exists with both paths populated
+**Decisions ratified 2026-04-09 before Phase 2 starts:**
+
+| ID | Question | Decision |
+|---|---|---|
+| D1 | HKEX in Phase 2 or defer? | **Split.** Phase 2a = SEC EDGAR only (12 of 13 names). Phase 2b = HKEX + dual-listed dispatcher. Tencent dark between 2a and 2b — acceptable. |
+| D2 | HTML→PDF rendering or store HTML as-is? | **Neither — store the raw bytes the regulator served**, no conversion either direction. We do not need PDF rendering. Locators are *section + verbatim quote* (not page numbers), e.g. `"Item 8 - Balance Sheet table, row 'Total Debt'"`. Quotes must be **verbatim from the source text** so a human can ctrl-F them in the original document. The Playwright dependency is dropped from the plan entirely. |
+| D3 | Foreign filers and quarterly cadence | **Timeliness wins.** For dual-listed companies, the dispatcher checks all available regulators for the requested form_type and picks **whichever has the most recently filed matching document**. Annual reports usually mean SEC 20-F. Quarterly disclosures may come earlier on HKEX (e.g. BABA HK-IR before SEC 20-F) — in that case use HKEX. The dispatcher logic lives in Phase 2b because it needs the HKEX fetcher to be wired. |
+| D4 | SEC User-Agent contact | `f.kai.ye03@gmail.com`. Default UA = `"neocloud-capex-tracker f.kai.ye03@gmail.com"`. Override via `CAPEX_FETCHER_UA` env var. |
+| D5 | Sidecar JSON: keep or kill? | **Keep.** Two-source redundancy: DB row is the queryable index, sidecar is the immutable on-disk archival truth. Sidecar survives DB corruption and enables a recovery sweep. |
+
+#### Phase 2a — SEC fetch + organize wiring (SEC EDGAR only)
+
+- [ ] 2a.1 Slim `skills/fetch-company-report/SKILL.md` to contract-only. Drop the HTML→PDF rendering section entirely. Document that `_raw/` stores the raw regulator bytes (HTML or PDF, whichever they served).
+- [ ] 2a.2 Slim `skills/organize-sources/SKILL.md` to contract-only. Update to handle both `.htm` and `.pdf` extensions in the canonical filename.
+- [ ] 2a.3 Implement `src/capex/fetch/sidecar.py` (sidecar JSON writer + reader)
+- [ ] 2a.4 Implement `src/capex/fetch/sec.py` end-to-end:
+  - Hit `data.sec.gov/submissions/CIK<padded>.json`
+  - Filter by form_type, take most recent matching filing
+  - Construct filing directory URL, find primary document
+  - Download bytes (whatever extension), compute sha256
+  - Write atomically to `_raw/` using sanitized regulator filename
+  - Write sidecar JSON
+- [ ] 2a.5 Implement `src/capex/fetch/dispatcher.py` (looks up `companies` row, picks the right per-source fetcher; Phase 2a only routes to `sec.py`)
+- [ ] 2a.6 Wire fetch success → `source_documents` INSERT + `audit_log` row in one `mutating()` block
+- [ ] 2a.7 Implement `src/capex/organize/namer.py` (canonical filename grammar from `organize-sources` SKILL.md, supports both `.htm` and `.pdf`)
+- [ ] 2a.8 Implement `src/capex/organize/walker.py` (sweep `_raw/`, copy to `<TICKER>/<YYYY>/`, append to `_organizer_log.csv`)
+- [ ] 2a.9 Wire organize success → `UPDATE source_documents SET canonical_path = ?` + `audit_log` row
+- [ ] 2a.10 CLI subcommands: `capex fetch <TICKER> <FORM>` and `capex organize`
+- [ ] 2a.11 Set up `CAPEX_FETCHER_UA` env var + `f.kai.ye03@gmail.com` default in `src/capex/fetch/__init__.py`
+- [ ] 2a.12 Period derivation unit tests using the 5 non-Dec FYE companies as fixtures: MSFT (Jun), ORCL (May), APLD (May), IREN (Jun), BABA (Mar)
+- [ ] 2a.13 Network test marker: `@pytest.mark.network`, skipped unless `RUN_NETWORK_TESTS=1`
+- [ ] 2a.14 **Vertical test (manual):** `capex fetch MSFT 10-K` → file in `_raw/` → DB row exists → `capex organize` → file in `MSFT/2025/` → `canonical_path` populated → `dump.sql` reflects both rows
+
+#### Phase 2b — HKEX fetcher + dual-listed dispatcher
+
+- [ ] 2b.1 Implement `src/capex/fetch/hkex.py` (scraper for HKEXnews advanced search, handles 0700 lookup, parses result table, downloads PDF)
+- [ ] 2b.2 Capture golden HTML fixtures of HKEXnews search responses for resilience testing (CI alerts when live response diverges from fixture)
+- [ ] 2b.3 Update `_identity.yaml` schema: dual-listed companies record BOTH `edgar_cik` AND `hkex_stock_code` (currently they only record one). Add `hkex_stock_code` to BABA, BIDU, GDS entries.
+- [ ] 2b.4 Update `src/capex/fetch/dispatcher.py` to handle dual-source companies: query both regulators for the requested form_type, pick whichever has the **most recently filed** matching document, fall back to single source if only one is applicable
+- [ ] 2b.5 Update `companies` table schema to allow both `edgar_cik` and `hkex_stock_code` simultaneously (currently allowed but only one is used)
+- [ ] 2b.6 **Vertical test:** `capex fetch 0700 HK-AR` → file in `_raw/` → DB row → organize → canonical year folder
+- [ ] 2b.7 **Vertical test (dispatcher):** `capex fetch BABA HK-IR` → dispatcher picks HKEX over SEC if HK interim is newer than SEC 20-F → correct file lands
 
 ### Phase 3 — Read + query (the user-facing slice)
 
 - [ ] 3.1 Write `skills/read-and-extract/SKILL.md` (contract-only)
-- [ ] 3.2 Implement `src/capex/read/pdf.py` (PDF text extraction with stable page markers)
-- [ ] 3.3 Implement `src/capex/read/pages.py` (page-id injection for the locator field)
+- [ ] 3.2 Implement `src/capex/read/text.py` — extract plain text from whatever the regulator served (HTML or PDF). Preserve enough structure to identify section headings (e.g. "Item 8 - Financial Statements") so the locator can reference them.
+- [ ] 3.3 Implement `src/capex/read/sections.py` — parse the document structure into a section tree so the extractor can cite `(section_path, verbatim_quote)` instead of page numbers.
 - [ ] 3.4 Implement `src/capex/protocol/v0_1_0.py` (Pydantic models for the interchange schema)
 - [ ] 3.5 Implement `src/capex/adapters/base.py` (model-agnostic interface)
 - [ ] 3.6 Implement `src/capex/adapters/anthropic.py` (first concrete backend)
@@ -370,7 +417,7 @@ proceeding to Phase 4.
 - [ ] 3.9 Wire read-and-extract → `extractions` insert + provenance check + `audit_log`
 - [ ] 3.10 Write `skills/query-line-item/SKILL.md` (contract-only)
 - [ ] 3.11 Implement `src/capex/query/line_items.py` (resolve question → check cache → call worker on miss → format response)
-- [ ] 3.12 Vertical test: `query MSFT FY2025 capital_expenditures` → returns `{value, unit, quote, page, source_path, sha256}`, second call hits the cache
+- [ ] 3.12 Vertical test: `query MSFT FY2025 capital_expenditures` → returns `{value, unit, quote, section_ref, source_path, sha256}` where `section_ref` looks like `"Item 8 - Consolidated Statements of Cash Flows, line 'Additions to property and equipment'"` and `quote` is the verbatim text a human can ctrl-F in the source HTML, second call hits the DB cache
 
 ### Phase 4 — Validation hardening + Excel export (deferrable)
 
@@ -391,11 +438,22 @@ proceeding to Phase 4.
 
 ## 8. Open questions / pending decisions
 
+**Resolved 2026-04-09 (recorded in Phase 2 decisions table above):**
+
+- ~~Page-id stability across re-fetches~~ → Resolved by D2: no rendering, no page numbers. Locators are section + verbatim quote, both stable across re-fetches.
+- ~~HKEX implementation timing~~ → Resolved by D1: Phase 2b.
+- ~~Mirror URL / IR-site fallback policy~~ → Resolved 2026-04-09: regulator-only, identity-only YAML, no exceptions ever.
+- ~~SEC User-Agent string~~ → Resolved by D4: `f.kai.ye03@gmail.com`, env-var override.
+
+**Still open:**
+
 - [ ] **Excel export shape (Phase 4):** one sheet per metric? one sheet per company? mirror the old `source_data` shape? Decide in Phase 4 kickoff.
 - [ ] **Extraction prompt versioning strategy:** prompts pinned per `protocol_version`, or independently versioned with their own field? Decide in Phase 3 step 3.8.
-- [ ] **Page-id stability across re-fetches:** if a filing is re-fetched and the renderer version changes, the locator_page values may shift. Decide whether to re-extract or keep stale references. Likely re-extract on sha256 change.
 - [ ] **Adapters beyond Anthropic:** Gemini? OpenAI? Decide once Phase 3 lands and we have measured cost per extraction.
-- [ ] **Watcher layer:** the v0.5 design had a watcher polling EDGAR. Not in any phase yet. Add when fetch + organize + extract + query are all stable.
+- [ ] **Watcher layer:** the v0.5 design had a watcher polling EDGAR. Not in any phase yet. Add when fetch + organize + extract + query are all stable. Likely lands as a thin GitHub Actions cron job that calls `capex fetch` for each company in `_identity.yaml`.
+- [ ] **6-K subtype filtering for foreign issuers:** when we eventually fetch BABA/BIDU/etc 6-K filings (post-Phase 2b), do we ingest all 6-Ks or filter to ones containing earnings press releases? 6-K is a heterogeneous form. Open until quarterly visibility for Chinese hyperscalers becomes load-bearing.
+- [ ] **`extractions.locator_page` column:** kept nullable in the v0.1 schema. Phase 3 may drop it via migration 0002 once we confirm the section + quote locator strategy works. Don't drop early — keep optionality until we have at least 10 real extractions in the DB.
+- [ ] **Section heading parsing across regulators:** SEC HTML 10-Ks use `Item 1`, `Item 7`, etc. HKEX PDFs use different conventions ("Management Discussion and Analysis", "Financial Statements", numbered notes). The locator_section field needs a normalized form that's consistent across regulators. Decide in Phase 3 when read/sections.py is implemented.
 
 ---
 
@@ -404,5 +462,6 @@ proceeding to Phase 4.
 - No multi-model routing in v1. The protocol supports it; the orchestration logic does not land until measured evidence justifies it.
 - No web dashboard. DB-first makes one easy to add later, but v1 ships none.
 - No real-time / intra-day tracking. Quarterly cadence only.
-- No automated handling of 8-K, 6-K, proxy statements, press releases, slide decks. Out of scope.
-- No HKEX implementation in Phase 2. SEC EDGAR only for the first vertical slice. HKEX adapter lands when the first HKEX-only company is added to `_identity.yaml`.
+- No automated handling of 8-K, proxy statements, press releases, slide decks. Out of scope. (6-K is open — see Phase 2 decisions.)
+- **No mirror URLs, no per-filing URL overrides, no IR-site fallbacks. Ever.** Decided 2026-04-09. `_identity.yaml` is identity-only: `(ticker → name, source, CIK or HK code, FYE month)`. The fetch skill is a monitor — given a ticker and form_type, it asks the regulator "what's the latest matching this?" and downloads from there. URLs come from the regulator at fetch time, never from `_identity.yaml`. If a filing isn't on SEC EDGAR or HKEXnews, we don't ingest it. If a future need forces a different source, that's a deliberate spec change with its own design pass, not an escape hatch in `_identity.yaml`.
+- HKEX implementation timing is now an active Phase 2 decision (Tencent is in `_identity.yaml`). See Phase 2 brief. Options: Phase 2a SEC-only → Phase 2b HKEX, or single combined Phase 2. Tencent monitoring is dark until HKEX lands either way.

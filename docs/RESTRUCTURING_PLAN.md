@@ -1,9 +1,9 @@
 # Restructuring Plan — v0.5 → v0.6
 
-**Status:** Approved, not yet executed.
+**Status:** Phase 1 complete (2026-04-09). Phases 2-5 pending.
 **Created:** 2026-04-09
 **Owner:** @KKKKKKAI
-**Supersedes:** parts of `SYSTEM_DESIGN.md` (will be rewritten in Phase 1).
+**Supersedes:** parts of `SYSTEM_DESIGN.md` (rewritten in Phase 1).
 
 This document is the working tracker for the v0.6 architectural restructuring.
 It captures the decisions, the new architecture, the DB schema, and the phased
@@ -321,20 +321,29 @@ were placeholder stubs and the new layout supersedes them.
 Each phase is a coherent commit set. Stop after Phase 3 for review before
 proceeding to Phase 4.
 
-### Phase 1 — Foundation: memo + DB layer
+### Phase 1 — Foundation: memo + DB layer ✅ COMPLETE 2026-04-09
 
-- [ ] 1.1 Rewrite `docs/SYSTEM_DESIGN.md` with the six-layer model, mark PDF historical
-- [ ] 1.2 Rewrite `README.md` to match new architecture
-- [ ] 1.3 Restructure `src/` → `src/capex/` package; delete old stub modules
-- [ ] 1.4 Update `pyproject.toml` to expose `capex` as the package
-- [ ] 1.5 Create `src/capex/db/migrations/0001_init.sql` with the schema in §5
-- [ ] 1.6 Implement `src/capex/db/schema.py` (migrator, version tracking)
-- [ ] 1.7 Implement `src/capex/db/dump.py` (binary → SQL dump after every mutation)
-- [ ] 1.8 Wire post-mutation hook so `dump.sql` regenerates automatically
-- [ ] 1.9 Run migrator, generate empty `data/db/capex.db` + `data/db/dump.sql`
-- [ ] 1.10 Implement `companies` sync function (YAML → DB mirror)
-- [ ] 1.11 Create `data/seeds/metric_definitions.yaml` with `capital_expenditures` and 3-4 related items
-- [ ] 1.12 Implement `metric_definitions` sync function (YAML → DB)
+- [x] 1.1 Rewrite `docs/SYSTEM_DESIGN.md` with the six-layer model, mark PDF historical
+- [x] 1.2 Rewrite `README.md` to match new architecture
+- [x] 1.3 Restructure `src/` → `src/capex/` package; delete old stub modules
+- [x] 1.4 Update `pyproject.toml` to expose `capex` as the package
+- [x] 1.5 Create `src/capex/db/migrations/0001_init.sql` with the schema in §5
+- [x] 1.6 Implement `src/capex/db/schema.py` (migrator, version tracking)
+- [x] 1.7 Implement `src/capex/db/dump.py` (binary → SQL dump after every mutation)
+- [x] 1.8 Wire post-mutation hook so `dump.sql` regenerates automatically (via `Database.mutating()`)
+- [x] 1.9 Run migrator, generate empty `data/db/capex.db` + `data/db/dump.sql`
+- [x] 1.10 Implement `companies` sync function (YAML → DB mirror)
+- [x] 1.11 Create `data/seeds/metric_definitions.yaml` with `capital_expenditures` and 4 related items
+- [x] 1.12 Implement `metric_definitions` sync function (YAML → DB)
+
+**Phase 1 deliverables:**
+- `src/capex/` package with skeleton subpackages for all six layers
+- `src/capex/db/{schema.py, dump.py, sync.py}` + `migrations/0001_init.sql`
+- `src/capex/cli/main.py` with `db migrate` / `db sync-companies` / `db sync-metrics` / `db sync-all` subcommands
+- `data/db/capex.db` (90 KB) + `data/db/dump.sql` (111 lines, diffable)
+- `data/seeds/metric_definitions.yaml` seeded with 5 metrics (capital_expenditures, depreciation_amortization, property_plant_equipment_net, revenue, operating_cash_flow)
+- `tests/test_smoke.py` updated to test imports + migrator + dump
+- Verified end-to-end: `capex db sync-all` produces 1 company + 5 metrics + 2 audit entries; idempotent on re-run
 
 ### Phase 2 — Skill ↔ src refactor + fetch/organize wiring
 

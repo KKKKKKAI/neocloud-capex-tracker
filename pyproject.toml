@@ -19,9 +19,12 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
-# Dependencies are intentionally empty for now. Each layer will declare its
-# real runtime deps when it starts getting implemented. See docs/SYSTEM_DESIGN.md.
-dependencies = []
+# Runtime deps needed by Phase 1 (DB layer + YAML sync). Per-layer extras
+# below add the heavier dependencies (SDKs, PDF parsers) only when the
+# corresponding phase lands. See docs/RESTRUCTURING_PLAN.md.
+dependencies = [
+    "pyyaml>=6.0",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -31,17 +34,23 @@ dev = [
     "mypy",
     "pydantic>=2.0",
 ]
-extraction = [
-    # placeholder — model SDKs added per adapter as backends land
+fetch = [
+    "requests>=2.31",
 ]
-workbook = [
-    "openpyxl>=3.1",
-]
-ingestion = [
+read = [
     "pdfplumber",
     "pypdf",
-    "requests",
 ]
+extract = [
+    "pydantic>=2.0",
+    # model SDKs declared per adapter as backends land (Phase 3)
+]
+export = [
+    "openpyxl>=3.1",
+]
+
+[project.scripts]
+capex = "capex.cli.main:main"
 
 [project.urls]
 Repository = "https://github.com/KKKKKKAI/neocloud-capex-tracker"
@@ -49,6 +58,7 @@ Issues = "https://github.com/KKKKKKAI/neocloud-capex-tracker/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["capex*"]
 
 [tool.ruff]
 line-length = 100

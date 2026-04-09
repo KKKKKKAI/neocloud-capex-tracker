@@ -61,3 +61,6 @@ data/scratch/
 data/cache/
 *.log
 logs/
+
+# ---- Internal dev artifacts ----
+_patches/

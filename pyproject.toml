@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neocloud-capex-tracker"
+version = "0.0.1"
+description = "Automated tracker for AI-related capex disclosures across major hyperscalers and neocloud providers."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Kai and contributors" }]
+license = { text = "TBD" }
+keywords = ["capex", "hyperscaler", "neocloud", "ai-infrastructure", "llm-extraction"]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+# Dependencies are intentionally empty for now. Each layer will declare its
+# real runtime deps when it starts getting implemented. See docs/SYSTEM_DESIGN.md.
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "pydantic>=2.0",
+]
+extraction = [
+    # placeholder — model SDKs added per adapter as backends land
+]
+workbook = [
+    "openpyxl>=3.1",
+]
+ingestion = [
+    "pdfplumber",
+    "pypdf",
+    "requests",
+]
+
+[project.urls]
+Repository = "https://github.com/KKKKKKAI/neocloud-capex-tracker"
+Issues = "https://github.com/KKKKKKAI/neocloud-capex-tracker/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"

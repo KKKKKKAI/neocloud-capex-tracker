@@ -1,0 +1,40 @@
+# Company identity table for neocloud-capex-tracker.
+#
+# This file is the single source of truth for:
+#   - which companies the pipeline tracks
+#   - which regulator to fetch each company's filings from
+#   - the canonical ticker/key used in folder names and canonical filenames
+#   - the fiscal year end, needed to derive Q1/Q2/Q3/H1/H2 period tokens
+#
+# Keys at the top level are the canonical ticker used in paths and filenames.
+# For SEC filers this is the EDGAR primary trading symbol.
+# For HKEX-only filers this is the 4-digit stock code, zero-padded, quoted as a string.
+#
+# preferred_source: one of "sec_edgar" or "hkex". For dual-listed companies
+# (e.g. Alibaba, JD, Baidu, NetEase) always prefer "sec_edgar" because SEC
+# 20-F filings are more uniform and EDGAR's API is more reliable.
+#
+# fiscal_year_end_month: integer 1-12, the month in which the company's fiscal
+# year ends. Used by organize-sources to map period_of_report to the correct
+# fiscal quarter/half and fiscal year folder.
+#
+# This table is hand-maintained for v1. Add new companies here before running
+# fetch-company-report against them.
+
+companies:
+
+  MSFT:
+    name: Microsoft Corporation
+    preferred_source: sec_edgar
+    edgar_cik: "0000789019"
+    fiscal_year_end_month: 6
+
+  # Additional companies will be added here as the v1 scope is locked.
+  # Planned initial set:
+  #   - NVDA (Nvidia, FYE January)
+  #   - GOOGL (Alphabet, FYE December)
+  #   - META (Meta, FYE December)
+  #   - AMZN (Amazon, FYE December)
+  #   - ORCL (Oracle, FYE May)
+  #   - BABA (Alibaba, FYE March, dual-listed, prefer SEC 20-F)
+  #   - "0700" (Tencent, FYE December, HKEX-only)

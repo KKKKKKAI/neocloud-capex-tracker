@@ -1,0 +1,63 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ---- Environment / secrets ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.yaml
+
+# ---- Excel lock and temp files ----
+~$*.xlsx
+~$*.xlsm
+~$*.xls
+*.xlsx.lock
+.~lock.*#
+
+# ---- LibreOffice temp ----
+.~lock.*
+
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Editors ----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---- Local data scratch (source filings go via Git LFS, not here) ----
+data/scratch/
+data/cache/
+*.log
+logs/

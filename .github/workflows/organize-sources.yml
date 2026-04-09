@@ -1,0 +1,45 @@
+name: organize-sources (nightly sweep)
+
+# Nightly sweep over data/_sources/ that applies the canonical naming
+# convention to any newly fetched filings. Separate workflow from the
+# watcher/fetcher so a failure here doesn't block ingestion.
+#
+# Concurrency is shared with the workbook writer because both eventually
+# touch data/ and we want a single-writer invariant across the repo.
+
+on:
+  schedule:
+    # 02:30 UTC every day. Runs after the US-market watcher cron to pick up
+    # anything fetched during the previous business day.
+    - cron: "30 2 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: workbook-write
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run organize-sources (placeholder)
+        run: |
+          echo "organize-sources skill not yet implemented."
+          echo "When implemented, this step will invoke the skill in dry-run"
+          echo "mode first, then apply, and commit any new canonical copies."

@@ -1,0 +1,39 @@
+name: Watcher (placeholder)
+
+# Scheduled watcher job. Runs on a cron cadence to check for new filings from
+# companies in scope. This workflow is a placeholder scaffold — the actual
+# watcher logic is not yet implemented. See docs/SYSTEM_DESIGN.md §4 (Layer 1).
+#
+# Single-writer guarantee on the workbook is enforced by the concurrency group.
+
+on:
+  schedule:
+    # Every weekday at 13:30 UTC (after US market open, before most earnings releases).
+    # Cadence will be revisited once target companies are locked.
+    - cron: "30 13 * * 1-5"
+  workflow_dispatch: {}
+
+concurrency:
+  group: workbook-write
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install runtime deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run watcher (not yet implemented)
+        run: |
+          echo "Watcher layer not yet implemented. See docs/SYSTEM_DESIGN.md."
+          exit 0

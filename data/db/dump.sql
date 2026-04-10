@@ -46,6 +46,11 @@ INSERT INTO "audit_log" VALUES(31,'2026-04-10T11:56:22+00:00','sync-companies@0.
 INSERT INTO "audit_log" VALUES(32,'2026-04-10T11:56:49+00:00','fetch-company-report@0.1.0','source_document_inserted','source_documents',13,'{"form_type": "HK-AR", "period_of_report": "2025-12-31", "raw_path": "data/_sources/0700/_raw/2026040901232_c.pdf", "sha256": "d19f183452e9b8d0c47bcb7543dcbf435b585b2610759b42c0cba7c13f7361c7", "ticker": "0700"}');
 INSERT INTO "audit_log" VALUES(33,'2026-04-10T11:57:05+00:00','organize-sources@0.1.0','canonical_path_set','source_documents',13,'{"canonical_path": "data/_sources/0700/2025/[09.04.2026][0700][AR][HK-AR].pdf", "fiscal_year": 2025, "period_token": "AR", "ticker": "0700"}');
 INSERT INTO "audit_log" VALUES(34,'2026-04-10T15:38:36+00:00','sync-metric-definitions@0.0.1','metric_definitions_sync','metric_definitions',NULL,'{"deleted": 0, "inserted": 0, "total": 5, "updated": 5, "yaml_path": "data/seeds/metric_definitions.yaml"}');
+INSERT INTO "audit_log" VALUES(35,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1,'{"extracting_model": "claude-code", "metric_key": "capital_expenditures", "source_document_id": 1, "value": 64551}');
+INSERT INTO "audit_log" VALUES(36,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',2,'{"extracting_model": "claude-code", "metric_key": "revenue", "source_document_id": 1, "value": 281724}');
+INSERT INTO "audit_log" VALUES(37,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',3,'{"extracting_model": "claude-code", "metric_key": "operating_cash_flow", "source_document_id": 1, "value": 136162}');
+INSERT INTO "audit_log" VALUES(38,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',4,'{"extracting_model": "claude-code", "metric_key": "depreciation_amortization", "source_document_id": 1, "value": 34153}');
+INSERT INTO "audit_log" VALUES(39,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5,'{"extracting_model": "claude-code", "metric_key": "property_plant_equipment_net", "source_document_id": 1, "value": 204966}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -85,6 +90,11 @@ CREATE TABLE extractions (
     extracted_at       TEXT NOT NULL,
     UNIQUE(source_document_id, metric_key, extracting_model)
 );
+INSERT INTO "extractions" VALUES(1,1,'capital_expenditures',64551.0,'$(64,551)','USD_millions','Additions to property and equipment (64,551)',NULL,'Item 8 - Consolidated Cash Flows Statements, line Additions to property and equipment','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
+INSERT INTO "extractions" VALUES(2,1,'revenue',281724.0,'$281,724','USD_millions','Total revenue 281,724 245,122 211,915',NULL,'Item 8 - Consolidated Income Statements, line Total revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
+INSERT INTO "extractions" VALUES(3,1,'operating_cash_flow',136162.0,'$136,162','USD_millions','Net cash from operations 136,162 118,548 87,582',NULL,'Item 8 - Consolidated Cash Flows Statements, line Net cash from operations','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
+INSERT INTO "extractions" VALUES(4,1,'depreciation_amortization',34153.0,'$34,153','USD_millions','Depreciation, amortization, and other 34,153 22,287 13,861',NULL,'Item 8 - Consolidated Cash Flows Statements, line Depreciation amortization and other','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
+INSERT INTO "extractions" VALUES(5,1,'property_plant_equipment_net',204966.0,'$204,966','USD_millions','Property and equipment, net of accumulated depreciation of $93,653 and $76,421 204,966 135,591',NULL,'Item 8 - Consolidated Balance Sheets, line Property and equipment net','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
 CREATE TABLE golden_facts (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL,
@@ -153,6 +163,11 @@ CREATE TABLE validation_results (
     details       TEXT,                 -- JSON
     checked_at    TEXT NOT NULL
 );
+INSERT INTO "validation_results" VALUES(1,1,'xbrl_anchor_match',1,'{"extracted_value": 64551.0, "pct_diff": 0.0, "tolerance_pct": 1.0, "xbrl_concept": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment", "xbrl_value": 64551.0}','2026-04-10T16:42:17+00:00');
+INSERT INTO "validation_results" VALUES(2,4,'xbrl_anchor_match',1,'{"note": "concept not found in XBRL for this period", "xbrl_concept": "us-gaap:DepreciationDepletionAndAmortization", "xbrl_value": null}','2026-04-10T16:42:17+00:00');
+INSERT INTO "validation_results" VALUES(3,3,'xbrl_anchor_match',1,'{"note": "concept not found in XBRL for this period", "xbrl_concept": "us-gaap:NetCashProvidedByOperatingActivities", "xbrl_value": null}','2026-04-10T16:42:17+00:00');
+INSERT INTO "validation_results" VALUES(4,5,'xbrl_anchor_match',1,'{"extracted_value": 204966.0, "pct_diff": 0.0, "tolerance_pct": 1.0, "xbrl_concept": "us-gaap:PropertyPlantAndEquipmentNet", "xbrl_value": 204966.0}','2026-04-10T16:42:17+00:00');
+INSERT INTO "validation_results" VALUES(5,2,'xbrl_anchor_match',1,'{"note": "concept not found in XBRL for this period", "xbrl_concept": "us-gaap:Revenues", "xbrl_value": null}','2026-04-10T16:42:17+00:00');
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
 CREATE INDEX idx_extractions_metric
@@ -162,6 +177,8 @@ CREATE INDEX idx_validation_results_extraction
 CREATE INDEX idx_audit_log_ts
     ON audit_log(ts);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',34);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',39);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',13);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5);
+INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
 COMMIT;

@@ -403,23 +403,78 @@ Golden test fixtures (2b.2 from original plan) are parked — revisit when HKEXn
 - [x] 2b.5 **Vertical test HK-AR: PASSED.** `capex fetch 0700 HK-AR` downloaded Tencent's 2025 Annual Report (4.3 MB PDF, filed 2026-04-09 — literally yesterday!), sidecar written, DB row id=13. `capex organize` produced `data/_sources/0700/2025/[09.04.2026][0700][AR][HK-AR].pdf`. Canonical path populated. Idempotent on re-run.
 - [x] 2b.6 **Vertical test HK-IR: expected failure.** `capex fetch 0700 HK-IR` raised `FilingNotFoundError` — Tencent's latest interim report (~Aug 2025) is older than the JSON feed's coverage window. This is the known limitation of the feed-based approach. The monitor use case (catching new filings within hours of publication) works; deep historical lookups do not. Acceptable for v1.
 
-### Phase 3 — Read + query (the user-facing slice)
+### Phase 3 — Read + extract + query (the user-facing slice)
 
-- [ ] 3.1 Write `skills/read-and-extract/SKILL.md` (contract-only)
-- [ ] 3.2 Implement `src/capex/read/text.py` — extract plain text from whatever the regulator served (HTML or PDF). Preserve enough structure to identify section headings (e.g. "Item 8 - Financial Statements") so the locator can reference them.
-- [ ] 3.3 Implement `src/capex/read/sections.py` — parse the document structure into a section tree so the extractor can cite `(section_path, verbatim_quote)` instead of page numbers.
-- [ ] 3.4 Implement `src/capex/protocol/v0_1_0.py` (Pydantic models for the interchange schema)
-- [ ] 3.5 Implement `src/capex/adapters/base.py` (model-agnostic interface)
-- [ ] 3.6 Implement `src/capex/adapters/anthropic.py` (first concrete backend)
-- [ ] 3.7 Implement `src/capex/extract/extractor.py` (orchestrates one-PDF-one-context extraction)
-- [ ] 3.8 Implement `src/capex/extract/prompts/` (extraction prompts, versioned)
-- [ ] 3.9 Wire read-and-extract → `extractions` insert + provenance check + `audit_log`
-- [ ] 3.10 Implement `src/capex/validation/xbrl_anchor.py` — for any extraction whose `metric_key` has a corresponding XBRL concept, hit `data.sec.gov/api/xbrl/companyfacts/CIK<padded>.json` (no library needed, stdlib HTTP) and pull the XBRL-tagged value for the same period. Pure stdlib + the SEC User-Agent we already configured for fetch.
-- [ ] 3.11 Wire `xbrl_anchor` as a `validation_results` check (`check_name = 'xbrl_anchor_match'`) on every extraction with a metric_key that has a known XBRL concept (initially: `capital_expenditures`, `revenue`, `operating_cash_flow`, `depreciation_amortization`, `property_plant_equipment_net`). Pass = numeric values within 1% tolerance. Fail = flag for human review, do not block insertion. Foreign issuers (20-F) only get this check if they file XBRL — degrade gracefully if not available.
-- [ ] 3.12 Add an `xbrl_concept` field to `data/seeds/metric_definitions.yaml` for the 5 metrics that have known SEC tags. Re-run `sync-metrics`. The xbrl_anchor module reads this mapping at runtime — adding a new metric with an XBRL concept is a YAML edit, not a code change.
+**Extraction engine decision 2026-04-10:** v1 uses **Claude Code itself** as the
+extraction engine (runs on the user's Max Pro subscription — $0 incremental
+cost). When the `read-and-extract` skill is invoked, Claude Code reads the
+filing sections, extracts metrics per the prompt template, and calls
+`src/capex/extract/writer.py` to persist results. No separate Anthropic API key
+is needed for v1.
+
+> ⚠️ **ADAPTER MIGRATION PATH (Phase 3.5):** The extraction layer is currently
+> coupled to Claude Code's conversational runtime. This means extraction only
+> works interactively — not in CI, cron, or headless pipelines. When automated
+> or multi-model extraction is needed, implement `src/capex/adapters/` with:
+>
+> - `base.py` — model-agnostic `ModelBackend` protocol: `extract(system, user, response_schema) → str`
+> - `anthropic.py` — calls `anthropic.Client().messages.create()` with `ANTHROPIC_API_KEY` env var
+> - `google.py`, `openai.py`, etc. — future adapters for model comparison
+>
+> The `writer.py` layer is already adapter-agnostic: it accepts structured
+> dicts and writes DB rows regardless of which model produced them. Swapping
+> from Claude Code to a programmatic adapter is a **caller change only** —
+> the skill invokes the adapter instead of relying on Claude Code's implicit
+> LLM. The writer, the DB schema, the validation pipeline, and the prompt
+> templates stay exactly the same. See `src/capex/adapters/README.md`.
+
+**Metric scope for v1:** headline metrics only (the 5 seed metrics). Later
+phases will add:
+- **AI-attributable capex isolation** — reading footnotes/MD&A to split total
+  capex into AI infrastructure vs other. Requires a more nuanced prompt and
+  narrative reasoning.
+- **Segment revenue/cost** — cloud/datacenter segment revenue from segment
+  reporting disclosures (e.g. MSFT "Intelligent Cloud", AMZN "AWS", GOOGL
+  "Google Cloud"). Requires identifying the right segment table and mapping
+  company-specific segment names to a canonical taxonomy.
+
+**Section scope for extraction:** Items 7, 8, Notes, plus debt/commitments
+sections when present. Specifically:
+- Item 7 (MD&A) — capex discussion, forward guidance, AI attribution narrative
+- Item 8 (Financial Statements) — cash flow statement, balance sheet, income statement
+- Notes to Financial Statements — capex breakdown, PP&E detail, lease commitments
+- Contractual obligations / purchase commitments — committed datacenter contracts
+- For HKEX PDFs: Management Discussion, Consolidated Cash Flow, Notes to Accounts
+
+#### Phase 3 steps
+
+- [ ] 3.1 Write `skills/read-and-extract/SKILL.md` (contract-only). Document that v1 extraction runs inside Claude Code. Include the adapter migration path prominently so future contributors know where to plug in alternative models.
+- [ ] 3.2 Implement `src/capex/read/text.py` — extract plain text from HTML (SEC) or PDF (HKEX). Preserve headings, table structure, and section boundaries. HTML: strip tags but keep heading hierarchy + table formatting. PDF: use `pypdf` or `pdfplumber`.
+- [ ] 3.3 Implement `src/capex/read/sections.py` — parse text into a section tree. Identify SEC sections (Item 1, 1A, 7, 7A, 8, Notes) and HKEX equivalents. Return a dict mapping section names to their text content so the extractor can select relevant sections.
+- [ ] 3.4 Implement `src/capex/protocol/v0_1_0.py` — Pydantic models for `ExtractionResult` and `ProvenanceField`. These define the typed contract between the extraction layer (whoever produces results — Claude Code today, API adapters later) and the DB writer. Model-agnostic by design.
+- [ ] 3.5 Implement `src/capex/extract/writer.py` — takes a list of extraction result dicts, validates against the Pydantic schema, writes `extractions` rows + `validation_results` + `audit_log` in one `mutating()` block. Idempotent on `(source_document_id, metric_key, extracting_model)`. **This is adapter-agnostic:** it does not care whether the results came from Claude Code, the Anthropic API, Google Gemini, or a human typing JSON. It just validates and writes.
+- [ ] 3.6 Implement `src/capex/extract/prompts/` — versioned prompt templates as plain text / Jinja2 files. v0.1 template: "You are reading sections of a {form_type} filing for {company}. Extract these metrics: {metric_keys}. For each, return: value (number), unit, verbatim quote (≤30 words, must be ctrl-F-able in the source), section reference, extraction_type (direct/inferred/derived)."
+- [ ] 3.7 Create `src/capex/adapters/README.md` — migration-path document explaining how to add a new model backend. References the `ModelBackend` protocol, the env vars expected, and the writer.py contract. **This is the "remind me to add other models" artifact.**
+- [ ] 3.8 Stub `src/capex/adapters/base.py` — define the `ModelBackend` protocol class (abstract interface). Not wired in v1 but establishes the contract for Phase 3.5.
+- [ ] 3.9 Wire read-and-extract skill: when Claude Code is invoked with the skill, it reads sections via `read/sections.py`, follows the prompt template from `extract/prompts/`, produces structured JSON, calls `extract/writer.py` to persist. Add `capex extract <TICKER>` CLI subcommand that prints what WOULD be extracted (dry-run for testing section parsing without writing to DB).
+- [ ] 3.10 Implement `src/capex/validation/xbrl_anchor.py` — for any extraction whose `metric_key` has a corresponding XBRL concept, hit `data.sec.gov/api/xbrl/companyfacts/CIK<padded>.json` (stdlib HTTP) and pull the XBRL-tagged value for the same period.
+- [ ] 3.11 Wire `xbrl_anchor` as a `validation_results` check (`check_name = 'xbrl_anchor_match'`). Pass = values within 1% tolerance. Fail = flag for review (soft gate). Foreign issuers (20-F) only get this check if they file XBRL — degrade gracefully.
+- [ ] 3.12 Add `xbrl_concept` field to `data/seeds/metric_definitions.yaml` for the 5 seed metrics. Re-run `sync-metrics`. The xbrl_anchor module reads this mapping at runtime.
 - [ ] 3.13 Write `skills/query-line-item/SKILL.md` (contract-only)
-- [ ] 3.14 Implement `src/capex/query/line_items.py` (resolve question → check cache → call worker on miss → format response)
-- [ ] 3.15 Vertical test: `query MSFT FY2025 capital_expenditures` → returns `{value, unit, quote, section_ref, source_path, sha256, xbrl_anchor_match}` where `section_ref` looks like `"Item 8 - Consolidated Statements of Cash Flows, line 'Additions to property and equipment'"`, `quote` is verbatim ctrl-F-able text from the source HTML, and `xbrl_anchor_match` shows the LLM-extracted value matched SEC's XBRL within 1%. Second call hits the DB cache.
+- [ ] 3.14 Implement `src/capex/query/line_items.py` (resolve question → check `extractions` cache → invoke `read-and-extract` skill on cache miss → format response with provenance)
+- [ ] 3.15 **Vertical test:** invoke `read-and-extract` for MSFT FY2025, extract the 5 headline metrics. Verify: `extractions` rows land with correct values + verbatim quotes + section refs. Then `query MSFT FY2025 capital_expenditures` → returns `{value, unit, quote, section_ref, source_path, sha256, xbrl_anchor_match}`. Second query hits the cache. XBRL anchor confirms the LLM-extracted capex matches SEC's structured XBRL within 1%.
+
+#### Phase 3.5 — Adapter migration + advanced metrics (deferred)
+
+These steps are NOT part of the v1 vertical slice. They land when automated
+extraction or multi-model comparison becomes necessary.
+
+- [ ] 3.5.1 Implement `src/capex/adapters/anthropic.py` — `anthropic.Client().messages.create()` with `ANTHROPIC_API_KEY` env var, structured output via tool_use, reads prompt template from `extract/prompts/`.
+- [ ] 3.5.2 Implement `src/capex/extract/extractor.py` — headless orchestrator that calls an adapter programmatically (no Claude Code in the loop). Reads sections, formats prompt, calls adapter, parses response, hands to writer.py.
+- [ ] 3.5.3 Wire the `capex extract <TICKER>` CLI to call the headless extractor instead of printing dry-run output. Requires `ANTHROPIC_API_KEY` to be set.
+- [ ] 3.5.4 Add AI-attributable capex prompt — reads MD&A and footnotes to isolate the AI infrastructure fraction of total capex. Writes to a new `metric_key` (e.g. `ai_capex_estimate`) with `extraction_type = 'inferred'`.
+- [ ] 3.5.5 Add segment revenue/cost extraction — identify cloud/datacenter segment tables (MSFT "Intelligent Cloud", AMZN "AWS", GOOGL "Google Cloud", META "Family of Apps" vs "Reality Labs"), extract segment revenue. Requires a per-company segment-name mapping in `metric_definitions.yaml` or a separate config.
+- [ ] 3.5.6 Add adapters for other models: `google.py` (Gemini), `openai.py` (GPT-4o), etc. Wire model selection via `CAPEX_EXTRACT_MODEL` env var.
 
 ### Phase 4 — Validation hardening + Excel export (deferrable)
 

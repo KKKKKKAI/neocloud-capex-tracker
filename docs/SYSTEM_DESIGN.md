@@ -188,10 +188,38 @@ that calls an LLM. Its contract (landing in Phase 3):
   - `locator_page` — kept nullable in the schema for cases where the source is a paginated PDF (HKEX) and a page number adds value. For HTML sources (most SEC filings) this is left null because HTML has no stable pagination.
   - `extraction_type` ∈ `{direct, inferred, derived}` — was the value lifted directly from a labeled line, computed from other lines, or inferred from narrative?
 
-The extraction layer depends only on the `ModelBackend` protocol in
-`src/capex/adapters/base.py` (defined in Phase 3). Concrete backends
-(Anthropic first, Google/OpenAI later) implement the protocol; the
-extractor never imports an SDK directly.
+### 7.0 Extraction engine — current and future
+
+**v1 (Phase 3):** extraction runs inside **Claude Code** — the same
+conversational runtime the developer is already using. When the
+`read-and-extract` skill is invoked, Claude Code reads the filing sections
+(via `src/capex/read/`), follows a versioned prompt template (in
+`src/capex/extract/prompts/`), produces structured JSON, and calls
+`src/capex/extract/writer.py` to persist the results. The developer's
+Max Pro subscription covers the cost — no separate API key is needed.
+
+**This means v1 extraction is interactive-only.** It requires a human to
+be in a Claude Code session and invoke the skill. It does not work in
+CI, cron, or any headless pipeline. This is fine for the initial build
+phase where a human is actively exploring filings and building the
+dataset.
+
+**Future (Phase 3.5+):** when automated or multi-model extraction is
+needed, implement concrete `ModelBackend` adapters in `src/capex/adapters/`:
+
+- `base.py` — model-agnostic `ModelBackend` protocol (abstract interface,
+  stubbed in Phase 3)
+- `anthropic.py` — calls `anthropic.Client().messages.create()` with
+  `ANTHROPIC_API_KEY` env var
+- `google.py`, `openai.py`, etc. — for model comparison and cost
+  optimization
+
+The `writer.py` layer is already adapter-agnostic: it accepts structured
+dicts and writes DB rows regardless of which model (or human) produced
+them. Swapping from Claude Code to a programmatic adapter is a **caller
+change only** — the writer, the DB schema, the validation pipeline, and
+the prompt templates are untouched. See `src/capex/adapters/README.md`
+for the migration guide.
 
 ### 7.1 Validation
 

@@ -30,7 +30,7 @@ from __future__ import annotations
 import sqlite3
 from collections.abc import Iterator
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Resolve the repo root from this file's location: src/capex/db/schema.py → ../../../
@@ -134,4 +134,4 @@ def _parse_version(filename: str) -> int:
 
 
 def _now_iso() -> str:
-    return datetime.now(UTC).isoformat(timespec="seconds")
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")

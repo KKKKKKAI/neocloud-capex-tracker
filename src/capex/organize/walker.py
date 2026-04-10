@@ -16,7 +16,7 @@ import csv
 import hashlib
 import json
 import shutil
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -355,4 +355,4 @@ def _append_log(
 
 
 def _now_iso() -> str:
-    return datetime.now(UTC).isoformat(timespec="seconds")
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")

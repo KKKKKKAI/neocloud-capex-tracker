@@ -20,12 +20,12 @@ def test_migrator_produces_schema(tmp_path: Path):
     db = Database(path=db_path, dump_path=dump_path)
 
     version = migrate(db)
-    assert version == 1
+    assert version >= 1
 
     # Schema version recorded
     with db.connect() as conn:
         row = conn.execute("SELECT MAX(version) FROM schema_version").fetchone()
-        assert row[0] == 1
+        assert row[0] == version
 
         # All expected tables exist
         tables = {

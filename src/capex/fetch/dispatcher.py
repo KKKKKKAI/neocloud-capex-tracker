@@ -20,7 +20,7 @@ Phase 2b.
 from __future__ import annotations
 
 import json
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from ..db import Database
@@ -228,4 +228,4 @@ def _compute_fiscal_year(period_of_report: str, fye_month: int) -> int:
 
 
 def _now_iso() -> str:
-    return datetime.now(UTC).isoformat(timespec="seconds")
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")

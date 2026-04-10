@@ -66,6 +66,7 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "N"]
+ignore = ["UP017"]  # datetime.UTC requires 3.11+; we use timezone.utc for 3.10 compat
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

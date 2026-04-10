@@ -37,7 +37,7 @@ import re
 import time
 import urllib.error
 import urllib.request
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -306,4 +306,4 @@ def _atomic_write(path: Path, content: bytes) -> None:
 
 
 def _now_iso() -> str:
-    return datetime.now(UTC).isoformat(timespec="seconds")
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")

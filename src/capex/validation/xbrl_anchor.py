@@ -24,7 +24,7 @@ from __future__ import annotations
 import json
 import urllib.error
 import urllib.request
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from ..db import Database
@@ -148,7 +148,7 @@ def write_xbrl_results(
 ) -> int:
     """Write XBRL anchor validation results to the DB. Returns count written."""
     db = db or Database()
-    now = datetime.now(UTC).isoformat(timespec="seconds")
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     written = 0
     with db.mutating() as conn:
         for r in results:

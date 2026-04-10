@@ -195,13 +195,14 @@ extractor never imports an SDK directly.
 
 ### 7.1 Validation
 
-Three layers of check, all running in Python:
+Four layers of mechanical check, all running in Python before any LLM-based eval:
 
 1. **Syntactic** — Pydantic schema validation on every extraction row. Hard gate.
-2. **Provenance** — substring match of `quote` against the source PDF text. Fabricated quotes are caught here and rejected before insertion.
-3. **Consistency** — range / ratio / relational rules written as Python functions. Replaces the v0.5 Excel-formula validation layer.
+2. **Provenance** — substring match of `quote` against the source document text. Fabricated quotes are caught here and rejected before insertion. Hard gate.
+3. **XBRL anchor (SEC filings only)** — for any extraction whose metric has a known XBRL concept (capex, revenue, OCF, D&A, PP&E), fetch the corresponding value from SEC's free `data.sec.gov/api/xbrl/companyfacts/` endpoint and compare numerically. Pass = within 1% of LLM-extracted value. Fail = flag for human review, do not block insertion. **Soft gate** — XBRL is a sanity check, not the source of truth, because the LLM extraction has full provenance and the XBRL may use a slightly different concept variant. Foreign issuers (20-F) only get this check if they file XBRL — degrade gracefully if the companyfacts endpoint has no entry. This layer exists because SEC's XBRL data is free, deterministic, and catches the most common LLM failure mode (numeric hallucination on headline metrics) without giving up our coherent single-extraction-pipeline architecture. We considered using a third-party library to make XBRL the *primary* extractor for headline metrics; we rejected that because it would split the codebase into "XBRL path" and "LLM path" with different schemas and provenance models, and because XBRL gives numbers without the surrounding narrative context that AI-capex isolation actually requires (see `docs/RESTRUCTURING_PLAN.md` §9 for the full reasoning).
+4. **Consistency** — range / ratio / relational rules written as Python functions. Replaces the v0.5 Excel-formula validation layer.
 
-Semantic checks that survive the restructure:
+Semantic checks (after the mechanical layers pass):
 
 - **Golden-set regression** — hand-labeled fixtures in `golden_facts`, replayed on prompt/model changes. CI gates on this.
 - **Eval agent** — different model family, narrow yes/no audits (Phase 4+).

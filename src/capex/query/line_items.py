@@ -87,9 +87,10 @@ def query_metric(
     with db.connect() as conn:
         ext_row = conn.execute(
             """
-            SELECT e.id, e.value, e.value_text, e.unit, e.quote,
+            SELECT e.id, e.value, e.value_usd, e.value_text, e.unit, e.quote,
                    e.locator_section, e.locator_page, e.extraction_type,
-                   e.confidence, e.extracting_model, e.extracted_at
+                   e.confidence, e.extracting_model, e.extracted_at,
+                   e.fx_rate, e.fx_rate_date, e.reporting_currency
             FROM extractions e
             WHERE e.source_document_id = ? AND e.metric_key = ?
             ORDER BY e.extracted_at DESC LIMIT 1
@@ -114,13 +115,17 @@ def query_metric(
         if vr_row:
             xbrl_match = bool(vr_row["passed"])
 
+    reporting_currency = ext_row["reporting_currency"] or "USD"
     return {
         "ticker": ticker,
         "period": period_of_report,
         "metric_key": metric_key,
         "value": ext_row["value"],
+        "value_usd": ext_row["value_usd"],
         "value_text": ext_row["value_text"],
         "unit": ext_row["unit"],
+        "reporting_currency": reporting_currency,
+        "fx_rate": ext_row["fx_rate"],
         "quote": ext_row["quote"],
         "section_ref": ext_row["locator_section"],
         "extraction_type": ext_row["extraction_type"],

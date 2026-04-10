@@ -71,14 +71,15 @@ def sync_companies(
                 """
                 INSERT INTO companies (
                     ticker, name, preferred_source, edgar_cik,
-                    hkex_stock_code, fiscal_year_end_month, synced_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    hkex_stock_code, fiscal_year_end_month, reporting_currency, synced_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(ticker) DO UPDATE SET
                     name = excluded.name,
                     preferred_source = excluded.preferred_source,
                     edgar_cik = excluded.edgar_cik,
                     hkex_stock_code = excluded.hkex_stock_code,
                     fiscal_year_end_month = excluded.fiscal_year_end_month,
+                    reporting_currency = excluded.reporting_currency,
                     synced_at = excluded.synced_at
                 """,
                 (
@@ -88,6 +89,7 @@ def sync_companies(
                     entry.get("edgar_cik"),
                     entry.get("hkex_stock_code"),
                     entry["fiscal_year_end_month"],
+                    entry.get("reporting_currency", "USD"),
                     now,
                 ),
             )

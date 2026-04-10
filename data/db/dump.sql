@@ -51,6 +51,10 @@ INSERT INTO "audit_log" VALUES(36,'2026-04-10T16:39:45+00:00','read-and-extract@
 INSERT INTO "audit_log" VALUES(37,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',3,'{"extracting_model": "claude-code", "metric_key": "operating_cash_flow", "source_document_id": 1, "value": 136162}');
 INSERT INTO "audit_log" VALUES(38,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',4,'{"extracting_model": "claude-code", "metric_key": "depreciation_amortization", "source_document_id": 1, "value": 34153}');
 INSERT INTO "audit_log" VALUES(39,'2026-04-10T16:39:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5,'{"extracting_model": "claude-code", "metric_key": "property_plant_equipment_net", "source_document_id": 1, "value": 204966}');
+INSERT INTO "audit_log" VALUES(40,'2026-04-10T22:01:21+00:00','sync-companies@0.0.1','companies_sync','companies',NULL,'{"deleted": 0, "inserted": 0, "total": 13, "updated": 13, "yaml_path": "data/_sources/_identity.yaml"}');
+INSERT INTO "audit_log" VALUES(41,'2026-04-10T22:01:21+00:00','sync-metric-definitions@0.0.1','metric_definitions_sync','metric_definitions',NULL,'{"deleted": 0, "inserted": 0, "total": 5, "updated": 5, "yaml_path": "data/seeds/metric_definitions.yaml"}');
+INSERT INTO "audit_log" VALUES(42,'2026-04-10T22:04:24+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',6,'{"extracting_model": "claude-code-test", "metric_key": "capital_expenditures", "source_document_id": 6, "value": 73038}');
+INSERT INTO "audit_log" VALUES(43,'2026-04-10T22:04:24+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',7,'{"extracting_model": "claude-code-test", "metric_key": "revenue", "source_document_id": 6, "value": 996347}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -59,20 +63,20 @@ CREATE TABLE companies (
     hkex_stock_code       TEXT,
     fiscal_year_end_month INTEGER NOT NULL CHECK(fiscal_year_end_month BETWEEN 1 AND 12),
     synced_at             TEXT NOT NULL
-);
-INSERT INTO "companies" VALUES('MSFT','Microsoft Corporation','sec_edgar','0000789019',NULL,6,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('AMZN','Amazon.com, Inc.','sec_edgar','0001018724',NULL,12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('GOOGL','Alphabet Inc.','sec_edgar','0001652044',NULL,12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('META','Meta Platforms, Inc.','sec_edgar','0001326801',NULL,12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('ORCL','Oracle Corporation','sec_edgar','0001341439',NULL,5,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('BABA','Alibaba Group Holding Limited','sec_edgar','0001577552','9988',3,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('BIDU','Baidu, Inc.','sec_edgar','0001329099','9888',12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('GDS','GDS Holdings Limited','sec_edgar','0001526125','9698',12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('0700','Tencent Holdings Limited','hkex',NULL,'0700',12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('CRWV','CoreWeave, Inc.','sec_edgar','0001769628',NULL,12,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('APLD','Applied Digital Corporation','sec_edgar','0001144879',NULL,5,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('IREN','IREN Limited','sec_edgar','0001878848',NULL,6,'2026-04-10T11:56:22+00:00');
-INSERT INTO "companies" VALUES('NBIS','Nebius Group N.V.','sec_edgar','0001513845',NULL,12,'2026-04-10T11:56:22+00:00');
+, reporting_currency TEXT NOT NULL DEFAULT 'USD');
+INSERT INTO "companies" VALUES('MSFT','Microsoft Corporation','sec_edgar','0000789019',NULL,6,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('AMZN','Amazon.com, Inc.','sec_edgar','0001018724',NULL,12,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('GOOGL','Alphabet Inc.','sec_edgar','0001652044',NULL,12,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('META','Meta Platforms, Inc.','sec_edgar','0001326801',NULL,12,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('ORCL','Oracle Corporation','sec_edgar','0001341439',NULL,5,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('BABA','Alibaba Group Holding Limited','sec_edgar','0001577552','9988',3,'2026-04-10T22:01:21+00:00','CNY');
+INSERT INTO "companies" VALUES('BIDU','Baidu, Inc.','sec_edgar','0001329099','9888',12,'2026-04-10T22:01:21+00:00','CNY');
+INSERT INTO "companies" VALUES('GDS','GDS Holdings Limited','sec_edgar','0001526125','9698',12,'2026-04-10T22:01:21+00:00','CNY');
+INSERT INTO "companies" VALUES('0700','Tencent Holdings Limited','hkex',NULL,'0700',12,'2026-04-10T22:01:21+00:00','CNY');
+INSERT INTO "companies" VALUES('CRWV','CoreWeave, Inc.','sec_edgar','0001769628',NULL,12,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('APLD','Applied Digital Corporation','sec_edgar','0001144879',NULL,5,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('IREN','IREN Limited','sec_edgar','0001878848',NULL,6,'2026-04-10T22:01:21+00:00','USD');
+INSERT INTO "companies" VALUES('NBIS','Nebius Group N.V.','sec_edgar','0001513845',NULL,12,'2026-04-10T22:01:21+00:00','USD');
 CREATE TABLE extractions (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
     source_document_id INTEGER NOT NULL REFERENCES source_documents(id),
@@ -87,14 +91,25 @@ CREATE TABLE extractions (
     confidence         REAL,
     extracting_model   TEXT NOT NULL,
     protocol_version   TEXT NOT NULL,
-    extracted_at       TEXT NOT NULL,
+    extracted_at       TEXT NOT NULL, value_usd REAL, fx_rate REAL, fx_rate_date TEXT, reporting_currency TEXT NOT NULL DEFAULT 'USD',
     UNIQUE(source_document_id, metric_key, extracting_model)
 );
-INSERT INTO "extractions" VALUES(1,1,'capital_expenditures',64551.0,'$(64,551)','USD_millions','Additions to property and equipment (64,551)',NULL,'Item 8 - Consolidated Cash Flows Statements, line Additions to property and equipment','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
-INSERT INTO "extractions" VALUES(2,1,'revenue',281724.0,'$281,724','USD_millions','Total revenue 281,724 245,122 211,915',NULL,'Item 8 - Consolidated Income Statements, line Total revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
-INSERT INTO "extractions" VALUES(3,1,'operating_cash_flow',136162.0,'$136,162','USD_millions','Net cash from operations 136,162 118,548 87,582',NULL,'Item 8 - Consolidated Cash Flows Statements, line Net cash from operations','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
-INSERT INTO "extractions" VALUES(4,1,'depreciation_amortization',34153.0,'$34,153','USD_millions','Depreciation, amortization, and other 34,153 22,287 13,861',NULL,'Item 8 - Consolidated Cash Flows Statements, line Depreciation amortization and other','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
-INSERT INTO "extractions" VALUES(5,1,'property_plant_equipment_net',204966.0,'$204,966','USD_millions','Property and equipment, net of accumulated depreciation of $93,653 and $76,421 204,966 135,591',NULL,'Item 8 - Consolidated Balance Sheets, line Property and equipment net','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00');
+INSERT INTO "extractions" VALUES(1,1,'capital_expenditures',64551.0,'$(64,551)','USD_millions','Additions to property and equipment (64,551)',NULL,'Item 8 - Consolidated Cash Flows Statements, line Additions to property and equipment','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00',64551.0,1.0,'2025-06-30','USD');
+INSERT INTO "extractions" VALUES(2,1,'revenue',281724.0,'$281,724','USD_millions','Total revenue 281,724 245,122 211,915',NULL,'Item 8 - Consolidated Income Statements, line Total revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00',281724.0,1.0,'2025-06-30','USD');
+INSERT INTO "extractions" VALUES(3,1,'operating_cash_flow',136162.0,'$136,162','USD_millions','Net cash from operations 136,162 118,548 87,582',NULL,'Item 8 - Consolidated Cash Flows Statements, line Net cash from operations','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00',136162.0,1.0,'2025-06-30','USD');
+INSERT INTO "extractions" VALUES(4,1,'depreciation_amortization',34153.0,'$34,153','USD_millions','Depreciation, amortization, and other 34,153 22,287 13,861',NULL,'Item 8 - Consolidated Cash Flows Statements, line Depreciation amortization and other','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00',34153.0,1.0,'2025-06-30','USD');
+INSERT INTO "extractions" VALUES(5,1,'property_plant_equipment_net',204966.0,'$204,966','USD_millions','Property and equipment, net of accumulated depreciation of $93,653 and $76,421 204,966 135,591',NULL,'Item 8 - Consolidated Balance Sheets, line Property and equipment net','direct',NULL,'claude-code','0.1.0-draft','2026-04-10T16:39:45+00:00',204966.0,1.0,'2025-06-30','USD');
+INSERT INTO "extractions" VALUES(6,6,'capital_expenditures',73038.0,'RMB 73,038 million','USD_millions','Purchase of property and equipment and intangible assets (73,038)',NULL,'Consolidated Cash Flow Statement, line Purchase of property and equipment','direct',NULL,'claude-code-test','0.1.0-draft','2026-04-10T22:04:24+00:00',10069.75,0.13787,'2025-03-31','CNY');
+INSERT INTO "extractions" VALUES(7,6,'revenue',996347.0,'RMB 996,347 million','USD_millions','Revenue 996,347',NULL,'Consolidated Income Statement, line Revenue','direct',NULL,'claude-code-test','0.1.0-draft','2026-04-10T22:04:24+00:00',137366.36,0.13787,'2025-03-31','CNY');
+CREATE TABLE fx_rates (
+    currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
+    rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
+    rate           REAL NOT NULL,   -- the exchange rate
+    source         TEXT NOT NULL DEFAULT 'frankfurter',  -- 'frankfurter' / 'ecb' / 'manual'
+    fetched_at     TEXT NOT NULL,
+    PRIMARY KEY (currency_pair, rate_date)
+);
+INSERT INTO "fx_rates" VALUES('CNY/USD','2025-03-31',0.13787,'frankfurter','2026-04-10T22:02:48+00:00');
 CREATE TABLE golden_facts (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL,
@@ -123,6 +138,7 @@ CREATE TABLE schema_version (
                 applied_at TEXT NOT NULL
             );
 INSERT INTO "schema_version" VALUES(1,'2026-04-09T17:44:06+00:00');
+INSERT INTO "schema_version" VALUES(2,'2026-04-10T22:01:21+00:00');
 CREATE TABLE source_documents (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL REFERENCES companies(ticker),
@@ -177,8 +193,8 @@ CREATE INDEX idx_validation_results_extraction
 CREATE INDEX idx_audit_log_ts
     ON audit_log(ts);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',39);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',43);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',13);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5);
+INSERT INTO "sqlite_sequence" VALUES('extractions',7);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
 COMMIT;

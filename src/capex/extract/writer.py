@@ -89,6 +89,10 @@ def write_extractions(
         result.setdefault("confidence", None)
         result.setdefault("extraction_type", "direct")
 
+        # 2b. FX normalization — compute value_usd if not already set
+        if "value_usd" not in result or result["value_usd"] is None:
+            _apply_fx_normalization(result, db)
+
         # 3. Write to DB
         try:
             row_id = _insert_extraction(db, result, now)
@@ -133,8 +137,9 @@ def _insert_extraction(
             INSERT INTO extractions (
                 source_document_id, metric_key, value, value_text, unit,
                 quote, locator_page, locator_section, extraction_type,
-                confidence, extracting_model, protocol_version, extracted_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                confidence, extracting_model, protocol_version, extracted_at,
+                value_usd, fx_rate, fx_rate_date, reporting_currency
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 result["source_document_id"],
@@ -150,6 +155,10 @@ def _insert_extraction(
                 result["extracting_model"],
                 result["protocol_version"],
                 result["extracted_at"],
+                result.get("value_usd"),
+                result.get("fx_rate"),
+                result.get("fx_rate_date"),
+                result.get("reporting_currency", "USD"),
             ),
         )
         row_id = cur.lastrowid
@@ -196,6 +205,53 @@ def _run_provenance_check(
             """,
             (extraction_id, int(passed), json.dumps(details), now),
         )
+
+
+def _apply_fx_normalization(result: dict[str, Any], db: Database) -> None:
+    """Look up the company's reporting currency and compute value_usd.
+
+    Modifies result dict in-place: sets value_usd, fx_rate, fx_rate_date,
+    reporting_currency.
+    """
+    source_doc_id = result.get("source_document_id")
+    if source_doc_id is None:
+        result.setdefault("value_usd", result.get("value"))
+        result.setdefault("fx_rate", 1.0)
+        result.setdefault("fx_rate_date", None)
+        result.setdefault("reporting_currency", "USD")
+        return
+
+    # Look up company ticker and period from source_documents
+    with db.connect() as conn:
+        row = conn.execute(
+            """
+            SELECT sd.ticker, sd.period_of_report, c.reporting_currency
+            FROM source_documents sd
+            JOIN companies c ON sd.ticker = c.ticker
+            WHERE sd.id = ?
+            """,
+            (source_doc_id,),
+        ).fetchone()
+
+    if row is None:
+        result.setdefault("value_usd", result.get("value"))
+        result.setdefault("fx_rate", 1.0)
+        result.setdefault("fx_rate_date", None)
+        result.setdefault("reporting_currency", "USD")
+        return
+
+    currency = row["reporting_currency"] or "USD"
+    period = row["period_of_report"]
+
+    from ..fx.rates import normalize_to_usd
+
+    value_usd, fx_rate, fx_rate_date = normalize_to_usd(
+        result.get("value"), currency, period, db=db
+    )
+    result["value_usd"] = value_usd
+    result["fx_rate"] = fx_rate
+    result["fx_rate_date"] = fx_rate_date
+    result["reporting_currency"] = currency
 
 
 def _now_iso() -> str:

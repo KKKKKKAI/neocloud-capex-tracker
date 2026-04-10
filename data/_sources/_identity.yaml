@@ -81,6 +81,7 @@ companies:
     edgar_cik: "0001577552"
     hkex_stock_code: "9988"
     fiscal_year_end_month: 3
+    reporting_currency: CNY
 
   BIDU:
     # Dual-listed on NASDAQ (BIDU) and HKEX (9888). SEC 20-F preferred for annuals.
@@ -89,6 +90,7 @@ companies:
     edgar_cik: "0001329099"
     hkex_stock_code: "9888"
     fiscal_year_end_month: 12
+    reporting_currency: CNY
 
   GDS:
     # Dual-listed on NASDAQ (GDS) and HKEX (9698). SEC 20-F preferred for annuals.
@@ -97,6 +99,7 @@ companies:
     edgar_cik: "0001526125"
     hkex_stock_code: "9698"
     fiscal_year_end_month: 12
+    reporting_currency: CNY
 
   # =====================================================================
   # HKEX-only filers (HKEXnews primary)
@@ -110,6 +113,7 @@ companies:
     preferred_source: hkex
     hkex_stock_code: "0700"
     fiscal_year_end_month: 12
+    reporting_currency: CNY
 
   # =====================================================================
   # Pure-play AI neoclouds (SEC primary; mostly recent listings)

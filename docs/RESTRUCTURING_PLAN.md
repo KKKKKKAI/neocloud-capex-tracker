@@ -448,21 +448,45 @@ sections when present. Specifically:
 
 #### Phase 3 steps
 
-- [ ] 3.1 Write `skills/read-and-extract/SKILL.md` (contract-only). Document that v1 extraction runs inside Claude Code. Include the adapter migration path prominently so future contributors know where to plug in alternative models.
-- [ ] 3.2 Implement `src/capex/read/text.py` — extract plain text from HTML (SEC) or PDF (HKEX). Preserve headings, table structure, and section boundaries. HTML: strip tags but keep heading hierarchy + table formatting. PDF: use `pypdf` or `pdfplumber`.
-- [ ] 3.3 Implement `src/capex/read/sections.py` — parse text into a section tree. Identify SEC sections (Item 1, 1A, 7, 7A, 8, Notes) and HKEX equivalents. Return a dict mapping section names to their text content so the extractor can select relevant sections.
-- [ ] 3.4 Implement `src/capex/protocol/v0_1_0.py` — Pydantic models for `ExtractionResult` and `ProvenanceField`. These define the typed contract between the extraction layer (whoever produces results — Claude Code today, API adapters later) and the DB writer. Model-agnostic by design.
-- [ ] 3.5 Implement `src/capex/extract/writer.py` — takes a list of extraction result dicts, validates against the Pydantic schema, writes `extractions` rows + `validation_results` + `audit_log` in one `mutating()` block. Idempotent on `(source_document_id, metric_key, extracting_model)`. **This is adapter-agnostic:** it does not care whether the results came from Claude Code, the Anthropic API, Google Gemini, or a human typing JSON. It just validates and writes.
-- [ ] 3.6 Implement `src/capex/extract/prompts/` — versioned prompt templates as plain text / Jinja2 files. v0.1 template: "You are reading sections of a {form_type} filing for {company}. Extract these metrics: {metric_keys}. For each, return: value (number), unit, verbatim quote (≤30 words, must be ctrl-F-able in the source), section reference, extraction_type (direct/inferred/derived)."
-- [ ] 3.7 Create `src/capex/adapters/README.md` — migration-path document explaining how to add a new model backend. References the `ModelBackend` protocol, the env vars expected, and the writer.py contract. **This is the "remind me to add other models" artifact.**
-- [ ] 3.8 Stub `src/capex/adapters/base.py` — define the `ModelBackend` protocol class (abstract interface). Not wired in v1 but establishes the contract for Phase 3.5.
-- [ ] 3.9 Wire read-and-extract skill: when Claude Code is invoked with the skill, it reads sections via `read/sections.py`, follows the prompt template from `extract/prompts/`, produces structured JSON, calls `extract/writer.py` to persist. Add `capex extract <TICKER>` CLI subcommand that prints what WOULD be extracted (dry-run for testing section parsing without writing to DB).
-- [ ] 3.10 Implement `src/capex/validation/xbrl_anchor.py` — for any extraction whose `metric_key` has a corresponding XBRL concept, hit `data.sec.gov/api/xbrl/companyfacts/CIK<padded>.json` (stdlib HTTP) and pull the XBRL-tagged value for the same period.
-- [ ] 3.11 Wire `xbrl_anchor` as a `validation_results` check (`check_name = 'xbrl_anchor_match'`). Pass = values within 1% tolerance. Fail = flag for review (soft gate). Foreign issuers (20-F) only get this check if they file XBRL — degrade gracefully.
-- [ ] 3.12 Add `xbrl_concept` field to `data/seeds/metric_definitions.yaml` for the 5 seed metrics. Re-run `sync-metrics`. The xbrl_anchor module reads this mapping at runtime.
-- [ ] 3.13 Write `skills/query-line-item/SKILL.md` (contract-only)
-- [ ] 3.14 Implement `src/capex/query/line_items.py` (resolve question → check `extractions` cache → invoke `read-and-extract` skill on cache miss → format response with provenance)
-- [ ] 3.15 **Vertical test:** invoke `read-and-extract` for MSFT FY2025, extract the 5 headline metrics. Verify: `extractions` rows land with correct values + verbatim quotes + section refs. Then `query MSFT FY2025 capital_expenditures` → returns `{value, unit, quote, section_ref, source_path, sha256, xbrl_anchor_match}`. Second query hits the cache. XBRL anchor confirms the LLM-extracted capex matches SEC's structured XBRL within 1%.
+- [x] 3.1 Write `skills/read-and-extract/SKILL.md` (contract-only)
+- [x] 3.2 Implement `src/capex/read/text.py` — HTML text extraction (SEC Inline XBRL) + PDF stub. Tables preserved as [TABLE]/[/TABLE] markers.
+- [x] 3.3 Implement `src/capex/read/sections.py` — SEC Item boundary parser (handles duplicate headers from TOC vs body by only breaking on Item NUMBER changes). HKEX pattern matcher for section headings.
+- [x] 3.4 Implement `src/capex/protocol/v0_1_0.py` — stdlib dataclasses (not Pydantic in v1). `ExtractionResult`, `ExtractionBatch`, `validate_result()`.
+- [x] 3.5 Implement `src/capex/extract/writer.py` — adapter-agnostic DB writer. Idempotent on `(source_document_id, metric_key, extracting_model)`.
+- [x] 3.6 Implement `src/capex/extract/prompts/v0_1_headline.txt` — versioned prompt template for the 5 seed metrics.
+- [x] 3.7 Create `src/capex/adapters/README.md` — migration-path doc for adding alternative model backends.
+- [x] 3.8 Stub `src/capex/adapters/base.py` — `ModelBackend` protocol class.
+- [x] 3.9 Wire `capex extract <TICKER>` CLI dry-run subcommand (shows sections + token estimate + metrics list).
+- [x] 3.10 Implement `src/capex/validation/xbrl_anchor.py` — hits SEC companyfacts API (stdlib HTTP), compares LLM value to XBRL value.
+- [x] 3.11 XBRL anchor is **opt-in, not auto-triggered**. Rationale (2026-04-10): the pipeline will extract non-standard items (AI-capex, segment revenue) that have no XBRL concepts. Auto-triggering would produce noisy "concept not found" results. The check is available via `run_xbrl_checks()` and `write_xbrl_results()` for manual or batch use. edgartools is NOT a production dependency — it was used for a one-time development cross-check and confirmed our MSFT values are exact matches.
+- [x] 3.12 Added `xbrl_concept` as XBRL concept tags in `metric_definitions.yaml` aliases for all 5 seed metrics.
+- [x] 3.13 Write `skills/query-line-item/SKILL.md` (contract-only)
+- [x] 3.14 Implement `src/capex/query/line_items.py` — metric resolution via aliases, cache lookup, provenance formatting.
+- [x] 3.15 **Vertical test PASSED.** MSFT FY2025: 5 headline metrics extracted by Claude Code, written to DB. XBRL anchor validated capex ($64,551M) and PP&E ($204,966M) at 0.0% diff. Revenue ($281,724M), OCF ($136,162M), D&A ($34,153M) all exact matches against edgartools XBRL cross-check. Query skill returns cached results with provenance.
+
+#### Phase 3.6 — Currency normalization (pre-Phase 4 requirement)
+
+**Decision 2026-04-10:** non-USD reporters (BABA, BIDU, GDS in CNY; Tencent
+in CNY) need FX conversion for like-for-like comparison. All extracted values
+are stored in local currency (`value`) AND USD-normalized (`value_usd`) with
+the FX rate + date recorded alongside. USD companies get `fx_rate=1.0`.
+
+FX rate source: **frankfurter.app** — free, no API key, open-source wrapper
+around ECB data, supports historical rates back to 1999. Simple REST:
+`GET https://api.frankfurter.app/2025-06-30?from=CNY&to=USD`
+
+Companies requiring FX conversion:
+- BABA, BIDU, GDS, 0700 → CNY/RMB (Chinese yuan)
+- All others → USD (no conversion, fx_rate=1.0)
+- IREN: Australian company but reports in USD on NASDAQ
+
+- [ ] 3.6.1 Create `src/capex/db/migrations/0002_fx_normalization.sql` — add `reporting_currency` to `companies`, add `fx_rates` table, add `value_usd`/`fx_rate`/`fx_rate_date`/`reporting_currency` to `extractions`.
+- [ ] 3.6.2 Update `_identity.yaml` — add `reporting_currency` for non-USD companies (BABA/BIDU/GDS/0700 → CNY).
+- [ ] 3.6.3 Update `src/capex/db/sync.py` — handle new `reporting_currency` field in company sync.
+- [ ] 3.6.4 Implement `src/capex/fx/rates.py` — fetch period-end FX rates from frankfurter.app, cache in `fx_rates` table. Stdlib HTTP only.
+- [ ] 3.6.5 Update `src/capex/extract/writer.py` — after inserting an extraction, look up the company's reporting_currency. If non-USD, fetch the FX rate for `period_of_report` date, compute `value_usd = value * fx_rate`, write both to the row.
+- [ ] 3.6.6 Update `src/capex/query/line_items.py` — return `value_usd` alongside `value` in query results. Display both when currencies differ.
+- [ ] 3.6.7 **Verify:** extract a metric for a CNY company (e.g. run dry-run against BABA 20-F), confirm FX rate lookup works and value_usd is populated correctly.
 
 #### Phase 3.5 — Adapter migration + advanced metrics (deferred)
 

@@ -56,11 +56,23 @@ desktop.ini
 *.swo
 *~
 
-# ---- Local data scratch (source filings go via Git LFS, not here) ----
+# ---- Local data scratch ----
 data/scratch/
 data/cache/
 *.log
 logs/
+
+# ---- Source archive (runtime artifacts, fetched on demand) ----
+# Per-ticker directories under data/_sources/ hold the raw regulator
+# bytes (HTML/PDF) and the canonical year-folder copies. These are
+# regeneratable from the regulator and are too large to belong in git.
+# Run `capex fetch <TICKER> <FORM>` followed by `capex organize` to
+# repopulate after a fresh clone.
+#
+# Top-level files in data/_sources/ (especially _identity.yaml and
+# _organizer_log.csv) are NOT ignored — they're authoritative project
+# state, not runtime artifacts.
+data/_sources/*/
 
 # ---- Internal dev artifacts ----
 _patches/

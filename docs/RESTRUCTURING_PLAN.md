@@ -371,28 +371,22 @@ proceeding to Phase 4.
 | D4 | SEC User-Agent contact | `f.kai.ye03@gmail.com`. Default UA = `"neocloud-capex-tracker f.kai.ye03@gmail.com"`. Override via `CAPEX_FETCHER_UA` env var. |
 | D5 | Sidecar JSON: keep or kill? | **Keep.** Two-source redundancy: DB row is the queryable index, sidecar is the immutable on-disk archival truth. Sidecar survives DB corruption and enables a recovery sweep. |
 
-#### Phase 2a — SEC fetch + organize wiring (SEC EDGAR only)
+#### Phase 2a — SEC fetch + organize wiring (SEC EDGAR only) ✅ COMPLETE 2026-04-10
 
-- [ ] 2a.1 Slim `skills/fetch-company-report/SKILL.md` to contract-only. Drop the HTML→PDF rendering section entirely. Document that `_raw/` stores the raw regulator bytes (HTML or PDF, whichever they served).
-- [ ] 2a.2 Slim `skills/organize-sources/SKILL.md` to contract-only. Update to handle both `.htm` and `.pdf` extensions in the canonical filename.
-- [ ] 2a.3 Implement `src/capex/fetch/sidecar.py` (sidecar JSON writer + reader)
-- [ ] 2a.4 Implement `src/capex/fetch/sec.py` end-to-end:
-  - Hit `data.sec.gov/submissions/CIK<padded>.json`
-  - Filter by form_type, take most recent matching filing
-  - Construct filing directory URL, find primary document
-  - Download bytes (whatever extension), compute sha256
-  - Write atomically to `_raw/` using sanitized regulator filename
-  - Write sidecar JSON
-- [ ] 2a.5 Implement `src/capex/fetch/dispatcher.py` (looks up `companies` row, picks the right per-source fetcher; Phase 2a only routes to `sec.py`)
-- [ ] 2a.6 Wire fetch success → `source_documents` INSERT + `audit_log` row in one `mutating()` block
-- [ ] 2a.7 Implement `src/capex/organize/namer.py` (canonical filename grammar from `organize-sources` SKILL.md, supports both `.htm` and `.pdf`)
-- [ ] 2a.8 Implement `src/capex/organize/walker.py` (sweep `_raw/`, copy to `<TICKER>/<YYYY>/`, append to `_organizer_log.csv`)
-- [ ] 2a.9 Wire organize success → `UPDATE source_documents SET canonical_path = ?` + `audit_log` row
-- [ ] 2a.10 CLI subcommands: `capex fetch <TICKER> <FORM>` and `capex organize`
-- [ ] 2a.11 Set up `CAPEX_FETCHER_UA` env var + `f.kai.ye03@gmail.com` default in `src/capex/fetch/__init__.py`
-- [ ] 2a.12 Period derivation unit tests using the 5 non-Dec FYE companies as fixtures: MSFT (Jun), ORCL (May), APLD (May), IREN (Jun), BABA (Mar)
-- [ ] 2a.13 Network test marker: `@pytest.mark.network`, skipped unless `RUN_NETWORK_TESTS=1`
-- [ ] 2a.14 **Vertical test (manual):** `capex fetch MSFT 10-K` → file in `_raw/` → DB row exists → `capex organize` → file in `MSFT/2025/` → `canonical_path` populated → `dump.sql` reflects both rows
+- [x] 2a.1 Slim `skills/fetch-company-report/SKILL.md` to contract-only. Dropped HTML→PDF rendering section.
+- [x] 2a.2 Slim `skills/organize-sources/SKILL.md` to contract-only. Updated for both `.htm` and `.pdf`.
+- [x] 2a.3 Implement `src/capex/fetch/sidecar.py` (atomic JSON writer + validator + reader)
+- [x] 2a.4 Implement `src/capex/fetch/sec.py` end-to-end (stdlib only — urllib.request, no requests dep)
+- [x] 2a.5 Implement `src/capex/fetch/dispatcher.py` — also added `src/capex/fetch/errors.py` for the shared error vocabulary
+- [x] 2a.6 Wire fetch → `source_documents` INSERT + `audit_log` row in one `mutating()` block (bundled into dispatcher.fetch_and_record)
+- [x] 2a.7 Implement `src/capex/organize/namer.py` — pure functions for period derivation and canonical naming
+- [x] 2a.8 Implement `src/capex/organize/walker.py` — sweep, atomic copy, hash verification, organizer log
+- [x] 2a.9 Wire organize → `canonical_path` UPDATE + `audit_log` row (bundled into walker)
+- [x] 2a.10 CLI subcommands: `capex fetch <TICKER> <FORM>` and `capex organize [--ticker T] [--dry-run]`
+- [x] 2a.11 `CAPEX_FETCHER_UA` env var + default `"neocloud-capex-tracker f.kai.ye03@gmail.com"` in `src/capex/fetch/__init__.py`
+- [x] 2a.12 Period derivation unit tests — 21 cases covering MSFT/ORCL/APLD/IREN/BABA non-Dec FYEs, calendar-year baselines, HKEX H1/H2, Q4 raises, unknown form raises. All passing.
+- [x] 2a.13 `tests/conftest.py` with `@pytest.mark.network` marker — skipped unless `RUN_NETWORK_TESTS=1`
+- [x] 2a.14 **Vertical test (manual):** PASSED. `capex fetch MSFT 10-K` downloaded the real Microsoft FY2025 10-K (7.8 MB Inline XBRL HTML, accession `0000950170-25-100235`), wrote sidecar, inserted `source_documents` row id=1. `capex organize` copied to `data/_sources/MSFT/2025/[30.07.2025][MSFT][AR][10-K].htm`, populated `canonical_path`, appended to `_organizer_log.csv`. Idempotent on re-run (second fetch = "already in DB", second organize = "skipped_already_canonical"). `dump.sql` regenerated with all changes. Audit log captured `source_document_inserted` + `canonical_path_set`.
 
 #### Phase 2b — HKEX fetcher + dual-listed dispatcher
 

@@ -18,6 +18,8 @@ INSERT INTO "audit_log" VALUES(3,'2026-04-09T17:47:58+00:00','sync-companies@0.0
 INSERT INTO "audit_log" VALUES(4,'2026-04-09T17:47:58+00:00','sync-metric-definitions@0.0.1','metric_definitions_sync','metric_definitions',NULL,'{"deleted": 0, "inserted": 0, "total": 5, "updated": 5, "yaml_path": "data/seeds/metric_definitions.yaml"}');
 INSERT INTO "audit_log" VALUES(5,'2026-04-09T18:24:16+00:00','sync-companies@0.0.1','companies_sync','companies',NULL,'{"deleted": 0, "inserted": 12, "total": 13, "updated": 1, "yaml_path": "data/_sources/_identity.yaml"}');
 INSERT INTO "audit_log" VALUES(6,'2026-04-09T18:37:24+00:00','sync-companies@0.0.1','companies_sync','companies',NULL,'{"deleted": 0, "inserted": 0, "total": 13, "updated": 13, "yaml_path": "data/_sources/_identity.yaml"}');
+INSERT INTO "audit_log" VALUES(7,'2026-04-10T02:30:00+00:00','fetch-company-report@0.1.0','source_document_inserted','source_documents',1,'{"form_type": "10-K", "period_of_report": "2025-06-30", "raw_path": "data/_sources/MSFT/_raw/msft-20250630.htm", "sha256": "99d693f6c1544144ebeee92954f151a85bc62111837530a42855953bc01d0bbe", "ticker": "MSFT"}');
+INSERT INTO "audit_log" VALUES(8,'2026-04-10T02:35:21+00:00','organize-sources@0.1.0','canonical_path_set','source_documents',1,'{"canonical_path": "data/_sources/MSFT/2025/[30.07.2025][MSFT][AR][10-K].htm", "fiscal_year": 2025, "period_token": "AR", "ticker": "MSFT"}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -104,6 +106,7 @@ CREATE TABLE source_documents (
     protocol_version  TEXT NOT NULL,
     UNIQUE(ticker, form_type, period_of_report)
 );
+INSERT INTO "source_documents" VALUES(1,'MSFT','10-K','2025-07-30','2025-06-30',2025,'AR','99d693f6c1544144ebeee92954f151a85bc62111837530a42855953bc01d0bbe','data/_sources/MSFT/_raw/msft-20250630.htm','data/_sources/MSFT/2025/[30.07.2025][MSFT][AR][10-K].htm','sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm','0000950170-25-100235','2026-04-10T02:30:00+00:00','0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id INTEGER NOT NULL REFERENCES extractions(id),
@@ -121,5 +124,6 @@ CREATE INDEX idx_validation_results_extraction
 CREATE INDEX idx_audit_log_ts
     ON audit_log(ts);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',6);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',8);
+INSERT INTO "sqlite_sequence" VALUES('source_documents',1);
 COMMIT;

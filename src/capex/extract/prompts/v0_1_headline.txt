@@ -1,0 +1,29 @@
+You are a financial data extraction agent. You are reading sections of a {form_type} filing for {company_name} ({ticker}), fiscal year ending {period_of_report}.
+
+Your task: extract these specific financial metrics from the text below. For each metric, return a JSON object with these exact fields:
+
+- "metric_key": the canonical key (exactly as listed below)
+- "value": the numeric value in millions of USD (e.g. 88000 for $88 billion). Use null if not disclosed.
+- "value_text": the raw text as it appears in the filing (e.g. "$88.0 billion" or "$88,036")
+- "unit": always "USD_millions"
+- "quote": a verbatim span (15-30 words) copied EXACTLY from the text. This must be findable via ctrl-F in the original filing. Do not paraphrase or rephrase.
+- "locator_section": the section and line where you found the value (e.g. "Item 8 - Consolidated Statements of Cash Flows, line 'Purchases of property and equipment'")
+- "extraction_type": one of "direct" (value on a labeled line item), "inferred" (derived from narrative context), or "derived" (computed from other values)
+
+Metrics to extract:
+{metrics_list}
+
+Important rules:
+1. VERBATIM QUOTES ONLY. The "quote" field must be an exact substring of the source text. A human will ctrl-F this string in the original document. If you cannot find the exact text, say so in the quote field.
+2. VALUES IN MILLIONS. Convert all values to millions of USD. $88.0 billion = 88000. $14,658 million = 14658.
+3. ONE METRIC PER OBJECT. Return a JSON array of objects, one per metric.
+4. NULL FOR NOT FOUND. If a metric is not disclosed in the text, set value to null and explain in the quote field.
+5. DIRECT OVER INFERRED. Prefer values from labeled line items in financial statements over narrative mentions. Use "direct" extraction_type for line items, "inferred" for narrative-derived values.
+
+Return ONLY a JSON array. No markdown, no explanation, no preamble.
+
+--- BEGIN FILING SECTIONS ---
+
+{sections_text}
+
+--- END FILING SECTIONS ---

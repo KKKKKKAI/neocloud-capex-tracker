@@ -38,6 +38,8 @@ def main(argv: list[str] | None = None) -> int:
         return _fetch_command(rest)
     if cmd == "organize":
         return _organize_command(rest)
+    if cmd == "extract":
+        return _extract_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -141,6 +143,98 @@ def _organize_command(argv: list[str]) -> int:
     return 0
 
 
+def _extract_command(argv: list[str]) -> int:
+    if not argv:
+        print("usage: capex extract <TICKER> [--form FORM]", file=sys.stderr)
+        print("  dry-run: shows sections + prompt that would be used for extraction", file=sys.stderr)
+        print("  e.g. capex extract MSFT", file=sys.stderr)
+        return 2
+
+    ticker = argv[0]
+    form_type = None
+    i = 1
+    while i < len(argv):
+        if argv[i] == "--form" and i + 1 < len(argv):
+            form_type = argv[i + 1]
+            i += 2
+        else:
+            print(f"unknown option: {argv[i]}", file=sys.stderr)
+            return 2
+
+    from pathlib import Path
+    from capex.db import Database
+    from capex.read.text import extract_text
+    from capex.read.sections import parse_sections, get_extraction_sections, estimate_tokens
+
+    db = Database()
+
+    # Find the latest source_documents row for this ticker
+    with db.connect() as conn:
+        if form_type:
+            row = conn.execute(
+                "SELECT id, ticker, form_type, period_of_report, raw_path FROM source_documents "
+                "WHERE ticker = ? AND form_type = ? ORDER BY period_of_report DESC LIMIT 1",
+                (ticker, form_type),
+            ).fetchone()
+        else:
+            # Default: latest annual (10-K, 20-F, or HK-AR)
+            row = conn.execute(
+                "SELECT id, ticker, form_type, period_of_report, raw_path FROM source_documents "
+                "WHERE ticker = ? AND form_type IN ('10-K', '20-F', 'HK-AR') "
+                "ORDER BY period_of_report DESC LIMIT 1",
+                (ticker,),
+            ).fetchone()
+
+    if row is None:
+        print(f"no source document found for {ticker}" + (f" {form_type}" if form_type else ""), file=sys.stderr)
+        print("run `capex fetch` first", file=sys.stderr)
+        return 1
+
+    doc_id, doc_ticker, doc_form, doc_period, raw_path = tuple(row)
+    from capex.db.schema import REPO_ROOT
+    abs_path = REPO_ROOT / raw_path
+
+    print(f"source_documents id={doc_id}: {doc_ticker} {doc_form} period={doc_period}")
+    print(f"  raw_path: {raw_path}")
+    print()
+
+    if not abs_path.exists():
+        print(f"file not found: {abs_path}", file=sys.stderr)
+        print("re-run `capex fetch` to download", file=sys.stderr)
+        return 1
+
+    print("extracting text...")
+    text = extract_text(abs_path)
+    print(f"  full text: {len(text):,} chars")
+
+    print("parsing sections...")
+    sections = parse_sections(text, doc_form)
+    for name in sorted(sections.keys()):
+        if name == "_full":
+            continue
+        print(f"  {name:16s}  {len(sections[name]):>8,} chars")
+
+    ext_sections = get_extraction_sections(sections, doc_form)
+    tokens = estimate_tokens(ext_sections)
+    print(f"\nextraction-relevant sections ({len(ext_sections)}):")
+    for name, content in ext_sections.items():
+        print(f"  {name:16s}  {len(content):>8,} chars")
+    print(f"\nestimated extraction context: ~{tokens:,} tokens")
+
+    # Load metric definitions
+    with db.connect() as conn:
+        metrics = conn.execute("SELECT key, label FROM metric_definitions ORDER BY key").fetchall()
+    print(f"\nmetrics to extract ({len(metrics)}):")
+    for m in metrics:
+        print(f"  {m[0]:35s}  {m[1]}")
+
+    print(f"\n--- DRY RUN COMPLETE ---")
+    print(f"To perform actual extraction, invoke the read-and-extract skill")
+    print(f"in Claude Code: \"extract the headline metrics from {doc_ticker} {doc_form}\"")
+
+    return 0
+
+
 def _print_help() -> None:
     print(
         "neocloud-capex-tracker CLI\n"
@@ -155,6 +249,8 @@ def _print_help() -> None:
         "    organize            sweep data/_sources/ and create canonical copies\n"
         "                        --ticker T   only this ticker\n"
         "                        --dry-run    log actions without writing\n"
+        "    extract <TICKER>    dry-run: show sections + metrics for extraction\n"
+        "                        --form FORM  specify form type (default: latest annual)\n"
     )
 
 

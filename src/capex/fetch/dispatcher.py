@@ -26,6 +26,7 @@ from typing import Any
 
 from ..db import Database
 from .errors import FormTypeMismatchError, UnknownCompanyError
+from .hkex import HKEX_FORM_TYPES, fetch_latest as hkex_fetch_latest
 from .sec import SEC_FORM_TYPES, fetch_latest as sec_fetch_latest
 from .sidecar import write_sidecar
 
@@ -43,19 +44,26 @@ def fetch_filing(ticker: str, form_type: str, db: Database | None = None) -> dic
     company = _lookup_company(db, ticker)
 
     source = company["preferred_source"]
-    if source == "sec_edgar":
-        if form_type not in SEC_FORM_TYPES:
-            raise FormTypeMismatchError(ticker, form_type, SEC_FORM_TYPES)
+
+    # Form-type-based dispatch: SEC forms → sec.py, HKEX forms → hkex.py.
+    # For dual-listed companies, the form_type itself determines the source.
+    if form_type in SEC_FORM_TYPES:
+        if source == "hkex" and not company.get("edgar_cik"):
+            raise FormTypeMismatchError(ticker, form_type, HKEX_FORM_TYPES)
         cik = company["edgar_cik"]
         if not cik:
-            raise UnknownCompanyError(f"{ticker} has no edgar_cik in companies table")
+            raise FormTypeMismatchError(
+                ticker, form_type, HKEX_FORM_TYPES
+            )
         metadata = sec_fetch_latest(ticker, cik, form_type)
-    elif source == "hkex":
-        raise NotImplementedError(
-            f"HKEX fetcher not implemented yet (Phase 2b). Tencent/{ticker} cannot be fetched."
-        )
+    elif form_type in HKEX_FORM_TYPES:
+        hk_code = company.get("hkex_stock_code")
+        if not hk_code:
+            raise FormTypeMismatchError(ticker, form_type, SEC_FORM_TYPES)
+        metadata = hkex_fetch_latest(ticker, hk_code, form_type)
     else:
-        raise ValueError(f"unknown preferred_source for {ticker}: {source}")
+        all_supported = SEC_FORM_TYPES + HKEX_FORM_TYPES
+        raise FormTypeMismatchError(ticker, form_type, all_supported)
 
     # Write the sidecar next to the file. The fetcher gave us a repo-relative
     # path; resolve it back to absolute for the sidecar writer.

@@ -87,11 +87,11 @@ def extract_text_from_pdf(path: Path) -> str:
     """
     try:
         from pypdf import PdfReader
-    except ImportError:
+    except ImportError as exc:
         raise ImportError(
             "pypdf is required for PDF text extraction. "
             "Install with: pip install neocloud-capex-tracker[read]"
-        )
+        ) from exc
 
     reader = PdfReader(str(path))
     pages = []

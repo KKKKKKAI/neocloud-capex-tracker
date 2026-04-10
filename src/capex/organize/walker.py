@@ -16,13 +16,12 @@ import csv
 import hashlib
 import json
 import shutil
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from ..db import Database
 from .namer import (
-    PeriodDerivationError,
     canonical_name,
     compute_fiscal_year,
     compute_period_token,
@@ -356,4 +355,4 @@ def _append_log(
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")

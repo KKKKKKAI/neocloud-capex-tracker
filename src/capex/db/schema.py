@@ -28,10 +28,10 @@ and breaks the audit trail. Don't do that.
 from __future__ import annotations
 
 import sqlite3
+from collections.abc import Iterator
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Iterator
 
 # Resolve the repo root from this file's location: src/capex/db/schema.py → ../../../
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -134,4 +134,4 @@ def _parse_version(filename: str) -> int:
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")

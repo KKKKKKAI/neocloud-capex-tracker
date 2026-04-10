@@ -21,7 +21,6 @@ from capex.organize.namer import (
     compute_period_token,
 )
 
-
 # (ticker, fye_month, form, period, expected_token, expected_fy)
 CASES = [
     # Microsoft (FYE June)

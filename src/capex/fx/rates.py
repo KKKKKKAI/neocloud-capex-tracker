@@ -30,8 +30,7 @@ from __future__ import annotations
 import json
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
-from typing import Any
+from datetime import UTC, datetime
 
 from ..db import Database
 
@@ -165,4 +164,4 @@ def _fetch_from_frankfurter(
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")

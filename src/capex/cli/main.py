@@ -18,7 +18,6 @@ Examples:
 """
 from __future__ import annotations
 
-import json
 import sys
 
 
@@ -130,7 +129,7 @@ def _organize_command(argv: list[str]) -> int:
     from capex.organize.walker import sweep
 
     summary = sweep(ticker_filter=ticker_filter, dry_run=dry_run)
-    print(f"organize sweep complete:")
+    print("organize sweep complete:")
     print(f"  scanned:                  {summary['scanned']}")
     print(f"  copied:                   {summary['copied']}")
     print(f"  skipped_already_canonical: {summary['skipped_already_canonical']}")
@@ -146,7 +145,7 @@ def _organize_command(argv: list[str]) -> int:
 def _extract_command(argv: list[str]) -> int:
     if not argv:
         print("usage: capex extract <TICKER> [--form FORM]", file=sys.stderr)
-        print("  dry-run: shows sections + prompt that would be used for extraction", file=sys.stderr)
+        print("  dry-run: shows sections + prompt for extraction", file=sys.stderr)
         print("  e.g. capex extract MSFT", file=sys.stderr)
         return 2
 
@@ -161,10 +160,9 @@ def _extract_command(argv: list[str]) -> int:
             print(f"unknown option: {argv[i]}", file=sys.stderr)
             return 2
 
-    from pathlib import Path
     from capex.db import Database
+    from capex.read.sections import estimate_tokens, get_extraction_sections, parse_sections
     from capex.read.text import extract_text
-    from capex.read.sections import parse_sections, get_extraction_sections, estimate_tokens
 
     db = Database()
 
@@ -186,7 +184,10 @@ def _extract_command(argv: list[str]) -> int:
             ).fetchone()
 
     if row is None:
-        print(f"no source document found for {ticker}" + (f" {form_type}" if form_type else ""), file=sys.stderr)
+        msg = f"no source document found for {ticker}"
+        if form_type:
+            msg += f" {form_type}"
+        print(msg, file=sys.stderr)
         print("run `capex fetch` first", file=sys.stderr)
         return 1
 
@@ -228,8 +229,8 @@ def _extract_command(argv: list[str]) -> int:
     for m in metrics:
         print(f"  {m[0]:35s}  {m[1]}")
 
-    print(f"\n--- DRY RUN COMPLETE ---")
-    print(f"To perform actual extraction, invoke the read-and-extract skill")
+    print("\n--- DRY RUN COMPLETE ---")
+    print("To perform actual extraction, invoke the read-and-extract skill")
     print(f"in Claude Code: \"extract the headline metrics from {doc_ticker} {doc_form}\"")
 
     return 0

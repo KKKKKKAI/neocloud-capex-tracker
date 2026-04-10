@@ -20,14 +20,15 @@ Phase 2b.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
-from pathlib import Path
+from datetime import UTC, datetime
 from typing import Any
 
 from ..db import Database
 from .errors import FormTypeMismatchError, UnknownCompanyError
-from .hkex import HKEX_FORM_TYPES, fetch_latest as hkex_fetch_latest
-from .sec import SEC_FORM_TYPES, fetch_latest as sec_fetch_latest
+from .hkex import HKEX_FORM_TYPES
+from .hkex import fetch_latest as hkex_fetch_latest
+from .sec import SEC_FORM_TYPES
+from .sec import fetch_latest as sec_fetch_latest
 from .sidecar import write_sidecar
 
 ACTOR_FETCH = "fetch-company-report@0.1.0"
@@ -161,8 +162,9 @@ def _lookup_company(db: Database, ticker: str) -> dict[str, Any]:
     """Read a row from companies. Raises UnknownCompanyError if not present."""
     with db.connect() as conn:
         row = conn.execute(
-            "SELECT ticker, name, preferred_source, edgar_cik, hkex_stock_code, fiscal_year_end_month "
-            "FROM companies WHERE ticker = ?",
+            "SELECT ticker, name, preferred_source, edgar_cik,"
+            " hkex_stock_code, fiscal_year_end_month"
+            " FROM companies WHERE ticker = ?",
             (ticker,),
         ).fetchone()
         if row is None:
@@ -226,4 +228,4 @@ def _compute_fiscal_year(period_of_report: str, fye_month: int) -> int:
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")

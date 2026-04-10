@@ -24,7 +24,7 @@ from __future__ import annotations
 import json
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from ..db import Database
@@ -148,13 +148,14 @@ def write_xbrl_results(
 ) -> int:
     """Write XBRL anchor validation results to the DB. Returns count written."""
     db = db or Database()
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    now = datetime.now(UTC).isoformat(timespec="seconds")
     written = 0
     with db.mutating() as conn:
         for r in results:
             conn.execute(
                 """
-                INSERT INTO validation_results (extraction_id, check_name, passed, details, checked_at)
+                INSERT INTO validation_results
+                (extraction_id, check_name, passed, details, checked_at)
                 VALUES (?, ?, ?, ?, ?)
                 """,
                 (
@@ -187,7 +188,9 @@ def _get_xbrl_concept(db: Database, metric_key: str) -> str | None:
         # starting with "us-gaap:" or "ifrs:".
         aliases = json.loads(row[0]) if row[0] else []
         for alias in aliases:
-            if isinstance(alias, str) and (alias.startswith("us-gaap:") or alias.startswith("ifrs:")):
+            if isinstance(alias, str) and (
+                alias.startswith("us-gaap:") or alias.startswith("ifrs:")
+            ):
                 return alias
         return None
 

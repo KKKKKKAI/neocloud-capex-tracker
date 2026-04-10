@@ -37,7 +37,7 @@ import re
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -200,7 +200,8 @@ def _try_english_variant(url: str) -> str | None:
         return None
     english_url = url[:-6] + "_e.pdf"
     try:
-        req = urllib.request.Request(english_url, method="HEAD", headers={"User-Agent": get_user_agent()})
+        headers = {"User-Agent": get_user_agent()}
+        req = urllib.request.Request(english_url, method="HEAD", headers=headers)
         resp = urllib.request.urlopen(req, timeout=10)
         if resp.status == 200:
             return english_url
@@ -305,4 +306,4 @@ def _atomic_write(path: Path, content: bytes) -> None:
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")

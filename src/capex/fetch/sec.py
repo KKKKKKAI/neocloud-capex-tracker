@@ -28,7 +28,7 @@ import re
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -235,7 +235,8 @@ def _http_get_json(url: str) -> dict:
 
 def _http_get_bytes(url: str) -> bytes:
     """GET raw bytes with the project User-Agent. Raises SourceUnavailableError on failure."""
-    req = urllib.request.Request(url, headers={"User-Agent": get_user_agent(), "Accept-Encoding": "gzip, deflate"})
+    headers = {"User-Agent": get_user_agent(), "Accept-Encoding": "gzip, deflate"}
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             data = resp.read()
@@ -271,4 +272,4 @@ def _atomic_write(path: Path, content: bytes) -> None:
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")

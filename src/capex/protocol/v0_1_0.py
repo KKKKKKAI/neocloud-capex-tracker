@@ -13,8 +13,8 @@ The validate() function checks structural correctness before DB write.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
-from typing import Any, Literal
+from dataclasses import asdict, dataclass, field
+from typing import Any
 
 PROTOCOL_VERSION = "0.1.0-draft"
 
@@ -67,9 +67,13 @@ def validate_result(result: dict[str, Any]) -> list[str]:
     """Validate an extraction result dict. Returns a list of error strings (empty = valid)."""
     errors = []
 
-    required = ("source_document_id", "metric_key", "value_text", "unit", "quote", "locator_section")
+    required = (
+        "source_document_id", "metric_key", "value_text",
+        "unit", "quote", "locator_section",
+    )
     for f in required:
-        if f not in result or result[f] is None or (isinstance(result[f], str) and not result[f].strip()):
+        is_empty = isinstance(result.get(f), str) and not result[f].strip()
+        if f not in result or result[f] is None or is_empty:
             errors.append(f"missing or empty required field: {f}")
 
     if "extraction_type" in result and result["extraction_type"] not in VALID_EXTRACTION_TYPES:

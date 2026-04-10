@@ -33,7 +33,6 @@ For HKEX PDFs, section headings are different — we look for:
 from __future__ import annotations
 
 import re
-from typing import Any
 
 # Sections we care about for capex extraction, in priority order
 EXTRACTION_SECTIONS_SEC = [
@@ -176,7 +175,10 @@ _HKEX_SECTION_PATTERNS = [
     (r"md&a", "Management Discussion"),
     (r"consolidated\s+statement\s+of\s+cash\s+flows?", "Consolidated Statement of Cash Flows"),
     (r"consolidated\s+cash\s+flow", "Consolidated Cash Flow Statement"),
-    (r"notes?\s+to\s+(?:the\s+)?(?:consolidated\s+)?financial\s+statements?", "Notes to Financial Statements"),
+    (
+        r"notes?\s+to\s+(?:the\s+)?(?:consolidated\s+)?financial\s+statements?",
+        "Notes to Financial Statements",
+    ),
     (r"notes?\s+to\s+(?:the\s+)?(?:consolidated\s+)?accounts?", "Notes to Accounts"),
     (r"financial\s+review", "Financial Review"),
     (r"report\s+of\s+the\s+directors", "Report of the Directors"),

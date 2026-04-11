@@ -82,6 +82,21 @@ metrics:
       Top-line revenue for the reporting period. Used as the denominator
       in the capex/revenue efficiency ratio.
 
+  cloud_segment_revenue:
+    label: Cloud/datacenter segment revenue
+    unit_default: USD_millions
+    aliases:
+      - cloud revenue
+      - cloud segment revenue
+      - datacenter revenue
+      - cloud segment
+    description: >
+      Revenue from cloud computing / datacenter operations. For
+      hyperscalers with named segments, this is the segment revenue
+      (e.g. MSFT "Intelligent Cloud", AMZN "AWS"). For pure-play
+      neoclouds, total revenue serves as the proxy. See
+      data/seeds/coverage.yaml for per-company segment treatment.
+
   operating_cash_flow:
     label: Net cash provided by operating activities
     unit_default: USD_millions

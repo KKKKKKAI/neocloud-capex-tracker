@@ -1,0 +1,429 @@
+# Coverage Treatment Configuration
+#
+# THE central reference for how each company is tracked. This file
+# defines: what data sources are used, what currency treatments apply,
+# what segment names to look for, when coverage starts, and what
+# special handling is needed for each company's financial statements.
+#
+# WHEN TO USE THIS FILE:
+# - Adding a new company to the tracker → add an entry here first
+# - Processing a new quarterly report → check this file for the
+#   company's treatments (segment names, currency, special notes)
+# - Building a new dataset → define it in the datasets section,
+#   map each company to its treatment for that dataset
+# - Debugging an extraction → this file tells you what the expected
+#   source, segment name, and currency should be
+#
+# DESIGN PRINCIPLE: "download once, extract many"
+# Quarterly filings are downloaded to data/_sources/ once and form a
+# permanent archive. Each new metric or dataset is extracted by
+# traversing the existing archive — no re-downloading needed. This
+# makes the archive design load-bearing: get it right before pulling.
+
+# ===================================================================
+# COMPANY TREATMENTS
+# ===================================================================
+#
+# Per-company configuration that applies across ALL datasets.
+# Extends _identity.yaml (which has ticker, CIK, FYE, preferred_source)
+# with extraction-specific treatments.
+
+companies:
+
+  MSFT:
+    full_name: Microsoft Corporation
+    category: hyperscaler
+    reporting_currency: USD
+    coverage_start: "2015-07-01"  # FY2016 Q1 (FYE June)
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary  # XBRL for headline metrics, LLM for segments
+    notes: |
+      Microsoft's fiscal year ends in June. FY2016 started July 2015.
+      Segment reporting changed in FY2018 — "Commercial Cloud" became
+      "Intelligent Cloud". Prior to FY2016, cloud revenue was not
+      separately reported as a segment.
+
+  AMZN:
+    full_name: Amazon.com, Inc.
+    category: hyperscaler
+    reporting_currency: USD
+    coverage_start: "2015-01-01"  # FY2015 Q1 (FYE December)
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary
+    notes: |
+      AWS has been reported as a separate segment since Q1 2015 (first
+      quarterly segment disclosure in the 10-Q for Q1 2015). Clean
+      segment data throughout the coverage period.
+
+  GOOGL:
+    full_name: Alphabet Inc.
+    category: hyperscaler
+    reporting_currency: USD
+    coverage_start: "2015-01-01"
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary
+    notes: |
+      Google Cloud was first reported as a separate segment in Q4 2020
+      (10-K for FY2020). Before that, cloud revenue was bundled into
+      "Other Bets" or not separately disclosed. Coverage for cloud
+      segment revenue starts Q4 2020; prior quarters show null.
+
+  META:
+    full_name: Meta Platforms, Inc.
+    category: hyperscaler
+    reporting_currency: USD
+    coverage_start: "2015-01-01"
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary
+    notes: |
+      Meta is an AI infrastructure BUYER, not a cloud vendor. They do
+      not sell cloud services and have no "cloud segment revenue."
+      Tracked for headline metrics (total capex, revenue) only.
+      Excluded from the cloud_segment_revenue dataset.
+
+  ORCL:
+    full_name: Oracle Corporation
+    category: hyperscaler
+    reporting_currency: USD
+    coverage_start: "2015-06-01"  # FY2016 Q1 (FYE May)
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary
+    notes: |
+      Oracle's fiscal year ends in May. Cloud segment naming has changed
+      multiple times: "Cloud Software", "Cloud Services and License
+      Support", "Cloud". The cloud-related segment may need LLM judgment
+      to correctly identify across different reporting periods.
+      Oracle acquired Cerner in 2022, which significantly affected
+      revenue composition.
+
+  BABA:
+    full_name: Alibaba Group Holding Limited
+    category: chinese_hyperscaler
+    reporting_currency: CNY
+    coverage_start: "2015-04-01"  # FY2016 Q1 (FYE March)
+    filing_cadence:
+      annual: 20-F
+      quarterly: null  # 20-F filers don't file 10-Q; 6-K has quarterly press releases
+    extraction_approach: llm_primary  # IFRS reporting, segment names change
+    notes: |
+      Alibaba's fiscal year ends in March. Reports in RMB/CNY under
+      IFRS. Files 20-F annually on SEC (preferred) and HK-AR on HKEX.
+      Cloud segment renamed from "Cloud Computing" to "Cloud
+      Intelligence Group" in FY2024. Quarterly data only available from
+      6-K press releases or HKEX interim reports — limited granularity.
+      FX conversion required: CNY → USD at period-end rate.
+
+  BIDU:
+    full_name: Baidu, Inc.
+    category: chinese_hyperscaler
+    reporting_currency: CNY
+    coverage_start: "2015-01-01"
+    filing_cadence:
+      annual: 20-F
+      quarterly: null
+    extraction_approach: llm_primary
+    notes: |
+      Reports in RMB/CNY. Files 20-F on SEC. Cloud segment variously
+      called "AI Cloud", "Baidu Cloud", "Intelligent Cloud". Segment
+      reporting granularity has improved over time but was sparse in
+      early years. FX conversion required.
+
+  GDS:
+    full_name: GDS Holdings Limited
+    category: neocloud_pureplay
+    reporting_currency: CNY
+    coverage_start: "2016-11-02"  # IPO date on NASDAQ
+    filing_cadence:
+      annual: 20-F
+      quarterly: null
+    extraction_approach: xbrl_primary
+    notes: |
+      GDS is a pure-play datacenter operator. Total revenue IS the
+      cloud/datacenter revenue — no segment extraction needed, just
+      use the headline revenue figure. Reports in RMB/CNY. FX
+      conversion required. IPO'd November 2016.
+
+  "0700":
+    full_name: Tencent Holdings Limited
+    category: chinese_hyperscaler
+    reporting_currency: CNY
+    coverage_start: "2015-01-01"
+    filing_cadence:
+      annual: HK-AR
+      quarterly: null  # HK-IR is semi-annual only; voluntary quarterly press releases
+    extraction_approach: llm_primary
+    notes: |
+      HKEX-only filer. Reports in RMB/CNY. Cloud revenue is bundled
+      into "FinTech and Business Services" segment which also includes
+      payment services (WeChat Pay) — requires LLM judgment to isolate
+      the cloud portion, or accept the segment as a proxy. Before ~2019,
+      cloud was not separately identifiable in segment reporting.
+      Only 2 data points per year (annual + H1 interim). FX conversion
+      required.
+
+  CRWV:
+    full_name: CoreWeave, Inc.
+    category: neocloud_pureplay
+    reporting_currency: USD
+    coverage_start: "2025-03-28"  # IPO date on NASDAQ
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary
+    notes: |
+      Pure-play GPU cloud provider. Total revenue = cloud revenue.
+      IPO'd March 2025 — very limited history. First 10-K filed
+      March 2026 for FY2025.
+
+  APLD:
+    full_name: Applied Digital Corporation
+    category: neocloud_pureplay
+    reporting_currency: USD
+    coverage_start: "2022-04-01"  # Pivoted to HPC/datacenter business ~2022
+    filing_cadence:
+      annual: 10-K
+      quarterly: 10-Q
+    extraction_approach: xbrl_primary
+    notes: |
+      Applied Digital pivoted from crypto mining to HPC/datacenter
+      hosting around 2022. Pre-pivot revenue is not comparable. FYE May.
+      Total revenue = datacenter revenue post-pivot.
+
+  IREN:
+    full_name: IREN Limited
+    category: neocloud_pureplay
+    reporting_currency: USD
+    coverage_start: "2022-11-17"  # IPO date on NASDAQ
+    filing_cadence:
+      annual: 20-F
+      quarterly: null
+    extraction_approach: xbrl_primary
+    notes: |
+      Australian company, NASDAQ-listed, reports in USD. Formerly Iris
+      Energy. Primarily Bitcoin mining + HPC hosting. FYE June. Total
+      revenue treated as datacenter revenue. Annual data only from 20-F.
+
+  NBIS:
+    full_name: Nebius Group N.V.
+    category: neocloud_pureplay
+    reporting_currency: USD
+    coverage_start: "2024-10-21"  # Relisted after Yandex restructuring
+    filing_cadence:
+      annual: 20-F
+      quarterly: null
+    extraction_approach: xbrl_primary
+    notes: |
+      Dutch holding company spun out of Yandex's restructuring. AI
+      infrastructure business. Very limited history — only FY2024 20-F
+      available. Reports in USD. Total revenue = AI infra revenue.
+
+
+# ===================================================================
+# DATASET TREATMENTS
+# ===================================================================
+#
+# Each dataset defines: what metric is tracked, which companies are
+# included, and what treatment each company needs. When adding a new
+# dataset, copy this structure and fill in the per-company treatments.
+
+datasets:
+
+  headline_financials:
+    description: >
+      Core financial statement items: revenue, capex, operating cash
+      flow, depreciation & amortization, PP&E. Extracted from the
+      primary financial statements (income statement, cash flow
+      statement, balance sheet).
+    metric_keys:
+      - capital_expenditures
+      - revenue
+      - operating_cash_flow
+      - depreciation_amortization
+      - property_plant_equipment_net
+    coverage_start: "2015-01-01"
+    cadence: quarterly (where available; annual for 20-F filers)
+    extraction_method: xbrl_primary  # XBRL companyfacts for all SEC filers
+    companies_included:
+      - MSFT
+      - AMZN
+      - GOOGL
+      - META
+      - ORCL
+      - BABA
+      - BIDU
+      - GDS
+      - "0700"
+      - CRWV
+      - APLD
+      - IREN
+      - NBIS
+    companies_excluded: []
+    notes: |
+      All 13 companies included. XBRL companyfacts provides quarterly
+      time series for SEC filers back to ~2009 in one API call. Non-USD
+      companies (BABA, BIDU, GDS, 0700) require FX conversion at
+      period-end rate. 20-F filers (BABA, BIDU, GDS, IREN, NBIS) have
+      annual data only; quarterly granularity not available from SEC.
+
+  cloud_segment_revenue:
+    description: >
+      Revenue specifically from cloud computing / datacenter
+      operations. For hyperscalers with named segments, this is the
+      segment revenue (e.g. MSFT "Intelligent Cloud", AMZN "AWS").
+      For pure-play neoclouds, total revenue serves as the proxy.
+    metric_keys:
+      - cloud_segment_revenue
+    coverage_start: "2015-01-01"
+    cadence: quarterly (where available)
+    extraction_method: hybrid  # XBRL first, LLM fallback for fuzzy segments
+    companies_included:
+      - ticker: MSFT
+        treatment: named_segment
+        segment_names: ["Intelligent Cloud", "Commercial Cloud"]
+        segment_start: "2015-07-01"  # first segment disclosure
+        notes: "Renamed from Commercial Cloud to Intelligent Cloud ~FY2018"
+
+      - ticker: AMZN
+        treatment: named_segment
+        segment_names: ["AWS", "Amazon Web Services"]
+        segment_start: "2015-01-01"
+        notes: "Clean segment since Q1 2015"
+
+      - ticker: GOOGL
+        treatment: named_segment
+        segment_names: ["Google Cloud"]
+        segment_start: "2020-10-01"  # Q4 2020 first segment disclosure
+        notes: "Not separately disclosed before Q4 2020. Pre-2020 quarters = null."
+
+      - ticker: ORCL
+        treatment: named_segment
+        segment_names: ["Cloud Services and License Support", "Cloud Services", "Cloud"]
+        segment_start: "2015-06-01"
+        notes: "Segment name changed multiple times. LLM judgment may be needed."
+
+      - ticker: BABA
+        treatment: named_segment
+        segment_names: ["Cloud Intelligence Group", "Cloud Computing"]
+        segment_start: "2016-04-01"
+        notes: "Renamed ~FY2024. CNY reporting. Annual data only (20-F)."
+
+      - ticker: BIDU
+        treatment: named_segment
+        segment_names: ["AI Cloud", "Baidu Cloud", "Intelligent Cloud"]
+        segment_start: "2017-01-01"
+        notes: "Sparse segment data in early years. CNY. Annual only."
+
+      - ticker: "0700"
+        treatment: named_segment_fuzzy
+        segment_names: ["FinTech and Business Services", "Cloud and Other Business Services"]
+        segment_start: "2019-01-01"
+        notes: >
+          Tencent's cloud revenue is bundled with FinTech (WeChat Pay).
+          The segment is a PROXY, not a clean cloud-only number. LLM
+          judgment required to note this caveat. CNY. Annual + H1 only.
+
+      - ticker: GDS
+        treatment: whole_company
+        notes: "Pure-play datacenter. Total revenue = cloud/DC revenue. CNY."
+
+      - ticker: CRWV
+        treatment: whole_company
+        notes: "Pure-play GPU cloud. Total revenue = cloud revenue. IPO Mar 2025."
+
+      - ticker: APLD
+        treatment: whole_company
+        notes: "Pure-play HPC/datacenter. Total revenue = DC revenue post-2022 pivot."
+
+      - ticker: IREN
+        treatment: whole_company
+        notes: "Datacenter/mining. Total revenue. USD. Annual only."
+
+      - ticker: NBIS
+        treatment: whole_company
+        notes: "AI infra. Total revenue. Very limited history (FY2024 only)."
+
+    companies_excluded:
+      - ticker: META
+        reason: >
+          Meta is an AI infrastructure buyer, not a cloud vendor. They
+          do not sell cloud services and have no cloud segment revenue.
+          Tracked for headline metrics (capex, total revenue) only.
+
+
+# ===================================================================
+# METHODOLOGY NOTES
+# ===================================================================
+#
+# These notes apply across all datasets and companies.
+
+methodology:
+
+  xbrl_primary:
+    description: >
+      For SEC filers with clean XBRL tagging, pull the full quarterly
+      time series from data.sec.gov/api/xbrl/companyfacts/ in one API
+      call. No filing download needed. Values are in the company's
+      reporting currency (USD or CNY). FX conversion applied at
+      period-end rate via frankfurter.app.
+    when_to_use: >
+      Use for headline financial metrics (revenue, capex, OCF, D&A,
+      PP&E) and for segment revenue when the company XBRL-tags its
+      segments (most US hyperscalers do since ~2018).
+    limitations: >
+      XBRL concept names vary across companies (e.g. "Revenues" vs
+      "RevenueFromContractWithCustomerExcludingAssessedTax"). Some
+      concepts are missing for some periods. Foreign filers (20-F)
+      may use IFRS taxonomy instead of US-GAAP. Segment-level XBRL
+      tagging is inconsistent — check each company individually.
+
+  llm_primary:
+    description: >
+      For companies where XBRL data is incomplete, inconsistent, or
+      absent (especially Chinese names with changing segment
+      definitions), read the actual filing sections and extract via
+      LLM with judgment. Requires the filing to be in the archive
+      (data/_sources/).
+    when_to_use: >
+      Use for: (1) segment revenue on Chinese hyperscalers where XBRL
+      segment tagging is sparse, (2) AI-attributable capex isolation
+      (future), (3) any metric that requires reading narrative prose.
+    limitations: >
+      Interactive-only in v1 (requires Claude Code session). Each
+      extraction is one filing at a time. Cost scales with number of
+      filings × number of metrics.
+
+  hybrid:
+    description: >
+      XBRL first, LLM fallback. Try the companyfacts API; if the
+      data is there and looks clean, use it. If not (missing concept,
+      wrong value, no segment tagging), fall back to LLM extraction
+      from the actual filing.
+    when_to_use: >
+      Default for new datasets. Gets 80%+ coverage from XBRL (free,
+      fast) and reserves LLM for the 20% that genuinely needs
+      judgment.
+
+  fx_treatment:
+    description: >
+      All values stored in BOTH local reporting currency (value) and
+      USD (value_usd). FX rate sourced from frankfurter.app (ECB data)
+      as of the period_of_report end date. Rate + date stored
+      alongside the value for full auditability.
+    affected_companies: [BABA, BIDU, GDS, "0700"]
+
+  whole_company_treatment:
+    description: >
+      For pure-play neoclouds (GDS, CRWV, APLD, IREN, NBIS), the
+      company's total revenue IS the cloud/datacenter revenue. No
+      segment extraction needed — the headline revenue figure is used
+      directly as cloud_segment_revenue.

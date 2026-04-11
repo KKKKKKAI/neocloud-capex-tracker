@@ -136,6 +136,72 @@ def fetch_concept_timeseries(
     return result
 
 
+def decumulate_quarterly(
+    series: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Convert cumulative YTD values to standalone quarterly values.
+
+    SEC XBRL 10-Q data is cumulative year-to-date:
+        Q1 = just Q1
+        Q2 = Q1 + Q2
+        Q3 = Q1 + Q2 + Q3
+        10-K (FY) = Q1 + Q2 + Q3 + Q4
+
+    This function produces standalone quarterly values:
+        Q1_standalone = Q1
+        Q2_standalone = Q2_ytd - Q1
+        Q3_standalone = Q3_ytd - Q2_ytd
+        Q4_standalone = FY - Q3_ytd
+
+    Returns a new list sorted by end date. Each entry gets an
+    additional 'val_quarterly' field with the standalone value.
+    The original 'val' (cumulative) is preserved.
+    """
+    if not series:
+        return []
+
+    # Group by fiscal year
+    by_fy: dict[int, list[dict]] = {}
+    for point in series:
+        fy = point.get("fy")
+        if fy is None:
+            continue
+        by_fy.setdefault(fy, []).append(point)
+
+    result = []
+    for fy in sorted(by_fy.keys()):
+        points = sorted(by_fy[fy], key=lambda x: x["end"])
+
+        prev_val = 0
+        for point in points:
+            fp = point.get("fp", "")
+            val = point["val"]
+
+            if fp == "Q1":
+                # Q1 is already standalone
+                quarterly_val = val
+                prev_val = val
+            elif fp in ("Q2", "Q3"):
+                # De-cumulate: standalone = YTD - previous YTD
+                quarterly_val = val - prev_val
+                prev_val = val
+            elif fp == "FY":
+                # Q4 = FY total - Q3 YTD
+                quarterly_val = val - prev_val
+                prev_val = 0  # reset for next year
+            else:
+                # Unknown fiscal period, keep as-is
+                quarterly_val = val
+
+            result.append({
+                **point,
+                "val_quarterly": quarterly_val,
+            })
+
+    result.sort(key=lambda x: x["end"])
+    return result
+
+
 def fetch_segment_timeseries(
     cik: str,
     segment_name: str,
@@ -152,38 +218,12 @@ def fetch_segment_timeseries(
     Returns the same format as fetch_concept_timeseries, or an empty
     list if no segment data is found.
     """
-    facts = _fetch_companyfacts(cik)
-    taxonomy_facts = facts.get("facts", {}).get("us-gaap", {})
-
-    # Revenue concepts to try
-    revenue_concepts = [
-        "RevenueFromContractWithCustomerExcludingAssessedTax",
-        "Revenues",
-        "Revenue",
-        "SalesRevenueNet",
-    ]
-
-    for concept_name in revenue_concepts:
-        concept_data = taxonomy_facts.get(concept_name, {})
-        units = concept_data.get("units", {})
-        entries = units.get("USD", units.get("CNY", []))
-
-        # Filter for entries that have a segment dimension matching our target
-        segment_entries = []
-        for entry in entries:
-            # XBRL segment data often appears with a "segment" or "members" tag
-            # in the frame field, or as separate entries with segment qualifiers.
-            # The companyfacts API flattens dimensions, so segment-level data
-            # appears as separate entries with different "frame" values.
-            #
-            # Unfortunately, the companyfacts API doesn't cleanly expose
-            # segment dimensions — it primarily returns company-level totals.
-            # Segment-level XBRL data requires parsing the actual XBRL filing.
-            #
-            # For now, return empty — segment extraction falls back to LLM.
-            pass
-
-    return []  # Segment XBRL not reliably available via companyfacts API
+    # The companyfacts API doesn't cleanly expose segment dimensions —
+    # it primarily returns company-level totals. Segment-level XBRL
+    # data requires parsing the actual XBRL filing.
+    # For now, return empty — segment extraction falls back to LLM.
+    _ = cik, segment_name, start_date  # suppress unused warnings
+    return []
 
 
 def write_timeseries_to_db(
@@ -335,7 +375,6 @@ def _ensure_source_doc(
         _compute_fiscal_year,
         _compute_period_token,
     )
-    from ..db.sync import _now_iso
 
     with db.connect() as conn:
         company = conn.execute(

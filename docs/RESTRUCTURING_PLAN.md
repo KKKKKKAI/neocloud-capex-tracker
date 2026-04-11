@@ -500,13 +500,22 @@ extraction or multi-model comparison becomes necessary.
 - [ ] 3.5.5 Add segment revenue/cost extraction — identify cloud/datacenter segment tables (MSFT "Intelligent Cloud", AMZN "AWS", GOOGL "Google Cloud", META "Family of Apps" vs "Reality Labs"), extract segment revenue. Requires a per-company segment-name mapping in `metric_definitions.yaml` or a separate config.
 - [ ] 3.5.6 Add adapters for other models: `google.py` (Gemini), `openai.py` (GPT-4o), etc. Wire model selection via `CAPEX_EXTRACT_MODEL` env var.
 
-### Phase 4 — Validation hardening + Excel export (deferrable)
+### Phase 4 — Data quality + Excel export
 
-- [ ] 4.1 Implement `src/capex/validation/provenance.py` (substring match)
-- [ ] 4.2 Implement `src/capex/validation/consistency.py` (range/ratio rules in Python)
-- [ ] 4.3 Implement `src/capex/exporters/excel.py` (read DB → openpyxl workbook)
-- [ ] 4.4 Update `.github/workflows/ci.yml` to test the new structure
-- [ ] 4.5 Update `.github/workflows/watcher.yml` and `organize-sources.yml` to use new entrypoints
+- [ ] 4.1 Fix XBRL concept gaps: add alternative XBRL concepts for META (revenue 2018+), GOOGL (2022 gap). Filter NBIS to FY2024+ (post-Yandex restructuring). Re-run affected companies.
+- [ ] 4.2 Implement de-cumulation in query/export layer — 10-Q values are cumulative YTD in DB; export computes standalone quarterly = YTD(Qn) - YTD(Qn-1). Balance sheet items (PP&E) are point-in-time and not de-cumulated.
+- [ ] 4.3 Implement `src/capex/validation/consistency.py` — sanity rules across all extractions: capex > 0, revenue > 0, capex < total_assets, OCF reasonable range. Flag violations, don't block.
+- [ ] 4.4 Implement `src/capex/exporters/excel.py` — read DB → openpyxl workbook with these sheets:
+  - **Revenue (Annual)** — one row per company, one column per fiscal year. USD-normalized.
+  - **Revenue (Quarterly)** — one row per company, one column per quarter. De-cumulated standalone values.
+  - **Capex (Annual)** — same layout as Revenue Annual. The headline deliverable.
+  - **Capex (Quarterly)** — de-cumulated quarterly standalone capex.
+  - **All Metrics (Annual)** — company × metric × year pivot. Full annual dataset.
+  - **All Metrics (Quarterly)** — same but quarterly granularity.
+  - **Data Quality** — flags: META gaps, NBIS pre-restructuring, concept mismatches, missing periods.
+  - **Metadata** — extraction timestamps, XBRL concepts used, FX rates, coverage dates, methodology notes.
+- [ ] 4.5 Add `capex export` CLI subcommand — generates the workbook to `workbook/capex_tracker.xlsx`.
+- [ ] 4.6 Update `.github/workflows/ci.yml` — install openpyxl, run full test suite including new tests.
 
 ### Phase 5 — End-to-end hardening
 

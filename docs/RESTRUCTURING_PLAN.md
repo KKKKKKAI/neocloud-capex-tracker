@@ -553,6 +553,24 @@ archived copy's URL in the Excel output.
 - [ ] 6A.3.3 Ensure all modules have clear docstrings explaining their role and when to use them.
 - [ ] 6A.3.4 Check for hardcoded paths, temp file usage, or patterns that bypass the fetch→archive→extract pipeline.
 
+#### 6A.3B — Remove canonical layer, rename at download time
+
+**Decision 2026-04-12:** the canonical copy layer (`organize-sources`)
+is removed. Files are saved with the canonical name format directly
+in `_raw/` at download time. This eliminates the duplicate copy that
+doubled disk usage (~1.7 GB saved on the big pull).
+
+New download naming: `_raw/[dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>`
+
+Changes:
+- [ ] 6A.3B.1 Update `src/capex/fetch/sec.py` and `hkex.py`: at download time, compute the canonical filename using `namer.canonical_name()` instead of sanitizing the regulator's filename. Requires period_token and filing_date which are already available from the submissions API response.
+- [ ] 6A.3B.2 Update `src/capex/fetch/dispatcher.py`: pass period_token + fiscal_year info to the fetcher so it can build the canonical name.
+- [ ] 6A.3B.3 Remove `capex organize` CLI command (or make it a no-op with deprecation message).
+- [ ] 6A.3B.4 Drop `canonical_path` usage in `source_documents` — `raw_path` IS the canonical path now. Leave the column nullable for backward compat but stop writing to it.
+- [ ] 6A.3B.5 Remove `src/capex/organize/walker.py` (the sweep logic is no longer needed).
+- [ ] 6A.3B.6 Clean up existing canonical copies in `data/_sources/<TICKER>/<YYYY>/` if any exist locally.
+- [ ] 6A.3B.7 Update `skills/organize-sources/SKILL.md` — mark as deprecated, explain that naming now happens at fetch time.
+
 #### 6A.4 — Download reports + build local index (the "big pull")
 
 **Purpose:** download every report that backs a data point in our DB,

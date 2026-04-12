@@ -1,6 +1,6 @@
 # Restructuring Plan — v0.5 → v0.6
 
-**Status:** Phase 1 complete (2026-04-09). Phases 2-5 pending.
+**Status:** Phases 1-4 complete (2026-04-12). Phase 5 (hardening) + Phases 6-8 (new) pending.
 **Created:** 2026-04-09
 **Owner:** @KKKKKKAI
 **Supersedes:** parts of `SYSTEM_DESIGN.md` (rewritten in Phase 1).
@@ -480,13 +480,7 @@ Companies requiring FX conversion:
 - All others → USD (no conversion, fx_rate=1.0)
 - IREN: Australian company but reports in USD on NASDAQ
 
-- [ ] 3.6.1 Create `src/capex/db/migrations/0002_fx_normalization.sql` — add `reporting_currency` to `companies`, add `fx_rates` table, add `value_usd`/`fx_rate`/`fx_rate_date`/`reporting_currency` to `extractions`.
-- [ ] 3.6.2 Update `_identity.yaml` — add `reporting_currency` for non-USD companies (BABA/BIDU/GDS/0700 → CNY).
-- [ ] 3.6.3 Update `src/capex/db/sync.py` — handle new `reporting_currency` field in company sync.
-- [ ] 3.6.4 Implement `src/capex/fx/rates.py` — fetch period-end FX rates from frankfurter.app, cache in `fx_rates` table. Stdlib HTTP only.
-- [ ] 3.6.5 Update `src/capex/extract/writer.py` — after inserting an extraction, look up the company's reporting_currency. If non-USD, fetch the FX rate for `period_of_report` date, compute `value_usd = value * fx_rate`, write both to the row.
-- [ ] 3.6.6 Update `src/capex/query/line_items.py` — return `value_usd` alongside `value` in query results. Display both when currencies differ.
-- [ ] 3.6.7 **Verify:** extract a metric for a CNY company (e.g. run dry-run against BABA 20-F), confirm FX rate lookup works and value_usd is populated correctly.
+- [x] 3.6.1–3.6.7 **COMPLETE 2026-04-10.** Migration 0002, frankfurter.app FX integration, writer auto-normalization, verified with BABA (¥73,038M capex → $10,070 USD at CNY/USD 0.13787).
 
 #### Phase 3.5 — Adapter migration + advanced metrics (deferred)
 
@@ -497,32 +491,173 @@ extraction or multi-model comparison becomes necessary.
 - [ ] 3.5.2 Implement `src/capex/extract/extractor.py` — headless orchestrator that calls an adapter programmatically (no Claude Code in the loop). Reads sections, formats prompt, calls adapter, parses response, hands to writer.py.
 - [ ] 3.5.3 Wire the `capex extract <TICKER>` CLI to call the headless extractor instead of printing dry-run output. Requires `ANTHROPIC_API_KEY` to be set.
 - [ ] 3.5.4 Add AI-attributable capex prompt — reads MD&A and footnotes to isolate the AI infrastructure fraction of total capex. Writes to a new `metric_key` (e.g. `ai_capex_estimate`) with `extraction_type = 'inferred'`.
-- [ ] 3.5.5 Add segment revenue/cost extraction — identify cloud/datacenter segment tables (MSFT "Intelligent Cloud", AMZN "AWS", GOOGL "Google Cloud", META "Family of Apps" vs "Reality Labs"), extract segment revenue. Requires a per-company segment-name mapping in `metric_definitions.yaml` or a separate config.
+- [x] 3.5.5 **COMPLETE 2026-04-12.** Segment extraction via `src/capex/extract/segment.py` (generalized table scorer + multi-strategy parser). Cloud segment revenue extracted for 12 companies, 87+ data points FY2014–FY2025. Coverage treatment system in `data/seeds/coverage.yaml`. BIDU derivation (Others-iQIYI). Tencent HKEX PDF extraction via pdfplumber. XBRL time series for headline metrics (1,200+ data points).
 - [ ] 3.5.6 Add adapters for other models: `google.py` (Gemini), `openai.py` (GPT-4o), etc. Wire model selection via `CAPEX_EXTRACT_MODEL` env var.
 
-### Phase 4 — Data quality + Excel export
+### Phase 4 — Data quality + Excel export ✅ COMPLETE 2026-04-12
 
-- [ ] 4.1 Fix XBRL concept gaps: add alternative XBRL concepts for META (revenue 2018+), GOOGL (2022 gap). Filter NBIS to FY2024+ (post-Yandex restructuring). Re-run affected companies.
-- [ ] 4.2 Implement de-cumulation in query/export layer — 10-Q values are cumulative YTD in DB; export computes standalone quarterly = YTD(Qn) - YTD(Qn-1). Balance sheet items (PP&E) are point-in-time and not de-cumulated.
-- [ ] 4.3 Implement `src/capex/validation/consistency.py` — sanity rules across all extractions: capex > 0, revenue > 0, capex < total_assets, OCF reasonable range. Flag violations, don't block.
-- [ ] 4.4 Implement `src/capex/exporters/excel.py` — read DB → openpyxl workbook with these sheets:
-  - **Revenue (Annual)** — one row per company, one column per fiscal year. USD-normalized.
-  - **Revenue (Quarterly)** — one row per company, one column per quarter. De-cumulated standalone values.
-  - **Capex (Annual)** — same layout as Revenue Annual. The headline deliverable.
-  - **Capex (Quarterly)** — de-cumulated quarterly standalone capex.
-  - **All Metrics (Annual)** — company × metric × year pivot. Full annual dataset.
-  - **All Metrics (Quarterly)** — same but quarterly granularity.
-  - **Data Quality** — flags: META gaps, NBIS pre-restructuring, concept mismatches, missing periods.
-  - **Metadata** — extraction timestamps, XBRL concepts used, FX rates, coverage dates, methodology notes.
-- [ ] 4.5 Add `capex export` CLI subcommand — generates the workbook to `workbook/capex_tracker.xlsx`.
-- [ ] 4.6 Update `.github/workflows/ci.yml` — install openpyxl, run full test suite including new tests.
+- [x] 4.1 XBRL concept gaps fixed: META (+29 rows), GOOGL (+13), AMZN alt capex concept (+34), BABA (+2). NBIS filtered to FY2024+.
+- [x] 4.2 De-cumulation implemented in Excel exporter: flow metrics (revenue, capex, OCF, D&A) de-cumulated to standalone quarterly. Stock metrics (PP&E) point-in-time. Annual-only fiscal years excluded from quarterly sheets.
+- [ ] 4.3 Implement `src/capex/validation/consistency.py` — sanity rules. (deferred — nice-to-have)
+- [x] 4.4 Excel export: 8-sheet workbook with Revenue/Capex annual+quarterly, All Metrics, Data Quality flags, Metadata. Dedup logic for overlapping extractions (claude-code vs xbrl-companyfacts).
+- [x] 4.5 CLI: `capex export`, `capex chart`. Chart module (`src/capex/exporters/charts.py`) with auto-recalculated YoY growth — no filtering, no caching.
+- [ ] 4.6 CI workflow updates. (deferred)
 
-### Phase 5 — End-to-end hardening
+### Phase 5 — End-to-end hardening (deferred)
 
 - [ ] 5.1 Automated integration test for the Phase 3 vertical slice
 - [ ] 5.2 Golden-set seed for MSFT FY2025 capex
 - [ ] 5.3 Update `SYSTEM_DESIGN.md` with anything learned during implementation
 - [ ] 5.4 Archive this `RESTRUCTURING_PLAN.md` once all checkboxes are flipped
+
+### Phase 6 — Provenance & auditability in Excel output
+
+Every data point in the workbook must be traceable to its source filing.
+A human analyst should be able to right-click any cell, read the comment
+(Shift+F2), and know exactly which document and section the number came
+from — without leaving Excel.
+
+#### 6.1 — Source citation format
+
+For **SEC filings**, each cell comment should follow:
+```
+Source: [TICKER] FY2025 10-K
+Section: Item 8 - Financial Statements, Consolidated Cash Flows
+Line: "Additions to property and equipment"
+Value: $64,551M (as reported)
+Extracted: 2026-04-10 via xbrl-companyfacts
+```
+
+For **HKEX filings**, adapt to HKEX conventions:
+```
+Source: [0700] FY2025 Annual Report (HKEXnews)
+Section: Management Discussion and Analysis, Revenue by Segment
+Line: "金融科技及企業服務" (FinTech and Business Services)
+Value: RMB 229,435M → $32,772M USD (FX: CNY/USD 0.1428 @ 2025-12-31)
+Extracted: 2026-04-12 via claude-code-pdf
+```
+
+For **derived values** (e.g. BIDU cloud = Others - iQIYI):
+```
+Source: [BIDU] FY2025 20-F
+Derivation: Others (RMB 61,242M) - iQIYI (RMB 27,290M) = RMB 33,952M
+Rationale: "Others mainly include revenue from cloud services and iQIYI"
+See: data/seeds/coverage.yaml → BIDU adjustment
+```
+
+#### 6.2 — Steps
+
+- [ ] 6.2.1 Add `source_citation` column to `extractions` table (migration 0004) — stores the formatted citation string at extraction time. Populated by writer.py from the existing `quote`, `locator_section`, `extracting_model`, and source_documents fields.
+- [ ] 6.2.2 Backfill `source_citation` for all existing extractions — derive from the existing metadata fields in a one-time migration script.
+- [ ] 6.2.3 Update `src/capex/exporters/excel.py` — for each data cell, add an Excel comment (openpyxl `Comment` object) containing the source citation. Comment visible on Shift+F2 / right-click → Show Comment.
+- [ ] 6.2.4 For derived extractions (BIDU, etc.), include the derivation formula + rationale from `coverage.yaml` in the comment.
+- [ ] 6.2.5 For XBRL-sourced extractions, include the XBRL concept name and the companyfacts API URL.
+- [ ] 6.2.6 For FX-converted values, include the rate, date, and source in the comment.
+- [ ] 6.2.7 **Test**: open the generated workbook in Excel, Shift+F2 on a MSFT capex cell → should show "Source: MSFT FY2025 10-K, Item 8 - Cash Flows, line 'Additions to property and equipment'". Shift+F2 on a BABA cell → should show the derivation formula.
+
+### Phase 7 — Cover sheet + table of contents
+
+The workbook needs a professional front page that orients the reader
+and provides navigation.
+
+#### 7.1 — Cover sheet contents
+
+- [ ] 7.1.1 **Cover Sheet** (first sheet in workbook):
+  - Title: "AI Infrastructure Capex & Cloud Revenue Tracker"
+  - Reporting currency: "All values in USD millions unless stated"
+  - Data as of: "[date of last extraction run]"
+  - Number of companies: 13 tracked, 12 with cloud segment data
+  - Data points: [total extractions count]
+  - Sources: SEC EDGAR (XBRL + 10-K/20-F), HKEXnews (annual reports)
+  - Coverage period: FY2015–FY2025
+  - Methodology summary: link to `docs/SYSTEM_DESIGN.md` and `data/seeds/coverage.yaml`
+  - Disclaimer: "Data extracted programmatically. Verify against source filings before use."
+
+- [ ] 7.1.2 **Table of Contents** (on the cover sheet or as a second sheet):
+  - Hyperlinked list of all sheets in the workbook
+  - For each sheet: title, description (1-line), row count, period coverage
+  - Links are clickable in Excel (openpyxl internal hyperlinks to sheet!A1)
+  - Sheets listed:
+    1. Revenue (Annual) — annual revenue by company
+    2. Revenue (Quarterly) — quarterly de-cumulated
+    3. Capex (Annual)
+    4. Capex (Quarterly)
+    5. Cloud Segment Revenue (Annual) ← **NEW sheet needed**
+    6. Cloud Segment Revenue (Quarterly) ← **NEW if quarterly data available**
+    7. All Metrics (Annual)
+    8. All Metrics (Quarterly)
+    9. Data Quality — flags + notes
+    10. Metadata — coverage, FX, extraction info
+
+- [ ] 7.1.3 Update `src/capex/exporters/excel.py` to generate Cover + TOC as the first sheet(s).
+- [ ] 7.1.4 Add Cloud Segment Revenue sheets (annual + quarterly where available) to the workbook — currently cloud revenue only appears in the chart, not in the Excel.
+
+### Phase 8 — Interactive GitHub chart + quarterly reconciliation
+
+Replace the static PNG chart on the README with an interactive
+visualization that users can explore without cloning the repo.
+
+#### 8.1 — Interactive chart technology
+
+Options considered:
+- **Plotly** → generates standalone HTML with interactivity (zoom, hover,
+  toggle series). Can be embedded in GitHub Pages but NOT in README.md
+  (GitHub strips JS).
+- **GitHub Pages site** → a simple `docs/` site with the Plotly chart.
+  Users visit `KKKKKKAI.github.io/neocloud-capex-tracker/` to interact.
+  README links to it. This is the recommended approach.
+- **Observable/D3** → overkill for this use case.
+- **Altair/Vega-Lite** → generates JSON spec, renderable in some contexts.
+
+**Recommendation: Plotly HTML → GitHub Pages.**
+
+#### 8.2 — Steps
+
+- [ ] 8.2.1 Install Plotly (`pip install plotly`). Add to pyproject.toml `[export]` extra.
+- [ ] 8.2.2 Implement `src/capex/exporters/interactive_chart.py`:
+  - Stacked bar chart with company toggle (click legend to show/hide)
+  - Primary Y-axis: aggregated revenue ($B USD)
+  - Secondary Y-axis: YoY growth line (auto-recalculated, same as charts.py)
+  - Radio buttons or dropdown: switch between Annual and Quarterly view
+  - Hover tooltips: company name, exact value, % of total, source filing
+  - YoY growth recalculated dynamically when companies are toggled
+  - Export as standalone HTML (`docs/chart.html`)
+- [ ] 8.2.3 Add quarterly cloud segment revenue data:
+  - For US hyperscalers (MSFT, AMZN, GOOGL, ORCL): extract quarterly
+    segment data from 10-Q filings (same approach as annual, applied to
+    quarterly filings we haven't downloaded yet)
+  - For pure-plays: quarterly total revenue already in DB from XBRL
+  - For 20-F filers: annual only (no quarterly source)
+  - For Tencent: semi-annual (HK-IR has H1 data)
+- [ ] 8.2.4 Implement annual ↔ quarterly reconciliation:
+  - Sum of 4 quarterly values must equal the annual total (within 1%)
+  - Flag discrepancies in the Data Quality sheet
+  - For the interactive chart: when user switches to quarterly view,
+    show the de-cumulated standalone quarterly values; when switching
+    to annual, show the annual totals. If quarterly sum ≠ annual total,
+    annotate the discrepancy.
+- [ ] 8.2.5 Set up GitHub Pages:
+  - Enable Pages in repo settings (source: `docs/` folder)
+  - Generate `docs/index.html` with the Plotly chart
+  - Add link to README: "**[Interactive Chart →](https://KKKKKKAI.github.io/neocloud-capex-tracker/)**"
+- [ ] 8.2.6 Add `capex chart --interactive` CLI flag to regenerate the HTML chart.
+- [ ] 8.2.7 Keep the static PNG chart in README as a fallback (for contexts
+  where GitHub Pages isn't accessible). The PNG is still auto-generated
+  by `capex chart` and shows the same data as the interactive version.
+
+#### 8.3 — Quarterly data pull (prerequisite for quarterly view)
+
+This is the "big filing download" that was deferred earlier. Required
+to populate quarterly segment revenue for the interactive chart's
+quarterly view.
+
+- [ ] 8.3.1 Download historical 10-Q filings for MSFT, AMZN, GOOGL, ORCL
+  (3 per year × 10 years × 4 companies = ~120 filings, ~300 MB).
+- [ ] 8.3.2 Extract quarterly cloud segment revenue from each 10-Q using
+  the existing `segment.py` parser.
+- [ ] 8.3.3 Reconcile quarterly sums against annual totals. Flag
+  discrepancies > 1%.
+- [ ] 8.3.4 Write results to DB and regenerate both static + interactive charts.
 
 ---
 
@@ -535,15 +670,18 @@ extraction or multi-model comparison becomes necessary.
 - ~~Mirror URL / IR-site fallback policy~~ → Resolved 2026-04-09: regulator-only, identity-only YAML, no exceptions ever.
 - ~~SEC User-Agent string~~ → Resolved by D4: `f.kai.ye03@gmail.com`, env-var override.
 
+**Resolved since Phase 3:**
+
+- ~~Excel export shape~~ → 8+ sheets: per-metric annual+quarterly, all-metrics pivot, data quality, metadata. Phase 7 adds cover sheet + TOC.
+- ~~Section heading parsing~~ → Resolved: SEC uses Item numbers, HKEX uses Chinese headings. Both handled by `sections.py`. Locator stored as-is (not normalized) — each source has its own conventions.
+- ~~`locator_page` column~~ → Kept nullable. Used for HKEX PDFs where page numbers are meaningful. Not used for SEC HTML.
+
 **Still open:**
 
-- [ ] **Excel export shape (Phase 4):** one sheet per metric? one sheet per company? mirror the old `source_data` shape? Decide in Phase 4 kickoff.
-- [ ] **Extraction prompt versioning strategy:** prompts pinned per `protocol_version`, or independently versioned with their own field? Decide in Phase 3 step 3.8.
-- [ ] **Adapters beyond Anthropic:** Gemini? OpenAI? Decide once Phase 3 lands and we have measured cost per extraction.
-- [ ] **Watcher layer:** the v0.5 design had a watcher polling EDGAR. Not in any phase yet. Add when fetch + organize + extract + query are all stable. Likely lands as a thin GitHub Actions cron job that calls `capex fetch` for each company in `_identity.yaml`.
-- [ ] **6-K subtype filtering for foreign issuers:** when we eventually fetch BABA/BIDU/etc 6-K filings (post-Phase 2b), do we ingest all 6-Ks or filter to ones containing earnings press releases? 6-K is a heterogeneous form. Open until quarterly visibility for Chinese hyperscalers becomes load-bearing.
-- [ ] **`extractions.locator_page` column:** kept nullable in the v0.1 schema. Phase 3 may drop it via migration 0002 once we confirm the section + quote locator strategy works. Don't drop early — keep optionality until we have at least 10 real extractions in the DB.
-- [ ] **Section heading parsing across regulators:** SEC HTML 10-Ks use `Item 1`, `Item 7`, etc. HKEX PDFs use different conventions ("Management Discussion and Analysis", "Financial Statements", numbered notes). The locator_section field needs a normalized form that's consistent across regulators. Decide in Phase 3 when read/sections.py is implemented.
+- [ ] **Watcher layer:** automated filing detection via GitHub Actions cron. Deferred until all extraction patterns are stable.
+- [ ] **6-K subtype filtering:** quarterly for foreign issuers. Deferred.
+- [ ] **Adapters beyond Anthropic:** Gemini, OpenAI. Deferred.
+- [ ] **Extraction prompt versioning:** deferred until headless adapters land.
 
 ---
 

@@ -98,6 +98,14 @@ INSERT INTO "audit_log" VALUES(83,'2026-04-12T12:43:12+00:00','read-and-extract@
 INSERT INTO "audit_log" VALUES(84,'2026-04-12T12:43:12+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1276,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 331, "value": 7417.1}');
 INSERT INTO "audit_log" VALUES(85,'2026-04-12T12:43:12+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1277,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 332, "value": 8921.2}');
 INSERT INTO "audit_log" VALUES(86,'2026-04-12T12:43:12+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1278,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 12, "value": 117.5}');
+INSERT INTO "audit_log" VALUES(87,'2026-04-12T13:22:12+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1279,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 265, "value": 103497}');
+INSERT INTO "audit_log" VALUES(88,'2026-04-12T13:22:12+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1280,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 266, "value": 106374}');
+INSERT INTO "audit_log" VALUES(89,'2026-04-12T13:22:12+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1281,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 6, "value": 118028}');
+INSERT INTO "audit_log" VALUES(90,'2026-04-12T13:22:13+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1282,'{"extracting_model": "claude-code-batch", "metric_key": "cloud_segment_revenue", "source_document_id": 111, "value": 18034}');
+INSERT INTO "audit_log" VALUES(91,'2026-04-12T13:22:13+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1283,'{"extracting_model": "claude-code-batch", "metric_key": "cloud_segment_revenue", "source_document_id": 107, "value": 15446}');
+INSERT INTO "audit_log" VALUES(92,'2026-04-12T13:22:14+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1284,'{"extracting_model": "claude-code-batch", "metric_key": "cloud_segment_revenue", "source_document_id": 103, "value": 10599}');
+INSERT INTO "audit_log" VALUES(93,'2026-04-12T13:22:14+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1285,'{"extracting_model": "claude-code-batch", "metric_key": "cloud_segment_revenue", "source_document_id": 96, "value": 7465}');
+INSERT INTO "audit_log" VALUES(94,'2026-04-12T13:22:18+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1286,'{"extracting_model": "claude-code-batch", "metric_key": "cloud_segment_revenue", "source_document_id": 155, "value": 19206}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -1415,6 +1423,14 @@ INSERT INTO "extractions" VALUES(1275,330,'cloud_segment_revenue',4794.2,'$4,794
 INSERT INTO "extractions" VALUES(1276,331,'cloud_segment_revenue',7417.1,'$7,417 million','USD_millions','Pure-play: total revenue = cloud/datacenter revenue',NULL,'whole_company treatment per coverage.yaml','derived',NULL,'claude-code','0.1.0-draft','2026-04-12T12:43:12+00:00',7417.1,1.0,'2022-12-31','USD');
 INSERT INTO "extractions" VALUES(1277,332,'cloud_segment_revenue',8921.2,'$8,921 million','USD_millions','Pure-play: total revenue = cloud/datacenter revenue',NULL,'whole_company treatment per coverage.yaml','derived',NULL,'claude-code','0.1.0-draft','2026-04-12T12:43:12+00:00',8921.2,1.0,'2023-12-31','USD');
 INSERT INTO "extractions" VALUES(1278,12,'cloud_segment_revenue',117.5,'$118 million','USD_millions','Pure-play: total revenue = cloud/datacenter revenue',NULL,'whole_company treatment per coverage.yaml','derived',NULL,'claude-code','0.1.0-draft','2026-04-12T12:43:12+00:00',117.5,1.0,'2024-12-31','USD');
+INSERT INTO "extractions" VALUES(1279,265,'cloud_segment_revenue',103497.0,'RMB 103,497M','USD_millions','Cloud Intelligence Group 103,497 106,374 118,028',NULL,'Segment Information, Cloud Intelligence Group Revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T13:22:12+00:00',15054.67,0.14546,'2023-03-31','CNY');
+INSERT INTO "extractions" VALUES(1280,266,'cloud_segment_revenue',106374.0,'RMB 106,374M','USD_millions','Cloud Intelligence Group 103,497 106,374 118,028',NULL,'Segment Information, Cloud Intelligence Group Revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T13:22:12+00:00',14716.84,0.13835,'2024-03-31','CNY');
+INSERT INTO "extractions" VALUES(1281,6,'cloud_segment_revenue',118028.0,'RMB 118,028M','USD_millions','Cloud Intelligence Group 103,497 106,374 118,028',NULL,'Segment Information, Cloud Intelligence Group Revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T13:22:12+00:00',16272.52,0.13787,'2025-03-31','CNY');
+INSERT INTO "extractions" VALUES(1282,111,'cloud_segment_revenue',18034.0,'$18,034M','USD_millions','AWS segment revenue from 10-K',NULL,'Segment Information, AWS','direct',NULL,'claude-code-batch','0.1.0-draft','2026-04-12T13:22:13+00:00',18034.0,1.0,'2022-12-31','USD');
+INSERT INTO "extractions" VALUES(1283,107,'cloud_segment_revenue',15446.0,'$15,446M','USD_millions','AWS segment revenue (comparative) from 2022-12-31 10-K',NULL,'Segment Information, AWS','direct',NULL,'claude-code-batch','0.1.0-draft','2026-04-12T13:22:13+00:00',15446.0,1.0,'2021-12-31','USD');
+INSERT INTO "extractions" VALUES(1284,103,'cloud_segment_revenue',10599.0,'$10,599M','USD_millions','AWS segment revenue from 10-K',NULL,'Segment Information, AWS','direct',NULL,'claude-code-batch','0.1.0-draft','2026-04-12T13:22:14+00:00',10599.0,1.0,'2020-12-31','USD');
+INSERT INTO "extractions" VALUES(1285,96,'cloud_segment_revenue',7465.0,'$7,465M','USD_millions','AWS segment revenue (comparative) from 2020-12-31 10-K',NULL,'Segment Information, AWS','direct',NULL,'claude-code-batch','0.1.0-draft','2026-04-12T13:22:14+00:00',7465.0,1.0,'2019-12-31','USD');
+INSERT INTO "extractions" VALUES(1286,155,'cloud_segment_revenue',19206.0,'$19,206M','USD_millions','Google Cloud segment revenue from 10-K',NULL,'Segment Information, Google Cloud','direct',NULL,'claude-code-batch','0.1.0-draft','2026-04-12T13:22:18+00:00',19206.0,1.0,'2022-12-31','USD');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -1857,8 +1873,8 @@ CREATE INDEX idx_audit_log_ts
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',86);
-INSERT INTO "sqlite_sequence" VALUES('extractions',1278);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',94);
+INSERT INTO "sqlite_sequence" VALUES('extractions',1286);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',332);
 COMMIT;

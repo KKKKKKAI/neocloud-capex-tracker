@@ -23,6 +23,7 @@ from __future__ import annotations
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_OUTPUT = REPO_ROOT / "workbook" / "capex_tracker.xlsx"
@@ -128,15 +129,38 @@ def _build_metric_sheet(wb, conn, sheet_name, metric_key, cadence, hfont, hfill,
         cell.font = hfont
         cell.fill = hfill
 
-    # Data rows
+    # Data rows — with provenance comments
+    from openpyxl.comments import Comment
+
+    from .citations import format_citation
+
     for row_idx, ticker in enumerate(companies, 2):
         ws.cell(row=row_idx, column=1, value=ticker)
         ticker_data = data.get(ticker, {})
         for col_idx, period in enumerate(all_periods, 2):
-            val = ticker_data.get(period)
-            if val is not None:
-                cell = ws.cell(row=row_idx, column=col_idx, value=round(val))
-                cell.number_format = nfmt
+            entry = ticker_data.get(period)
+            if entry is None:
+                continue
+            if isinstance(entry, tuple):
+                val, meta = entry
+            else:
+                val, meta = entry, None
+
+            cell = ws.cell(row=row_idx, column=col_idx, value=round(val))
+            cell.number_format = nfmt
+
+            if meta:
+                try:
+                    citation = format_citation(
+                        meta.get("extraction", {}),
+                        meta.get("source_doc", {}),
+                        meta.get("company", {}),
+                    )
+                    cell.comment = Comment(citation, "capex-tracker")
+                    cell.comment.width = 400
+                    cell.comment.height = 250
+                except Exception:
+                    pass  # don't break export on citation errors
 
     # Auto-width for company column
     ws.column_dimensions["A"].width = 12
@@ -146,8 +170,9 @@ def _build_all_metrics_sheet(wb, conn, sheet_name, cadence, hfont, hfill, nfmt):
     """Build a sheet with all metrics: rows=company+metric, cols=periods."""
     ws = wb.create_sheet(sheet_name)
 
-    metrics = ["revenue", "capital_expenditures", "operating_cash_flow",
-               "depreciation_amortization", "property_plant_equipment_net"]
+    metrics = ["revenue", "cloud_segment_revenue", "capital_expenditures",
+               "operating_cash_flow", "depreciation_amortization",
+               "property_plant_equipment_net"]
 
     all_data = {}
     all_periods = set()
@@ -176,11 +201,36 @@ def _build_all_metrics_sheet(wb, conn, sheet_name, cadence, hfont, hfill, nfmt):
             if key not in all_data:
                 row_idx += 1
                 continue
+            from openpyxl.comments import Comment
+
+            from .citations import format_citation
+
             for col_idx, period in enumerate(all_periods, 3):
-                val = all_data[key].get(period)
-                if val is not None:
-                    cell = ws.cell(row=row_idx, column=col_idx, value=round(val))
-                    cell.number_format = nfmt
+                entry = all_data[key].get(period)
+                if entry is None:
+                    continue
+                if isinstance(entry, tuple):
+                    val, meta = entry
+                else:
+                    val, meta = entry, None
+                cell = ws.cell(
+                    row=row_idx, column=col_idx, value=round(val)
+                )
+                cell.number_format = nfmt
+                if meta:
+                    try:
+                        citation = format_citation(
+                            meta.get("extraction", {}),
+                            meta.get("source_doc", {}),
+                            meta.get("company", {}),
+                        )
+                        cell.comment = Comment(
+                            citation, "capex-tracker"
+                        )
+                        cell.comment.width = 400
+                        cell.comment.height = 250
+                    except Exception:
+                        pass
             row_idx += 1
 
     ws.column_dimensions["A"].width = 12
@@ -371,20 +421,33 @@ def _get_metric_data(
 
 def _get_annual_data(
     conn, metric_key: str
-) -> dict[str, dict[str, float]]:
-    """Get annual (FY-end) data for a metric."""
-    result: dict[str, dict[str, float]] = {}
+) -> dict[str, dict[str, Any]]:
+    """Get annual (FY-end) data for a metric.
 
-    # Get FYE months
+    Returns {ticker: {period_label: (value, metadata_dict)}}.
+    The metadata dict contains extraction + source_doc + company info
+    for provenance citations.
+    """
+    result: dict[str, dict[str, Any]] = {}
+
+    # Get FYE months + company info
     fye_months = {}
-    for r in conn.execute("SELECT ticker, fiscal_year_end_month FROM companies"):
-        fye_months[r[0]] = r[1]
+    company_info = {}
+    for r in conn.execute(
+        "SELECT ticker, fiscal_year_end_month, reporting_currency, "
+        "name FROM companies"
+    ):
+        fye_months[r["ticker"]] = r["fiscal_year_end_month"]
+        company_info[r["ticker"]] = dict(r)
 
-    # Deduplicate: same logic as quarterly — one row per (ticker, period)
     rows = conn.execute("""
         SELECT sd.ticker, sd.period_of_report, sd.period_token,
-               sd.fiscal_year, e.value_usd, e.value,
-               e.reporting_currency
+               sd.fiscal_year, sd.form_type, sd.filing_date,
+               sd.source, sd.source_url, sd.accession_number,
+               e.value_usd, e.value, e.reporting_currency,
+               e.quote, e.locator_section, e.extracting_model,
+               e.extraction_type, e.fx_rate, e.fx_rate_date,
+               e.metric_key
         FROM extractions e
         JOIN source_documents sd ON e.source_document_id = sd.id
         WHERE e.metric_key = ?
@@ -407,12 +470,10 @@ def _get_annual_data(
         period = r["period_of_report"]
         fy = r["fiscal_year"]
 
-        # Apply coverage start filter
         start = COVERAGE_START_OVERRIDES.get(ticker)
         if start and period < start:
             continue
 
-        # Filter to actual FYE month
         fye_m = fye_months.get(ticker, 12)
         period_month = int(period.split("-")[1])
         if period_month != fye_m:
@@ -422,32 +483,51 @@ def _get_annual_data(
         if val is None:
             continue
 
-        # Use fiscal year as the column label
         label = f"FY{fy}"
-        result.setdefault(ticker, {})[label] = abs(val)  # capex is sometimes negative
+        meta = {
+            "extraction": dict(r),
+            "source_doc": {
+                "ticker": ticker,
+                "form_type": r["form_type"],
+                "period_of_report": period,
+                "filing_date": r["filing_date"],
+                "source": r["source"],
+                "source_url": r["source_url"],
+                "accession_number": r["accession_number"],
+            },
+            "company": company_info.get(ticker, {}),
+        }
+        result.setdefault(ticker, {})[label] = (abs(val), meta)
 
     return result
 
 
 def _get_quarterly_data(
     conn, metric_key: str, is_flow: bool
-) -> dict[str, dict[str, float]]:
-    """Get quarterly data, de-cumulating flow metrics."""
-    result: dict[str, dict[str, float]] = {}
+) -> dict[str, dict[str, Any]]:
+    """Get quarterly data, de-cumulating flow metrics.
 
-    # Get FYE months
+    Returns {ticker: {period_label: (value, metadata_dict)}}.
+    """
+    result: dict[str, dict[str, Any]] = {}
+
     fye_months = {}
-    for r in conn.execute("SELECT ticker, fiscal_year_end_month FROM companies"):
-        fye_months[r[0]] = r[1]
+    company_info = {}
+    for r in conn.execute(
+        "SELECT ticker, fiscal_year_end_month, reporting_currency, "
+        "name FROM companies"
+    ):
+        fye_months[r["ticker"]] = r["fiscal_year_end_month"]
+        company_info[r["ticker"]] = dict(r)
 
-    # Deduplicate: for the same (ticker, period_of_report), take only
-    # one extraction — prefer the highest value_usd (avoids nulls) and
-    # the latest extraction. This prevents duplicate entries (e.g. from
-    # both claude-code and xbrl-companyfacts) from breaking de-cumulation.
     rows = conn.execute("""
         SELECT sd.ticker, sd.period_of_report, sd.period_token,
-               sd.fiscal_year, sd.form_type,
-               e.value_usd, e.value, e.reporting_currency
+               sd.fiscal_year, sd.form_type, sd.filing_date,
+               sd.source, sd.source_url, sd.accession_number,
+               e.value_usd, e.value, e.reporting_currency,
+               e.quote, e.locator_section, e.extracting_model,
+               e.extraction_type, e.fx_rate, e.fx_rate_date,
+               e.metric_key
         FROM extractions e
         JOIN source_documents sd ON e.source_document_id = sd.id
         WHERE e.metric_key = ?
@@ -463,23 +543,18 @@ def _get_quarterly_data(
         ORDER BY sd.ticker, sd.fiscal_year, sd.period_of_report
     """, (metric_key,)).fetchall()
 
-    # Group by ticker + fiscal year for de-cumulation
     by_ticker_fy: dict[str, dict[int, list]] = {}
     for r in rows:
         ticker = r["ticker"]
         start = COVERAGE_START_OVERRIDES.get(ticker)
         if start and r["period_of_report"] < start:
             continue
-
         fy = r["fiscal_year"]
         by_ticker_fy.setdefault(ticker, {}).setdefault(fy, []).append(r)
 
     for ticker, fy_data in by_ticker_fy.items():
         for _fy, points in fy_data.items():
             points.sort(key=lambda x: x["period_of_report"])
-
-            # Skip fiscal years that have ONLY an AR entry — those are
-            # annual-only data that can't be decomposed into quarters.
             tokens = {p["period_token"] for p in points}
             if tokens == {"AR"}:
                 continue
@@ -490,12 +565,10 @@ def _get_quarterly_data(
                 if val is None:
                     continue
                 val = abs(val)
-
                 token = p["period_token"]
                 period = p["period_of_report"]
 
                 if is_flow:
-                    # De-cumulate
                     if token == "Q1":
                         quarterly_val = val
                         prev_val = val
@@ -508,12 +581,26 @@ def _get_quarterly_data(
                     else:
                         quarterly_val = val
                 else:
-                    # Stock metric — use as-is
                     quarterly_val = val
 
-                # Label: "2024Q1", "2024Q2", etc.
                 label = f"{period[:4]}Q{_quarter_from_token(token)}"
-                result.setdefault(ticker, {})[label] = quarterly_val
+                meta = {
+                    "extraction": dict(p),
+                    "source_doc": {
+                        "ticker": ticker,
+                        "form_type": p["form_type"],
+                        "period_of_report": period,
+                        "filing_date": p["filing_date"],
+                        "source": p["source"],
+                        "source_url": p["source_url"],
+                        "accession_number": p["accession_number"],
+                    },
+                    "company": company_info.get(ticker, {}),
+                }
+                result.setdefault(ticker, {})[label] = (
+                    quarterly_val,
+                    meta,
+                )
 
     return result
 

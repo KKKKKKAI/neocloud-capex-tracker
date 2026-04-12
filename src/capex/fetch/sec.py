@@ -115,21 +115,26 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
     if size < SuspiciousFilingSizeError.MIN_BYTES or size > SuspiciousFilingSizeError.MAX_BYTES:
         raise SuspiciousFilingSizeError(source_url, size)
 
-    # 5. Compute hash and write to _raw/ atomically.
+    # 5. Compute hash and write to _raw/ with canonical name.
     sha256 = hashlib.sha256(body).hexdigest()
 
     raw_dir = SOURCES_DIR / ticker / "_raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
-    sanitized = _sanitize_filename(primary_doc)
-    raw_path = raw_dir / sanitized
 
-    # If a file with the same sanitized name already exists with a
-    # different hash (e.g. amended filing reusing the name), append a
-    # short hash suffix before the extension to disambiguate.
+    # Build canonical filename at download time — no separate organize step.
+    # Format: [dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>
+    ext = Path(primary_doc).suffix or ".htm"
+    from ..organize.namer import canonical_name, compute_period_token
+    # Look up FYE month from companies table (fall back to 12 if not found)
+    _fye = _get_fye_month(ticker)
+    _period_token = compute_period_token(form_type, period_of_report, _fye, ticker=ticker)
+    canon = canonical_name(filing_date, ticker, _period_token, form_type, ext)
+    raw_path = raw_dir / canon
+
+    # Dedup: if this exact file already exists, return existing.
     if raw_path.exists():
         existing_hash = hashlib.sha256(raw_path.read_bytes()).hexdigest()
         if existing_hash == sha256:
-            # Identical file already on disk — treat as no-op, return existing path.
             return _build_metadata(
                 ticker=ticker,
                 raw_path=raw_path,
@@ -140,7 +145,7 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
                 filing_date=filing_date,
                 period_of_report=period_of_report,
             )
-        # Hash differs — disambiguate by short hash suffix.
+        # Hash differs — append short hash to disambiguate.
         stem, suffix = raw_path.stem, raw_path.suffix
         raw_path = raw_path.with_name(f"{stem}-{sha256[:8]}{suffix}")
 
@@ -253,6 +258,21 @@ def _http_get_bytes(url: str) -> bytes:
         raise SourceUnavailableError("sec_edgar", e.code, f"GET {url}: {e.reason}") from e
     except urllib.error.URLError as e:
         raise SourceUnavailableError("sec_edgar", None, f"GET {url}: {e.reason}") from e
+
+
+def _get_fye_month(ticker: str) -> int:
+    """Look up fiscal year end month from the DB, default 12."""
+    import sqlite3
+    db_path = REPO_ROOT / "data" / "db" / "capex.db"
+    if not db_path.exists():
+        return 12
+    conn = sqlite3.connect(str(db_path))
+    row = conn.execute(
+        "SELECT fiscal_year_end_month FROM companies WHERE ticker=?",
+        (ticker,),
+    ).fetchone()
+    conn.close()
+    return row[0] if row else 12
 
 
 def _sanitize_filename(name: str) -> str:

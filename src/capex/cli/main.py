@@ -36,7 +36,9 @@ def main(argv: list[str] | None = None) -> int:
     if cmd == "fetch":
         return _fetch_command(rest)
     if cmd == "organize":
-        return _organize_command(rest)
+        print("DEPRECATED: organize is no longer needed.", file=sys.stderr)
+        print("Files are now saved with canonical names at download time.", file=sys.stderr)
+        return 0
     if cmd == "extract":
         return _extract_command(rest)
     if cmd == "export":
@@ -108,41 +110,6 @@ def _fetch_command(argv: list[str]) -> int:
     print(f"  period_of_report: {result['period_of_report']}")
     print(f"  sha256:           {result['sha256']}")
     print(f"  raw_path:         {result['raw_path']}")
-    return 0
-
-
-def _organize_command(argv: list[str]) -> int:
-    ticker_filter = None
-    dry_run = False
-    i = 0
-    while i < len(argv):
-        arg = argv[i]
-        if arg == "--ticker":
-            if i + 1 >= len(argv):
-                print("--ticker requires a value", file=sys.stderr)
-                return 2
-            ticker_filter = argv[i + 1]
-            i += 2
-        elif arg == "--dry-run":
-            dry_run = True
-            i += 1
-        else:
-            print(f"unknown option: {arg}", file=sys.stderr)
-            return 2
-
-    from capex.organize.walker import sweep
-
-    summary = sweep(ticker_filter=ticker_filter, dry_run=dry_run)
-    print("organize sweep complete:")
-    print(f"  scanned:                  {summary['scanned']}")
-    print(f"  copied:                   {summary['copied']}")
-    print(f"  skipped_already_canonical: {summary['skipped_already_canonical']}")
-    print(f"  collisions:               {summary['collisions']}")
-    if summary["errors"]:
-        print(f"  errors ({len(summary['errors'])}):")
-        for err in summary["errors"]:
-            print(f"    - {err}")
-        return 1
     return 0
 
 
@@ -287,9 +254,7 @@ def _print_help() -> None:
         "    db sync-all         run migrate + both syncs\n"
         "    fetch <T> <FORM>    fetch latest <FORM> for ticker <T> from regulator\n"
         "                        e.g. capex fetch MSFT 10-K\n"
-        "    organize            sweep data/_sources/ and create canonical copies\n"
-        "                        --ticker T   only this ticker\n"
-        "                        --dry-run    log actions without writing\n"
+        "    organize            (DEPRECATED — naming happens at fetch time)\n"
         "    extract <TICKER>    dry-run: show sections + metrics for extraction\n"
         "                        --form FORM  specify form type (default: latest annual)\n"
         "    export              generate Excel workbook from DB\n"

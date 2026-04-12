@@ -120,12 +120,22 @@ def fetch_latest(ticker: str, stock_code: str, form_type: str) -> dict[str, Any]
     # Derive period_of_report from the filing title or from a simple heuristic.
     period_of_report = _derive_period_of_report(match, filing_date, form_type)
 
-    # Sanitize filename and write to _raw/.
+    # Write to _raw/ with canonical name at download time.
     raw_dir = SOURCES_DIR / ticker / "_raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
+
     original_filename = web_path.split("/")[-1]
-    sanitized = _sanitize_filename(original_filename)
-    raw_path = raw_dir / sanitized
+    ext = Path(original_filename).suffix or ".pdf"
+
+    from ..organize.namer import canonical_name, compute_period_token
+    _fye = _get_fye_month(ticker)
+    _period_token = compute_period_token(
+        form_type, period_of_report, _fye, ticker=ticker
+    )
+    canon = canonical_name(
+        filing_date, ticker, _period_token, form_type, ext
+    )
+    raw_path = raw_dir / canon
 
     if raw_path.exists():
         existing_hash = hashlib.sha256(raw_path.read_bytes()).hexdigest()
@@ -139,7 +149,9 @@ def fetch_latest(ticker: str, stock_code: str, form_type: str) -> dict[str, Any]
                 filing_date=filing_date,
                 period_of_report=period_of_report,
             )
-        raw_path = raw_path.with_name(f"{raw_path.stem}-{sha256[:8]}{raw_path.suffix}")
+        raw_path = raw_path.with_name(
+            f"{raw_path.stem}-{sha256[:8]}{raw_path.suffix}"
+        )
 
     _atomic_write(raw_path, body)
 
@@ -289,6 +301,21 @@ def _http_get_bytes(url: str) -> bytes:
         raise SourceUnavailableError("hkex", e.code, f"GET {url}: {e.reason}") from e
     except urllib.error.URLError as e:
         raise SourceUnavailableError("hkex", None, f"GET {url}: {e.reason}") from e
+
+
+def _get_fye_month(ticker: str) -> int:
+    """Look up fiscal year end month from the DB, default 12."""
+    import sqlite3
+    db_path = REPO_ROOT / "data" / "db" / "capex.db"
+    if not db_path.exists():
+        return 12
+    conn = sqlite3.connect(str(db_path))
+    row = conn.execute(
+        "SELECT fiscal_year_end_month FROM companies WHERE ticker=?",
+        (ticker,),
+    ).fetchone()
+    conn.close()
+    return row[0] if row else 12
 
 
 def _sanitize_filename(name: str) -> str:

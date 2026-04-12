@@ -68,7 +68,6 @@ def _format_sec(
     value_usd = ext.get("value_usd")
     currency = ext.get("reporting_currency", "USD")
     fx_rate = ext.get("fx_rate")
-    source_url = doc.get("source_url", "")
 
     fy = _fiscal_year_label(period, form)
 
@@ -99,10 +98,11 @@ def _format_sec(
     else:
         lines.append(f"Method: {model}")
 
-    # Download link after 2-line break
-    if source_url and not source_url.startswith("xbrl://"):
+    # Download link — always construct the EXTERNAL SEC EDGAR URL
+    report_url = _build_external_url(doc, ext.get("extracting_model", ""))
+    if report_url:
         lines.append("")
-        lines.append(f"Report: {source_url}")
+        lines.append(f"Report: {report_url}")
 
     return "\n".join(lines)
 
@@ -123,7 +123,6 @@ def _format_hkex(
     value = ext.get("value")
     value_usd = ext.get("value_usd")
     fx_rate = ext.get("fx_rate")
-    source_url = doc.get("source_url", "")
 
     form_label = "Annual Report" if "AR" in form else "Interim Report"
     fy = period[:4]
@@ -160,9 +159,10 @@ def _format_hkex(
 
     lines.append(f"Method: {model}")
 
-    if source_url and not source_url.startswith("xbrl://"):
+    report_url = _build_external_url(doc, model)
+    if report_url:
         lines.append("")
-        lines.append(f"Report: {source_url}")
+        lines.append(f"Report: {report_url}")
 
     return "\n".join(lines)
 
@@ -182,7 +182,6 @@ def _format_derived(
     value_usd = ext.get("value_usd")
     fx_rate = ext.get("fx_rate")
     currency = ext.get("reporting_currency", "USD")
-    source_url = doc.get("source_url", "")
 
     fy = _fiscal_year_label(period, form)
     form_label = "20-F" if "20-F" in form else form
@@ -233,9 +232,10 @@ def _format_derived(
                 f"(source: ECB via frankfurter.app)"
             )
 
-    if source_url and not source_url.startswith("xbrl://"):
+    report_url = _build_external_url(doc, ext.get("extracting_model", ""))
+    if report_url:
         lines.append("")
-        lines.append(f"Report: {source_url}")
+        lines.append(f"Report: {report_url}")
 
     return "\n".join(lines)
 
@@ -243,6 +243,78 @@ def _format_derived(
 # -------------------------------------------------------------------
 # Helpers
 # -------------------------------------------------------------------
+
+
+def _build_external_url(doc: dict, model: str = "") -> str | None:
+    """Build the EXTERNAL download URL for a filing.
+
+    For SEC: https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/
+    For HKEX: use source_url directly (already external)
+    NEVER return local paths or XBRL API URLs.
+    """
+    source = doc.get("source", "")
+    source_url = doc.get("source_url", "")
+    accession = doc.get("accession_number", "")
+    ticker = doc.get("ticker", "")
+
+    if source in ("sec_edgar", "xbrl_api") and accession:
+        # Construct SEC EDGAR filing page URL from accession number
+        acc_nd = accession.replace("-", "")
+        # Get CIK from companies table
+        cik = _get_cik(ticker)
+        if cik:
+            cik_int = str(int(cik))
+            return (
+                f"https://www.sec.gov/Archives/edgar/data/"
+                f"{cik_int}/{acc_nd}/"
+            )
+
+    if source == "hkex" and source_url:
+        # HKEXnews URL is already external
+        if source_url.startswith("http"):
+            return source_url
+
+    if source_url and source_url.startswith("http"):
+        return source_url
+
+    return None
+
+
+def _get_cik(ticker: str) -> str | None:
+    """Look up edgar_cik from the DB."""
+    coverage = _get_coverage_cache()
+    companies = coverage.get("companies", {})
+    co = companies.get(ticker, {})
+    cik = co.get("edgar_cik")
+    if cik:
+        return cik
+
+    # Fallback: read from DB
+    db_path = REPO_ROOT / "data" / "db" / "capex.db"
+    if db_path.exists():
+        import sqlite3
+        conn = sqlite3.connect(str(db_path))
+        row = conn.execute(
+            "SELECT edgar_cik FROM companies WHERE ticker=?",
+            (ticker,),
+        ).fetchone()
+        conn.close()
+        if row and row[0]:
+            return row[0]
+    return None
+
+
+def _get_coverage_cache() -> dict:
+    """Get the coverage.yaml data (cached)."""
+    global _coverage_cache
+    if _coverage_cache is None:
+        if COVERAGE_PATH.exists():
+            _coverage_cache = yaml.safe_load(
+                COVERAGE_PATH.read_text(encoding="utf-8")
+            )
+        else:
+            _coverage_cache = {}
+    return _coverage_cache
 
 
 def _fiscal_year_label(period: str, form: str) -> str:
@@ -267,16 +339,8 @@ def _get_xbrl_concept(ext: dict[str, Any]) -> str | None:
 
 def _get_adjustment(ticker: str) -> dict | None:
     """Look up the adjustment config for a ticker from coverage.yaml."""
-    global _coverage_cache
-    if _coverage_cache is None:
-        if COVERAGE_PATH.exists():
-            _coverage_cache = yaml.safe_load(
-                COVERAGE_PATH.read_text(encoding="utf-8")
-            )
-        else:
-            _coverage_cache = {}
-
-    datasets = _coverage_cache.get("datasets", {})
+    coverage = _get_coverage_cache()
+    datasets = coverage.get("datasets", {})
     cloud = datasets.get("cloud_segment_revenue", {})
     included = cloud.get("companies_included", [])
     for entry in included:

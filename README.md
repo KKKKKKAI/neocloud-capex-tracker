@@ -5,6 +5,8 @@ disclosures across major hyperscalers and neocloud providers.
 
 ![Cloud Revenue](charts/cloud_revenue_annual.png)
 
+**[Explore Interactive Chart →](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** *(click legend to toggle companies, hover for details)*
+
 ## What this is
 
 A data pipeline that watches for new quarterly and annual filings from

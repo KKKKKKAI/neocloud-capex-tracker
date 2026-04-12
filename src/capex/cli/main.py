@@ -115,11 +115,15 @@ def _fetch_command(argv: list[str]) -> int:
 
 def _chart_command(argv: list[str]) -> int:
     output = None
+    interactive = False
     i = 0
     while i < len(argv):
         if argv[i] in ("-o", "--output") and i + 1 < len(argv):
             output = argv[i + 1]
             i += 2
+        elif argv[i] == "--interactive":
+            interactive = True
+            i += 1
         else:
             print(f"unknown option: {argv[i]}", file=sys.stderr)
             return 2
@@ -127,7 +131,14 @@ def _chart_command(argv: list[str]) -> int:
     from capex.exporters.charts import generate_cloud_revenue_chart
 
     path = generate_cloud_revenue_chart(output=output)
-    print(f"chart saved to {path}")
+    print(f"static chart saved to {path}")
+
+    if interactive:
+        from capex.exporters.interactive_chart import generate_interactive
+
+        ipath = generate_interactive(output=output)
+        print(f"interactive chart saved to {ipath}")
+
     return 0
 
 
@@ -260,7 +271,7 @@ def _print_help() -> None:
         "    export              generate Excel workbook from DB\n"
         "                        -o PATH      output path (default: workbook/capex_tracker.xlsx)\n"
         "    chart               regenerate charts (YoY auto-recalculated)\n"
-        "                        -o PATH  output path\n"
+        "                        --interactive  also generate Plotly HTML\n"
     )
 
 

@@ -41,6 +41,8 @@ def main(argv: list[str] | None = None) -> int:
         return _extract_command(rest)
     if cmd == "export":
         return _export_command(rest)
+    if cmd == "chart":
+        return _chart_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -141,6 +143,24 @@ def _organize_command(argv: list[str]) -> int:
         for err in summary["errors"]:
             print(f"    - {err}")
         return 1
+    return 0
+
+
+def _chart_command(argv: list[str]) -> int:
+    output = None
+    i = 0
+    while i < len(argv):
+        if argv[i] in ("-o", "--output") and i + 1 < len(argv):
+            output = argv[i + 1]
+            i += 2
+        else:
+            print(f"unknown option: {argv[i]}", file=sys.stderr)
+            return 2
+
+    from capex.exporters.charts import generate_cloud_revenue_chart
+
+    path = generate_cloud_revenue_chart(output=output)
+    print(f"chart saved to {path}")
     return 0
 
 
@@ -274,6 +294,8 @@ def _print_help() -> None:
         "                        --form FORM  specify form type (default: latest annual)\n"
         "    export              generate Excel workbook from DB\n"
         "                        -o PATH      output path (default: workbook/capex_tracker.xlsx)\n"
+        "    chart               regenerate charts (YoY auto-recalculated)\n"
+        "                        -o PATH  output path\n"
     )
 
 

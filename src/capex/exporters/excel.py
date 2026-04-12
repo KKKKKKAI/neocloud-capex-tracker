@@ -232,6 +232,34 @@ def _build_data_quality_sheet(wb, conn, hfont, hfill):
                  "Meta is an AI infra buyer, not a cloud vendor. "
                  "Excluded from cloud_segment_revenue dataset."))
 
+    # AMZN Q2 2017 capex gap
+    flags.append(("AMZN", "Missing Q2 2017 capex",
+                 "Amazon switched XBRL concepts mid-2017: "
+                 "PaymentsToAcquirePropertyPlantAndEquipment (through Q1 2017) → "
+                 "PaymentsToAcquireProductiveAssets (from Q3 2017). Q2 2017 was "
+                 "filed without tagging capex under either concept. FY2017 annual "
+                 "total ($11,955M) is correct. Fill via LLM extraction from the "
+                 "actual Q2 2017 10-Q when quarterly filings are downloaded."))
+
+    # Tencent no XBRL
+    flags.append(("0700", "No XBRL data",
+                 "Tencent is HKEX-only — SEC XBRL API does not cover HK filings. "
+                 "All metrics require LLM extraction from the downloaded annual "
+                 "report (data/_sources/0700/_raw/). FY2025 AR is available."))
+
+    # BABA sparse capex
+    flags.append(("BABA", "Sparse capex XBRL",
+                 "Alibaba's XBRL tagging for capex is incomplete — only 3 annual "
+                 "points available via XBRL (FY2019, FY2020, FY2025). Full "
+                 "coverage requires LLM extraction from 20-F filings."))
+
+    # 20-F filers quarterly limitation
+    flags.append(("BABA/BIDU/GDS/IREN/NBIS", "No quarterly data",
+                 "Foreign private issuers (20-F filers) do not file 10-Q. "
+                 "Quarterly data is structurally unavailable from SEC. Only "
+                 "annual data points exist. HKEX interim reports (H1) may "
+                 "provide semi-annual granularity for some names."))
+
     for i, (ticker, issue, details) in enumerate(flags, 2):
         ws.cell(row=i, column=1, value=ticker)
         ws.cell(row=i, column=2, value=issue)

@@ -1,8 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh auth:*)",
-      "Bash(git config:*)"
+      "Bash(*)",
+      "WebSearch",
+      "WebFetch(domain:*)"
     ]
   }
 }

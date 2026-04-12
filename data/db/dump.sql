@@ -171,6 +171,8 @@ INSERT INTO "audit_log" VALUES(156,'2026-04-12T16:49:42+00:00','read-and-extract
 INSERT INTO "audit_log" VALUES(157,'2026-04-12T16:49:42+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1349,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 260, "value": 13390}');
 INSERT INTO "audit_log" VALUES(158,'2026-04-12T16:49:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1350,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 261, "value": 24702}');
 INSERT INTO "audit_log" VALUES(159,'2026-04-12T16:49:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1351,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 264, "value": 74568}');
+INSERT INTO "audit_log" VALUES(160,'2026-04-12T16:59:51+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1352,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 262, "value": 40016}');
+INSERT INTO "audit_log" VALUES(161,'2026-04-12T16:59:52+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1353,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 263, "value": 60120}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -1545,6 +1547,8 @@ INSERT INTO "extractions" VALUES(1348,259,'cloud_segment_revenue',6663.0,'RMB 6,
 INSERT INTO "extractions" VALUES(1349,260,'cloud_segment_revenue',13390.0,'RMB 13,390M','USD_millions','Cloud Computing 13,390 (2nd segment in FY2018 table)',NULL,'Segment Information, Cloud segment revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:49:42+00:00',2129.68,0.15905,'2018-03-31','CNY');
 INSERT INTO "extractions" VALUES(1350,261,'cloud_segment_revenue',24702.0,'RMB 24,702M','USD_millions','Cloud Computing 24,702 (2nd segment in FY2019 table)',NULL,'Segment Information, Cloud segment revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:49:43+00:00',3680.85,0.14901,'2019-03-31','CNY');
 INSERT INTO "extractions" VALUES(1351,264,'cloud_segment_revenue',74568.0,'RMB 74,568M','USD_millions','Cloud 74,568 (5th segment in FY2022 table, after reorg)',NULL,'Segment Information, Cloud segment revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:49:43+00:00',11757.88,0.15768,'2022-03-31','CNY');
+INSERT INTO "extractions" VALUES(1352,262,'cloud_segment_revenue',40016.0,'RMB 40,016M','USD_millions','Cloud computing 40,016 from FY2021 20-F segment table',NULL,'Segment Information, Cloud computing revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:59:51+00:00',5636.25,0.14085,'2020-03-31','CNY');
+INSERT INTO "extractions" VALUES(1353,263,'cloud_segment_revenue',60120.0,'RMB 60,120M','USD_millions','Cloud computing 60,120 from FY2021 20-F segment table',NULL,'Segment Information, Cloud computing revenue','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:59:52+00:00',9177.32,0.15265,'2021-03-31','CNY');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -1994,8 +1998,8 @@ CREATE INDEX idx_audit_log_ts
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',159);
-INSERT INTO "sqlite_sequence" VALUES('extractions',1351);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',161);
+INSERT INTO "sqlite_sequence" VALUES('extractions',1353);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',339);
 COMMIT;

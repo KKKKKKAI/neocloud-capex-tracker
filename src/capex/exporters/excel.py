@@ -95,18 +95,31 @@ def export_workbook(
 # --------------------------------------------------------------------
 
 
+def _get_all_tickers(conn) -> list[str]:
+    """Get ALL company tickers from the companies table."""
+    return [
+        r[0] for r in conn.execute(
+            "SELECT ticker FROM companies ORDER BY ticker"
+        )
+    ]
+
+
 def _build_metric_sheet(wb, conn, sheet_name, metric_key, cadence, hfont, hfill, nfmt):
     """Build a single-metric sheet: rows=companies, cols=periods."""
     ws = wb.create_sheet(sheet_name)
 
     data = _get_metric_data(conn, metric_key, cadence)
-    if not data:
-        ws.append(["No data available"])
-        return
 
-    # Get all unique periods and companies
+    # Get all unique periods and ALL companies (not just those with data)
     all_periods = sorted(set(p for company_data in data.values() for p in company_data))
-    companies = sorted(data.keys())
+    companies = _get_all_tickers(conn)
+
+    if not all_periods:
+        # Still show companies even if no data
+        ws.append(["Company", "No data available"])
+        for ticker in companies:
+            ws.append([ticker])
+        return
 
     # Header row
     headers = ["Company"] + all_periods
@@ -118,8 +131,9 @@ def _build_metric_sheet(wb, conn, sheet_name, metric_key, cadence, hfont, hfill,
     # Data rows
     for row_idx, ticker in enumerate(companies, 2):
         ws.cell(row=row_idx, column=1, value=ticker)
+        ticker_data = data.get(ticker, {})
         for col_idx, period in enumerate(all_periods, 2):
-            val = data[ticker].get(period)
+            val = ticker_data.get(period)
             if val is not None:
                 cell = ws.cell(row=row_idx, column=col_idx, value=round(val))
                 cell.number_format = nfmt
@@ -151,14 +165,17 @@ def _build_all_metrics_sheet(wb, conn, sheet_name, cadence, hfont, hfill, nfmt):
         cell.font = hfont
         cell.fill = hfill
 
+    # Use ALL tickers, not just those with data
+    all_tickers = _get_all_tickers(conn)
     row_idx = 2
-    for ticker in sorted(set(k[0] for k in all_data)):
+    for ticker in all_tickers:
         for mk in metrics:
             key = (ticker, mk)
-            if key not in all_data:
-                continue
             ws.cell(row=row_idx, column=1, value=ticker)
             ws.cell(row=row_idx, column=2, value=mk)
+            if key not in all_data:
+                row_idx += 1
+                continue
             for col_idx, period in enumerate(all_periods, 3):
                 val = all_data[key].get(period)
                 if val is not None:

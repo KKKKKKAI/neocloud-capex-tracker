@@ -140,6 +140,12 @@ INSERT INTO "audit_log" VALUES(125,'2026-04-12T15:58:48+00:00','read-and-extract
 INSERT INTO "audit_log" VALUES(126,'2026-04-12T15:58:48+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1318,'{"extracting_model": "claude-code-pdf", "metric_key": "revenue", "source_document_id": 337, "value": 609015}');
 INSERT INTO "audit_log" VALUES(127,'2026-04-12T15:58:48+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1319,'{"extracting_model": "claude-code-pdf", "metric_key": "revenue", "source_document_id": 334, "value": 660257}');
 INSERT INTO "audit_log" VALUES(128,'2026-04-12T15:58:48+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1320,'{"extracting_model": "claude-code-pdf", "metric_key": "revenue", "source_document_id": 13, "value": 751766}');
+INSERT INTO "audit_log" VALUES(129,'2026-04-12T16:09:40+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1321,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 272, "value": 9173}');
+INSERT INTO "audit_log" VALUES(130,'2026-04-12T16:09:40+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1322,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 273, "value": 15070}');
+INSERT INTO "audit_log" VALUES(131,'2026-04-12T16:09:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1323,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 271, "value": 6370}');
+INSERT INTO "audit_log" VALUES(132,'2026-04-12T16:09:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1324,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 270, "value": 3005}');
+INSERT INTO "audit_log" VALUES(133,'2026-04-12T16:10:50+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1325,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 274, "value": 17721}');
+INSERT INTO "audit_log" VALUES(134,'2026-04-12T16:19:22+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1326,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 335, "value": 44700000000}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -1495,6 +1501,11 @@ INSERT INTO "extractions" VALUES(1317,336,'revenue',554552.0,'RMB 554,552M','USD
 INSERT INTO "extractions" VALUES(1318,337,'revenue',609015.0,'RMB 609,015M','USD_millions','收入 609,015 (Total revenue from 5-year financial summary)',NULL,'Page 4 — Financial Summary, 收入 (Revenue)','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T15:58:48+00:00',85718.86,0.14075,'2023-12-31','CNY');
 INSERT INTO "extractions" VALUES(1319,334,'revenue',660257.0,'RMB 660,257M','USD_millions','收入 660,257 (Total revenue from 5-year financial summary)',NULL,'Page 4 — Financial Summary, 收入 (Revenue)','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T15:58:48+00:00',90455.21,0.137,'2024-12-31','CNY');
 INSERT INTO "extractions" VALUES(1320,13,'revenue',751766.0,'RMB 751,766M','USD_millions','收入 751,766 (Total revenue from 5-year financial summary)',NULL,'Page 4 — Financial Summary, 收入 (Revenue)','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T15:58:48+00:00',107382.26,0.14284,'2025-12-31','CNY');
+INSERT INTO "extractions" VALUES(1321,272,'cloud_segment_revenue',9173.0,'RMB 9,173M','USD_millions','Cloud services 9,173 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:09:40+00:00',1403.1,0.15296,'2020-12-31','CNY');
+INSERT INTO "extractions" VALUES(1322,273,'cloud_segment_revenue',15070.0,'RMB 15,070M','USD_millions','Cloud services 15,070 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:09:40+00:00',2372.32,0.15742,'2021-12-31','CNY');
+INSERT INTO "extractions" VALUES(1323,271,'cloud_segment_revenue',6370.0,'RMB 6,370M','USD_millions','Cloud services 6,370 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:09:43+00:00',915.05,0.14365,'2019-12-31','CNY');
+INSERT INTO "extractions" VALUES(1324,270,'cloud_segment_revenue',3005.0,'RMB 3,005M','USD_millions','Cloud services 3,005 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:09:45+00:00',436.9,0.14539,'2018-12-31','CNY');
+INSERT INTO "extractions" VALUES(1325,274,'cloud_segment_revenue',17721.0,'RMB 17,721M','USD_millions','Cloud services 17,721 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:10:50+00:00',2568.66,0.14495,'2022-12-31','CNY');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -1942,8 +1953,8 @@ CREATE INDEX idx_audit_log_ts
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',128);
-INSERT INTO "sqlite_sequence" VALUES('extractions',1320);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',134);
+INSERT INTO "sqlite_sequence" VALUES('extractions',1326);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',337);
 COMMIT;

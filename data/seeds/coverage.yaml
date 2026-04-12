@@ -360,12 +360,30 @@ datasets:
 
       - ticker: "0700"
         treatment: named_segment_fuzzy
-        segment_names: ["FinTech and Business Services", "Cloud and Other Business Services"]
+        segment_names: ["金融科技及企業服務", "FinTech and Business Services"]
         segment_start: "2019-01-01"
-        notes: >
-          Tencent's cloud revenue is bundled with FinTech (WeChat Pay).
-          The segment is a PROXY, not a clean cloud-only number. LLM
-          judgment required to note this caveat. CNY. Annual + H1 only.
+        extraction_method: pdf_pdfplumber
+        adjustment:
+          method: proxy_segment
+          formula: "cloud_proxy = FinTech_and_Business_Services_segment_revenue"
+          rationale: |
+            Tencent does not separately disclose cloud revenue. Their
+            "金融科技及企業服務" (FinTech and Business Services) segment
+            includes: (1) cloud services (Tencent Cloud), (2) payment
+            services (WeChat Pay — the MAJORITY of the segment), and
+            (3) enterprise SaaS. Using the full segment as a cloud proxy
+            overstates cloud revenue by approximately 2-3x. No subtraction
+            method is available because there is no separately listed
+            subsidiary or sub-segment to net out.
+          source_line_items:
+            - "金融科技及企業服務 segment revenue (from HKEX annual report, page 9 or segment note)"
+          caveats:
+            - "OVERSTATES cloud by ~2-3x: includes WeChat Pay payment processing"
+            - "Tencent Cloud is estimated at ~30-40% of the segment by industry analysts"
+            - "Filing is in Chinese (Traditional); English version published separately"
+            - "Values in RMB, converted to USD at period-end FX rate"
+            - "Only HK-AR and HK-IR available (no 10-Q quarterly)"
+        notes: "CNY. HKEX PDF extraction via pdfplumber. Annual + H1 only."
 
       - ticker: GDS
         treatment: whole_company

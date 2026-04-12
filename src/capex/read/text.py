@@ -80,17 +80,59 @@ def extract_text_from_html(path: Path) -> str:
 
 
 def extract_text_from_pdf(path: Path) -> str:
-    """Extract text from a PDF using pypdf.
+    """Extract text from a PDF, preserving table structure.
 
-    Falls back to a stub message if pypdf is not installed (it's an
-    optional dependency under the `[read]` extra).
+    Uses pdfplumber (preferred) for better table extraction, or falls
+    back to pypdf. pdfplumber detects table boundaries and preserves
+    column alignment — critical for financial statements in HKEX PDFs.
+
+    Both handle Chinese/CJK text natively.
     """
+    try:
+        import pdfplumber
+
+        pages = []
+        with pdfplumber.open(str(path)) as pdf:
+            for i, page in enumerate(pdf.pages, 1):
+                # Extract tables separately for better structure
+                tables = page.extract_tables()
+                page_text = page.extract_text() or ""
+
+                if tables:
+                    # Replace inline text with structured table output
+                    table_texts = []
+                    for table in tables:
+                        rows = []
+                        for row in table:
+                            cells = [
+                                str(c).strip() if c else ""
+                                for c in row
+                            ]
+                            if any(cells):
+                                rows.append("\t".join(cells))
+                        if rows:
+                            table_texts.append(
+                                "\n[TABLE]\n"
+                                + "\n".join(rows)
+                                + "\n[/TABLE]"
+                            )
+                    if table_texts:
+                        page_text += "\n" + "\n".join(table_texts)
+
+                if page_text.strip():
+                    pages.append(f"[Page {i}]\n{page_text}")
+        return "\n\n".join(pages)
+
+    except ImportError:
+        pass
+
+    # Fallback to pypdf
     try:
         from pypdf import PdfReader
     except ImportError as exc:
         raise ImportError(
-            "pypdf is required for PDF text extraction. "
-            "Install with: pip install neocloud-capex-tracker[read]"
+            "pdfplumber or pypdf is required for PDF text extraction. "
+            "Install with: pip install pdfplumber"
         ) from exc
 
     reader = PdfReader(str(path))

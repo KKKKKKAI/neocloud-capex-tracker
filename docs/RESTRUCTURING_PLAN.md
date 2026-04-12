@@ -503,6 +503,65 @@ extraction or multi-model comparison becomes necessary.
 - [x] 4.5 CLI: `capex export`, `capex chart`. Chart module (`src/capex/exporters/charts.py`) with auto-recalculated YoY growth — no filtering, no caching.
 - [ ] 4.6 CI workflow updates. (deferred)
 
+### Phase 6A — Fix provenance chain (prerequisite before re-running extractions)
+
+**Problem identified 2026-04-12:** Citation links in the Excel workbook
+point to XBRL API URLs instead of actual downloadable company reports.
+XBRL-sourced extractions (1,200+ data points) have no corresponding
+archived report in `data/_sources/`. LLM extractions from historical
+filings used temp files that were deleted after extraction — the reports
+were never saved via the fetch skill.
+
+**Principle:** Every data point must trace back to a downloaded, archived
+report. If the report isn't in `data/_sources/`, download it first via
+`capex fetch`, THEN extract from the archived copy, THEN cite the
+archived copy's URL in the Excel output.
+
+#### 6A.1 — Fix citation URL construction
+
+- [ ] 6A.1.1 Update `src/capex/exporters/citations.py`: for SEC filings, construct the download URL from `source_documents.source + accession_number + primary document filename` (the pattern `https://www.sec.gov/Archives/edgar/data/{cik}/{accession_no_dashes}/{filename}`). NEVER link to the XBRL companyfacts API — that's a data API, not a human-readable report.
+- [ ] 6A.1.2 For HKEX filings: use the HKEXnews document URL stored in `source_documents.source_url`.
+- [ ] 6A.1.3 For XBRL-only extractions (no report downloaded yet): the citation should say "Source: XBRL API (report not yet archived — run `capex fetch` to download)" instead of linking to a fake URL. This makes the gap visible to the analyst.
+
+#### 6A.2 — Centralized tool/skill registry for future agents
+
+- [ ] 6A.2.1 Create `CLAUDE.md` in the repo root — the master reference for any Claude agent working on this codebase. Documents:
+  - All CLI commands (`capex fetch`, `organize`, `extract`, `export`, `chart`, `db sync-all`)
+  - All Python modules and their purpose (one line each)
+  - All skills in `skills/` and when to use them
+  - Key data files (`_identity.yaml`, `coverage.yaml`, `metric_definitions.yaml`)
+  - Common workflows: "to add a new company", "to extract a new metric", "to regenerate the workbook"
+  - What NOT to do: "don't use temp files for extraction — always fetch first"
+- [ ] 6A.2.2 Add prominent note in `src/capex/extract/segment.py` and `src/capex/xbrl/timeseries.py`: "IMPORTANT: always use `capex fetch` to download reports to `data/_sources/` before extracting. Do NOT download to temp files."
+
+#### 6A.3 — Codebase audit
+
+- [ ] 6A.3.1 Review all modules in `src/capex/` — identify which are production-ready, which are stubs, which have dead code.
+- [ ] 6A.3.2 Remove or consolidate unused code:
+  - `src/capex/read/pages.py` — was renamed to `sections.py`, check if pages.py still exists as a dead stub
+  - `src/capex/extract/prompts/v0_1_headline.txt` — is this still used or was it replaced by the Claude Code interactive approach?
+  - Inline matplotlib chart scripts — replaced by `charts.py`, confirm no duplicates
+- [ ] 6A.3.3 Ensure all modules have clear docstrings explaining their role and when to use them.
+- [ ] 6A.3.4 Check for hardcoded paths, temp file usage, or patterns that bypass the fetch→archive→extract pipeline.
+
+#### 6A.4 — Re-run extraction with proper archiving
+
+This is the "big pull" — download ALL reports that back our data points,
+then re-extract from the archived copies so every citation links to a
+real, downloadable report.
+
+- [ ] 6A.4.1 **Identify gaps:** query the DB for all `source_documents` rows where `source='xbrl_api'` or `raw_path` starts with `xbrl://`. These are data points without archived reports.
+- [ ] 6A.4.2 **Download the missing reports:** for each gap, run `capex fetch <TICKER> <FORM>` (or the equivalent for historical filings). This archives the report in `data/_sources/<TICKER>/_raw/` and creates a proper `source_documents` row.
+  - SEC 10-K: ~12 companies × ~10 years = ~120 annual reports
+  - SEC 10-Q: ~7 US companies × ~30 quarters = ~210 quarterly reports
+  - SEC 20-F: ~5 foreign filers × ~10 years = ~50 annual reports
+  - HKEX HK-AR: Tencent × ~7 years = ~7 annual reports
+  - Total: ~387 reports, estimated ~1 GB disk, ~30 minutes download
+- [ ] 6A.4.3 **Re-extract from archived reports:** for headline metrics, the XBRL values are correct — we just need to UPDATE the `source_documents` row to point to the real filing (not the synthetic XBRL row). For segment metrics, re-run the segment extractor against the archived files.
+- [ ] 6A.4.4 **Update source_documents rows:** replace `source='xbrl_api'` with `source='sec_edgar'` and set `raw_path` to the actual archived file path. Keep the XBRL-extracted values (they're verified correct) but link them to the real filing.
+- [ ] 6A.4.5 **Regenerate Excel with correct citations:** every cell now links to a real, downloadable report URL. Analyst can click the link and verify.
+- [ ] 6A.4.6 **Regenerate chart and commit.**
+
 ### Phase 5 — End-to-end hardening (deferred)
 
 - [ ] 5.1 Automated integration test for the Phase 3 vertical slice

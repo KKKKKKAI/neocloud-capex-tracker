@@ -545,15 +545,97 @@ Rationale: "Others mainly include revenue from cloud services and iQIYI"
 See: data/seeds/coverage.yaml → BIDU adjustment
 ```
 
-#### 6.2 — Steps
+#### 6.2 — Design decisions
 
-- [ ] 6.2.1 Add `source_citation` column to `extractions` table (migration 0004) — stores the formatted citation string at extraction time. Populated by writer.py from the existing `quote`, `locator_section`, `extracting_model`, and source_documents fields.
-- [ ] 6.2.2 Backfill `source_citation` for all existing extractions — derive from the existing metadata fields in a one-time migration script.
-- [ ] 6.2.3 Update `src/capex/exporters/excel.py` — for each data cell, add an Excel comment (openpyxl `Comment` object) containing the source citation. Comment visible on Shift+F2 / right-click → Show Comment.
-- [ ] 6.2.4 For derived extractions (BIDU, etc.), include the derivation formula + rationale from `coverage.yaml` in the comment.
-- [ ] 6.2.5 For XBRL-sourced extractions, include the XBRL concept name and the companyfacts API URL.
-- [ ] 6.2.6 For FX-converted values, include the rate, date, and source in the comment.
-- [ ] 6.2.7 **Test**: open the generated workbook in Excel, Shift+F2 on a MSFT capex cell → should show "Source: MSFT FY2025 10-K, Item 8 - Cash Flows, line 'Additions to property and equipment'". Shift+F2 on a BABA cell → should show the derivation formula.
+**No new DB column.** Source citations are generated on-the-fly at export
+time from existing DB fields (`extractions.quote`, `locator_section`,
+`extracting_model`, `source_documents.*`, `extractions.fx_rate`). All the
+data is already there — a `source_citation` column would be a denormalized
+cache that could go stale. Computing at export time is ~50 lines of Python
+and zero schema debt.
+
+**No codebase references in citations.** The Excel workbook is an output
+file circulated to external parties. Every citation must be self-contained
+— referencing the company's public filing, not our Python modules or YAML
+configs. For derived values, the citation includes the reasoning in full
+(quoting the filing's footnotes and stating the deduction logic), not a
+pointer to `coverage.yaml`.
+
+**Download link included.** After a 2-line break, each citation includes the
+direct URL to the source filing so the analyst can copy-paste it into a
+browser to download/view the original report.
+
+#### 6.3 — Citation templates
+
+**SEC direct extraction:**
+```
+Source: [MSFT] FY2025 10-K (filed 2025-07-30)
+Section: Item 8 - Consolidated Statements of Cash Flows
+Line item: "Additions to property and equipment"
+Value: $64,551M (as reported)
+Method: XBRL companyfacts API (us-gaap:PaymentsToAcquirePropertyPlantAndEquipment)
+
+Report: https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm
+```
+
+**HKEX direct extraction:**
+```
+Source: [0700] FY2025 Annual Report (HKEXnews, filed 2026-04-09)
+Section: Management Discussion and Analysis, Revenue by Segment
+Line item: "金融科技及企業服務" (FinTech and Business Services)
+Value: RMB 229,435M → $32,772M USD
+FX: CNY/USD 0.1428 @ 2025-12-31 (source: ECB via frankfurter.app)
+
+Report: https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0409/2026040901232_c.pdf
+```
+
+**Derived value (e.g. BIDU cloud):**
+```
+Source: [BIDU] FY2025 20-F (filed 2026-03-17)
+Derivation:
+  "Others" revenue: RMB 61,242M
+  Less: iQIYI standalone revenue: RMB 27,290M
+  = Estimated cloud revenue: RMB 33,952M → $4,850M USD
+Basis: 20-F footnote (i) states "Others mainly include revenue from
+  cloud services and iQIYI's video membership services". iQIYI
+  (NASDAQ: IQ) is a separately listed subsidiary whose standalone
+  revenue is disclosed in Baidu's segment table.
+Note: overstates cloud — "Others" includes non-cloud items beyond iQIYI.
+FX: CNY/USD 0.1430 @ 2025-12-31 (source: ECB via frankfurter.app)
+
+Report: https://www.sec.gov/Archives/edgar/data/1329099/...
+```
+
+**Tencent proxy:**
+```
+Source: [0700] FY2025 Annual Report (HKEXnews, filed 2026-04-09)
+Section: Management Discussion and Analysis, Revenue by Segment
+Line item: "金融科技及企業服務" (FinTech and Business Services)
+Value: RMB 229,435M → $32,772M USD
+IMPORTANT: this is a PROXY, not pure cloud revenue. The segment
+  includes WeChat Pay payment processing (~60-70% of segment) and
+  enterprise SaaS alongside cloud services. Tencent does not separately
+  disclose cloud revenue. Industry estimates suggest cloud is ~30-40%
+  of this segment.
+FX: CNY/USD 0.1428 @ 2025-12-31 (source: ECB via frankfurter.app)
+
+Report: https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0409/2026040901232_c.pdf
+```
+
+#### 6.4 — Steps
+
+- [ ] 6.4.1 Build `src/capex/exporters/citations.py` — citation formatter module. Takes an extraction row + source_documents row + company info, returns the formatted multi-line citation string. Three template functions: `format_sec_citation()`, `format_hkex_citation()`, `format_derived_citation()`. Derives the download URL from `source_documents.source_url` or constructs it from `source_documents.source + accession_number`.
+- [ ] 6.4.2 Build the derivation reasoning lookup — reads `data/seeds/coverage.yaml` adjustment blocks to get the formula, rationale, and filing footnote references for derived extractions. Formats them as self-contained text (quoting the footnote in "quotes", stating the deduction logic, noting caveats) — NO references to our codebase.
+- [ ] 6.4.3 Refactor `_get_annual_data()` and `_get_quarterly_data()` in excel.py to also return the extraction metadata (extraction_id, quote, locator_section, extracting_model, source_url, fx_rate, reporting_currency) alongside each value. Currently they return `{ticker: {period: value}}`; change to `{ticker: {period: (value, metadata_dict)}}`.
+- [ ] 6.4.4 Wire citations into excel.py: for each data cell written, call the citation formatter with the metadata, create `openpyxl.comments.Comment(text, author="capex-tracker")`, assign to the cell.
+- [ ] 6.4.5 Handle FX-converted values: append the FX rate, date, source, and both local + USD values to the citation.
+- [ ] 6.4.6 Handle Tencent proxy: append the "IMPORTANT: this is a PROXY" caveat for 0700 cells.
+- [ ] 6.4.7 **Test**: open workbook in Excel:
+  - Shift+F2 on MSFT capex cell → SEC citation with download link
+  - Shift+F2 on BIDU cloud cell → derivation reasoning quoting footnote (i)
+  - Shift+F2 on Tencent cell → proxy warning
+  - Shift+F2 on BABA cell → shows FX conversion details
+  - Verify NO cell comment references Python files, YAML configs, or codebase paths
 
 ### Phase 7 — Cover sheet + table of contents
 

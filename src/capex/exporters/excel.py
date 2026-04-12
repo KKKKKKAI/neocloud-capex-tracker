@@ -335,6 +335,7 @@ def _get_annual_data(
     for r in conn.execute("SELECT ticker, fiscal_year_end_month FROM companies"):
         fye_months[r[0]] = r[1]
 
+    # Deduplicate: same logic as quarterly — one row per (ticker, period)
     rows = conn.execute("""
         SELECT sd.ticker, sd.period_of_report, sd.period_token,
                sd.fiscal_year, e.value_usd, e.value,
@@ -343,6 +344,16 @@ def _get_annual_data(
         JOIN source_documents sd ON e.source_document_id = sd.id
         WHERE e.metric_key = ?
         AND sd.period_token = 'AR'
+        AND e.id = (
+            SELECT e2.id FROM extractions e2
+            JOIN source_documents sd2 ON e2.source_document_id = sd2.id
+            WHERE sd2.ticker = sd.ticker
+            AND sd2.period_of_report = sd.period_of_report
+            AND e2.metric_key = e.metric_key
+            AND sd2.period_token = 'AR'
+            ORDER BY e2.value_usd DESC NULLS LAST, e2.extracted_at DESC
+            LIMIT 1
+        )
         ORDER BY sd.ticker, sd.period_of_report
     """, (metric_key,)).fetchall()
 
@@ -384,6 +395,10 @@ def _get_quarterly_data(
     for r in conn.execute("SELECT ticker, fiscal_year_end_month FROM companies"):
         fye_months[r[0]] = r[1]
 
+    # Deduplicate: for the same (ticker, period_of_report), take only
+    # one extraction — prefer the highest value_usd (avoids nulls) and
+    # the latest extraction. This prevents duplicate entries (e.g. from
+    # both claude-code and xbrl-companyfacts) from breaking de-cumulation.
     rows = conn.execute("""
         SELECT sd.ticker, sd.period_of_report, sd.period_token,
                sd.fiscal_year, sd.form_type,
@@ -391,6 +406,15 @@ def _get_quarterly_data(
         FROM extractions e
         JOIN source_documents sd ON e.source_document_id = sd.id
         WHERE e.metric_key = ?
+        AND e.id = (
+            SELECT e2.id FROM extractions e2
+            JOIN source_documents sd2 ON e2.source_document_id = sd2.id
+            WHERE sd2.ticker = sd.ticker
+            AND sd2.period_of_report = sd.period_of_report
+            AND e2.metric_key = e.metric_key
+            ORDER BY e2.value_usd DESC NULLS LAST, e2.extracted_at DESC
+            LIMIT 1
+        )
         ORDER BY sd.ticker, sd.fiscal_year, sd.period_of_report
     """, (metric_key,)).fetchall()
 
@@ -408,6 +432,12 @@ def _get_quarterly_data(
     for ticker, fy_data in by_ticker_fy.items():
         for _fy, points in fy_data.items():
             points.sort(key=lambda x: x["period_of_report"])
+
+            # Skip fiscal years that have ONLY an AR entry — those are
+            # annual-only data that can't be decomposed into quarters.
+            tokens = {p["period_token"] for p in points}
+            if tokens == {"AR"}:
+                continue
 
             prev_val = 0
             for p in points:

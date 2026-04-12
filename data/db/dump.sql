@@ -146,6 +146,11 @@ INSERT INTO "audit_log" VALUES(131,'2026-04-12T16:09:43+00:00','read-and-extract
 INSERT INTO "audit_log" VALUES(132,'2026-04-12T16:09:45+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1324,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 270, "value": 3005}');
 INSERT INTO "audit_log" VALUES(133,'2026-04-12T16:10:50+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1325,'{"extracting_model": "claude-code", "metric_key": "cloud_segment_revenue", "source_document_id": 274, "value": 17721}');
 INSERT INTO "audit_log" VALUES(134,'2026-04-12T16:19:22+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1326,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 335, "value": 44700000000}');
+INSERT INTO "audit_log" VALUES(135,'2026-04-12T16:34:01+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1327,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 336, "value": 177064}');
+INSERT INTO "audit_log" VALUES(136,'2026-04-12T16:34:01+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1328,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 337, "value": 203763}');
+INSERT INTO "audit_log" VALUES(137,'2026-04-12T16:34:05+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1329,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 335, "value": 172195}');
+INSERT INTO "audit_log" VALUES(138,'2026-04-12T16:34:07+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1330,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 338, "value": 128086}');
+INSERT INTO "audit_log" VALUES(139,'2026-04-12T16:34:44+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',1331,'{"extracting_model": "claude-code-pdf", "metric_key": "cloud_segment_revenue", "source_document_id": 339, "value": 101355}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -1506,6 +1511,11 @@ INSERT INTO "extractions" VALUES(1322,273,'cloud_segment_revenue',15070.0,'RMB 1
 INSERT INTO "extractions" VALUES(1323,271,'cloud_segment_revenue',6370.0,'RMB 6,370M','USD_millions','Cloud services 6,370 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:09:43+00:00',915.05,0.14365,'2019-12-31','CNY');
 INSERT INTO "extractions" VALUES(1324,270,'cloud_segment_revenue',3005.0,'RMB 3,005M','USD_millions','Cloud services 3,005 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:09:45+00:00',436.9,0.14539,'2018-12-31','CNY');
 INSERT INTO "extractions" VALUES(1325,274,'cloud_segment_revenue',17721.0,'RMB 17,721M','USD_millions','Cloud services 17,721 (direct disclosure in Baidu Core revenue)',NULL,'Baidu Core Revenue by type, Cloud services','direct',NULL,'claude-code','0.1.0-draft','2026-04-12T16:10:50+00:00',2568.66,0.14495,'2022-12-31','CNY');
+INSERT INTO "extractions" VALUES(1327,336,'cloud_segment_revenue',177064.0,'RMB 177,064M','USD_millions','FinTech and Business Services 177,064 from FY2023 English AR',NULL,'Page 9, Revenue by segment','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T16:34:01+00:00',25665.43,0.14495,'2022-12-31','CNY');
+INSERT INTO "extractions" VALUES(1328,337,'cloud_segment_revenue',203763.0,'RMB 203,763M','USD_millions','FinTech and Business Services 203,763 from FY2023 English AR',NULL,'Page 9, Revenue by segment','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T16:34:01+00:00',28679.64,0.14075,'2023-12-31','CNY');
+INSERT INTO "extractions" VALUES(1329,335,'cloud_segment_revenue',172195.0,'RMB 172,195M','USD_millions','FinTech and Business Services from FY2021-a',NULL,'Page 11, Revenue by segment','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T16:34:05+00:00',27106.94,0.15742,'2021-12-31','CNY');
+INSERT INTO "extractions" VALUES(1330,338,'cloud_segment_revenue',128086.0,'RMB 128,086M','USD_millions','FinTech and Business Services from FY2021-a',NULL,'Page 11, Revenue by segment','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T16:34:07+00:00',19592.03,0.15296,'2020-12-31','CNY');
+INSERT INTO "extractions" VALUES(1331,339,'cloud_segment_revenue',101355.0,'RMB 101,355M','USD_millions','FinTech and Business Services from FY2020-a',NULL,'Page 12, Revenue by segment','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-04-12T16:34:44+00:00',14559.65,0.14365,'2019-12-31','CNY');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -1931,6 +1941,8 @@ INSERT INTO "source_documents" VALUES(334,'0700','HK-AR','2026-04-09','2024-12-3
 INSERT INTO "source_documents" VALUES(335,'0700','HK-AR','2026-04-09','2021-12-31',2021,'AR','xbrl-synthetic-0700-HK-AR-2021-12-31','xbrl://companyfacts/0700/2021-12-31',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIK0700.json','hkex-0700-ar-2021','2026-04-12T15:58:47.198603+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(336,'0700','HK-AR','2026-04-09','2022-12-31',2022,'AR','xbrl-synthetic-0700-HK-AR-2022-12-31','xbrl://companyfacts/0700/2022-12-31',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIK0700.json','hkex-0700-ar-2022','2026-04-12T15:58:47.544855+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(337,'0700','HK-AR','2026-04-09','2023-12-31',2023,'AR','xbrl-synthetic-0700-HK-AR-2023-12-31','xbrl://companyfacts/0700/2023-12-31',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIK0700.json','hkex-0700-ar-2023','2026-04-12T15:58:47.917595+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(338,'0700','HK-AR','2020-12-31','2020-12-31',2020,'AR','xbrl-synthetic-0700-HK-AR-2020-12-31','xbrl://companyfacts/0700/2020-12-31',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIK0700.json','','2026-04-12T16:34:00.843622+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(339,'0700','HK-AR','2019-12-31','2019-12-31',2019,'AR','xbrl-synthetic-0700-HK-AR-2019-12-31','xbrl://companyfacts/0700/2019-12-31',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIK0700.json','','2026-04-12T16:34:00.843622+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id INTEGER NOT NULL REFERENCES extractions(id),
@@ -1953,8 +1965,8 @@ CREATE INDEX idx_audit_log_ts
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',134);
-INSERT INTO "sqlite_sequence" VALUES('extractions',1326);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',139);
+INSERT INTO "sqlite_sequence" VALUES('extractions',1331);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
-INSERT INTO "sqlite_sequence" VALUES('source_documents',337);
+INSERT INTO "sqlite_sequence" VALUES('source_documents',339);
 COMMIT;

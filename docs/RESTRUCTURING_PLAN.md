@@ -519,9 +519,18 @@ archived copy's URL in the Excel output.
 
 #### 6A.1 — Fix citation URL construction
 
-- [ ] 6A.1.1 Update `src/capex/exporters/citations.py`: for SEC filings, construct the download URL from `source_documents.source + accession_number + primary document filename` (the pattern `https://www.sec.gov/Archives/edgar/data/{cik}/{accession_no_dashes}/{filename}`). NEVER link to the XBRL companyfacts API — that's a data API, not a human-readable report.
-- [ ] 6A.1.2 For HKEX filings: use the HKEXnews document URL stored in `source_documents.source_url`.
-- [ ] 6A.1.3 For XBRL-only extractions (no report downloaded yet): the citation should say "Source: XBRL API (report not yet archived — run `capex fetch` to download)" instead of linking to a fake URL. This makes the gap visible to the analyst.
+**TWO distinct URL concepts:**
+- **Excel citation link** → the EXTERNAL URL where an analyst can
+  copy-paste into a browser and download/view the original report
+  from SEC EDGAR or HKEXnews. This is what appears in cell comments.
+- **Local archive path** → our internal `data/_sources/<TICKER>/_raw/`
+  copy used for extraction. This is gitignored and NEVER appears in
+  the Excel output. It's tracked in `source_documents.raw_path` for
+  our internal indexing only.
+
+- [ ] 6A.1.1 Update `src/capex/exporters/citations.py`: for SEC filings, construct the EXTERNAL download URL from `source_documents.accession_number` + company CIK (the pattern `https://www.sec.gov/Archives/edgar/data/{cik}/{accession_no_dashes}/`). This is the SEC EDGAR filing page where the analyst can view/download the actual 10-K/10-Q/20-F. NEVER link to the XBRL companyfacts API or to our local file paths.
+- [ ] 6A.1.2 For HKEX filings: use the HKEXnews document URL stored in `source_documents.source_url` — this is already the external download URL.
+- [ ] 6A.1.3 For XBRL-only extractions (no report downloaded yet): the citation should say "Source: SEC XBRL data (report not yet downloaded locally — values verified against XBRL)" and still provide the EXTERNAL SEC EDGAR filing URL (constructable from the accession number) so the analyst can go download the report themselves.
 
 #### 6A.2 — Centralized tool/skill registry for future agents
 
@@ -544,23 +553,62 @@ archived copy's URL in the Excel output.
 - [ ] 6A.3.3 Ensure all modules have clear docstrings explaining their role and when to use them.
 - [ ] 6A.3.4 Check for hardcoded paths, temp file usage, or patterns that bypass the fetch→archive→extract pipeline.
 
-#### 6A.4 — Re-run extraction with proper archiving
+#### 6A.4 — Download reports + build local index (the "big pull")
 
-This is the "big pull" — download ALL reports that back our data points,
-then re-extract from the archived copies so every citation links to a
-real, downloadable report.
+**Purpose:** download every report that backs a data point in our DB,
+archive it in `data/_sources/`, and update `source_documents` so future
+extractions can read from the local archive instead of re-downloading.
 
-- [ ] 6A.4.1 **Identify gaps:** query the DB for all `source_documents` rows where `source='xbrl_api'` or `raw_path` starts with `xbrl://`. These are data points without archived reports.
-- [ ] 6A.4.2 **Download the missing reports:** for each gap, run `capex fetch <TICKER> <FORM>` (or the equivalent for historical filings). This archives the report in `data/_sources/<TICKER>/_raw/` and creates a proper `source_documents` row.
+**Two layers of value:**
+1. **Excel citations get correct EXTERNAL URLs** — constructed from the
+   accession number, these point to SEC EDGAR / HKEXnews where analysts
+   can download the original report. This works even WITHOUT the local
+   copy (the URL is computed, not read from disk).
+2. **Local archive enables future extraction without re-downloading** —
+   when we need to extract a new metric from a historical filing, we
+   read from `data/_sources/` instead of hitting SEC/HKEXnews again.
+   This is the "download once, extract many" principle.
+
+**Deduplication + indexing:**
+- Before downloading, check if `data/_sources/<TICKER>/_raw/` already
+  has the file (by matching `accession_number` or `sha256`).
+- Maintain a download index in the DB (`source_documents` table with
+  `raw_path` pointing to the local file). Query this before any fetch.
+- The `capex fetch` skill already handles deduplication via sha256.
+
+**Download scope:**
+- [ ] 6A.4.1 **Identify gaps:** query for all `source_documents` where `source='xbrl_api'` or `raw_path` starts with `xbrl://`.
+- [ ] 6A.4.2 **Build a download manifest:** for each gap, determine the SEC EDGAR filing URL from the accession number. Group by company to minimize API calls (one submissions lookup per company gives all accession numbers).
+- [ ] 6A.4.3 **Download in batches with rate limiting:**
   - SEC 10-K: ~12 companies × ~10 years = ~120 annual reports
   - SEC 10-Q: ~7 US companies × ~30 quarters = ~210 quarterly reports
   - SEC 20-F: ~5 foreign filers × ~10 years = ~50 annual reports
   - HKEX HK-AR: Tencent × ~7 years = ~7 annual reports
   - Total: ~387 reports, estimated ~1 GB disk, ~30 minutes download
-- [ ] 6A.4.3 **Re-extract from archived reports:** for headline metrics, the XBRL values are correct — we just need to UPDATE the `source_documents` row to point to the real filing (not the synthetic XBRL row). For segment metrics, re-run the segment extractor against the archived files.
-- [ ] 6A.4.4 **Update source_documents rows:** replace `source='xbrl_api'` with `source='sec_edgar'` and set `raw_path` to the actual archived file path. Keep the XBRL-extracted values (they're verified correct) but link them to the real filing.
-- [ ] 6A.4.5 **Regenerate Excel with correct citations:** every cell now links to a real, downloadable report URL. Analyst can click the link and verify.
+  - Each download goes through `capex fetch` (or its internal
+    equivalent for historical filings) → saved to `_raw/` → sidecar
+    JSON written → `source_documents` row updated.
+  - Skip any filing already in `_raw/` (deduplication by sha256).
+- [ ] 6A.4.4 **Update source_documents rows:** for XBRL-sourced data points, replace `source='xbrl_api'` with `source='sec_edgar'`, set `raw_path` to the actual archived file, set `source_url` to the EXTERNAL SEC EDGAR filing URL. Keep the XBRL-extracted values (verified correct).
+- [ ] 6A.4.5 **Regenerate Excel:** every cell citation now has the correct EXTERNAL URL (SEC/HKEXnews) where analysts can download the report.
 - [ ] 6A.4.6 **Regenerate chart and commit.**
+
+#### 6A.5 — Deferred: gitignore optimization for forked repos
+
+**Parked for later.** The `data/_sources/` directory is already gitignored
+(decided in Phase 2a). When someone forks/pulls the repo, they get:
+- The SQLite database with all extracted values ✅
+- The Excel workbook with citations + external download links ✅
+- The chart PNG ✅
+- The `dump.sql` for audit ✅
+- But NOT the ~1 GB of downloaded filings (gitignored) ✅
+
+If a user wants to run their own extraction or verify a specific filing,
+they run `capex fetch <TICKER> <FORM>` to download just that report.
+The rest of the data is usable without the local file archive.
+
+This is already the correct design — no further action needed now.
+Revisit if `data/db/capex.db` grows too large (currently ~300 KB).
 
 ### Phase 5 — End-to-end hardening (deferred)
 

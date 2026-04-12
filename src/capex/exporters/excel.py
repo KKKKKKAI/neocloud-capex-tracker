@@ -81,16 +81,47 @@ def export_workbook(
     header_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
     num_fmt = '#,##0'
 
-    # Build the sheets
+    # Build the sheets — cover + TOC first, then data sheets
     s = (header_font, header_fill, num_fmt)
+
+    # Data sheets (built first so we can count rows for TOC)
+    sheet_info = []
+
     _build_metric_sheet(wb, conn, "Revenue (Annual)", "revenue", "annual", *s)
+    sheet_info.append(("Revenue (Annual)", "Annual total revenue by company (USD M)"))
+
     _build_metric_sheet(wb, conn, "Revenue (Quarterly)", "revenue", "quarterly", *s)
+    sheet_info.append(("Revenue (Quarterly)", "Quarterly de-cumulated revenue (USD M)"))
+
     _build_metric_sheet(wb, conn, "Capex (Annual)", "capital_expenditures", "annual", *s)
+    sheet_info.append(("Capex (Annual)", "Annual capital expenditures by company (USD M)"))
+
     _build_metric_sheet(wb, conn, "Capex (Quarterly)", "capital_expenditures", "quarterly", *s)
+    sheet_info.append(("Capex (Quarterly)", "Quarterly de-cumulated capex (USD M)"))
+
+    _build_metric_sheet(wb, conn, "Cloud Revenue (Annual)", "cloud_segment_revenue", "annual", *s)
+    sheet_info.append(("Cloud Revenue (Annual)", "Cloud/datacenter segment revenue (USD M)"))
+
+    _build_metric_sheet(
+        wb, conn, "Cloud Revenue (Quarterly)",
+        "cloud_segment_revenue", "quarterly", *s,
+    )
+    sheet_info.append(("Cloud Revenue (Quarterly)", "Quarterly cloud segment revenue (USD M)"))
+
     _build_all_metrics_sheet(wb, conn, "All Metrics (Annual)", "annual", *s)
+    sheet_info.append(("All Metrics (Annual)", "All 6 metrics × all companies, annual"))
+
     _build_all_metrics_sheet(wb, conn, "All Metrics (Quarterly)", "quarterly", *s)
+    sheet_info.append(("All Metrics (Quarterly)", "All 6 metrics × all companies, quarterly"))
+
     _build_data_quality_sheet(wb, conn, header_font, header_fill)
+    sheet_info.append(("Data Quality", "Data quality flags and coverage notes"))
+
     _build_metadata_sheet(wb, conn, header_font, header_fill)
+    sheet_info.append(("Metadata", "Coverage dates, FX rates, extraction sources"))
+
+    # Cover sheet + TOC (inserted at position 0 so it's the first tab)
+    _build_cover_sheet(wb, conn, sheet_info, header_font, header_fill)
 
     wb.save(str(output_path))
     conn.close()
@@ -241,6 +272,107 @@ def _build_all_metrics_sheet(wb, conn, sheet_name, cadence, hfont, hfill, nfmt):
 
     ws.column_dimensions["A"].width = 12
     ws.column_dimensions["B"].width = 30
+
+
+def _build_cover_sheet(wb, conn, sheet_info, hfont, hfill):
+    """Build the cover sheet with summary info + table of contents."""
+    from openpyxl.styles import Alignment, Font
+
+    ws = wb.create_sheet("Cover", 0)  # insert at position 0
+
+    title_font = Font(bold=True, size=20, color="1F4E79")
+    label_font = Font(bold=True, size=11)
+    value_font = Font(size=11)
+    disclaimer_font = Font(size=9, italic=True, color="666666")
+    toc_header_font = Font(bold=True, size=13, color="2E75B6")
+
+    # --- Title block ---
+    ws.merge_cells("A1:F1")
+    cell = ws["A1"]
+    cell.value = "AI Infrastructure Capex & Cloud Revenue Tracker"
+    cell.font = title_font
+    cell.alignment = Alignment(vertical="center")
+    ws.row_dimensions[1].height = 40
+
+    ws.merge_cells("A2:F2")
+    ws["A2"].value = "neocloud-capex-tracker"
+    ws["A2"].font = Font(size=11, italic=True, color="888888")
+
+    # --- Summary block ---
+    row = 4
+    summary = [
+        ("Reporting currency", "All values in USD millions (non-USD converted at period-end FX)"),
+        ("Data as of", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")),
+        ("Companies tracked", str(_count(conn, "SELECT COUNT(DISTINCT ticker) FROM companies"))),
+        ("Total data points", str(_count(conn, "SELECT COUNT(*) FROM extractions"))),
+        ("Coverage period", _coverage_range(conn)),
+        ("Sources", "SEC EDGAR (10-K, 10-Q, 20-F), HKEXnews (HK-AR, HK-IR)"),
+        ("Extraction methods", "XBRL API, LLM extraction (Claude Code), manual derivation"),
+        ("FX source", "ECB via frankfurter.app (period-end rates)"),
+    ]
+    for label, value in summary:
+        ws.cell(row=row, column=1, value=label).font = label_font
+        ws.cell(row=row, column=2, value=value).font = value_font
+        row += 1
+
+    row += 1
+    ws.merge_cells(f"A{row}:F{row}")
+    ws.cell(row=row, column=1, value=(
+        "DISCLAIMER: Data extracted programmatically from public SEC and HKEX filings. "
+        "Every value has a source citation (Shift+F2 on any data cell). "
+        "Verify against source filings before use in investment decisions."
+    )).font = disclaimer_font
+    row += 2
+
+    # --- Table of Contents ---
+    ws.cell(row=row, column=1, value="Table of Contents").font = toc_header_font
+    row += 1
+
+    toc_headers = ["#", "Sheet", "Description"]
+    for col, h in enumerate(toc_headers, 1):
+        cell = ws.cell(row=row, column=col, value=h)
+        cell.font = hfont
+        cell.fill = hfill
+    row += 1
+
+    for idx, (sheet_name, description) in enumerate(sheet_info, 1):
+        ws.cell(row=row, column=1, value=idx)
+        link_cell = ws.cell(row=row, column=2, value=sheet_name)
+        link_cell.font = Font(
+            color="0563C1", underline="single", size=11
+        )
+        # Internal hyperlink to the sheet
+        safe_name = sheet_name.replace("'", "''")
+        link_cell.hyperlink = f"#'{safe_name}'!A1"
+        ws.cell(row=row, column=3, value=description).font = value_font
+
+        # Add row count
+        target_ws = wb[sheet_name]
+        rows_in_sheet = target_ws.max_row - 1  # minus header
+        ws.cell(row=row, column=4, value=f"{rows_in_sheet} rows")
+
+        row += 1
+
+    # Column widths
+    ws.column_dimensions["A"].width = 22
+    ws.column_dimensions["B"].width = 30
+    ws.column_dimensions["C"].width = 50
+    ws.column_dimensions["D"].width = 12
+
+
+def _count(conn, sql: str) -> int:
+    return conn.execute(sql).fetchone()[0]
+
+
+def _coverage_range(conn) -> str:
+    row = conn.execute(
+        "SELECT MIN(sd.fiscal_year), MAX(sd.fiscal_year) "
+        "FROM extractions e "
+        "JOIN source_documents sd ON e.source_document_id = sd.id"
+    ).fetchone()
+    if row and row[0]:
+        return f"FY{row[0]} – FY{row[1]}"
+    return "N/A"
 
 
 def _make_font(bold=False, size=11):

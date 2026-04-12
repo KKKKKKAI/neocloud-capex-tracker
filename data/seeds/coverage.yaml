@@ -303,7 +303,21 @@ datasets:
         treatment: named_segment
         segment_names: ["Google Cloud"]
         segment_start: "2020-10-01"  # Q4 2020 first segment disclosure
-        notes: "Not separately disclosed before Q4 2020. Pre-2020 quarters = null."
+        adjustment:
+          pre_segment_treatment: null  # no derivation possible pre-2020
+          rationale: |
+            Google Cloud was first reported as a separate segment in Q4 2020
+            (FY2020 10-K). Before that, cloud revenue was part of the
+            undifferentiated "Google" segment. No subsidiary or line-item
+            subtraction is available to derive pre-2020 cloud revenue.
+            Google did disclose cloud annualized run-rate in some press
+            releases/earnings calls (~$8B run-rate in Q4 2019) but these
+            are not from 10-K filings and are not comparable to the
+            segment disclosure.
+          caveats:
+            - "Pre-Q4 2020 cloud revenue is null — not derivable from 10-K"
+            - "Press release/earnings call disclosures could fill this gap but require a different source"
+        notes: "Segment data from FY2020 onward only."
 
       - ticker: ORCL
         treatment: named_segment
@@ -318,10 +332,31 @@ datasets:
         notes: "Renamed ~FY2024. CNY reporting. Annual data only (20-F)."
 
       - ticker: BIDU
-        treatment: named_segment
-        segment_names: ["AI Cloud", "Baidu Cloud", "Intelligent Cloud"]
-        segment_start: "2017-01-01"
-        notes: "Sparse segment data in early years. CNY. Annual only."
+        treatment: derived_subtraction
+        segment_names: ["AI Cloud", "Baidu Cloud"]
+        segment_start: "2018-01-01"
+        adjustment:
+          method: subtraction
+          formula: "cloud_revenue = Others_revenue - iQIYI_standalone_revenue"
+          rationale: |
+            Baidu does not separately disclose cloud revenue. Their revenue
+            is split into "Online marketing services" and "Others". The
+            "Others" category includes: (1) cloud services, (2) iQIYI
+            video membership and advertising, and (3) other services.
+            iQIYI (NASDAQ: IQ) is a separately listed subsidiary that
+            reports standalone revenue. By subtracting iQIYI's standalone
+            revenue from Baidu's "Others" revenue, we approximate Baidu's
+            cloud + other non-iQIYI services revenue. This overstates
+            cloud slightly (includes some non-cloud items) but is the
+            closest available proxy without management commentary.
+          source_line_items:
+            - "Others revenue (from Baidu 20-F income statement)"
+            - "iQIYI standalone revenue (from iQIYI 20-F or Baidu 20-F segment note)"
+          caveats:
+            - "Overstates cloud: includes non-cloud items in Others beyond iQIYI"
+            - "iQIYI was deconsolidated in 2025; adjustment formula changes post-deconsolidation"
+            - "Values in RMB, converted to USD at period-end FX rate"
+        notes: "CNY. Annual only (20-F)."
 
       - ticker: "0700"
         treatment: named_segment_fuzzy

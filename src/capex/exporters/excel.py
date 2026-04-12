@@ -1,5 +1,11 @@
 """Excel workbook exporter — the visible deliverable.
 
+CURRENCY RULE: all values displayed in Excel are in USD millions.
+Non-USD companies (BABA, BIDU, GDS, 0700) are converted at period-end
+FX rates. The local currency value is preserved in the DB and shown
+in the cell comment (Shift+F2) for audit, but the CELL VALUE is always
+value_usd. Never display local currency values in data cells.
+
 Reads the extractions DB and produces an 8-sheet Excel workbook:
 
     1. Revenue (Annual)      — one row per company, one column per FY

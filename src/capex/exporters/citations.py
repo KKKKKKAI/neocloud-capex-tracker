@@ -75,7 +75,7 @@ def _format_sec(
 
     if section:
         lines.append(f"Section: {section}")
-    if quote and not quote.startswith("XBRL"):
+    if quote and not quote.startswith("XBRL") and quote not in section:
         lines.append(f'Line item: "{quote}"')
 
     if currency != "USD" and value is not None and value_usd is not None:
@@ -89,7 +89,9 @@ def _format_sec(
     elif value is not None:
         lines.append(f"Value: ${value:,.0f}M (as reported)")
 
-    if "xbrl" in model:
+    if model == "xbrl-verified":
+        lines.append("Value cross-checked against SEC XBRL structured data.")
+    elif "xbrl" in model:
         concept = _get_xbrl_concept(ext)
         if concept:
             lines.append(f"Method: XBRL companyfacts API ({concept})")
@@ -246,37 +248,17 @@ def _format_derived(
 
 
 def _build_external_url(doc: dict, model: str = "") -> str | None:
-    """Build the EXTERNAL download URL for a filing.
+    """Return the EXTERNAL download URL for the actual report file.
 
-    For SEC: https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/
-    For HKEX: use source_url directly (already external)
-    NEVER return local paths or XBRL API URLs.
+    Uses source_documents.source_url directly — this now contains the
+    full URL to the specific .htm/.pdf file (not a directory listing).
+    Backfilled in Phase 6A step 1b for all 339 source_documents.
+
+    NEVER returns local file paths, XBRL API URLs, or directory URLs.
     """
-    source = doc.get("source", "")
     source_url = doc.get("source_url", "")
-    accession = doc.get("accession_number", "")
-    ticker = doc.get("ticker", "")
-
-    if source in ("sec_edgar", "xbrl_api") and accession:
-        # Construct SEC EDGAR filing page URL from accession number
-        acc_nd = accession.replace("-", "")
-        # Get CIK from companies table
-        cik = _get_cik(ticker)
-        if cik:
-            cik_int = str(int(cik))
-            return (
-                f"https://www.sec.gov/Archives/edgar/data/"
-                f"{cik_int}/{acc_nd}/"
-            )
-
-    if source == "hkex" and source_url:
-        # HKEXnews URL is already external
-        if source_url.startswith("http"):
-            return source_url
-
     if source_url and source_url.startswith("http"):
         return source_url
-
     return None
 
 

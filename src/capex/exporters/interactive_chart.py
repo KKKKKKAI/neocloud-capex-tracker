@@ -229,6 +229,8 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
   <div class="controls">
     <button id="btn-annual" class="active" onclick="showAnnual()">Annual</button>
     <button id="btn-quarterly" onclick="showQuarterly()">Quarterly</button>
+    <button onclick="selectAll()">Select All</button>
+    <button onclick="deselectAll()">Deselect All</button>
   </div>
   <div id="plotDiv" style="width:100%;height:700px;"></div>
   <div class="note">
@@ -244,6 +246,18 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 </div>
 
 <script>
+/*
+ * Chart settings from data/seeds/chart_config.yaml
+ * Hardcoded here for static HTML — keep in sync with the YAML.
+ * YoY axis: FIXED -10% to 100% (never auto-scale)
+ * Bar labels: always ABOVE the bar top (yref='y', yshift=15)
+ * Legend: vertical, right-hand side
+ * Select/Deselect All buttons: included
+ */
+var CFG_YOY_MIN = -10;
+var CFG_YOY_MAX = 100;
+var CFG_LABEL_YSHIFT = 15;
+
 // ---- DATA ----
 var annualTraces = {annual_traces_json};
 var quarterlyTraces = {quarterly_traces_json};
@@ -256,14 +270,11 @@ var currentView = 'annual';
 var plotDiv = document.getElementById('plotDiv');
 var allTraces = [];
 var yoyTraceIdx = -1;
-var barIndices = [];
 
 function buildTraces(dataTraces, xLabels) {{
     allTraces = [];
-    barIndices = [];
 
-    // Bar traces
-    dataTraces.forEach(function(t, i) {{
+    dataTraces.forEach(function(t) {{
         allTraces.push({{
             name: t.name,
             x: t.x,
@@ -272,15 +283,11 @@ function buildTraces(dataTraces, xLabels) {{
             marker: t.marker,
             hovertemplate: '<b>' + t.name + '</b><br>$%{{y:.1f}}B<extra></extra>'
         }});
-        barIndices.push(i);
     }});
 
-    // YoY scatter trace
-    var totals = calcTotals(allTraces, barIndices);
+    var totals = calcTotals();
     var yoy = calcYoY(totals);
-    var yoyX = [];
-    var yoyY = [];
-    var yoyText = [];
+    var yoyX = [], yoyY = [], yoyText = [];
     for (var i = 0; i < yoy.length; i++) {{
         if (yoy[i] !== null) {{
             yoyX.push(xLabels[i]);
@@ -292,8 +299,7 @@ function buildTraces(dataTraces, xLabels) {{
     yoyTraceIdx = allTraces.length;
     allTraces.push({{
         name: 'YoY Growth %',
-        x: yoyX,
-        y: yoyY,
+        x: yoyX, y: yoyY,
         type: 'scatter',
         mode: 'lines+markers+text',
         line: {{ color: '#2C3E50', width: 3 }},
@@ -304,21 +310,20 @@ function buildTraces(dataTraces, xLabels) {{
         yaxis: 'y2',
         hovertemplate: '%{{x}}: %{{y:.1f}}% YoY<extra></extra>'
     }});
-
     return totals;
 }}
 
-function calcTotals(traces, indices) {{
-    if (traces.length === 0) return [];
-    var n = traces[0].x.length;
+function calcTotals() {{
+    if (allTraces.length === 0) return [];
+    var n = allTraces[0].x.length;
     var totals = new Array(n).fill(0);
-    indices.forEach(function(idx) {{
-        var t = traces[idx];
-        if (!t || t.visible === 'legendonly') return;
+    for (var i = 0; i < allTraces.length; i++) {{
+        var t = allTraces[i];
+        if (t.type !== 'bar' || t.visible === 'legendonly') continue;
         for (var j = 0; j < t.y.length; j++) {{
             totals[j] += (t.y[j] || 0);
         }}
-    }});
+    }}
     return totals;
 }}
 
@@ -343,7 +348,7 @@ function makeAnnotations(totals, xLabels) {{
                 y: totals[i],
                 text: '<b>$' + Math.round(totals[i]) + 'B</b>',
                 showarrow: false,
-                yshift: 15,
+                yshift: CFG_LABEL_YSHIFT,
                 font: {{ size: 11 }}
             }});
         }}
@@ -353,20 +358,13 @@ function makeAnnotations(totals, xLabels) {{
 
 function renderChart(dataTraces, xLabels, subtitle) {{
     var totals = buildTraces(dataTraces, xLabels);
-    var maxYoY = 60;
-    allTraces.forEach(function(t) {{
-        if (t.yaxis === 'y2' && t.y) {{
-            t.y.forEach(function(v) {{ if (v > maxYoY) maxYoY = v; }});
-        }}
-    }});
 
     var layout = {{
         barmode: 'stack',
         title: {{
             text: 'Cloud/Datacenter Revenue — AI Infrastructure Ecosystem<br>' +
                   '<sub>' + subtitle + '</sub>',
-            font: {{ size: 18 }},
-            x: 0.5
+            font: {{ size: 18 }}, x: 0.5
         }},
         xaxis: {{ title: 'Period', tickfont: {{ size: 11 }} }},
         yaxis: {{ title: 'Cloud/DC Revenue ($B USD)', gridcolor: '#E5E5E5' }},
@@ -375,16 +373,20 @@ function renderChart(dataTraces, xLabels, subtitle) {{
             overlaying: 'y', side: 'right',
             showgrid: false,
             ticksuffix: '%',
-            range: [0, maxYoY * 1.5]
+            range: [CFG_YOY_MIN, CFG_YOY_MAX],
+            fixedrange: true
         }},
         legend: {{
-            orientation: 'h', yanchor: 'bottom', y: -0.22,
-            xanchor: 'center', x: 0.5, font: {{ size: 10 }}
+            orientation: 'v',
+            x: 1.02, y: 1.0,
+            xanchor: 'left', yanchor: 'top',
+            font: {{ size: 11 }},
+            tracegroupgap: 2
         }},
         hovermode: 'x unified',
         plot_bgcolor: 'white',
         annotations: makeAnnotations(totals, xLabels),
-        margin: {{ t: 80, b: 100 }}
+        margin: {{ t: 80, b: 60, r: 150 }}
     }};
 
     Plotly.newPlot(plotDiv, allTraces, layout, {{
@@ -392,18 +394,11 @@ function renderChart(dataTraces, xLabels, subtitle) {{
         modeBarButtonsToRemove: ['lasso2d', 'select2d']
     }});
 
-    // ---- DYNAMIC YoY RECALCULATION ----
-    plotDiv.on('plotly_legendclick', function(evtData) {{
-        // Delay to let Plotly process visibility toggle
-        setTimeout(function() {{
-            recalcYoY();
-        }}, 100);
+    plotDiv.on('plotly_legendclick', function() {{
+        setTimeout(recalcYoY, 100);
     }});
-
-    plotDiv.on('plotly_legenddoubleclick', function(evtData) {{
-        setTimeout(function() {{
-            recalcYoY();
-        }}, 100);
+    plotDiv.on('plotly_legenddoubleclick', function() {{
+        setTimeout(recalcYoY, 100);
     }});
 }}
 
@@ -412,7 +407,6 @@ function recalcYoY() {{
     var xLabels = currentView === 'annual' ? xAnnual : xQuarterly;
     var n = xLabels.length;
 
-    // Sum visible bar traces
     var totals = new Array(n).fill(0);
     for (var i = 0; i < data.length; i++) {{
         if (data[i].type === 'bar' && data[i].visible !== 'legendonly') {{
@@ -422,7 +416,6 @@ function recalcYoY() {{
         }}
     }}
 
-    // Compute new YoY
     var yoy = calcYoY(totals);
     var yoyX = [], yoyY = [], yoyText = [];
     for (var i = 0; i < yoy.length; i++) {{
@@ -433,15 +426,35 @@ function recalcYoY() {{
         }}
     }}
 
-    // Update YoY trace
     Plotly.restyle(plotDiv, {{
         x: [yoyX], y: [yoyY], text: [yoyText]
     }}, [yoyTraceIdx]);
 
-    // Update total annotations
     Plotly.relayout(plotDiv, {{
         annotations: makeAnnotations(totals, xLabels)
     }});
+}}
+
+// ---- SELECT / DESELECT ALL ----
+function selectAll() {{
+    var update = {{}};
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) {{
+        indices.push(i);
+    }}
+    Plotly.restyle(plotDiv, {{ visible: true }}, indices);
+    setTimeout(recalcYoY, 100);
+}}
+
+function deselectAll() {{
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) {{
+        if (plotDiv.data[i].type === 'bar') {{
+            indices.push(i);
+        }}
+    }}
+    Plotly.restyle(plotDiv, {{ visible: 'legendonly' }}, indices);
+    setTimeout(recalcYoY, 100);
 }}
 
 // ---- VIEW SWITCHING ----

@@ -23,6 +23,8 @@
   <div class="controls">
     <button id="btn-annual" class="active" onclick="showAnnual()">Annual</button>
     <button id="btn-quarterly" onclick="showQuarterly()">Quarterly</button>
+    <button onclick="selectAll()">Select All</button>
+    <button onclick="deselectAll()">Deselect All</button>
   </div>
   <div id="plotDiv" style="width:100%;height:700px;"></div>
   <div class="note">
@@ -38,6 +40,18 @@
 </div>
 
 <script>
+/*
+ * Chart settings from data/seeds/chart_config.yaml
+ * Hardcoded here for static HTML — keep in sync with the YAML.
+ * YoY axis: FIXED -10% to 100% (never auto-scale)
+ * Bar labels: always ABOVE the bar top (yref='y', yshift=15)
+ * Legend: vertical, right-hand side
+ * Select/Deselect All buttons: included
+ */
+var CFG_YOY_MIN = -10;
+var CFG_YOY_MAX = 100;
+var CFG_LABEL_YSHIFT = 15;
+
 // ---- DATA ----
 var annualTraces = [{"name": "AMZN", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [7.88, 12.219, 17.459, 25.655, 35.026, 45.37, 62.202, 80.096, 90.757, 107.556, 128.725], "type": "bar", "marker": {"color": "#FF9900"}}, {"name": "MSFT", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [23.715, 25.042, 27.44, 32.219, 38.985, 48.366, 60.08, 75.251, 72.944, 87.464, 106.265], "type": "bar", "marker": {"color": "#00A4EF"}}, {"name": "GOOGL", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 4.056, 5.838, 8.918, 13.059, 19.206, 26.28, 33.088, 43.229, 58.705], "type": "bar", "marker": {"color": "#4285F4"}}, {"name": "ORCL", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 2.545, 2.885, 3.447, 3.597, 3.803, 4.133, 4.915, 15.881, 19.774, 24.506], "type": "bar", "marker": {"color": "#F80000"}}, {"name": "Tencent*", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 14.55965, 19.592029999999998, 27.106939999999998, 25.66543, 28.67964, 29.03797, 32.7725], "type": "bar", "marker": {"color": "#00B140"}}, {"name": "CRWV", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.229, 1.915, 5.131], "type": "bar", "marker": {"color": "#7D3C98"}}, {"name": "GDS", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.15206, 0.24836000000000003, 0.40594, 0.5921799999999999, 0.87783, 1.23082, 1.35175, 1.40138, 1.4141199999999998, 0.0], "type": "bar", "marker": {"color": "#1A5276"}}, {"name": "BABA", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.96733, 2.12968, 3.68085, 5.63625, 9.17732, 11.757879999999998, 15.05467, 14.71684, 16.27252], "type": "bar", "marker": {"color": "#FF6A00"}}, {"name": "BIDU", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.43689999999999996, 0.9150499999999999, 1.4031, 2.37232, 2.56866, 3.0292199999999996, 3.47117, 4.8496999999999995], "type": "bar", "marker": {"color": "#2932E1"}}, {"name": "APLD", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00855, 0.05539, 0.16557, 0.14418999999999998], "type": "bar", "marker": {"color": "#2E86C1"}}, {"name": "IREN", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07551000000000001, 0.18719, 0.50102], "type": "bar", "marker": {"color": "#27AE60"}}, {"name": "NBIS", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1175, 0.0], "type": "bar", "marker": {"color": "#F39C12"}}];
 var quarterlyTraces = [{"name": "CRWV", "x": ["2021Q1", "2021Q2", "2021Q3", "2022Q1", "2022Q2", "2022Q3", "2023Q1", "2023Q2", "2023Q3", "2024Q1", "2024Q2", "2024Q3", "2025Q1", "2025Q2", "2025Q3", "2026Q3"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18868000000000001, 0.39536999999999994, 0.5839500000000001, 0.98163, 1.21279, 1.36468, 0.0], "type": "bar", "marker": {"color": "#7D3C98"}}, {"name": "APLD", "x": ["2021Q1", "2021Q2", "2021Q3", "2022Q1", "2022Q2", "2022Q3", "2023Q1", "2023Q2", "2023Q3", "2024Q1", "2024Q2", "2024Q3", "2025Q1", "2025Q2", "2025Q3", "2026Q3"], "y": [0.0, 0.0, 0.0, 0.00692, 0.012340000000000002, 0.00103, 0.03632, 0.04221, 0.01409, 0.060700000000000004, 0.06387, 0.04334999999999999, 0.06422, 0.12659, 0.052920000000000016, 0.16175], "type": "bar", "marker": {"color": "#2E86C1"}}];
@@ -50,14 +64,11 @@ var currentView = 'annual';
 var plotDiv = document.getElementById('plotDiv');
 var allTraces = [];
 var yoyTraceIdx = -1;
-var barIndices = [];
 
 function buildTraces(dataTraces, xLabels) {
     allTraces = [];
-    barIndices = [];
 
-    // Bar traces
-    dataTraces.forEach(function(t, i) {
+    dataTraces.forEach(function(t) {
         allTraces.push({
             name: t.name,
             x: t.x,
@@ -66,15 +77,11 @@ function buildTraces(dataTraces, xLabels) {
             marker: t.marker,
             hovertemplate: '<b>' + t.name + '</b><br>$%{y:.1f}B<extra></extra>'
         });
-        barIndices.push(i);
     });
 
-    // YoY scatter trace
-    var totals = calcTotals(allTraces, barIndices);
+    var totals = calcTotals();
     var yoy = calcYoY(totals);
-    var yoyX = [];
-    var yoyY = [];
-    var yoyText = [];
+    var yoyX = [], yoyY = [], yoyText = [];
     for (var i = 0; i < yoy.length; i++) {
         if (yoy[i] !== null) {
             yoyX.push(xLabels[i]);
@@ -86,8 +93,7 @@ function buildTraces(dataTraces, xLabels) {
     yoyTraceIdx = allTraces.length;
     allTraces.push({
         name: 'YoY Growth %',
-        x: yoyX,
-        y: yoyY,
+        x: yoyX, y: yoyY,
         type: 'scatter',
         mode: 'lines+markers+text',
         line: { color: '#2C3E50', width: 3 },
@@ -98,21 +104,20 @@ function buildTraces(dataTraces, xLabels) {
         yaxis: 'y2',
         hovertemplate: '%{x}: %{y:.1f}% YoY<extra></extra>'
     });
-
     return totals;
 }
 
-function calcTotals(traces, indices) {
-    if (traces.length === 0) return [];
-    var n = traces[0].x.length;
+function calcTotals() {
+    if (allTraces.length === 0) return [];
+    var n = allTraces[0].x.length;
     var totals = new Array(n).fill(0);
-    indices.forEach(function(idx) {
-        var t = traces[idx];
-        if (!t || t.visible === 'legendonly') return;
+    for (var i = 0; i < allTraces.length; i++) {
+        var t = allTraces[i];
+        if (t.type !== 'bar' || t.visible === 'legendonly') continue;
         for (var j = 0; j < t.y.length; j++) {
             totals[j] += (t.y[j] || 0);
         }
-    });
+    }
     return totals;
 }
 
@@ -137,7 +142,7 @@ function makeAnnotations(totals, xLabels) {
                 y: totals[i],
                 text: '<b>$' + Math.round(totals[i]) + 'B</b>',
                 showarrow: false,
-                yshift: 15,
+                yshift: CFG_LABEL_YSHIFT,
                 font: { size: 11 }
             });
         }
@@ -147,20 +152,13 @@ function makeAnnotations(totals, xLabels) {
 
 function renderChart(dataTraces, xLabels, subtitle) {
     var totals = buildTraces(dataTraces, xLabels);
-    var maxYoY = 60;
-    allTraces.forEach(function(t) {
-        if (t.yaxis === 'y2' && t.y) {
-            t.y.forEach(function(v) { if (v > maxYoY) maxYoY = v; });
-        }
-    });
 
     var layout = {
         barmode: 'stack',
         title: {
             text: 'Cloud/Datacenter Revenue — AI Infrastructure Ecosystem<br>' +
                   '<sub>' + subtitle + '</sub>',
-            font: { size: 18 },
-            x: 0.5
+            font: { size: 18 }, x: 0.5
         },
         xaxis: { title: 'Period', tickfont: { size: 11 } },
         yaxis: { title: 'Cloud/DC Revenue ($B USD)', gridcolor: '#E5E5E5' },
@@ -169,16 +167,20 @@ function renderChart(dataTraces, xLabels, subtitle) {
             overlaying: 'y', side: 'right',
             showgrid: false,
             ticksuffix: '%',
-            range: [0, maxYoY * 1.5]
+            range: [CFG_YOY_MIN, CFG_YOY_MAX],
+            fixedrange: true
         },
         legend: {
-            orientation: 'h', yanchor: 'bottom', y: -0.22,
-            xanchor: 'center', x: 0.5, font: { size: 10 }
+            orientation: 'v',
+            x: 1.02, y: 1.0,
+            xanchor: 'left', yanchor: 'top',
+            font: { size: 11 },
+            tracegroupgap: 2
         },
         hovermode: 'x unified',
         plot_bgcolor: 'white',
         annotations: makeAnnotations(totals, xLabels),
-        margin: { t: 80, b: 100 }
+        margin: { t: 80, b: 60, r: 150 }
     };
 
     Plotly.newPlot(plotDiv, allTraces, layout, {
@@ -186,18 +188,11 @@ function renderChart(dataTraces, xLabels, subtitle) {
         modeBarButtonsToRemove: ['lasso2d', 'select2d']
     });
 
-    // ---- DYNAMIC YoY RECALCULATION ----
-    plotDiv.on('plotly_legendclick', function(evtData) {
-        // Delay to let Plotly process visibility toggle
-        setTimeout(function() {
-            recalcYoY();
-        }, 100);
+    plotDiv.on('plotly_legendclick', function() {
+        setTimeout(recalcYoY, 100);
     });
-
-    plotDiv.on('plotly_legenddoubleclick', function(evtData) {
-        setTimeout(function() {
-            recalcYoY();
-        }, 100);
+    plotDiv.on('plotly_legenddoubleclick', function() {
+        setTimeout(recalcYoY, 100);
     });
 }
 
@@ -206,7 +201,6 @@ function recalcYoY() {
     var xLabels = currentView === 'annual' ? xAnnual : xQuarterly;
     var n = xLabels.length;
 
-    // Sum visible bar traces
     var totals = new Array(n).fill(0);
     for (var i = 0; i < data.length; i++) {
         if (data[i].type === 'bar' && data[i].visible !== 'legendonly') {
@@ -216,7 +210,6 @@ function recalcYoY() {
         }
     }
 
-    // Compute new YoY
     var yoy = calcYoY(totals);
     var yoyX = [], yoyY = [], yoyText = [];
     for (var i = 0; i < yoy.length; i++) {
@@ -227,15 +220,35 @@ function recalcYoY() {
         }
     }
 
-    // Update YoY trace
     Plotly.restyle(plotDiv, {
         x: [yoyX], y: [yoyY], text: [yoyText]
     }, [yoyTraceIdx]);
 
-    // Update total annotations
     Plotly.relayout(plotDiv, {
         annotations: makeAnnotations(totals, xLabels)
     });
+}
+
+// ---- SELECT / DESELECT ALL ----
+function selectAll() {
+    var update = {};
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) {
+        indices.push(i);
+    }
+    Plotly.restyle(plotDiv, { visible: true }, indices);
+    setTimeout(recalcYoY, 100);
+}
+
+function deselectAll() {
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) {
+        if (plotDiv.data[i].type === 'bar') {
+            indices.push(i);
+        }
+    }
+    Plotly.restyle(plotDiv, { visible: 'legendonly' }, indices);
+    setTimeout(recalcYoY, 100);
 }
 
 // ---- VIEW SWITCHING ----

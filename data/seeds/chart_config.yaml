@@ -1,0 +1,65 @@
+# Chart configuration — visual standards for all charts
+#
+# This file defines the user's chart preferences. Any chart generator
+# (static PNG, interactive Plotly, future dashboards) should read this
+# file and apply these settings. This ensures visual consistency across
+# all outputs.
+#
+# When adding a new chart type, check each setting here and apply it.
+# If a setting doesn't apply to the new chart type, note why in a
+# comment next to the setting.
+
+layout:
+  # Secondary Y-axis (YoY growth) — FIXED range, never auto-scale
+  yoy_axis:
+    range_min: -10    # percent
+    range_max: 100    # percent
+    tick_suffix: "%"
+    title: "YoY Growth (%)"
+    color: "#2C3E50"
+    notes: "Fixed range prevents the axis from floating when companies are toggled"
+
+  # Total labels on bars
+  bar_total_labels:
+    position: "top"   # always above the top of the stacked bar
+    y_offset: 15      # pixels above the bar top
+    font_size: 11
+    font_bold: true
+    format: "${value}B"
+    notes: "Labels must float ABOVE the bar, never between segments"
+
+  # Legend placement
+  legend:
+    orientation: "vertical"
+    position: "right"   # right-hand side of the chart
+    x: 1.02             # just outside the plot area
+    y: 1.0              # top-aligned
+    font_size: 11
+    notes: "Vertical legend on RHS for readability with 12 companies"
+
+  # Select/deselect all
+  select_all_buttons: true
+  notes: "Include 'Select All' and 'Deselect All' buttons above the legend"
+
+  # General
+  plot_bgcolor: "white"
+  gridcolor: "#E5E5E5"
+  title_font_size: 18
+  height: 700
+
+colors:
+  AMZN: "#FF9900"
+  MSFT: "#00A4EF"
+  GOOGL: "#4285F4"
+  ORCL: "#F80000"
+  "0700": "#00B140"
+  CRWV: "#7D3C98"
+  GDS: "#1A5276"
+  BABA: "#FF6A00"
+  BIDU: "#2932E1"
+  APLD: "#2E86C1"
+  IREN: "#27AE60"
+  NBIS: "#F39C12"
+
+labels:
+  "0700": "Tencent*"

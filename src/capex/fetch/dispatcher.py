@@ -185,7 +185,7 @@ def _compute_period_token(form_type: str, period_of_report: str, fye_month: int)
 
     period_month = int(period_of_report.split("-")[1])
 
-    if form_type == "10-Q":
+    if form_type in ("10-Q", "6-K"):
         # Months elapsed in fiscal year (1..12). Q1=1-3, Q2=4-6, Q3=7-9, Q4=10-12.
         elapsed = ((period_month - fye_month - 1) % 12) + 1
         if elapsed <= 3:
@@ -194,6 +194,9 @@ def _compute_period_token(form_type: str, period_of_report: str, fye_month: int)
             return "Q2"
         if elapsed <= 9:
             return "Q3"
+        if form_type == "6-K":
+            # Q4 for 6-K is valid (quarterly earnings press release)
+            return "Q3"  # last quarter before FY end
         # Elapsed > 9 means we landed in Q4, which 10-Q doesn't cover.
         from .errors import FetchError
         raise FetchError(

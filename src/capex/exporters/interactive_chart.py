@@ -9,11 +9,9 @@ Features:
 - Total $B annotations update when companies are toggled
 - Fully self-contained HTML — no server needed
 
-NOTE: Quarterly cloud segment data is currently XBRL-only for
-pure-play neoclouds. Hyperscaler quarterly segment data requires
-LLM extraction from 10-Q filings (Phase 8B — deferred). When that
-data lands in the DB, regenerating this chart will automatically
-include it.
+NOTE: Quarterly data uses cloud_segment_revenue where available,
+falling back to total group revenue for companies without quarterly
+segment breakdowns. Annual data uses cloud_segment_revenue only.
 """
 from __future__ import annotations
 
@@ -117,10 +115,6 @@ def _load_quarterly(conn) -> dict[str, Any]:
     for r in rows:
         t = r["ticker"]
         if t == "NBIS" and r["fiscal_year"] < NBIS_START:
-            continue
-        # Only include pure-plays (whole_company) for quarterly
-        # since hyperscalers don't have quarterly segment data yet
-        if t not in ("CRWV", "APLD", "GDS", "IREN", "NBIS"):
             continue
         fy = r["fiscal_year"]
         by_ticker_fy.setdefault(t, {}).setdefault(fy, []).append(r)
@@ -236,9 +230,8 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
   <div class="note">
     Click legend entries to toggle companies — YoY growth auto-recalculates.
     *Tencent: FinTech &amp; Business Services proxy (includes WeChat Pay).
-    <br>Quarterly view: XBRL data for pure-play neoclouds only.
-    Hyperscaler quarterly segment data requires LLM extraction from 10-Q
-    filings (coming soon).
+    <br>Quarterly view: total group revenue for SEC 10-Q filers.
+    20-F and HKEX filers have annual data only.
     <br>Source:
     <a href="https://github.com/KKKKKKAI/neocloud-capex-tracker">
     neocloud-capex-tracker</a>
@@ -473,13 +466,12 @@ function showQuarterly() {{
     document.getElementById('btn-annual').classList.remove('active');
     if (quarterlyTraces.length === 0) {{
         plotDiv.innerHTML = '<p style="text-align:center;padding:200px 0;color:#888;">' +
-            'Quarterly cloud segment data not yet available.<br>' +
-            'Requires LLM extraction from 10-Q filings (Phase 8B).</p>';
+            'Quarterly revenue data not yet available.</p>';
         return;
     }}
     renderChart(quarterlyTraces, xQuarterly,
-        'Quarterly (XBRL data, pure-play neoclouds only). ' +
-        'Hyperscaler quarterly data requires 10-Q extraction.');
+        'Quarterly revenue for SEC 10-Q filers. ' +
+        '20-F and HKEX filers have annual data only.');
 }}
 
 // ---- INIT ----

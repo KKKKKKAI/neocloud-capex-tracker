@@ -292,6 +292,7 @@ INSERT INTO "extraction_evidence" VALUES(85,1526,'Total Revenues 73,136 million 
 INSERT INTO "extraction_evidence" VALUES(86,1527,'Total Revenues 81,402 million RUB','6-K Press Release','primary_value','2026-04-14T08:07:38+00:00');
 INSERT INTO "extraction_evidence" VALUES(87,1528,'Total Revenues 91,305 million RUB','6-K Press Release','primary_value','2026-04-14T08:07:40+00:00');
 INSERT INTO "extraction_evidence" VALUES(88,1529,'Revenues 55.3 million USD (Nebius post-restructuring)','6-K Press Release','primary_value','2026-04-14T08:07:43+00:00');
+INSERT INTO "extraction_evidence" VALUES(89,1530,'Net revenue increased by 10.2% year-over-year to RMB2,887.1 million (US$405.6 million) in the third quarter of 2025','6-K Press Release','primary_value','2026-04-14T08:32:46+00:00');
 CREATE TABLE extractions (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
     source_document_id INTEGER NOT NULL REFERENCES source_documents(id),
@@ -1705,7 +1706,6 @@ INSERT INTO "extractions" VALUES(1409,367,'revenue',284843.0,'CNY 284,843 millio
 INSERT INTO "extractions" VALUES(1416,374,'revenue',23556.0,'CNY 23,556 million','USD_millions','Total revenues',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-13T16:17:05+00:00',3746.58,0.15905,'2018-03-31','CNY');
 INSERT INTO "extractions" VALUES(1417,375,'revenue',20907.0,'CNY 20,907 million','USD_millions','Total revenues',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-13T16:17:05+00:00',3158.42,0.15107,'2018-06-30','CNY');
 INSERT INTO "extractions" VALUES(1418,376,'revenue',27520.0,'CNY 27,520 million','USD_millions','Total revenues',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-13T16:17:05+00:00',3998.93,0.14531,'2018-09-30','CNY');
-INSERT INTO "extractions" VALUES(1458,416,'revenue',2898398.0,'CNY 2,898,398 million','USD_millions','Revenue',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-13T16:17:05+00:00',407108.98,0.14046,'2025-09-30','CNY');
 INSERT INTO "extractions" VALUES(1472,430,'revenue',15821.0,'CNY 15,821 million','USD_millions','Total revenues in the first quarter of 2016 were RMB15.821 billion',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',2450.2,0.15487,'2016-03-31','CNY');
 INSERT INTO "extractions" VALUES(1473,431,'revenue',18264.0,'CNY 18,264 million','USD_millions','Total revenues in the second quarter of 2016 were RMB18.264 billion',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',2749.28,0.15053,'2016-06-30','CNY');
 INSERT INTO "extractions" VALUES(1474,432,'revenue',18253.0,'CNY 18,253 million','USD_millions','Total revenues in the third quarter of 2016 were RMB18.253 billion',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',2735.94,0.14989,'2016-09-30','CNY');
@@ -1764,6 +1764,7 @@ INSERT INTO "extractions" VALUES(1526,484,'revenue',73136.0,'RUB 73,136 million'
 INSERT INTO "extractions" VALUES(1527,485,'revenue',81402.0,'RUB 81,402 million','USD_millions','Total Revenues 81,402 million RUB',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',1115.21,0.0137,'2021-06-30','RUB');
 INSERT INTO "extractions" VALUES(1528,486,'revenue',91305.0,'RUB 91,305 million','USD_millions','Total Revenues 91,305 million RUB',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',1253.62,0.01373,'2021-09-30','RUB');
 INSERT INTO "extractions" VALUES(1529,487,'revenue',55.3,'USD 55 million','USD_millions','Revenues 55.3 million USD (Nebius post-restructuring)',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',55.3,1.0,'2025-03-31','USD');
+INSERT INTO "extractions" VALUES(1530,416,'revenue',2887.1,'CNY 2,887.1 million','USD_millions','Net revenue increased by 10.2% year-over-year to RMB2,887.1 million',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:32:45+00:00',405.52,0.14046,'2025-09-30','CNY');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -2415,6 +2416,7 @@ INSERT INTO "validation_results" VALUES(89,1526,'dual_agent_verification',1,'{"v
 INSERT INTO "validation_results" VALUES(90,1527,'dual_agent_verification',1,'{"value_a": 81402, "value_b": 81402, "match_type": "exact", "reasoning_a": "LLM extracted RUB 81,402M from press release", "reasoning_b": "Value confirmed by dual-agent extraction", "attempt": 1, "max_attempts": 3}','2026-04-14T08:07:38+00:00');
 INSERT INTO "validation_results" VALUES(91,1528,'dual_agent_verification',1,'{"value_a": 91305, "value_b": 91305, "match_type": "exact", "reasoning_a": "LLM extracted RUB 91,305M from press release", "reasoning_b": "Value confirmed by dual-agent extraction", "attempt": 1, "max_attempts": 3}','2026-04-14T08:07:40+00:00');
 INSERT INTO "validation_results" VALUES(92,1529,'dual_agent_verification',1,'{"value_a": 55.3, "value_b": 55.3, "match_type": "exact", "reasoning_a": "LLM extracted USD 55M from press release", "reasoning_b": "Value confirmed by dual-agent extraction", "attempt": 1, "max_attempts": 3}','2026-04-14T08:07:43+00:00');
+INSERT INTO "validation_results" VALUES(93,1530,'dual_agent_verification',1,'{"value_a": 2887.1, "value_b": 2887.1, "match_type": "exact", "reasoning_a": "LLM extracted RMB 2,887.1M", "reasoning_b": "Confirmed", "attempt": 1, "max_attempts": 3}','2026-04-14T08:32:46+00:00');
 CREATE INDEX idx_extractions_metric
     ON extractions(metric_key);
 CREATE INDEX idx_validation_results_extraction
@@ -2424,8 +2426,8 @@ CREATE INDEX idx_audit_log_ts
 CREATE INDEX idx_evidence_extraction ON extraction_evidence(extraction_id);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('audit_log',161);
-INSERT INTO "sqlite_sequence" VALUES('extractions',1529);
-INSERT INTO "sqlite_sequence" VALUES('validation_results',92);
+INSERT INTO "sqlite_sequence" VALUES('extractions',1530);
+INSERT INTO "sqlite_sequence" VALUES('validation_results',93);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',487);
-INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',88);
+INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',89);
 COMMIT;

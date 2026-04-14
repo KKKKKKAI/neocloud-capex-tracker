@@ -195,6 +195,16 @@ INSERT INTO "companies" VALUES('CRWV','CoreWeave, Inc.','sec_edgar','0001769628'
 INSERT INTO "companies" VALUES('APLD','Applied Digital Corporation','sec_edgar','0001144879',NULL,5,'2026-04-10T22:01:21+00:00','USD');
 INSERT INTO "companies" VALUES('IREN','IREN Limited','sec_edgar','0001878848',NULL,6,'2026-04-10T22:01:21+00:00','USD');
 INSERT INTO "companies" VALUES('NBIS','Nebius Group N.V.','sec_edgar','0001513845',NULL,12,'2026-04-10T22:01:21+00:00','USD');
+CREATE TABLE extraction_evidence (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    extraction_id   INTEGER NOT NULL REFERENCES extractions(id),
+    excerpt_text    TEXT NOT NULL,
+    excerpt_location TEXT,
+    excerpt_role    TEXT NOT NULL
+        CHECK(excerpt_role IN ('primary_value', 'supporting', 'derivation_input', 'footnote')),
+    created_at      TEXT NOT NULL
+);
+INSERT INTO "extraction_evidence" VALUES(1,1,'Revenue from Cloud Intelligence Group was RMB39,824 million...','Segment Info','primary_value','2026-04-14T00:43:29+00:00');
 CREATE TABLE extractions (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
     source_document_id INTEGER NOT NULL REFERENCES source_documents(id),
@@ -1705,6 +1715,7 @@ INSERT INTO "schema_version" VALUES(1,'2026-04-09T17:44:06+00:00');
 INSERT INTO "schema_version" VALUES(2,'2026-04-10T22:01:21+00:00');
 INSERT INTO "schema_version" VALUES(3,'2026-04-11T14:01:45+00:00');
 INSERT INTO "schema_version" VALUES(4,'2026-04-13T16:15:41+00:00');
+INSERT INTO "schema_version" VALUES(5,'2026-04-14T00:42:55+00:00');
 CREATE TABLE "source_documents" (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL REFERENCES companies(ticker),
@@ -2108,15 +2119,18 @@ INSERT INTO "validation_results" VALUES(2,4,'xbrl_anchor_match',1,'{"note": "con
 INSERT INTO "validation_results" VALUES(3,3,'xbrl_anchor_match',1,'{"note": "concept not found in XBRL for this period", "xbrl_concept": "us-gaap:NetCashProvidedByOperatingActivities", "xbrl_value": null}','2026-04-10T16:42:17+00:00');
 INSERT INTO "validation_results" VALUES(4,5,'xbrl_anchor_match',1,'{"extracted_value": 204966.0, "pct_diff": 0.0, "tolerance_pct": 1.0, "xbrl_concept": "us-gaap:PropertyPlantAndEquipmentNet", "xbrl_value": 204966.0}','2026-04-10T16:42:17+00:00');
 INSERT INTO "validation_results" VALUES(5,2,'xbrl_anchor_match',1,'{"note": "concept not found in XBRL for this period", "xbrl_concept": "us-gaap:Revenues", "xbrl_value": null}','2026-04-10T16:42:17+00:00');
+INSERT INTO "validation_results" VALUES(6,1,'dual_agent_verification',1,'{"value_a": 39824, "value_b": 39824, "match_type": "exact", "reasoning_a": "Found in segment table", "reasoning_b": "Excerpt confirms", "attempt": 1, "max_attempts": 3}','2026-04-14T00:43:29+00:00');
 CREATE INDEX idx_extractions_metric
     ON extractions(metric_key);
 CREATE INDEX idx_validation_results_extraction
     ON validation_results(extraction_id);
 CREATE INDEX idx_audit_log_ts
     ON audit_log(ts);
+CREATE INDEX idx_evidence_extraction ON extraction_evidence(extraction_id);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('audit_log',161);
 INSERT INTO "sqlite_sequence" VALUES('extractions',1471);
-INSERT INTO "sqlite_sequence" VALUES('validation_results',5);
+INSERT INTO "sqlite_sequence" VALUES('validation_results',6);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',429);
+INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1);
 COMMIT;

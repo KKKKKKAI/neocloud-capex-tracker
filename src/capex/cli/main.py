@@ -41,6 +41,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if cmd == "extract":
         return _extract_command(rest)
+    if cmd == "review":
+        return _review_command(rest)
     if cmd == "export":
         return _export_command(rest)
     if cmd == "chart":
@@ -161,22 +163,42 @@ def _export_command(argv: list[str]) -> int:
 
 
 def _extract_command(argv: list[str]) -> int:
-    if not argv:
-        print("usage: capex extract <TICKER> [--form FORM]", file=sys.stderr)
-        print("  dry-run: shows sections + prompt for extraction", file=sys.stderr)
-        print("  e.g. capex extract MSFT", file=sys.stderr)
-        return 2
-
-    ticker = argv[0]
+    # Parse flags
+    ticker = None
     form_type = None
-    i = 1
+    metric_key = None
+    batch = False
+    i = 0
     while i < len(argv):
-        if argv[i] == "--form" and i + 1 < len(argv):
+        if argv[i] == "--batch":
+            batch = True
+            i += 1
+        elif argv[i] == "--metric" and i + 1 < len(argv):
+            metric_key = argv[i + 1]
+            i += 2
+        elif argv[i] == "--form" and i + 1 < len(argv):
             form_type = argv[i + 1]
             i += 2
+        elif not argv[i].startswith("-") and ticker is None:
+            ticker = argv[i]
+            i += 1
         else:
             print(f"unknown option: {argv[i]}", file=sys.stderr)
             return 2
+
+    # Batch mode: use the router
+    if batch:
+        return _extract_batch(metric_keys=[metric_key] if metric_key else None)
+
+    # Single ticker with --metric: use the router
+    if ticker and metric_key:
+        return _extract_single(ticker, metric_key, form_type=form_type)
+
+    # Legacy dry-run mode (no --metric)
+    if not ticker:
+        print("usage: capex extract <TICKER> [--form FORM] [--metric KEY]", file=sys.stderr)
+        print("       capex extract --batch [--metric KEY]", file=sys.stderr)
+        return 2
 
     from capex.db import Database
     from capex.read.sections import estimate_tokens, get_extraction_sections, parse_sections
@@ -254,6 +276,81 @@ def _extract_command(argv: list[str]) -> int:
     return 0
 
 
+def _extract_single(ticker: str, metric_key: str, form_type: str | None = None) -> int:
+    """Extract a single metric for a ticker via the unified router."""
+    from capex.extract.router import extract_metric
+
+    print(f"extracting {metric_key} for {ticker}...")
+    result = extract_metric(ticker, metric_key, form_type=form_type, write=True)
+
+    if result.status == "success":
+        n = result.write_summary.get("inserted", 0) if result.write_summary else 0
+        s = result.write_summary.get("skipped_existing", 0) if result.write_summary else 0
+        print(f"  ✓ {result.extractor}: inserted={n}, skipped={s}")
+        return 0
+    elif result.status == "needs_interactive":
+        print(f"  → needs interactive LLM extraction (chain tried: {result.chain_tried})")
+        print(f"    run in Claude Code: \"extract {metric_key} from {ticker}\"")
+        return 0
+    elif result.status == "needs_verification":
+        print(f"  → extracted but needs dual-agent verification")
+        return 0
+    else:
+        print(f"  ✗ no extractor succeeded (chain tried: {result.chain_tried})")
+        return 1
+
+
+def _extract_batch(metric_keys: list[str] | None = None) -> int:
+    """Batch extract for all companies."""
+    from capex.extract.router import extract_batch
+
+    print("running batch extraction...")
+    result = extract_batch(metric_keys=metric_keys)
+
+    print(f"\n=== Batch Results ===")
+    print(f"  succeeded:        {result.summary['succeeded']}")
+    print(f"  needs_interactive: {result.summary['needs_interactive']}")
+    print(f"  needs_review:     {result.summary['needs_review']}")
+    print(f"  failed:           {result.summary['failed']}")
+
+    if result.needs_interactive:
+        print(f"\nNeeds interactive LLM extraction:")
+        for ticker, metric in result.needs_interactive:
+            print(f"  {ticker:8s} {metric}")
+
+    if result.failed:
+        print(f"\nFailed:")
+        for f in result.failed:
+            print(f"  {f.get('ticker', '?'):8s} {f.get('metric', '?')}: {f.get('error', f.get('status', '?'))}")
+
+    return 0
+
+
+def _review_command(argv: list[str]) -> int:
+    """Show extractions needing human review."""
+    from capex.verification.evidence import get_unverified_extractions
+
+    ticker = argv[0] if argv else None
+    items = get_unverified_extractions(ticker=ticker)
+
+    if not items:
+        print("No items pending review.")
+        return 0
+
+    print(f"=== {len(items)} extractions pending verification ===\n")
+    for item in items:
+        print(
+            f"  {item['ticker']:8s} {item['metric_key']:30s} "
+            f"{item['period_of_report']}  {item['form_type']:6s}  "
+            f"model={item['extracting_model']}"
+        )
+        if item.get("value_usd"):
+            print(f"           value_usd=${item['value_usd']:,.0f}M")
+
+    print(f"\nTo verify interactively, use the dual-agent workflow in Claude Code.")
+    return 0
+
+
 def _print_help() -> None:
     print(
         "neocloud-capex-tracker CLI\n"
@@ -267,7 +364,10 @@ def _print_help() -> None:
         "                        e.g. capex fetch MSFT 10-K\n"
         "    organize            (DEPRECATED — naming happens at fetch time)\n"
         "    extract <TICKER>    dry-run: show sections + metrics for extraction\n"
-        "                        --form FORM  specify form type (default: latest annual)\n"
+        "                        --form FORM    specify form type (default: latest annual)\n"
+        "                        --metric KEY   extract specific metric via router\n"
+        "                        --batch        extract all companies (automated only)\n"
+        "    review [TICKER]     show extractions pending human verification\n"
         "    export              generate Excel workbook from DB\n"
         "                        -o PATH      output path (default: workbook/capex_tracker.xlsx)\n"
         "    chart               regenerate charts (YoY auto-recalculated)\n"

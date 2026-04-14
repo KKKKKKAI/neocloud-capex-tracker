@@ -5,118 +5,135 @@ disclosures across major hyperscalers and neocloud providers.
 
 ![Cloud Revenue](charts/cloud_revenue_annual.png)
 
-**[Explore Interactive Chart →](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** *(click legend to toggle companies, hover for details)*
+**[Interactive Chart](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)**
+
+---
 
 ## What this is
 
-A data pipeline that watches for new quarterly and annual filings from
-key AI infrastructure spenders, extracts financial metrics with full
-provenance using LLMs, validates against SEC XBRL data, and publishes
-results in a queryable SQLite database + Excel workbook.
+A data pipeline that pulls quarterly and annual filings from SEC EDGAR
+and HKEXnews, extracts financial metrics with full provenance, validates
+every data point, and outputs an auditable Excel workbook where every
+cell has a Shift+F2 citation linking to the exact filing, section, and
+line item the number came from.
 
-**Currently tracking 13 companies** — 5 US hyperscalers (MSFT, AMZN,
-GOOGL, META, ORCL), 4 Chinese hyperscalers (BABA, BIDU, GDS, Tencent),
-and 4 pure-play AI neoclouds (CRWV, APLD, IREN, NBIS).
+**13 companies** tracked. **1,455 data points** extracted.
+**267 quarterly revenue** series across 12 companies.
 
-**1,189 data points** extracted via SEC XBRL, covering quarterly headline
-financials (revenue, capex, OCF, D&A, PP&E) since 2015, plus cloud
-segment revenue from the latest annual reports.
+## Data verification methods
 
-## Key findings (FY2023–FY2025)
+Every extraction goes through a verification pipeline appropriate to
+its source:
 
-| Metric | FY2023 | FY2024 | FY2025 | YoY |
-|---|---|---|---|---|
-| **Aggregated cloud/DC revenue** | $214B | $262B | $324B | +24% |
-| **MSFT Intelligent Cloud** | $73B | $87B | $106B | +21% |
-| **AMZN AWS** | $91B | $108B | $129B | +20% |
-| **GOOGL Google Cloud** | $33B | $43B | $59B | +36% |
-| **MSFT capex** | $28B | $44B | $65B | +45% |
-| **GOOGL capex** | $32B | $53B | $91B | +74% |
-| **META capex** | $27B | $37B | $70B | +87% |
-| **CoreWeave revenue** | $229M | $1.9B | $5.1B | +168% |
+| Method | Records | How it works |
+|---|---|---|
+| **XBRL structured data** | 1,257 | Machine-readable SEC data. Values pulled from `data.sec.gov/api/xbrl/companyfacts/`. No LLM needed, no hallucination risk. Cross-checked against filing text. |
+| **LLM + dual-agent verification** | 167 | Agent A reads the full filing and extracts value + context excerpts. Agent B receives ONLY the excerpts (not A's answer) and independently deduces the value. If A and B match: verified. If they disagree: refused, queued for human review. |
+| **6-K press release extraction** | 31 | Quarterly revenue from 20-F filers' earnings press releases (6-K filings). Extracted via LLM, verified against filing text with provenance stored. |
 
-## Status
+**92 extractions** have passed dual-agent verification with evidence
+stored in the `extraction_evidence` table. All citations in the Excel
+workbook link to the exact SEC EDGAR or HKEXnews filing URL.
 
-**MVP operational.** The full pipeline works end-to-end:
+### Dual-agent verification flow
 
 ```
-capex fetch MSFT 10-K          # fetch latest filing from SEC EDGAR
-capex organize                 # canonical naming + DB row
-capex extract MSFT             # dry-run: show sections + metrics
-capex export                   # generate Excel workbook
+Agent A (Extractor)                    Agent B (Blind Verifier)
+  Input:  Full filing + metric           Input:  ONLY A's excerpts
+  Output: value + context excerpts       Output: independently deduced value
+                                         (never sees A's answer)
+              |                |
+              +-- compare A,B -+
+              |                |
+        Match (exact/approx)    Mismatch
+              |                     |
+     Write to DB + store       Refuse to write
+     evidence as citation      Queue for human review
 ```
-
-- **Phase 1** ✅ SQLite DB foundation
-- **Phase 2** ✅ SEC EDGAR + HKEXnews fetchers (all 13 companies)
-- **Phase 3** ✅ Read + extract + query pipeline, XBRL time series, FX normalization
-- **Phase 4** ✅ Excel export (8-sheet workbook), data quality flags
-- **Phase 3.5** 🔄 Cloud segment revenue extraction, AI-capex isolation (in progress)
-
-See `docs/RESTRUCTURING_PLAN.md` for the full roadmap.
-
-## Architecture
-
-Six layers, each independently testable. The SQLite database is the
-system of record for extracted data; the `_sources/` archive holds the
-original filing bytes.
-
-1. **Fetch** — `capex fetch <TICKER> <FORM>` pulls from SEC EDGAR or HKEXnews
-2. **Organize** — `capex organize` applies canonical naming (`[dd.mm.yyyy][TICKER][PERIOD][FORM]`)
-3. **Store** — SQLite DB + auto-generated `dump.sql` for diff-friendly PR reviews
-4. **Extract** — LLM reads filing sections, extracts metrics with verbatim provenance quotes
-5. **Query** — `query_metric("MSFT", "capex")` → cached result with source reference
-6. **Export** — `capex export` → 8-sheet Excel workbook with annual + quarterly series
 
 ## Companies tracked
 
-| Category | Companies | Source | Quarterly? |
+| Category | Companies | Filing source | Quarterly |
 |---|---|---|---|
-| US Hyperscalers | MSFT, AMZN, GOOGL, META, ORCL | SEC EDGAR (10-K, 10-Q) | Yes |
-| Chinese Hyperscalers | BABA, BIDU, GDS | SEC EDGAR (20-F) | Annual only |
-| HK-only | Tencent (0700) | HKEXnews (HK-AR, HK-IR) | Semi-annual |
-| Pure-play Neoclouds | CRWV, APLD, IREN, NBIS | SEC EDGAR | Varies |
+| US Hyperscalers | MSFT, AMZN, GOOGL, META, ORCL | SEC EDGAR 10-K/10-Q | Yes (XBRL) |
+| Chinese Hyperscalers | BABA, BIDU, GDS | SEC EDGAR 20-F/6-K | Yes (LLM from 6-K press releases) |
+| HK-listed | Tencent (0700) | HKEXnews HK-AR | Annual only |
+| Neoclouds | CRWV, APLD, IREN, NBIS | SEC EDGAR 10-K/10-Q/20-F | Varies |
+
+## Metrics extracted
+
+| Metric | Source | Coverage |
+|---|---|---|
+| Total revenue | XBRL + 6-K press releases | Annual + quarterly, 2015-2025 |
+| Capital expenditures | XBRL | Annual + quarterly, 2015-2025 |
+| Cloud/datacenter segment revenue | LLM extraction from filings | Annual, 2015-2025 |
+| Operating cash flow | XBRL | Annual + quarterly, 2015-2025 |
+| Depreciation & amortization | XBRL | Annual + quarterly, 2015-2025 |
+| Property, plant & equipment (net) | XBRL | Annual + quarterly, 2015-2025 |
+
+## Repository structure
+
+```
+src/capex/
+  fetch/                  SEC EDGAR + HKEXnews filing downloaders
+  read/                   HTML/PDF text extraction + section parsing
+  extract/
+    router.py             Unified extraction entry point
+    coverage.py           coverage.yaml programmatic reader
+    decumulate.py         Canonical quarterly de-cumulation
+    extractors/           XBRL, segment regex, 6-K parser, LLM backends
+    writer.py             DB writer with FX normalization + audit log
+  verification/
+    dual_agent.py         Dual-agent verification (hallucination prevention)
+    evidence.py           Extraction evidence storage + retrieval
+    comparator.py         Value comparison with tolerance
+    prompts/              Agent A + Agent B prompt templates
+  validation/
+    checks.py             Range plausibility, YoY outlier checks
+  xbrl/                   SEC XBRL companyfacts API time series
+  fx/                     FX rate normalization (ECB via frankfurter.app)
+  exporters/
+    excel.py              Excel workbook generator (all values in USD)
+    citations.py          Cell-level source citations for Shift+F2
+    interactive_chart.py  Plotly HTML chart for GitHub Pages
+    charts.py             Static PNG chart generator
+  db/                     SQLite schema + migrations
+  cli/                    Command-line interface
+
+data/
+  db/capex.db             SQLite database (system of record)
+  db/dump.sql             Auto-generated SQL dump (for PR review)
+  seeds/
+    coverage.yaml         Per-company extraction treatments
+    metric_definitions.yaml  Canonical metric registry
+    chart_config.yaml     Chart visual standards
+
+workbook/                 Generated Excel output (download above)
+docs/                     GitHub Pages (interactive chart)
+charts/                   Generated PNG charts
+```
+
+## CLI commands
+
+```bash
+capex db sync-all                    # initialize DB from YAML configs
+capex fetch MSFT 10-K                # download filing from SEC EDGAR
+capex extract MSFT --metric revenue  # extract via unified router
+capex extract --batch                # batch extract all companies
+capex review                         # show items pending human verification
+capex export                         # generate Excel workbook
+capex chart --interactive            # regenerate charts + GitHub Pages
+```
 
 ## Getting started
 
 ```bash
 pip install -e ".[export]"
-
-# Initialize DB + sync company/metric registries
 capex db sync-all
-
-# Fetch a filing
-capex fetch MSFT 10-K
-capex organize
-
-# Generate the Excel workbook
+capex extract --batch --metric revenue
 capex export
-# → workbook/capex_tracker.xlsx (8 sheets, annual + quarterly)
-```
-
-## Repository layout
-
-```
-├── charts/                  # generated visualizations (PNG)
-├── data/
-│   ├── _sources/            # filing archive (gitignored, ~1GB)
-│   ├── db/capex.db          # SQLite database (1,189 extractions)
-│   ├── db/dump.sql          # auto-generated SQL dump
-│   └── seeds/               # YAML configs (coverage, metrics)
-├── docs/                    # architecture + plan docs
-├── skills/                  # Claude Code skill contracts
-├── src/capex/               # the Python package
-│   ├── fetch/               # SEC + HKEX fetchers
-│   ├── read/                # filing text + section parser
-│   ├── extract/             # LLM extraction writer + prompts
-│   ├── xbrl/                # XBRL time series from SEC API
-│   ├── fx/                  # FX rate normalization
-│   ├── exporters/           # Excel workbook generator
-│   ├── db/                  # SQLite + migrations
-│   └── cli/                 # command-line interface
-├── tests/
-└── workbook/                # generated Excel output
 ```
 
 ## License
 
-TBD. No license is set yet; all rights reserved until one is chosen.
+TBD. All rights reserved until a license is chosen.

@@ -100,6 +100,11 @@ def _format_sec(
     else:
         lines.append(f"Method: {model}")
 
+    # Verification badge
+    badge = _get_verification_badge(ext.get("extraction_id"))
+    if badge:
+        lines.append(badge)
+
     # Download link — always construct the EXTERNAL SEC EDGAR URL
     report_url = _build_external_url(doc, ext.get("extracting_model", ""))
     if report_url:
@@ -160,6 +165,11 @@ def _format_hkex(
         )
 
     lines.append(f"Method: {model}")
+
+    # Verification badge
+    badge = _get_verification_badge(ext.get("extraction_id"))
+    if badge:
+        lines.append(badge)
 
     report_url = _build_external_url(doc, model)
     if report_url:
@@ -328,4 +338,58 @@ def _get_adjustment(ticker: str) -> dict | None:
     for entry in included:
         if isinstance(entry, dict) and entry.get("ticker") == ticker:
             return entry.get("adjustment")
+    return None
+
+
+def _get_verification_badge(extraction_id: int | None) -> str | None:
+    """Check if this extraction has passed dual-agent verification.
+
+    Returns a badge string if verified, None otherwise.
+    Also returns the primary evidence quote if available.
+    """
+    if not extraction_id:
+        return None
+
+    db_path = REPO_ROOT / "data" / "db" / "capex.db"
+    if not db_path.exists():
+        return None
+
+    import sqlite3
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+
+    # Check validation_results for dual_agent_verification
+    row = conn.execute(
+        "SELECT passed FROM validation_results "
+        "WHERE extraction_id = ? AND check_name = 'dual_agent_verification' "
+        "ORDER BY checked_at DESC LIMIT 1",
+        (extraction_id,),
+    ).fetchone()
+
+    if not row:
+        conn.close()
+        return None
+
+    if row["passed"]:
+        # Get the primary evidence quote
+        ev = conn.execute(
+            "SELECT excerpt_text FROM extraction_evidence "
+            "WHERE extraction_id = ? AND excerpt_role = 'primary_value' "
+            "LIMIT 1",
+            (extraction_id,),
+        ).fetchone()
+        conn.close()
+
+        badge = "Independently verified"
+        if ev and ev["excerpt_text"]:
+            # Extract first sentence with a number for the citation
+            import re
+            sentences = re.split(r'(?<=[.!?])\s+', ev["excerpt_text"])
+            for s in sentences:
+                if re.search(r'\d', s):
+                    badge += f'\nQuote: "{s[:200]}"'
+                    break
+        return badge
+
+    conn.close()
     return None

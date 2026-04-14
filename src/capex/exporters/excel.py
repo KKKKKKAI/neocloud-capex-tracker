@@ -34,15 +34,8 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_OUTPUT = REPO_ROOT / "workbook" / "capex_tracker.xlsx"
 
-# Metrics that are flow (cumulative YTD in 10-Q, need de-cumulation)
-FLOW_METRICS = {
-    "capital_expenditures",
-    "revenue",
-    "operating_cash_flow",
-    "depreciation_amortization",
-}
-# Metrics that are stock (point-in-time, no de-cumulation)
-STOCK_METRICS = {"property_plant_equipment_net"}
+# Import canonical flow/stock metric sets from the extraction layer
+from ..extract.decumulate import FLOW_METRICS, STOCK_METRICS
 
 # Coverage start overrides (filter out pre-restructuring noise)
 COVERAGE_START_OVERRIDES = {
@@ -582,6 +575,7 @@ def _get_annual_data(
         SELECT sd.ticker, sd.period_of_report, sd.period_token,
                sd.fiscal_year, sd.form_type, sd.filing_date,
                sd.source, sd.source_url, sd.accession_number,
+               e.id as extraction_id,
                e.value_usd, e.value, e.reporting_currency,
                e.quote, e.locator_section, e.extracting_model,
                e.extraction_type, e.fx_rate, e.fx_rate_date,
@@ -662,6 +656,7 @@ def _get_quarterly_data(
         SELECT sd.ticker, sd.period_of_report, sd.period_token,
                sd.fiscal_year, sd.form_type, sd.filing_date,
                sd.source, sd.source_url, sd.accession_number,
+               e.id as extraction_id,
                e.value_usd, e.value, e.reporting_currency,
                e.quote, e.locator_section, e.extracting_model,
                e.extraction_type, e.fx_rate, e.fx_rate_date,

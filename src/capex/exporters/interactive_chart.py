@@ -111,6 +111,8 @@ def _load_quarterly(conn) -> dict[str, Any]:
     ).fetchall()
 
     # Group by ticker + FY for de-cumulation
+    from ..extract.decumulate import is_flow_metric
+
     by_ticker_fy: dict[str, dict[int, list]] = {}
     for r in rows:
         t = r["ticker"]
@@ -128,6 +130,7 @@ def _load_quarterly(conn) -> dict[str, Any]:
                 v = abs(p["val"]) if p["val"] else 0
                 token = p["period_token"]
                 period = p["period_of_report"]
+                # De-cumulate flow metrics (revenue, cloud_segment_revenue)
                 if token == "Q1":
                     qv = v
                     prev = v

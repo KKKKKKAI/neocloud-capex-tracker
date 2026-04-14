@@ -141,65 +141,11 @@ def decumulate_quarterly(
 ) -> list[dict[str, Any]]:
     """Convert cumulative YTD values to standalone quarterly values.
 
-    SEC XBRL 10-Q data is cumulative year-to-date:
-        Q1 = just Q1
-        Q2 = Q1 + Q2
-        Q3 = Q1 + Q2 + Q3
-        10-K (FY) = Q1 + Q2 + Q3 + Q4
-
-    This function produces standalone quarterly values:
-        Q1_standalone = Q1
-        Q2_standalone = Q2_ytd - Q1
-        Q3_standalone = Q3_ytd - Q2_ytd
-        Q4_standalone = FY - Q3_ytd
-
-    Returns a new list sorted by end date. Each entry gets an
-    additional 'val_quarterly' field with the standalone value.
-    The original 'val' (cumulative) is preserved.
+    Delegates to the canonical implementation in extract.decumulate.
+    See that module for the algorithm documentation.
     """
-    if not series:
-        return []
-
-    # Group by fiscal year
-    by_fy: dict[int, list[dict]] = {}
-    for point in series:
-        fy = point.get("fy")
-        if fy is None:
-            continue
-        by_fy.setdefault(fy, []).append(point)
-
-    result = []
-    for fy in sorted(by_fy.keys()):
-        points = sorted(by_fy[fy], key=lambda x: x["end"])
-
-        prev_val = 0
-        for point in points:
-            fp = point.get("fp", "")
-            val = point["val"]
-
-            if fp == "Q1":
-                # Q1 is already standalone
-                quarterly_val = val
-                prev_val = val
-            elif fp in ("Q2", "Q3"):
-                # De-cumulate: standalone = YTD - previous YTD
-                quarterly_val = val - prev_val
-                prev_val = val
-            elif fp == "FY":
-                # Q4 = FY total - Q3 YTD
-                quarterly_val = val - prev_val
-                prev_val = 0  # reset for next year
-            else:
-                # Unknown fiscal period, keep as-is
-                quarterly_val = val
-
-            result.append({
-                **point,
-                "val_quarterly": quarterly_val,
-            })
-
-    result.sort(key=lambda x: x["end"])
-    return result
+    from ..extract.decumulate import decumulate_series
+    return decumulate_series(series, val_key="val", fy_key="fy", fp_key="fp")
 
 
 def fetch_segment_timeseries(

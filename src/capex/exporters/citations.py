@@ -382,9 +382,14 @@ def _get_verification_badge(extraction_id: int | None) -> str | None:
 
         badge = "Independently verified"
         if ev and ev["excerpt_text"]:
-            # Extract first sentence with a number for the citation
             import re
-            sentences = re.split(r'(?<=[.!?])\s+', ev["excerpt_text"])
+            # Strip any residual HTML entities
+            text = re.sub(r'&#\d+;', ' ', ev["excerpt_text"])
+            text = re.sub(r'&#x[0-9A-Fa-f]+;', ' ', text)
+            text = re.sub(r'&[a-z]+;', ' ', text)
+            text = re.sub(r'\s+', ' ', text).strip()
+            # Extract first sentence with a number
+            sentences = re.split(r'(?<=[.!?])\s+', text)
             for s in sentences:
                 if re.search(r'\d', s):
                     badge += f'\nQuote: "{s[:200]}"'

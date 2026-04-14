@@ -147,8 +147,10 @@ def _load_quarterly(conn) -> dict[str, Any]:
                 by_quarter.setdefault(t, {})[label] = qv
 
     all_qs = sorted(
-        set(q for d in by_quarter.values() for q in d)
+        q for d in by_quarter.values() for q in d
+        if q >= "2019"
     )
+    all_qs = sorted(set(all_qs))
     return {"quarters": all_qs, "by_quarter": by_quarter}
 
 

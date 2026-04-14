@@ -93,7 +93,7 @@ def _load_quarterly(conn) -> dict[str, Any]:
 
     rows = conn.execute(
         "SELECT sd.ticker, sd.period_of_report, sd.period_token, "
-        "sd.fiscal_year, COALESCE(e.value_usd, e.value) as val "
+        "sd.fiscal_year, sd.form_type, COALESCE(e.value_usd, e.value) as val "
         "FROM extractions e "
         "JOIN source_documents sd ON e.source_document_id = sd.id "
         "WHERE e.metric_key IN ('cloud_segment_revenue', 'revenue') "
@@ -111,8 +111,8 @@ def _load_quarterly(conn) -> dict[str, Any]:
     ).fetchall()
 
     # Group by ticker + FY for de-cumulation
-    from ..extract.decumulate import is_flow_metric
-
+    # NOTE: 6-K values are already standalone quarterly — skip de-cumulation.
+    # Only 10-Q values are cumulative YTD and need de-cumulation.
     by_ticker_fy: dict[str, dict[int, list]] = {}
     for r in rows:
         t = r["ticker"]
@@ -130,8 +130,12 @@ def _load_quarterly(conn) -> dict[str, Any]:
                 v = abs(p["val"]) if p["val"] else 0
                 token = p["period_token"]
                 period = p["period_of_report"]
-                # De-cumulate flow metrics (revenue, cloud_segment_revenue)
-                if token == "Q1":
+                form = p["form_type"]
+                # 6-K values are already standalone — no de-cumulation
+                if form == "6-K":
+                    qv = v
+                # 10-Q values are cumulative YTD — de-cumulate
+                elif token == "Q1":
                     qv = v
                     prev = v
                 elif token in ("Q2", "Q3"):

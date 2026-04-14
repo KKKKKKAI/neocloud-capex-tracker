@@ -701,7 +701,11 @@ def _get_quarterly_data(
                 token = p["period_token"]
                 period = p["period_of_report"]
 
-                if is_flow:
+                form = p["form_type"]
+                # 6-K values are already standalone — no de-cumulation
+                if form == "6-K":
+                    quarterly_val = val
+                elif is_flow:
                     if token == "Q1":
                         quarterly_val = val
                         prev_val = val

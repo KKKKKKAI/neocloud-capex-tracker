@@ -122,6 +122,8 @@ companies:
       Intelligence Group" in FY2024. Quarterly data only available from
       6-K press releases or HKEX interim reports — limited granularity.
       FX conversion required: CNY → USD at period-end rate.
+      IMPORTANT: 6-K quarterly values are STANDALONE (not cumulative
+      YTD like 10-Q). Do NOT apply de-cumulation to 6-K data.
 
   BIDU:
     full_name: Baidu, Inc.
@@ -137,6 +139,8 @@ companies:
       called "AI Cloud", "Baidu Cloud", "Intelligent Cloud". Segment
       reporting granularity has improved over time but was sparse in
       early years. FX conversion required.
+      IMPORTANT: 6-K quarterly values are STANDALONE (not cumulative
+      YTD like 10-Q). Do NOT apply de-cumulation to 6-K data.
 
   GDS:
     full_name: GDS Holdings Limited
@@ -152,6 +156,8 @@ companies:
       cloud/datacenter revenue — no segment extraction needed, just
       use the headline revenue figure. Reports in RMB/CNY. FX
       conversion required. IPO'd November 2016.
+      IMPORTANT: 6-K quarterly values are STANDALONE (not cumulative
+      YTD like 10-Q). Do NOT apply de-cumulation to 6-K data.
 
   "0700":
     full_name: Tencent Holdings Limited
@@ -226,6 +232,9 @@ companies:
       Dutch holding company spun out of Yandex's restructuring. AI
       infrastructure business. Very limited history — only FY2024 20-F
       available. Reports in USD. Total revenue = AI infra revenue.
+      Historical quarterly (pre-restructuring Yandex) is in RUB via 6-K.
+      IMPORTANT: 6-K quarterly values are STANDALONE (not cumulative
+      YTD like 10-Q). Do NOT apply de-cumulation to 6-K data.
 
 
 # ===================================================================

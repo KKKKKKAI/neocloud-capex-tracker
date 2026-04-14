@@ -11,6 +11,19 @@ de-cumulation. Stock metrics (PP&E net) do not.
     Q2_standalone = Q2_ytd - Q1
     Q3_standalone = Q3_ytd - Q2_ytd
     Q4_standalone = FY - Q3_ytd
+
+CRITICAL: De-cumulation applies ONLY to SEC 10-Q filings where values
+are cumulative YTD. It must NOT be applied to:
+
+  - 6-K press releases (BABA, BIDU, GDS, NBIS) — these report
+    STANDALONE quarterly revenue, not cumulative. Applying de-cumulation
+    to standalone values produces near-zero Q2/Q3 (e.g., $300M instead
+    of $5.1B for BABA Q2).
+
+  - HK-IR interim reports (Tencent 0700) — semi-annual, not cumulative.
+
+Callers (excel.py, interactive_chart.py) must check form_type before
+applying de-cumulation: 6-K/HK-IR → use value as-is, 10-Q → de-cumulate.
 """
 from __future__ import annotations
 

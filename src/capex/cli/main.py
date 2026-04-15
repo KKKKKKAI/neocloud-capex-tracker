@@ -43,6 +43,10 @@ def main(argv: list[str] | None = None) -> int:
         return _extract_command(rest)
     if cmd == "review":
         return _review_command(rest)
+    if cmd == "calendar":
+        return _calendar_command(rest)
+    if cmd == "monitor":
+        return _monitor_command(rest)
     if cmd == "export":
         return _export_command(rest)
     if cmd == "chart":
@@ -351,6 +355,55 @@ def _review_command(argv: list[str]) -> int:
     return 0
 
 
+def _calendar_command(argv: list[str]) -> int:
+    """Manage the fiscal earnings calendar."""
+    if not argv:
+        argv = ["show"]
+
+    subcmd = argv[0]
+
+    if subcmd == "sync":
+        import os
+        from capex.monitor.calendar import sync_earnings_calendar
+        api_key = os.environ.get("ALPHA_VANTAGE_API_KEY", "demo")
+        result = sync_earnings_calendar(api_key=api_key)
+        print(f"Synced {result['synced']} earnings dates, skipped {result['skipped']}")
+        if result["errors"]:
+            for e in result["errors"]:
+                print(f"  error: {e}")
+        return 0
+
+    if subcmd == "show":
+        from capex.monitor.calendar import get_upcoming_earnings
+        days = 90
+        if "--week" in argv:
+            days = 7
+        upcoming = get_upcoming_earnings(days=days)
+        if not upcoming:
+            print("No upcoming earnings.")
+            return 0
+        print(f"Upcoming earnings (next {days} days):")
+        for u in upcoming:
+            status = u["status"]
+            mark = "  " if status == "upcoming" else f" [{status}]"
+            print(f"  {u['report_date']}  {u['ticker']:8s}  "
+                  f"{u['form_type'] or '?':6s}  "
+                  f"Q ending {u['fiscal_date_ending']}{mark}")
+        return 0
+
+    print(f"unknown calendar subcommand: {subcmd}", file=sys.stderr)
+    print("  capex calendar sync         sync from Alpha Vantage")
+    print("  capex calendar show         show upcoming dates")
+    print("  capex calendar show --week   this week only")
+    return 2
+
+
+def _monitor_command(argv: list[str]) -> int:
+    """Run the filing monitor for a company or all today's earnings."""
+    from capex.monitor.run import main as monitor_main
+    return monitor_main(argv)
+
+
 def _print_help() -> None:
     print(
         "neocloud-capex-tracker CLI\n"
@@ -368,6 +421,10 @@ def _print_help() -> None:
         "                        --metric KEY   extract specific metric via router\n"
         "                        --batch        extract all companies (automated only)\n"
         "    review [TICKER]     show extractions pending human verification\n"
+        "    calendar sync       sync earnings dates from Alpha Vantage\n"
+        "    calendar show       show upcoming earnings (--week for 7 days)\n"
+        "    monitor <TICKER>    poll SEC for latest filing + extract via LLM\n"
+        "    monitor --all-today process all companies with earnings today\n"
         "    export              generate Excel workbook from DB\n"
         "                        -o PATH      output path (default: workbook/capex_tracker.xlsx)\n"
         "    chart               regenerate charts (YoY auto-recalculated)\n"

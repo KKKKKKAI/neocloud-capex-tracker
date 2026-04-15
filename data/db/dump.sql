@@ -1765,6 +1765,29 @@ INSERT INTO "extractions" VALUES(1527,485,'revenue',81402.0,'RUB 81,402 million'
 INSERT INTO "extractions" VALUES(1528,486,'revenue',91305.0,'RUB 91,305 million','USD_millions','Total Revenues 91,305 million RUB',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',1253.62,0.01373,'2021-09-30','RUB');
 INSERT INTO "extractions" VALUES(1529,487,'revenue',55.3,'USD 55 million','USD_millions','Revenues 55.3 million USD (Nebius post-restructuring)',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:06:27+00:00',55.3,1.0,'2025-03-31','USD');
 INSERT INTO "extractions" VALUES(1530,416,'revenue',2887.1,'CNY 2,887.1 million','USD_millions','Net revenue increased by 10.2% year-over-year to RMB2,887.1 million',NULL,'6-K Press Release - Revenue Summary','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-14T08:32:45+00:00',405.52,0.14046,'2025-09-30','CNY');
+CREATE TABLE fiscal_calendar (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticker              TEXT NOT NULL REFERENCES companies(ticker),
+    report_date         TEXT NOT NULL,     -- announced earnings date (YYYY-MM-DD)
+    fiscal_date_ending  TEXT NOT NULL,     -- quarter/year-end date (YYYY-MM-DD)
+    form_type           TEXT,              -- expected form: 10-Q, 10-K, 20-F, 6-K
+    status              TEXT NOT NULL DEFAULT 'upcoming'
+        CHECK(status IN ('upcoming', 'detected', 'fetched', 'extracted', 'failed')),
+    source              TEXT NOT NULL DEFAULT 'alpha_vantage',
+    updated_at          TEXT NOT NULL,
+    UNIQUE(ticker, fiscal_date_ending)
+);
+INSERT INTO "fiscal_calendar" VALUES(1,'GOOGL','2026-04-29','2026-03-31','10-Q','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(2,'META','2026-04-29','2026-03-31','10-Q','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(3,'MSFT','2026-04-29','2026-03-31','10-Q','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(4,'AMZN','2026-05-07','2026-03-31','10-Q','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(5,'CRWV','2026-05-13','2026-03-31','10-Q','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(6,'IREN','2026-05-13','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(7,'NBIS','2026-05-18','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(8,'GDS','2026-05-19','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(9,'BIDU','2026-05-20','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(10,'BABA','2026-05-21','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(11,'ORCL','2026-06-16','2026-05-31','10-K','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -1868,6 +1891,7 @@ INSERT INTO "schema_version" VALUES(2,'2026-04-10T22:01:21+00:00');
 INSERT INTO "schema_version" VALUES(3,'2026-04-11T14:01:45+00:00');
 INSERT INTO "schema_version" VALUES(4,'2026-04-13T16:15:41+00:00');
 INSERT INTO "schema_version" VALUES(5,'2026-04-14T00:42:55+00:00');
+INSERT INTO "schema_version" VALUES(6,'2026-04-15T19:05:27+00:00');
 CREATE TABLE "source_documents" (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL REFERENCES companies(ticker),
@@ -2424,10 +2448,13 @@ CREATE INDEX idx_validation_results_extraction
 CREATE INDEX idx_audit_log_ts
     ON audit_log(ts);
 CREATE INDEX idx_evidence_extraction ON extraction_evidence(extraction_id);
+CREATE INDEX idx_fiscal_calendar_date ON fiscal_calendar(report_date);
+CREATE INDEX idx_fiscal_calendar_status ON fiscal_calendar(status);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('audit_log',161);
 INSERT INTO "sqlite_sequence" VALUES('extractions',1530);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',93);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',487);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',89);
+INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
 COMMIT;

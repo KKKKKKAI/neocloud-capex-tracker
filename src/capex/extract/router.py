@@ -49,6 +49,7 @@ def extract_metric(
     *,
     write: bool = True,
     interactive: bool = False,
+    backend: Any | None = None,
     db: Database | None = None,
 ) -> ExtractResult:
     """Unified extraction entry point.
@@ -83,9 +84,16 @@ def extract_metric(
             tried.append(extractor_name)
             continue
 
+        # If we have a CLI backend and this is the LLM extractor,
+        # use the headless extractor instead of the interactive one
+        if extractor_name == "llm" and backend is not None:
+            from .extractors.llm_headless import LLMHeadlessExtractor
+            extractor = LLMHeadlessExtractor()
+
         candidates = extractor.extract(
             ticker, metric_key, period=period, form_type=form_type,
             db=db, treatment=treatment, interactive=interactive,
+            backend=backend,
         )
         tried.append(extractor_name)
 
@@ -166,17 +174,19 @@ def extract_batch(
     metric_keys: list[str] | None = None,
     period: str | None = None,
     *,
+    backend: Any | None = None,
     db: Database | None = None,
 ) -> BatchResult:
     """Extract metrics for multiple companies.
 
-    Runs all automated (XBRL) extractions. Reports which
-    (ticker, metric) pairs need interactive LLM extraction.
+    With a backend: runs full LLM dual-agent extraction for all metrics.
+    Without a backend: runs XBRL-only, reports LLM items as needs_interactive.
 
     Args:
         tickers: list of tickers (default: all from coverage.yaml)
         metric_keys: list of metrics (default: all headline metrics)
         period: specific period (default: all available)
+        backend: CLI backend for LLM calls (None = XBRL only)
         db: database instance
     """
     db = db or Database()
@@ -195,7 +205,8 @@ def extract_batch(
             try:
                 r = extract_metric(
                     ticker, metric_key, period=period,
-                    write=True, interactive=False, db=db,
+                    write=True, interactive=False,
+                    backend=backend, db=db,
                 )
 
                 if r.status == "success":

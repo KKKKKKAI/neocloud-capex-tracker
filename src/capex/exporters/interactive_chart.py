@@ -91,13 +91,15 @@ def _load_quarterly(conn) -> dict[str, Any]:
     ):
         fye[r["ticker"]] = r["fiscal_year_end_month"]
 
+    # Fetch quarterly AND annual data (need annual to derive Q4)
+    # Use metric_key to ensure Q4 derivation matches quarterly metric
     rows = conn.execute(
         "SELECT sd.ticker, sd.period_of_report, sd.period_token, "
-        "sd.fiscal_year, sd.form_type, COALESCE(e.value_usd, e.value) as val "
+        "sd.fiscal_year, sd.form_type, e.metric_key, "
+        "COALESCE(e.value_usd, e.value) as val "
         "FROM extractions e "
         "JOIN source_documents sd ON e.source_document_id = sd.id "
         "WHERE e.metric_key IN ('cloud_segment_revenue', 'revenue') "
-        "AND sd.period_token != 'AR' "
         "AND e.id = ("
         "  SELECT e2.id FROM extractions e2 "
         "  JOIN source_documents sd2 ON e2.source_document_id = sd2.id "
@@ -110,7 +112,7 @@ def _load_quarterly(conn) -> dict[str, Any]:
         "ORDER BY sd.ticker, sd.fiscal_year, sd.period_of_report"
     ).fetchall()
 
-    # Group by ticker + FY for de-cumulation
+    # Group by ticker + FY
     # NOTE: 6-K values are already standalone quarterly — skip de-cumulation.
     # Only 10-Q values are cumulative YTD and need de-cumulation.
     by_ticker_fy: dict[str, dict[int, list]] = {}
@@ -125,8 +127,15 @@ def _load_quarterly(conn) -> dict[str, Any]:
     for t, fy_data in by_ticker_fy.items():
         for _fy, points in fy_data.items():
             points.sort(key=lambda x: x["period_of_report"])
+
+            # Separate quarterly points from annual
+            quarterly_points = [p for p in points if p["period_token"] != "AR"]
+            annual_point = next((p for p in points if p["period_token"] == "AR"), None)
+
             prev = 0
-            for p in points:
+            q_standalone_sum = 0
+            q_count = 0
+            for p in quarterly_points:
                 v = abs(p["val"]) if p["val"] else 0
                 token = p["period_token"]
                 period = p["period_of_report"]
@@ -145,6 +154,41 @@ def _load_quarterly(conn) -> dict[str, Any]:
                     qv = v
                 label = f"{period[:4]}Q{_q_num(token)}"
                 by_quarter.setdefault(t, {})[label] = qv
+                q_standalone_sum += qv
+                q_count += 1
+
+            # Derive Q4 = Annual - (Q1 + Q2 + Q3) when we have all 3 quarters + annual
+            # IMPORTANT: Use revenue (not cloud_segment_revenue) for the annual value
+            # to match what quarterly data actually measures. The quarterly query may
+            # return total revenue while annual prefers cloud_segment_revenue.
+            if q_count == 3:
+                # Find the annual value using the SAME metric as the quarterly data
+                q_metric = quarterly_points[0]["metric_key"] if quarterly_points else "revenue"
+                annual_for_q4 = annual_point
+                if annual_point and annual_point["metric_key"] != q_metric:
+                    # Quarterly uses 'revenue' but annual used 'cloud_segment_revenue'
+                    # Fetch the 'revenue' annual value instead
+                    annual_rev = conn.execute(
+                        "SELECT COALESCE(e.value_usd, e.value) as val, "
+                        "sd.period_of_report "
+                        "FROM extractions e "
+                        "JOIN source_documents sd ON e.source_document_id = sd.id "
+                        "WHERE sd.ticker = ? AND sd.fiscal_year = ? "
+                        "AND sd.period_token = 'AR' AND e.metric_key = 'revenue' "
+                        "LIMIT 1",
+                        (t, _fy),
+                    ).fetchone()
+                    if annual_rev:
+                        annual_for_q4 = {"val": annual_rev["val"],
+                                         "period_of_report": annual_rev["period_of_report"]}
+
+                if annual_for_q4:
+                    annual_val = abs(annual_for_q4["val"]) if annual_for_q4["val"] else 0
+                    q4_val = annual_val - q_standalone_sum
+                    if q4_val > 0:
+                        annual_period = annual_for_q4["period_of_report"]
+                        q4_label = f"{annual_period[:4]}Q4"
+                        by_quarter.setdefault(t, {})[q4_label] = q4_val
 
     all_qs = sorted(
         q for d in by_quarter.values() for q in d

@@ -100,9 +100,58 @@ capex chart
 git add charts/ workbook/ data/db/ && git commit && git push
 ```
 
-**Update README when adding features or modules:**
-- Architecture diagram: edit the Mermaid block between
-  `<!-- ARCHITECTURE_START -->` and `<!-- ARCHITECTURE_END -->` in `README.md`.
-  Subgraph labels match the layers in `docs/SYSTEM_DESIGN.md`.
-- Development status table: swap the emoji in the Status column
-  (`📋` → `🚧` → `✅`) when a phase ships. Add new rows for new features.
+**Update README architecture diagram and status table when adding features:**
+
+The README contains a Mermaid architecture diagram and a development
+status table. Both MUST be updated when a feature is added, a module
+is renamed, or a phase ships. The diagram is located between
+`<!-- ARCHITECTURE_START -->` and `<!-- ARCHITECTURE_END -->` markers.
+
+How to update the architecture diagram:
+
+1. **Add a module** — add a node line inside the correct subgraph,
+   add edge(s), and append the node ID to the matching `class` line:
+   ```
+   # Inside the subgraph:
+   MYMOD["mymodule.py\nshort description"]
+   # Edge:
+   PREV_NODE --> MYMOD --> NEXT_NODE
+   # Color class (append ID):
+   class ...,MYMOD process
+   ```
+
+2. **Add an extraction strategy** — add the node inside `subgraph
+   Extractors`, wire `SECT --> NEW_EXT` and `NEW_EXT --> WRITER`.
+
+3. **Add an external source** — add the node inside `subgraph Sources`,
+   create a fetch node in `subgraph L1`, wire `SOURCE --> FETCH --> DISP`.
+
+4. **Add an export format** — add the node inside `subgraph L6`,
+   wire `DB --> EXPORTER --> OUTPUT`, add the output node in `subgraph Out`.
+
+5. **Rename a module** — change the label text inside quotes. Keep the
+   node ID unchanged so existing edges still work.
+
+6. **Remove a module** — delete the node line, all edges referencing it,
+   and its ID from the `class` line.
+
+Subgraph-to-layer mapping (must match `docs/SYSTEM_DESIGN.md`):
+- `Sources` → External data providers (SEC, HKEX, XBRL, ECB)
+- `L1` → 1 — Fetch
+- `L2` → 2 — Raw Archive
+- `L4` → 3 — Read + Extract (nested `Extractors` subgraph)
+- `L3` → 4 — Storage Trunk
+- `L6` → 5 — Export
+- `Out` → Outputs
+
+Color classes (append new node IDs to the correct line):
+- `source` (blue) — external data providers
+- `store` (orange) — data stores (DB, archive, dump.sql)
+- `process` (purple) — internal processing modules
+- `output` (green) — deliverable outputs
+
+How to update the development status table:
+
+- Phase ships: swap emoji `📋` → `🚧` → `✅`
+- New feature planned: add a row with `📋`
+- Update the "Current data" summary line at the bottom if counts change

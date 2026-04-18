@@ -116,37 +116,85 @@ def _extract_from_table_text(
         cumulative_period = ""
         cumulative_months = 0
 
+    # Q1 10-Qs often have only 2 value columns (prior-3M, current-3M) —
+    # no cumulative YTD. Detect that so we try the 2-value layout.
+    is_two_value = (
+        period_token == "Q1"
+        and cumulative_period == ""
+        and not has_nine and not has_six
+    )
+
     # Locate the segment name and find its revenue row.
     # Two layouts supported:
     #   Layout A (AMZN): segment name is on its own line, then
-    #     "Net sales $ v1 $ v2 $ v3 $ v4" is the NEXT line.
-    #   Layout B (MSFT/GOOGL/ORCL): "<Segment> $ v1 $ v2 $ v3 $ v4" all
+    #     "Net sales $ v1 $ v2 [$ v3 $ v4]" is the NEXT line.
+    #   Layout B (MSFT/GOOGL/ORCL): "<Segment> $ v1 $ v2 [$ v3 $ v4]" all
     #     on one line.
     for i, row in enumerate(rows):
         for seg in segment_names:
             if seg not in row:
                 continue
             # Layout B: values on the same line as segment name.
-            m = VALUES_4_RE.search(row[row.index(seg) + len(seg):])
+            tail = row[row.index(seg) + len(seg):]
+            m = VALUES_4_RE.search(tail) if not is_two_value else None
             if m:
                 return _build_results(
                     m.groups(), seg, row, period_token,
                     cumulative_period, cumulative_months,
                 )
+            if is_two_value:
+                m2p = VALUES_2_RE.search(tail)
+                if m2p:
+                    return _build_two(
+                        m2p.groups(), seg, row, period_token,
+                    )
             # Layout A: values on the Next line with 'Net sales' or
             # 'Revenue' at the start.
             for j in range(i + 1, min(i + 5, len(rows))):
                 nxt = rows[j]
                 if not re.search(r"(?i)^(net\s+sales|revenue)", nxt.strip()):
                     continue
-                m2 = VALUES_4_RE.search(nxt)
-                if m2:
-                    return _build_results(
-                        m2.groups(), seg, nxt.strip(), period_token,
-                        cumulative_period, cumulative_months,
-                    )
+                if not is_two_value:
+                    m2 = VALUES_4_RE.search(nxt)
+                    if m2:
+                        return _build_results(
+                            m2.groups(), seg, nxt.strip(), period_token,
+                            cumulative_period, cumulative_months,
+                        )
+                else:
+                    m2q = VALUES_2_RE.search(nxt)
+                    if m2q:
+                        return _build_two(
+                            m2q.groups(), seg, nxt.strip(), period_token,
+                        )
                 break
     return []
+
+
+def _build_two(
+    values: tuple[str, str],
+    segment: str,
+    row_text: str,
+    period_token: str,
+) -> list[SegmentQuarterlyResult]:
+    """Handle the 2-value layout (Q1 10-Q: prior-3M, current-3M)."""
+    try:
+        v1 = int(values[0].replace(",", ""))
+        v2 = int(values[1].replace(",", ""))
+    except ValueError:
+        return []
+    # Reasonableness: both should be >100 and same order of magnitude.
+    if v1 < 100 or v2 < 100:
+        return []
+    if max(v1, v2) / max(1, min(v1, v2)) > 5:
+        return []
+    return [SegmentQuarterlyResult(
+        period_type=period_token if period_token in ("Q1",) else "3M_reported",
+        value_millions=float(v2),
+        quote=row_text,
+        segment_name=segment,
+        basis_months=3,
+    )]
 
 
 def _build_results(

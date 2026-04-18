@@ -90,27 +90,28 @@ def _find_segment_tables(
 
 
 def _detect_current_first(raw: str) -> bool | None:
-    """Look at the year pair in a '... Ended <date> YYYY YYYY' header.
+    """Look at the first year pair in the column header.
 
     Different filers lay out comparative columns in different order:
-      - MSFT/GOOGL style: current year first, prior year second.
+      - MSFT/GOOGL/ORCL style: current year first, prior year second.
       - AMZN style: prior year first, current year second.
 
-    Returns True if current-year-first, False if prior-first, None if
+    ORCL in particular uses full dates between years:
+        "February 29, 2024 February 28, 2023"
+    so the two year tokens are separated by a month name rather than
+    just whitespace. We pick the FIRST two 4-digit years that appear
+    in the text where the first line(s) contain period-header language.
+
+    Returns True if current-first, False if prior-first, None if
     undetermined.
     """
-    # Find the first pair of 4-digit years separated by whitespace,
-    # optionally inside the period header prefix.
-    m = re.search(
-        r"(?i)(?:three|six|nine)\s*months?\s+ended[^\n]*?\b(20\d{2})\b[\s,]+\b(20\d{2})\b",
-        raw,
-    )
-    if not m:
-        # Looser fallback: first two 4-digit years anywhere in the table.
-        m = re.search(r"\b(20\d{2})\b[\s,]+\b(20\d{2})\b", raw)
-    if not m:
+    # Limit search to the first ~400 chars of the table (where the
+    # header sits) to avoid confusing data-row years.
+    header_region = raw[:400]
+    years = re.findall(r"\b(20\d{2})\b", header_region)
+    if len(years) < 2:
         return None
-    y1, y2 = int(m.group(1)), int(m.group(2))
+    y1, y2 = int(years[0]), int(years[1])
     if y1 == y2:
         return None
     return y1 > y2

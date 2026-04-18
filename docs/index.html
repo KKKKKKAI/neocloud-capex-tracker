@@ -10,28 +10,44 @@
          margin: 0; padding: 20px; background: #fafafa; }
   #chart { width: 100%; max-width: 1400px; margin: 0 auto; }
   .controls { text-align: center; margin: 10px 0; }
+  .controls .group { display: inline-block; margin: 0 12px; }
   .controls button { padding: 8px 20px; margin: 0 5px; border: 2px solid #2E75B6;
     background: white; color: #2E75B6; cursor: pointer; border-radius: 4px;
     font-size: 14px; font-weight: bold; }
   .controls button.active { background: #2E75B6; color: white; }
   .controls button:hover { background: #2E75B6; color: white; }
+  .controls .mode button { border-color: #7030A0; color: #7030A0; }
+  .controls .mode button.active { background: #7030A0; color: white; }
+  .controls .mode button:hover { background: #7030A0; color: white; }
   .note { text-align: center; font-size: 11px; color: #888; margin-top: 5px; }
 </style>
 </head>
 <body>
 <div id="chart">
   <div class="controls">
-    <button id="btn-annual" class="active" onclick="showAnnual()">Annual</button>
-    <button id="btn-quarterly" onclick="showQuarterly()">Quarterly</button>
-    <button onclick="selectAll()">Select All</button>
-    <button onclick="deselectAll()">Deselect All</button>
+    <span class="group">
+      <button id="btn-annual" class="active" onclick="setView('annual')">Annual</button>
+      <button id="btn-quarterly" onclick="setView('quarterly')">Quarterly</button>
+    </span>
+    <span class="group mode">
+      <button id="btn-mode-abs" class="active" onclick="setMode('absolute')">Absolute</button>
+      <button id="btn-mode-yoy" onclick="setMode('yoy')">YoY %</button>
+      <button id="btn-mode-qoq" onclick="setMode('qoq')">QoQ %</button>
+    </span>
+    <span class="group">
+      <button onclick="selectAll()">Select All</button>
+      <button onclick="deselectAll()">Deselect All</button>
+    </span>
   </div>
   <div id="plotDiv" style="width:100%;height:700px;"></div>
   <div class="note">
-    Click legend entries to toggle companies — YoY growth auto-recalculates.
+    Click legend entries to toggle companies.
+    <b>Absolute</b>: stacked cloud-segment revenue ($B) + aggregate YoY% overlay.
+    <b>YoY %</b>: each company's year-over-year growth (same calendar quarter, prior year).
+    <b>QoQ %</b>: each company's growth vs the immediately prior calendar quarter.
     *Tencent: FinTech &amp; Business Services proxy (includes WeChat Pay).
-    <br>Quarterly view: total group revenue for SEC 10-Q filers.
-    20-F and HKEX filers have annual data only.
+    <br>Quarterly view: SEC 10-Q filers only.
+    20-F and HKEX filers currently have annual data only.
     <br>Source:
     <a href="https://github.com/KKKKKKAI/neocloud-capex-tracker">
     neocloud-capex-tracker</a>
@@ -40,15 +56,21 @@
 
 <script>
 /*
- * Chart settings from data/seeds/chart_config.yaml
- * Hardcoded here for static HTML — keep in sync with the YAML.
- * YoY axis: FIXED -10% to 100% (never auto-scale)
- * Bar labels: always ABOVE the bar top (yref='y', yshift=15)
- * Legend: vertical, right-hand side
- * Select/Deselect All buttons: included
+ * Chart settings. Two orthogonal toggles:
+ *   currentView ∈ {'annual','quarterly'}
+ *   currentMode ∈ {'absolute','yoy','qoq'}
+ *
+ * Absolute mode: stacked bars ($B) + aggregate-YoY overlay line.
+ * YoY mode: per-company lines of growth vs same-quarter-last-year
+ *           (for annual, vs prior FY).
+ * QoQ mode: per-company lines of growth vs immediately prior quarter.
+ *
+ * Growth math mirrors src/capex/exporters/_growth.py — keep in lock-step.
  */
 var CFG_YOY_MIN = -10;
 var CFG_YOY_MAX = 100;
+var CFG_GROWTH_MIN = -50;
+var CFG_GROWTH_MAX = 200;
 var CFG_LABEL_YSHIFT = 15;
 
 // ---- DATA ----
@@ -58,57 +80,44 @@ var xAnnual = ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY20
 var xQuarterly = ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"];
 var hasQuarterly = true;
 var currentView = 'annual';
+var currentMode = 'absolute';
 
 // ---- INIT ----
 var plotDiv = document.getElementById('plotDiv');
 var allTraces = [];
-var yoyTraceIdx = -1;
+var yoyOverlayIdx = -1;   // only valid in Absolute mode
 
-function buildTraces(dataTraces, xLabels) {
-    allTraces = [];
-
-    dataTraces.forEach(function(t) {
-        allTraces.push({
-            name: t.name,
-            x: t.x,
-            y: t.y,
-            type: 'bar',
-            marker: t.marker,
-            hovertemplate: '<b>' + t.name + '</b><br>$%{y:.1f}B<extra></extra>'
-        });
-    });
-
-    var totals = calcTotals();
-    var yoy = calcYoY(totals);
-    var yoyX = [], yoyY = [], yoyText = [];
-    for (var i = 0; i < yoy.length; i++) {
-        if (yoy[i] !== null) {
-            yoyX.push(xLabels[i]);
-            yoyY.push(yoy[i]);
-            yoyText.push(yoy[i].toFixed(0) + '%');
-        }
-    }
-
-    yoyTraceIdx = allTraces.length;
-    allTraces.push({
-        name: 'YoY Growth %',
-        x: yoyX, y: yoyY,
-        type: 'scatter',
-        mode: 'lines+markers+text',
-        line: { color: '#2C3E50', width: 3 },
-        marker: { size: 8 },
-        text: yoyText,
-        textposition: 'top center',
-        textfont: { size: 10, color: '#2C3E50' },
-        yaxis: 'y2',
-        hovertemplate: '%{x}: %{y:.1f}% YoY<extra></extra>'
-    });
-    return totals;
+// ---- GROWTH HELPERS (mirror of _growth.py) ----
+function priorIndexFor(i, xLabels, mode, period) {
+    if (mode === 'qoq') return i - 1;
+    if (period === 'annual') return i - 1;
+    // quarterly yoy: same-quarter one year prior
+    var cur = xLabels[i];
+    if (!cur || cur.length < 6 || cur[4] !== 'Q') return -1;
+    var year = parseInt(cur.slice(0, 4), 10);
+    if (isNaN(year)) return -1;
+    var target = (year - 1) + cur.slice(4);
+    return xLabels.indexOf(target);
 }
 
-function calcTotals() {
-    if (allTraces.length === 0) return [];
-    var n = allTraces[0].x.length;
+function computeGrowth(series, xLabels, mode, period) {
+    var out = [];
+    for (var i = 0; i < xLabels.length; i++) {
+        var pi = priorIndexFor(i, xLabels, mode, period);
+        if (pi < 0 || pi >= series.length) { out.push(null); continue; }
+        var cur = series[i], prev = series[pi];
+        if (cur === null || prev === null || !prev || !cur) {
+            out.push(null);
+        } else {
+            out.push((cur / prev - 1) * 100);
+        }
+    }
+    return out;
+}
+
+function calcTotals(xLabels) {
+    // Sum all visible BAR traces. Used for the Absolute-mode overlay.
+    var n = xLabels.length;
     var totals = new Array(n).fill(0);
     for (var i = 0; i < allTraces.length; i++) {
         var t = allTraces[i];
@@ -118,18 +127,6 @@ function calcTotals() {
         }
     }
     return totals;
-}
-
-function calcYoY(totals) {
-    var yoy = [null];
-    for (var i = 1; i < totals.length; i++) {
-        if (totals[i-1] > 0) {
-            yoy.push((totals[i] / totals[i-1] - 1) * 100);
-        } else {
-            yoy.push(null);
-        }
-    }
-    return yoy;
 }
 
 function makeAnnotations(totals, xLabels) {
@@ -149,55 +146,194 @@ function makeAnnotations(totals, xLabels) {
     return anns;
 }
 
-function renderChart(dataTraces, xLabels, subtitle) {
-    var totals = buildTraces(dataTraces, xLabels);
+// ---- TRACE BUILDERS ----
+function buildAbsoluteTraces(dataTraces, xLabels, period) {
+    allTraces = [];
+    yoyOverlayIdx = -1;
 
-    var layout = {
-        barmode: 'stack',
-        title: {
-            text: 'Cloud/Datacenter Revenue — AI Infrastructure Ecosystem<br>' +
-                  '<sub>' + subtitle + '</sub>',
-            font: { size: 18 }, x: 0.5
-        },
-        xaxis: { title: 'Period', tickfont: { size: 11 } },
-        yaxis: { title: 'Cloud/DC Revenue ($B USD)', gridcolor: '#E5E5E5' },
-        yaxis2: {
-            title: 'YoY Growth (%)',
-            overlaying: 'y', side: 'right',
-            showgrid: false,
-            ticksuffix: '%',
-            range: [CFG_YOY_MIN, CFG_YOY_MAX],
-            fixedrange: true
-        },
-        legend: {
-            orientation: 'v',
-            x: 1.02, y: 1.0,
-            xanchor: 'left', yanchor: 'top',
-            font: { size: 11 },
-            tracegroupgap: 2
-        },
-        hovermode: 'x unified',
-        plot_bgcolor: 'white',
-        annotations: makeAnnotations(totals, xLabels),
-        margin: { t: 80, b: 60, r: 150 }
-    };
+    dataTraces.forEach(function(t) {
+        allTraces.push({
+            name: t.name,
+            x: t.x,
+            y: t.y,
+            type: 'bar',
+            marker: t.marker,
+            hovertemplate: '<b>' + t.name + '</b><br>$%{y:.1f}B<extra></extra>'
+        });
+    });
+
+    var totals = calcTotals(xLabels);
+    var overlay = computeGrowth(totals, xLabels, 'yoy', period);
+    var oX = [], oY = [], oText = [];
+    for (var i = 0; i < overlay.length; i++) {
+        if (overlay[i] !== null) {
+            oX.push(xLabels[i]);
+            oY.push(overlay[i]);
+            oText.push(overlay[i].toFixed(0) + '%');
+        }
+    }
+
+    yoyOverlayIdx = allTraces.length;
+    allTraces.push({
+        name: 'Aggregate YoY %',
+        x: oX, y: oY,
+        type: 'scatter',
+        mode: 'lines+markers+text',
+        line: { color: '#2C3E50', width: 3, dash: 'dash' },
+        marker: { size: 8 },
+        text: oText,
+        textposition: 'top center',
+        textfont: { size: 10, color: '#2C3E50' },
+        yaxis: 'y2',
+        hovertemplate: '%{x}: %{y:.1f}% YoY<extra></extra>'
+    });
+    return totals;
+}
+
+function buildGrowthTraces(dataTraces, xLabels, mode, period) {
+    // One scatter line per company; legend-click hides them one at a time.
+    allTraces = [];
+    yoyOverlayIdx = -1;
+    var label = (mode === 'yoy') ? 'YoY' : 'QoQ';
+
+    dataTraces.forEach(function(t) {
+        // Align the company's y-values to the full xLabels axis (some
+        // companies have shorter series than the global axis).
+        var yByLabel = {};
+        for (var i = 0; i < t.x.length; i++) yByLabel[t.x[i]] = t.y[i];
+        var seriesAligned = xLabels.map(function(lbl) {
+            return yByLabel[lbl] === undefined ? null : yByLabel[lbl];
+        });
+        var growth = computeGrowth(seriesAligned, xLabels, mode, period);
+
+        // Build customdata = [current, prior] for hover
+        var customdata = xLabels.map(function(lbl, i) {
+            var pi = priorIndexFor(i, xLabels, mode, period);
+            var prevLbl = (pi >= 0) ? xLabels[pi] : '';
+            return [seriesAligned[i], pi >= 0 ? seriesAligned[pi] : null, prevLbl];
+        });
+
+        allTraces.push({
+            name: t.name,
+            x: xLabels,
+            y: growth,
+            type: 'scatter',
+            mode: 'lines+markers',
+            connectgaps: false,
+            line: { color: (t.marker && t.marker.color) || '#888', width: 2 },
+            marker: { size: 7, color: (t.marker && t.marker.color) || '#888' },
+            customdata: customdata,
+            hovertemplate:
+                '<b>' + t.name + '</b> %{x}<br>' +
+                label + ': %{y:.1f}%<br>' +
+                '(vs %{customdata[2]})<extra></extra>'
+        });
+    });
+    return null;  // no totals/annotations in growth mode
+}
+
+// ---- MAIN RENDER ----
+function renderChart() {
+    var xLabels = (currentView === 'annual') ? xAnnual : xQuarterly;
+    var period = currentView;
+    var dataTraces = (currentView === 'annual') ? annualTraces : quarterlyTraces;
+
+    if (currentView === 'quarterly' && (!dataTraces || dataTraces.length === 0)) {
+        plotDiv.innerHTML = '<p style="text-align:center;padding:200px 0;color:#888;">' +
+            'Quarterly revenue data not yet available.</p>';
+        return;
+    }
+
+    var layout;
+    if (currentMode === 'absolute') {
+        var totals = buildAbsoluteTraces(dataTraces, xLabels, period);
+        layout = {
+            barmode: 'stack',
+            title: {
+                text: 'Cloud/Datacenter Revenue — AI Infrastructure Ecosystem<br>' +
+                      '<sub>' + subtitleFor(currentView, 'absolute') + '</sub>',
+                font: { size: 18 }, x: 0.5
+            },
+            xaxis: { title: 'Period', tickfont: { size: 11 } },
+            yaxis: { title: 'Cloud/DC Revenue ($B USD)', gridcolor: '#E5E5E5' },
+            yaxis2: {
+                title: 'Aggregate YoY Growth (%)',
+                overlaying: 'y', side: 'right',
+                showgrid: false,
+                ticksuffix: '%',
+                range: [CFG_YOY_MIN, CFG_YOY_MAX],
+                fixedrange: true
+            },
+            legend: {
+                orientation: 'v', x: 1.02, y: 1.0,
+                xanchor: 'left', yanchor: 'top',
+                font: { size: 11 }, tracegroupgap: 2
+            },
+            hovermode: 'x unified',
+            plot_bgcolor: 'white',
+            annotations: makeAnnotations(totals, xLabels),
+            margin: { t: 80, b: 60, r: 150 }
+        };
+    } else {
+        buildGrowthTraces(dataTraces, xLabels, currentMode, period);
+        var yLabel = (currentMode === 'yoy') ? 'YoY Growth (%)' : 'QoQ Growth (%)';
+        layout = {
+            title: {
+                text: 'Cloud/Datacenter Revenue — ' +
+                      (currentMode === 'yoy' ? 'YoY %' : 'QoQ %') + '<br>' +
+                      '<sub>' + subtitleFor(currentView, currentMode) + '</sub>',
+                font: { size: 18 }, x: 0.5
+            },
+            xaxis: { title: 'Period', tickfont: { size: 11 } },
+            yaxis: {
+                title: yLabel, gridcolor: '#E5E5E5',
+                ticksuffix: '%', zeroline: true, zerolinecolor: '#999'
+            },
+            legend: {
+                orientation: 'v', x: 1.02, y: 1.0,
+                xanchor: 'left', yanchor: 'top',
+                font: { size: 11 }, tracegroupgap: 2
+            },
+            hovermode: 'x unified',
+            plot_bgcolor: 'white',
+            margin: { t: 80, b: 60, r: 150 }
+        };
+    }
 
     Plotly.newPlot(plotDiv, allTraces, layout, {
         displayModeBar: true,
         modeBarButtonsToRemove: ['lasso2d', 'select2d']
     });
 
-    plotDiv.on('plotly_legendclick', function() {
-        setTimeout(recalcYoY, 100);
-    });
-    plotDiv.on('plotly_legenddoubleclick', function() {
-        setTimeout(recalcYoY, 100);
-    });
+    // In Absolute mode the aggregate overlay depends on which companies
+    // are visible, so recalc on legend click.
+    if (currentMode === 'absolute') {
+        plotDiv.on('plotly_legendclick', function() {
+            setTimeout(recalcOverlay, 100);
+        });
+        plotDiv.on('plotly_legenddoubleclick', function() {
+            setTimeout(recalcOverlay, 100);
+        });
+    }
 }
 
-function recalcYoY() {
+function subtitleFor(view, mode) {
+    if (mode === 'absolute') {
+        if (view === 'annual') {
+            return '12 companies, aggregated annual, USD-normalized. ' +
+                   'Dashed line = aggregate YoY% of visible companies.';
+        }
+        return 'Quarterly cloud/DC revenue for SEC 10-Q filers. ' +
+               '20-F and HKEX filers annual-only.';
+    }
+    var label = (mode === 'yoy') ? 'year-over-year' : 'quarter-over-quarter';
+    return 'Per-company ' + label + ' growth. Missing comparator → gap in line.';
+}
+
+function recalcOverlay() {
+    if (currentMode !== 'absolute' || yoyOverlayIdx < 0) return;
+    var xLabels = (currentView === 'annual') ? xAnnual : xQuarterly;
     var data = plotDiv.data;
-    var xLabels = currentView === 'annual' ? xAnnual : xQuarterly;
     var n = xLabels.length;
 
     var totals = new Array(n).fill(0);
@@ -208,21 +344,18 @@ function recalcYoY() {
             }
         }
     }
-
-    var yoy = calcYoY(totals);
-    var yoyX = [], yoyY = [], yoyText = [];
-    for (var i = 0; i < yoy.length; i++) {
-        if (yoy[i] !== null) {
-            yoyX.push(xLabels[i]);
-            yoyY.push(yoy[i]);
-            yoyText.push(yoy[i].toFixed(0) + '%');
+    var overlay = computeGrowth(totals, xLabels, 'yoy', currentView);
+    var oX = [], oY = [], oText = [];
+    for (var i = 0; i < overlay.length; i++) {
+        if (overlay[i] !== null) {
+            oX.push(xLabels[i]);
+            oY.push(overlay[i]);
+            oText.push(overlay[i].toFixed(0) + '%');
         }
     }
-
     Plotly.restyle(plotDiv, {
-        x: [yoyX], y: [yoyY], text: [yoyText]
-    }, [yoyTraceIdx]);
-
+        x: [oX], y: [oY], text: [oText]
+    }, [yoyOverlayIdx]);
     Plotly.relayout(plotDiv, {
         annotations: makeAnnotations(totals, xLabels)
     });
@@ -230,52 +363,42 @@ function recalcYoY() {
 
 // ---- SELECT / DESELECT ALL ----
 function selectAll() {
-    var update = {};
     var indices = [];
-    for (var i = 0; i < plotDiv.data.length; i++) {
-        indices.push(i);
-    }
+    for (var i = 0; i < plotDiv.data.length; i++) indices.push(i);
     Plotly.restyle(plotDiv, { visible: true }, indices);
-    setTimeout(recalcYoY, 100);
+    if (currentMode === 'absolute') setTimeout(recalcOverlay, 100);
 }
 
 function deselectAll() {
     var indices = [];
     for (var i = 0; i < plotDiv.data.length; i++) {
-        if (plotDiv.data[i].type === 'bar') {
-            indices.push(i);
-        }
+        // Hide everything EXCEPT the aggregate overlay in absolute mode
+        // (so the line has context); in growth modes, hide all.
+        if (currentMode === 'absolute' && i === yoyOverlayIdx) continue;
+        indices.push(i);
     }
     Plotly.restyle(plotDiv, { visible: 'legendonly' }, indices);
-    setTimeout(recalcYoY, 100);
+    if (currentMode === 'absolute') setTimeout(recalcOverlay, 100);
 }
 
-// ---- VIEW SWITCHING ----
-function showAnnual() {
-    currentView = 'annual';
-    document.getElementById('btn-annual').classList.add('active');
-    document.getElementById('btn-quarterly').classList.remove('active');
-    renderChart(annualTraces, xAnnual,
-        '12 companies, aggregated annual, USD-normalized. ' +
-        'Click legend to toggle — YoY recalculates automatically.');
+// ---- TOGGLES ----
+function setView(view) {
+    currentView = view;
+    document.getElementById('btn-annual').classList.toggle('active', view === 'annual');
+    document.getElementById('btn-quarterly').classList.toggle('active', view === 'quarterly');
+    renderChart();
 }
 
-function showQuarterly() {
-    currentView = 'quarterly';
-    document.getElementById('btn-quarterly').classList.add('active');
-    document.getElementById('btn-annual').classList.remove('active');
-    if (quarterlyTraces.length === 0) {
-        plotDiv.innerHTML = '<p style="text-align:center;padding:200px 0;color:#888;">' +
-            'Quarterly revenue data not yet available.</p>';
-        return;
-    }
-    renderChart(quarterlyTraces, xQuarterly,
-        'Quarterly revenue for SEC 10-Q filers. ' +
-        '20-F and HKEX filers have annual data only.');
+function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('btn-mode-abs').classList.toggle('active', mode === 'absolute');
+    document.getElementById('btn-mode-yoy').classList.toggle('active', mode === 'yoy');
+    document.getElementById('btn-mode-qoq').classList.toggle('active', mode === 'qoq');
+    renderChart();
 }
 
 // ---- INIT ----
-showAnnual();
+renderChart();
 </script>
 </body>
 </html>

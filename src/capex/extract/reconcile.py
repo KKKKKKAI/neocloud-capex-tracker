@@ -179,6 +179,12 @@ def _derive_once(
 
     def setd(pt: str, value: float, formula: str, components: list[int]) -> None:
         nonlocal derived_count
+        # Guard against obviously wrong derivations (negative or near-zero
+        # for a metric that should be positive). This usually means the
+        # FY value and the quarterly values are measuring different
+        # segments / scopes, so the identity doesn't hold.
+        if value <= 0:
+            return
         periods[pt] = {
             "value": value,
             "extraction_id": None,

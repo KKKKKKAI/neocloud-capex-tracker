@@ -89,15 +89,50 @@ def _find_segment_tables(
     return tables
 
 
+def _detect_current_first(raw: str) -> bool | None:
+    """Look at the year pair in a '... Ended <date> YYYY YYYY' header.
+
+    Different filers lay out comparative columns in different order:
+      - MSFT/GOOGL style: current year first, prior year second.
+      - AMZN style: prior year first, current year second.
+
+    Returns True if current-year-first, False if prior-first, None if
+    undetermined.
+    """
+    # Find the first pair of 4-digit years separated by whitespace,
+    # optionally inside the period header prefix.
+    m = re.search(
+        r"(?i)(?:three|six|nine)\s*months?\s+ended[^\n]*?\b(20\d{2})\b[\s,]+\b(20\d{2})\b",
+        raw,
+    )
+    if not m:
+        # Looser fallback: first two 4-digit years anywhere in the table.
+        m = re.search(r"\b(20\d{2})\b[\s,]+\b(20\d{2})\b", raw)
+    if not m:
+        return None
+    y1, y2 = int(m.group(1)), int(m.group(2))
+    if y1 == y2:
+        return None
+    return y1 > y2
+
+
 def _extract_from_table_text(
     raw: str, segment_names: list[str], period_token: str,
 ) -> list[SegmentQuarterlyResult]:
-    """Look for a row like: 'AWS … Net sales $ A $ B $ C $ D' and pull B+D."""
+    """Look for a row like: 'AWS … Net sales $ A $ B $ C $ D' and pull the
+    current-year values using the column order detected from the header."""
     rows = raw.split("\n")
 
     # Detect whether the cumulative header is "Six" or "Nine" months.
     has_nine = bool(re.search(r"(?i)nine\s+months?\s+ended", raw))
     has_six = bool(re.search(r"(?i)six\s+months?\s+ended", raw))
+
+    # Detect column order: current-first vs prior-first.
+    current_first = _detect_current_first(raw)
+    if current_first is None:
+        # If we can't tell, fall back to prior-first (AMZN convention)
+        # since that's more common in SEC 10-Qs.
+        current_first = False
     # Fall back to the period_token to infer: Q2 → H1 (6M), Q3 → 9M
     if has_nine:
         cumulative_period = "9M"
@@ -140,12 +175,14 @@ def _extract_from_table_text(
                 return _build_results(
                     m.groups(), seg, row, period_token,
                     cumulative_period, cumulative_months,
+                    current_first=current_first,
                 )
             if is_two_value:
                 m2p = VALUES_2_RE.search(tail)
                 if m2p:
                     return _build_two(
                         m2p.groups(), seg, row, period_token,
+                        current_first=current_first,
                     )
             # Layout A: values on the Next line with 'Net sales' or
             # 'Revenue' at the start.
@@ -159,12 +196,14 @@ def _extract_from_table_text(
                         return _build_results(
                             m2.groups(), seg, nxt.strip(), period_token,
                             cumulative_period, cumulative_months,
+                            current_first=current_first,
                         )
                 else:
                     m2q = VALUES_2_RE.search(nxt)
                     if m2q:
                         return _build_two(
                             m2q.groups(), seg, nxt.strip(), period_token,
+                            current_first=current_first,
                         )
                 break
     return []
@@ -175,21 +214,24 @@ def _build_two(
     segment: str,
     row_text: str,
     period_token: str,
+    *,
+    current_first: bool,
 ) -> list[SegmentQuarterlyResult]:
-    """Handle the 2-value layout (Q1 10-Q: prior-3M, current-3M)."""
+    """Handle the 2-value layout (Q1 10-Q: two 3M columns, one per year)."""
     try:
-        v1 = int(values[0].replace(",", ""))
-        v2 = int(values[1].replace(",", ""))
+        a = int(values[0].replace(",", ""))
+        b = int(values[1].replace(",", ""))
     except ValueError:
         return []
     # Reasonableness: both should be >100 and same order of magnitude.
-    if v1 < 100 or v2 < 100:
+    if a < 100 or b < 100:
         return []
-    if max(v1, v2) / max(1, min(v1, v2)) > 5:
+    if max(a, b) / max(1, min(a, b)) > 5:
         return []
+    current = a if current_first else b
     return [SegmentQuarterlyResult(
         period_type=period_token if period_token in ("Q1",) else "3M_reported",
-        value_millions=float(v2),
+        value_millions=float(current),
         quote=row_text,
         segment_name=segment,
         basis_months=3,
@@ -203,21 +245,33 @@ def _build_results(
     period_token: str,
     cumulative_period: str,
     cumulative_months: int,
+    *,
+    current_first: bool,
 ) -> list[SegmentQuarterlyResult]:
     """Build output list from 4 extracted values.
 
-    Columns layout (standard SEC 10-Q): prior-3M | current-3M | prior-YTD | current-YTD.
-    We return the two CURRENT year values, each annotated with its period_type.
+    Two column-order conventions exist in 10-Q segment tables:
+      - Current-first (MSFT / GOOGL / ORCL):
+          [current_3M, prior_3M, current_YTD, prior_YTD]
+      - Prior-first (AMZN):
+          [prior_3M, current_3M, prior_YTD, current_YTD]
+
+    We return only the two CURRENT-year values (3M and YTD), each
+    annotated with its period_type.
     """
     try:
-        _prior_3m = int(values[0].replace(",", ""))
-        v2 = int(values[1].replace(",", ""))
-        _prior_ytd = int(values[2].replace(",", ""))
-        v4 = int(values[3].replace(",", ""))
+        vals = [int(values[i].replace(",", "")) for i in range(4)]
     except ValueError:
         return []
 
-    # Sanity check: current_YTD (v4) must not be less than current_3M (v2).
+    if current_first:
+        current_3m, current_ytd = vals[0], vals[2]
+    else:
+        current_3m, current_ytd = vals[1], vals[3]
+    v2 = current_3m
+    v4 = current_ytd
+
+    # Sanity check: current_YTD must not be less than current_3M.
     if v4 < v2:
         return []
 

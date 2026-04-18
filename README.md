@@ -20,6 +20,92 @@ line item the number came from.
 **13 companies** tracked. **1,455 data points** extracted.
 **267 quarterly revenue** series across 12 companies.
 
+<!-- ARCHITECTURE_START -->
+## Architecture
+
+```mermaid
+flowchart TD
+    subgraph Sources["External Sources"]
+        SEC["SEC EDGAR\n10-K / 10-Q / 20-F / 6-K"]
+        HKEX["HKEXnews\nHK-AR / HK-IR"]
+        XBRL["SEC XBRL API\ncompanyfacts"]
+        ECB["ECB / frankfurter.app\nFX rates"]
+    end
+
+    subgraph L1["1 — Fetch"]
+        SECF["fetch/sec.py"]
+        HKEXF["fetch/hkex.py"]
+        DISP["dispatcher.py"]
+    end
+
+    subgraph L2["2 — Raw Archive"]
+        RAW[("_sources/TICKER/_raw/\n+ sidecar .fetch.json")]
+    end
+
+    subgraph L4["3 — Read + Extract"]
+        TEXT["read/text.py\nHTML & PDF → text"]
+        SECT["read/sections.py\nItem 7 · Item 8 · Notes"]
+
+        subgraph Extractors["Extraction Strategies"]
+            EX_XBRL["xbrl.py\n1,257 records"]
+            EX_LLM["llm + dual-agent\n167 verified"]
+            EX_SEG["segment.py\ntable scorer"]
+            EX_6K["press_release.py\n6-K quarterly"]
+        end
+    end
+
+    subgraph L3["4 — Storage Trunk"]
+        FXR["fx/rates.py\nCNY/GBP → USD"]
+        WRITER["extract/writer.py\nvalidation + audit"]
+        DB[("SQLite\ncapex.db")]
+        DUMP["dump.sql\nauto-generated"]
+    end
+
+    subgraph L6["5 — Export"]
+        EXCEL["excel.py\n8-sheet workbook"]
+        CHART["charts.py\nstatic PNG"]
+        ICHART["interactive_chart.py\nPlotly HTML"]
+    end
+
+    subgraph Out["Outputs"]
+        XLSX["Excel workbook\nShift+F2 citations"]
+        PNG["Chart PNG"]
+        GHPAGES["GitHub Pages\ninteractive chart"]
+    end
+
+    SEC --> SECF --> DISP
+    HKEX --> HKEXF --> DISP
+    DISP --> RAW
+    RAW --> TEXT --> SECT
+    XBRL --> EX_XBRL
+    SECT --> EX_XBRL
+    SECT --> EX_LLM
+    SECT --> EX_SEG
+    SECT --> EX_6K
+    ECB --> FXR
+    EX_XBRL --> WRITER
+    EX_LLM --> WRITER
+    EX_SEG --> WRITER
+    EX_6K --> WRITER
+    FXR -.-> WRITER
+    WRITER --> DB
+    DB --> DUMP
+    DB --> EXCEL --> XLSX
+    DB --> CHART --> PNG
+    DB --> ICHART --> GHPAGES
+
+    classDef source fill:#e1f5fe,stroke:#0288d1
+    classDef store fill:#fff3e0,stroke:#f57c00
+    classDef process fill:#f3e5f5,stroke:#7b1fa2
+    classDef output fill:#e8f5e9,stroke:#388e3c
+
+    class SEC,HKEX,XBRL,ECB source
+    class RAW,DB,DUMP store
+    class SECF,HKEXF,DISP,TEXT,SECT,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,EXCEL,CHART,ICHART process
+    class XLSX,PNG,GHPAGES output
+```
+<!-- ARCHITECTURE_END -->
+
 ## Data verification methods
 
 Every extraction goes through a verification pipeline appropriate to
@@ -124,6 +210,35 @@ capex review                         # show items pending human verification
 capex export                         # generate Excel workbook
 capex chart --interactive            # regenerate charts + GitHub Pages
 ```
+
+## Development status
+
+> Status key: ✅ Done — live and runnable | 🚧 In progress | 📋 Planned
+
+| Phase | Feature | Status | Notes |
+|-------|---------|--------|-------|
+| 1 | DB foundation (schema, migrations, YAML sync) | ✅ | SQLite trunk, `dump.sql` auto-generated for PR review |
+| 2a | SEC EDGAR fetcher (10-K, 10-Q, 20-F, 6-K) | ✅ | 12 companies, canonical filenames at download time |
+| 2b | HKEXnews fetcher (HK-AR, HK-IR) | ✅ | Tencent annual + interim reports (PDF) |
+| 3a | XBRL structured extraction | ✅ | 1,257 records from SEC companyfacts API |
+| 3b | LLM dual-agent extraction + verification | ✅ | 167 verified, Agent A + Agent B independent agreement |
+| 3c | 6-K press release extraction | ✅ | 31 records, BABA/BIDU/GDS quarterly revenue |
+| 3d | Segment revenue table extraction | ✅ | Regex-based table scorer for cloud segment |
+| 3e | FX normalization (CNY/GBP → USD) | ✅ | ECB rates via frankfurter.app |
+| 4a | Excel workbook export | ✅ | 8 sheets, cell-level Shift+F2 citations, all values USD |
+| 4b | Static PNG charts | ✅ | Annual cloud revenue with YoY overlay |
+| 4c | Interactive Plotly chart + GitHub Pages | ✅ | Annual/quarterly toggle, deployed to Pages |
+| 4d | Quarterly de-cumulation (10-Q YTD → standalone) | ✅ | Q4 derived from Annual - sum(Q1:Q3) |
+| 5a | Citation URL fixes | 🚧 | Direct filing URLs replacing SEC directory links |
+| 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
+| 6 | Quarterly pipeline expansion | 📋 | 10-Q segment extraction for quarterly cloud revenue |
+| 7a | Fiscal calendar monitor | 📋 | Automated new-filing detection via Alpha Vantage |
+| 7b | Headless LLM extraction (CLI `-p` mode) | 📋 | Unattended cron extraction without Claude Code session |
+| 8a | Auto-publish pipeline | 📋 | CI-driven Excel + chart regeneration on new data |
+| 8b | CSV / JSON / Parquet exporters | 📋 | Additional output formats from DB |
+| — | Pluggable LLM adapters (Anthropic, Gemini, OpenAI) | 📋 | Replace interactive Claude Code extraction |
+
+**Current data:** 13 companies, 1,455 data points, 267 quarterly revenue series, 92 dual-agent verified extractions.
 
 ## Getting started
 

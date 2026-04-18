@@ -99,3 +99,10 @@ capex export -o workbook/capex_tracker.xlsx
 capex chart
 git add charts/ workbook/ data/db/ && git commit && git push
 ```
+
+**Update README when adding features or modules:**
+- Architecture diagram: edit the Mermaid block between
+  `<!-- ARCHITECTURE_START -->` and `<!-- ARCHITECTURE_END -->` in `README.md`.
+  Subgraph labels match the layers in `docs/SYSTEM_DESIGN.md`.
+- Development status table: swap the emoji in the Status column
+  (`📋` → `🚧` → `✅`) when a phase ships. Add new rows for new features.

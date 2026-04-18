@@ -19,17 +19,16 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from ..db import Database
-from .base import ExtractionCandidate, ExtractResult
+from .base import ExtractResult
 from .coverage import (
     get_all_tickers,
-    get_company_treatment,
     get_dataset_treatment,
     get_extraction_chain,
 )
-from .extractors.xbrl import XBRLExtractor
-from .extractors.segment_ext import SegmentExtractor
-from .extractors.press_release import PressReleaseExtractor
 from .extractors.llm_interactive import LLMInteractiveExtractor
+from .extractors.press_release import PressReleaseExtractor
+from .extractors.segment_ext import SegmentExtractor
+from .extractors.xbrl import XBRLExtractor
 from .writer import write_extractions
 
 # Extractor registry

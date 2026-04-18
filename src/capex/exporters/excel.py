@@ -31,11 +31,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from ..extract.decumulate import FLOW_METRICS
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_OUTPUT = REPO_ROOT / "workbook" / "capex_tracker.xlsx"
-
-# Import canonical flow/stock metric sets from the extraction layer
-from ..extract.decumulate import FLOW_METRICS, STOCK_METRICS
 
 # Coverage start overrides (filter out pre-restructuring noise)
 COVERAGE_START_OVERRIDES = {

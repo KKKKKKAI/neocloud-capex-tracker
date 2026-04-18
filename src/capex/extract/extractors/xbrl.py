@@ -150,7 +150,8 @@ class XBRLExtractor:
                 return row[0]
 
         # Create synthetic row via existing helper
-        from ...xbrl.timeseries import _ensure_source_doc
         from datetime import datetime, timezone
+
+        from ...xbrl.timeseries import _ensure_source_doc
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         return _ensure_source_doc(db, ticker, form_type, period, filed, accn, now)

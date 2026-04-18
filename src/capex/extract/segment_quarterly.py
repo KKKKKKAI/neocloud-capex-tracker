@@ -17,7 +17,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 from ..read.text import extract_text
 
@@ -211,17 +210,14 @@ def _build_results(
     We return the two CURRENT year values, each annotated with its period_type.
     """
     try:
-        v1 = int(values[0].replace(",", ""))
+        _prior_3m = int(values[0].replace(",", ""))
         v2 = int(values[1].replace(",", ""))
-        v3 = int(values[2].replace(",", ""))
+        _prior_ytd = int(values[2].replace(",", ""))
         v4 = int(values[3].replace(",", ""))
     except ValueError:
         return []
 
-    # Sanity check: values should be monotonically reasonable.
-    # current_3M (v2) should be similar order to prior_3M (v1),
-    # current_YTD (v4) should be similar order to prior_YTD (v3),
-    # current_YTD >= current_3M.
+    # Sanity check: current_YTD (v4) must not be less than current_3M (v2).
     if v4 < v2:
         return []
 

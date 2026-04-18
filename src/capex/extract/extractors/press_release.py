@@ -12,11 +12,10 @@ from ...db import Database
 from ..base import ExtractionCandidate
 from ..coverage import DatasetTreatment
 
-
 # Per-company regex patterns for quarterly earnings press releases
 REVENUE_PATTERNS: dict[str, list[str]] = {
     "BABA": [
-        r"[Rr]evenue\s+(?:for the (?:quarter|three months)[^.]*?\s+)?(?:was|were)\s+RMB\s*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*million",
+        r"[Rr]evenue\s+(?:for the (?:quarter|three months)[^.]*?\s+)?(?:was|were)\s+RMB\s*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*million",  # noqa: E501
         r"[Rr]evenue\s+(?:was|were)\s+RMB\s*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*million",
     ],
     "BIDU": [

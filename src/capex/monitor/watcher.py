@@ -8,13 +8,11 @@ from __future__ import annotations
 import json
 import time
 import urllib.request
-from datetime import datetime, timezone
 from typing import Any
 
 from ..db import Database
 from ..fetch import get_user_agent
 from ..fetch.dispatcher import fetch_and_record
-from ..extract.coverage import get_company_treatment, get_dataset_treatment
 from .calendar import update_status
 
 

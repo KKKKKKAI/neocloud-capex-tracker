@@ -135,7 +135,10 @@ def _load_quarterly(conn) -> dict[str, Any]:
         # standalone Q1/Q2/Q3 (anchored to the 10-Q), the 10-Q's own
         # period_of_report is correct.
         period = r["period_of_report"]
-        label = _qlabel(period) if r["period_type"] != "Q4" else _q4_label_for(period, r["fiscal_year"])
+        if r["period_type"] == "Q4":
+            label = _q4_label_for(period, r["fiscal_year"])
+        else:
+            label = _qlabel(period)
         by_quarter.setdefault(t, {})[label] = v
 
     all_qs = sorted(

@@ -71,7 +71,7 @@ def _load_convention(conn: sqlite3.Connection, ticker: str) -> dict[str, Any] | 
     if not row:
         return None
     keys = ("default_convention", "per_metric_json", "header_signatures_json")
-    return dict(zip(keys, row))
+    return dict(zip(keys, row, strict=True))
 
 
 def validate_convention(

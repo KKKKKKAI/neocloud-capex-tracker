@@ -12,30 +12,25 @@ Flow:
 """
 from __future__ import annotations
 
-import json
-import re
 from pathlib import Path
 from typing import Any
 
 from ...db import Database
+from ...fx.rates import normalize_to_usd
+from ...read.sections import get_extraction_sections, parse_sections
 from ...read.text import extract_text
-from ...read.sections import parse_sections, get_extraction_sections
-from ..base import ExtractionCandidate
-from ..coverage import DatasetTreatment, get_company_treatment, get_dataset_treatment
-from ..writer import write_extractions
 from ...verification.dual_agent import (
+    MAX_RETRIES,
     build_agent_a_prompt,
     build_agent_b_prompt,
+    get_derivation_rules,
+    get_metric_description,
     parse_agent_a_response,
     parse_agent_b_response,
     verify,
-    get_metric_description,
-    get_derivation_rules,
-    MAX_RETRIES,
 )
-from ...verification.evidence import store_evidence, store_verification_verdict
-from ...verification.comparator import is_verified
-from ...fx.rates import normalize_to_usd
+from ..base import ExtractionCandidate
+from ..coverage import DatasetTreatment, get_company_treatment, get_dataset_treatment
 
 
 class LLMHeadlessExtractor:

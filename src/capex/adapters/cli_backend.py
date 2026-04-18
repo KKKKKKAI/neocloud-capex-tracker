@@ -13,10 +13,9 @@ Usage:
 """
 from __future__ import annotations
 
-import subprocess
 import shutil
+import subprocess
 from typing import Any
-
 
 # CLI tool configurations
 # Each tool uses a "print" flag that sends a prompt and returns text to stdout.
@@ -94,15 +93,15 @@ class CLIBackend:
                 text=True,
                 timeout=self.timeout,
             )
-        except subprocess.TimeoutExpired:
+        except subprocess.TimeoutExpired as e:
             raise RuntimeError(
                 f"{self.tool} CLI timed out after {self.timeout}s"
-            )
-        except FileNotFoundError:
+            ) from e
+        except FileNotFoundError as e:
             raise RuntimeError(
                 f"{self.tool} CLI not found. "
                 f"Install it or use a different backend."
-            )
+            ) from e
 
         if result.returncode != 0:
             stderr = result.stderr.strip()[:500]
@@ -114,7 +113,7 @@ class CLIBackend:
         return result.stdout
 
     @classmethod
-    def auto(cls, **kwargs: Any) -> "CLIBackend":
+    def auto(cls, **kwargs: Any) -> CLIBackend:
         """Auto-detect the first available CLI tool and return a backend.
 
         Checks claude → gemini → codex in order.

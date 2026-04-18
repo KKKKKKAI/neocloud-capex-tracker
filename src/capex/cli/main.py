@@ -363,7 +363,7 @@ def _extract_single(ticker: str, metric_key: str, form_type: str | None = None) 
         print(f"    run in Claude Code: \"extract {metric_key} from {ticker}\"")
         return 0
     elif result.status == "needs_verification":
-        print(f"  → extracted but needs dual-agent verification")
+        print("  → extracted but needs dual-agent verification")
         return 0
     else:
         print(f"  ✗ no extractor succeeded (chain tried: {result.chain_tried})")
@@ -377,21 +377,22 @@ def _extract_batch(metric_keys: list[str] | None = None) -> int:
     print("running batch extraction...")
     result = extract_batch(metric_keys=metric_keys)
 
-    print(f"\n=== Batch Results ===")
+    print("\n=== Batch Results ===")
     print(f"  succeeded:        {result.summary['succeeded']}")
     print(f"  needs_interactive: {result.summary['needs_interactive']}")
     print(f"  needs_review:     {result.summary['needs_review']}")
     print(f"  failed:           {result.summary['failed']}")
 
     if result.needs_interactive:
-        print(f"\nNeeds interactive LLM extraction:")
+        print("\nNeeds interactive LLM extraction:")
         for ticker, metric in result.needs_interactive:
             print(f"  {ticker:8s} {metric}")
 
     if result.failed:
-        print(f"\nFailed:")
+        print("\nFailed:")
         for f in result.failed:
-            print(f"  {f.get('ticker', '?'):8s} {f.get('metric', '?')}: {f.get('error', f.get('status', '?'))}")
+            err = f.get("error", f.get("status", "?"))
+            print(f"  {f.get('ticker', '?'):8s} {f.get('metric', '?')}: {err}")
 
     return 0
 
@@ -417,7 +418,7 @@ def _review_command(argv: list[str]) -> int:
         if item.get("value_usd"):
             print(f"           value_usd=${item['value_usd']:,.0f}M")
 
-    print(f"\nTo verify interactively, use the dual-agent workflow in Claude Code.")
+    print("\nTo verify interactively, use the dual-agent workflow in Claude Code.")
     return 0
 
 
@@ -430,6 +431,7 @@ def _calendar_command(argv: list[str]) -> int:
 
     if subcmd == "sync":
         import os
+
         from capex.monitor.calendar import sync_earnings_calendar
         api_key = os.environ.get("ALPHA_VANTAGE_API_KEY", "demo")
         result = sync_earnings_calendar(api_key=api_key)

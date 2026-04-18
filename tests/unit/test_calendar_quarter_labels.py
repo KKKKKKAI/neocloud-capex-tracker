@@ -12,15 +12,23 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from capex.exporters.interactive_chart import (
-    _calendar_quarter as ic_calendar_quarter,
-    _qlabel as ic_qlabel,
-    _qsort_key,
-)
 from capex.exporters.excel import (
     _calendar_quarter as ex_calendar_quarter,
-    _qlabel as ex_qlabel,
+)
+from capex.exporters.excel import (
     _period_sort_key,
+)
+from capex.exporters.excel import (
+    _qlabel as ex_qlabel,
+)
+from capex.exporters.interactive_chart import (
+    _calendar_quarter as ic_calendar_quarter,
+)
+from capex.exporters.interactive_chart import (
+    _qlabel as ic_qlabel,
+)
+from capex.exporters.interactive_chart import (
+    _qsort_key,
 )
 
 

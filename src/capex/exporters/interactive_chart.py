@@ -152,7 +152,7 @@ def _load_quarterly(conn) -> dict[str, Any]:
                     prev = v
                 else:
                     qv = v
-                label = f"{period[:4]}Q{_q_num(token)}"
+                label = _qlabel(period)
                 by_quarter.setdefault(t, {})[label] = qv
                 q_standalone_sum += qv
                 q_count += 1
@@ -187,21 +187,30 @@ def _load_quarterly(conn) -> dict[str, Any]:
                     q4_val = annual_val - q_standalone_sum
                     if q4_val > 0:
                         annual_period = annual_for_q4["period_of_report"]
-                        q4_label = f"{annual_period[:4]}Q4"
+                        q4_label = _qlabel(annual_period)
                         by_quarter.setdefault(t, {})[q4_label] = q4_val
 
     all_qs = sorted(
-        q for d in by_quarter.values() for q in d
-        if q >= "2019"
+        {q for d in by_quarter.values() for q in d
+         if int(q[:4]) >= 2019},
+        key=_qsort_key,
     )
-    all_qs = sorted(set(all_qs))
     return {"quarters": all_qs, "by_quarter": by_quarter}
 
 
-def _q_num(token: str) -> str:
-    return {"Q1": "1", "Q2": "2", "Q3": "3", "H1": "2", "H2": "4"}.get(
-        token, "?"
-    )
+def _calendar_quarter(period: str) -> tuple[int, int]:
+    """'2025-09-30' -> (2025, 3). Calendar quarter from period_of_report."""
+    y, m = int(period[:4]), int(period[5:7])
+    return (y, (m - 1) // 3 + 1)
+
+
+def _qlabel(period: str) -> str:
+    y, q = _calendar_quarter(period)
+    return f"{y}Q{q}"
+
+
+def _qsort_key(label: str) -> tuple[int, int]:
+    return (int(label[:4]), int(label[5:]))
 
 
 def _build_html(annual: dict, quarterly: dict) -> str:

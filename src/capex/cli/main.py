@@ -51,6 +51,8 @@ def main(argv: list[str] | None = None) -> int:
         return _export_command(rest)
     if cmd == "chart":
         return _chart_command(rest)
+    if cmd == "reconcile":
+        return _reconcile_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -59,10 +61,18 @@ def main(argv: list[str] | None = None) -> int:
 
 def _db_command(argv: list[str]) -> int:
     from capex.db import migrate
-    from capex.db.sync import sync_companies, sync_metric_definitions
+    from capex.db.sync import (
+        sync_companies,
+        sync_coverage_treatments,
+        sync_metric_definitions,
+    )
 
     if not argv:
-        print("usage: capex db {migrate|sync-companies|sync-metrics|sync-all}", file=sys.stderr)
+        print(
+            "usage: capex db {migrate|sync-companies|sync-metrics|"
+            "sync-coverage|sync-all}",
+            file=sys.stderr,
+        )
         return 2
 
     sub = argv[0]
@@ -78,11 +88,19 @@ def _db_command(argv: list[str]) -> int:
         n = sync_metric_definitions()
         print(f"synced {n} metric definitions")
         return 0
+    if sub == "sync-coverage":
+        n = sync_coverage_treatments()
+        print(f"synced {n} quarterly_convention rows")
+        return 0
     if sub == "sync-all":
         migrate()
         nc = sync_companies()
         nm = sync_metric_definitions()
-        print(f"migrate OK; synced {nc} companies and {nm} metric definitions")
+        nq = sync_coverage_treatments()
+        print(
+            f"migrate OK; synced {nc} companies, {nm} metric definitions, "
+            f"{nq} quarterly conventions"
+        )
         return 0
 
     print(f"unknown db subcommand: {sub}", file=sys.stderr)
@@ -145,6 +163,54 @@ def _chart_command(argv: list[str]) -> int:
         ipath = generate_interactive(output=output)
         print(f"interactive chart saved to {ipath}")
 
+    return 0
+
+
+def _reconcile_command(argv: list[str]) -> int:
+    """Derive missing period values via identity reconciliation.
+
+    Usage:
+      capex reconcile [--ticker TICKER] [--metric METRIC]
+                      [--fy YEAR] [--dry-run]
+    """
+    ticker = None
+    metric_key = None
+    fiscal_year: int | None = None
+    dry_run = False
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == "--ticker" and i + 1 < len(argv):
+            ticker = argv[i + 1]
+            i += 2
+        elif a == "--metric" and i + 1 < len(argv):
+            metric_key = argv[i + 1]
+            i += 2
+        elif a == "--fy" and i + 1 < len(argv):
+            fiscal_year = int(argv[i + 1])
+            i += 2
+        elif a in ("--dry-run", "-n"):
+            dry_run = True
+            i += 1
+        elif a in ("--all",):
+            i += 1
+        else:
+            print(f"unknown option: {a}", file=sys.stderr)
+            return 2
+
+    from capex.extract.reconcile import reconcile
+
+    summary = reconcile(
+        ticker=ticker,
+        metric_key=metric_key,
+        fiscal_year=fiscal_year,
+        write=not dry_run,
+    )
+    mode = "dry-run" if dry_run else "committed"
+    print(
+        f"reconcile {mode}: derived={summary.derived} "
+        f"conflicts={summary.conflicts} unresolved_q4={summary.unresolved}"
+    )
     return 0
 
 

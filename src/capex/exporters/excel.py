@@ -142,7 +142,10 @@ def _build_metric_sheet(wb, conn, sheet_name, metric_key, cadence, hfont, hfill,
     data = _get_metric_data(conn, metric_key, cadence)
 
     # Get all unique periods and ALL companies (not just those with data)
-    all_periods = sorted(set(p for company_data in data.values() for p in company_data))
+    all_periods = sorted(
+        {p for company_data in data.values() for p in company_data},
+        key=_period_sort_key,
+    )
     companies = _get_all_tickers(conn)
 
     if not all_periods:
@@ -213,7 +216,7 @@ def _build_all_metrics_sheet(wb, conn, sheet_name, cadence, hfont, hfill, nfmt):
             all_data[key] = periods
             all_periods.update(periods.keys())
 
-    all_periods = sorted(all_periods)
+    all_periods = sorted(all_periods, key=_period_sort_key)
     headers = ["Company", "Metric"] + all_periods
     for col, h in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col, value=h)
@@ -720,7 +723,7 @@ def _get_quarterly_data(
                 else:
                     quarterly_val = val
 
-                label = f"{period[:4]}Q{_quarter_from_token(token)}"
+                label = _qlabel(period)
                 meta = {
                     "extraction": dict(p),
                     "source_doc": {
@@ -742,6 +745,19 @@ def _get_quarterly_data(
     return result
 
 
-def _quarter_from_token(token: str) -> str:
-    mapping = {"Q1": "1", "Q2": "2", "Q3": "3", "AR": "4", "H1": "2", "H2": "4"}
-    return mapping.get(token, "?")
+def _calendar_quarter(period: str) -> tuple[int, int]:
+    """'2025-09-30' -> (2025, 3). Calendar quarter from period_of_report."""
+    y, m = int(period[:4]), int(period[5:7])
+    return (y, (m - 1) // 3 + 1)
+
+
+def _qlabel(period: str) -> str:
+    y, q = _calendar_quarter(period)
+    return f"{y}Q{q}"
+
+
+def _period_sort_key(p: str) -> tuple[int, int]:
+    """Sort key for mixed FY{year} and YYYYQN labels."""
+    if p.startswith("FY"):
+        return (int(p[2:]), 0)
+    return (int(p[:4]), int(p[5:]))

@@ -263,6 +263,24 @@ def _derive_once(
             [periods[p]["extraction_id"] for p in ("FY", "Q1", "Q2", "Q3")],
         )
 
+    # Symmetric: derive any single missing quarter from FY + other three.
+    # Particularly useful for non-Dec-FYE filers whose 6-K press releases
+    # cover only three fiscal quarters (e.g. BABA files 6-K for fiscal
+    # Q1/Q2/Q3 but the fiscal Q4 comes from the 20-F).
+    for target in ("Q1", "Q2", "Q3"):
+        others = tuple(q for q in ("Q1", "Q2", "Q3", "Q4") if q != target)
+        if (
+            target not in periods
+            and get("FY") is not None
+            and all(get(p) is not None for p in others)
+        ):
+            setd(
+                target,
+                get("FY") - sum(get(p) for p in others),
+                f"{target} = FY - ({'+'.join(others)})",
+                [periods[p]["extraction_id"] for p in ("FY",) + others],
+            )
+
     # Consistency: when both FY and Q1..Q4 exist, compare.
     if all(get(p) is not None for p in ("FY", "Q1", "Q2", "Q3", "Q4")):
         stored_fy = get("FY")

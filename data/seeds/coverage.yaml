@@ -240,8 +240,12 @@ companies:
       payment services (WeChat Pay) — requires LLM judgment to isolate
       the cloud portion, or accept the segment as a proxy. Before ~2019,
       cloud was not separately identifiable in segment reporting.
-      Only 2 data points per year (annual + H1 interim). FX conversion
-      required.
+      KNOWN LIMITATION: Tencent only files HKEX annual (HK-AR) and
+      semi-annual interim (HK-IR) reports — no true quarterly
+      disclosures. Chart will therefore show annual bars for 0700 with
+      NO quarterly data; this is by design, not a coverage gap. If H1
+      granularity is desired in the future, extract H1 from HK-IR and
+      derive H2 = FY - H1.
 
   CRWV:
     full_name: CoreWeave, Inc.

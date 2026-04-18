@@ -236,8 +236,10 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 4d | Quarterly de-cumulation (10-Q YTD → standalone) | ✅ | Q4 derived from Annual - sum(Q1:Q3) |
 | 4e | Calendar-quarter chart labels | ✅ | Non-Dec-FYE companies align on calendar Jan-Mar/Apr-Jun/Jul-Sep/Oct-Dec |
 | 4f | Quarterly reporting convention config | ✅ | Per-company `quarterly_convention` in `coverage.yaml`; `convention_validator.py` checks filing headers; `period_type`/`basis_period_months` columns on `extractions` |
-| 4g | Period reconciliation engine | ✅ | `extract/reconcile.py` derives Q2/Q3/Q4/H1/9M via identities; `capex reconcile` CLI; `scripts/audit_quarterly_coverage.py` matrix; `scripts/backfill_period_type.py` |
+| 4g | Period reconciliation engine | ✅ | `extract/reconcile.py` derives Q1/Q2/Q3/Q4/H1/9M via identities (including Q1 = FY − Q2 − Q3 − Q4 for non-Dec-FYE filers); `capex reconcile` CLI; `scripts/audit_quarterly_coverage.py` matrix; `scripts/backfill_period_type.py` |
 | 4h | Citation style: XBRL quote-based format | ✅ | "cross-checked against SEC XBRL structured data" sentence removed; structured locator line emitted for XBRL rows; Quote line surfaces from `extraction_evidence` without requiring dual-agent verification |
+| 4i | Interactive chart growth toggle (Absolute / YoY / QoQ) | ✅ | New button row in `docs/index.html`. Quarterly YoY compares same calendar quarter prior year; math lives in `exporters/_growth.py` with unit test. |
+| 4j | BABA quarterly cloud segment | ✅ | `scripts/extract_baba_cloud_6k.py` fetches each 6-K from SEC source_url, regex-matches "Cloud Intelligence Group revenue RMB…M". 29/30 filings extracted + reconcile fills BABA fiscal Q4 (calendar Q1) from 20-F annual. |
 | 5a | Citation URL fixes | 🚧 | Direct filing URLs replacing SEC directory links |
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
 | 6 | Quarterly cloud segment extraction | 📋 | LLM-extract AWS/Azure/GCP quarterly segment revenue from 10-Qs so `cloud_segment_revenue` Q4 2019/2020 can be reconciled |

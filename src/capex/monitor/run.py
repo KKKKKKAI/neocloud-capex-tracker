@@ -16,17 +16,15 @@ Usage:
 """
 from __future__ import annotations
 
-import json
 import subprocess
 import sys
-from datetime import date, datetime, timezone
+from datetime import date
 from pathlib import Path
-from typing import Any
 
 from ..adapters.cli_backend import CLIBackend
 from ..db import Database
 from .calendar import get_todays_earnings
-from .watcher import watch_and_extract, poll_sec_latest, already_in_db
+from .watcher import watch_and_extract
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
@@ -131,7 +129,8 @@ def _default_form_type(ticker: str, db: Database) -> str:
     from ..extract.coverage import get_company_treatment
     company = get_company_treatment(ticker)
     if company:
-        return company.filing_cadence.get("quarterly") or company.filing_cadence.get("annual") or "10-Q"
+        cadence = company.filing_cadence
+        return cadence.get("quarterly") or cadence.get("annual") or "10-Q"
     return "10-Q"
 
 
@@ -145,8 +144,8 @@ def _regenerate_outputs() -> None:
         print(f"  Excel error: {e}")
 
     try:
-        from ..exporters.interactive_chart import generate_interactive
         from ..exporters.charts import generate_cloud_revenue_chart
+        from ..exporters.interactive_chart import generate_interactive
         generate_cloud_revenue_chart()
         generate_interactive()
         print("  Charts regenerated")

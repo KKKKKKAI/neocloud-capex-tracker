@@ -34,9 +34,11 @@ from .schema import REPO_ROOT, Database
 
 IDENTITY_PATH = REPO_ROOT / "data" / "_sources" / "_identity.yaml"
 METRICS_SEED_PATH = REPO_ROOT / "data" / "seeds" / "metric_definitions.yaml"
+COVERAGE_SEED_PATH = REPO_ROOT / "data" / "seeds" / "coverage.yaml"
 
 ACTOR_COMPANIES = "sync-companies@0.0.1"
 ACTOR_METRICS = "sync-metric-definitions@0.0.1"
+ACTOR_COVERAGE = "sync-coverage@0.0.1"
 
 
 def sync_companies(
@@ -211,6 +213,85 @@ def sync_metric_definitions(
         )
 
     return len(metrics)
+
+
+def sync_coverage_treatments(
+    db: Database | None = None,
+    yaml_path: Path | None = None,
+) -> int:
+    """Refresh company_quarterly_convention from coverage.yaml.
+
+    Returns the count of companies with a quarterly_convention block.
+    Raises ValueError if coverage.yaml references a ticker that doesn't
+    exist in the companies table (sync companies first).
+    """
+    db = db or Database()
+    yaml_path = yaml_path or COVERAGE_SEED_PATH
+
+    data = yaml.safe_load(yaml_path.read_text())
+    companies = (data or {}).get("companies") or {}
+    now = _now_iso()
+
+    with db.mutating() as conn:
+        existing_tickers = {
+            row[0] for row in conn.execute("SELECT ticker FROM companies")
+        }
+
+        upserted = 0
+        skipped = 0
+        for ticker, entry in companies.items():
+            qc = entry.get("quarterly_convention")
+            if not qc:
+                skipped += 1
+                continue
+            if ticker not in existing_tickers:
+                raise ValueError(
+                    f"coverage.yaml has quarterly_convention for {ticker} "
+                    f"but no companies row exists; run sync_companies first"
+                )
+            default = qc.get("default")
+            if not default:
+                raise ValueError(
+                    f"{ticker}.quarterly_convention.default is required "
+                    f"(see data/seeds/coverage.yaml)"
+                )
+            per_metric = qc.get("per_metric") or {}
+            headers = qc.get("filing_header_signatures") or {}
+            conn.execute(
+                """
+                INSERT INTO company_quarterly_convention (
+                    ticker, default_convention, per_metric_json,
+                    header_signatures_json, synced_at
+                ) VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(ticker) DO UPDATE SET
+                    default_convention = excluded.default_convention,
+                    per_metric_json = excluded.per_metric_json,
+                    header_signatures_json = excluded.header_signatures_json,
+                    synced_at = excluded.synced_at
+                """,
+                (
+                    ticker,
+                    default,
+                    json.dumps(per_metric, ensure_ascii=False, sort_keys=True),
+                    json.dumps(headers, ensure_ascii=False, sort_keys=True),
+                    now,
+                ),
+            )
+            upserted += 1
+
+        _audit(
+            conn,
+            actor=ACTOR_COVERAGE,
+            action="coverage_sync",
+            target_table="company_quarterly_convention",
+            payload={
+                "yaml_path": str(yaml_path.relative_to(REPO_ROOT)),
+                "upserted": upserted,
+                "skipped": skipped,
+            },
+        )
+
+    return upserted
 
 
 def _audit(

@@ -221,12 +221,26 @@ def get_metric_description(
     coverage.yaml.
     """
     base_descriptions = {
-        "capital_expenditures": "Capital expenditures (purchases of property and equipment) for the period, in millions",
+        "capital_expenditures": (
+            "Capital expenditures (purchases of property and "
+            "equipment) for the period, in millions"
+        ),
         "revenue": "Total revenue for the period, in millions",
-        "operating_cash_flow": "Net cash provided by operating activities for the period, in millions",
-        "depreciation_amortization": "Depreciation and amortization expense for the period, in millions",
-        "property_plant_equipment_net": "Property, plant and equipment (net of depreciation) at period end, in millions",
-        "cloud_segment_revenue": "Cloud/datacenter segment revenue for the period, in millions",
+        "operating_cash_flow": (
+            "Net cash provided by operating activities for the "
+            "period, in millions"
+        ),
+        "depreciation_amortization": (
+            "Depreciation and amortization expense for the period, "
+            "in millions"
+        ),
+        "property_plant_equipment_net": (
+            "Property, plant and equipment (net of depreciation) at "
+            "period end, in millions"
+        ),
+        "cloud_segment_revenue": (
+            "Cloud/datacenter segment revenue for the period, in millions"
+        ),
     }
 
     desc = base_descriptions.get(metric_key, f"{metric_key} for the period, in millions")

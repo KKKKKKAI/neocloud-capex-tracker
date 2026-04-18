@@ -75,8 +75,24 @@ def _format_sec(
 
     if section:
         lines.append(f"Section: {section}")
+
+    is_xbrl = "xbrl" in (model or "")
+    concept = _get_xbrl_concept(ext) if is_xbrl else None
+
+    # Line item: prefer a real filing quote when available; otherwise for
+    # XBRL-sourced rows, synthesize a structured locator naming the
+    # concept + period-of-report so the analyst can navigate by hand.
     if quote and not quote.startswith("XBRL") and quote not in section:
         lines.append(f'Line item: "{quote}"')
+    elif is_xbrl and concept and value is not None:
+        _period = period if period and len(period) >= 10 else "?"
+        if currency == "USD":
+            _val_str = f"${value:,.0f}M"
+        else:
+            _val_str = f"{currency} {value:,.0f}M"
+        lines.append(
+            f"Line item: XBRL fact {concept} · period ending {_period} · {_val_str}"
+        )
 
     if currency != "USD" and value is not None and value_usd is not None:
         lines.append(f"Value: {currency} {value:,.0f}M → ${value_usd:,.0f}M USD")
@@ -89,15 +105,12 @@ def _format_sec(
     elif value is not None:
         lines.append(f"Value: ${value:,.0f}M (as reported)")
 
-    if model == "xbrl-verified":
-        lines.append("Value cross-checked against SEC XBRL structured data.")
-    elif "xbrl" in model:
-        concept = _get_xbrl_concept(ext)
-        if concept:
-            lines.append(f"Method: XBRL companyfacts API ({concept})")
-        else:
-            lines.append(f"Method: {model}")
-    else:
+    if is_xbrl:
+        lines.append(
+            f"Method: XBRL companyfacts API ({concept})" if concept
+            else "Method: XBRL companyfacts API"
+        )
+    elif model:
         lines.append(f"Method: {model}")
 
     # Verification badge
@@ -342,10 +355,14 @@ def _get_adjustment(ticker: str) -> dict | None:
 
 
 def _get_verification_badge(extraction_id: int | None) -> str | None:
-    """Check if this extraction has passed dual-agent verification.
+    """Return a badge + quote block when available for an extraction.
 
-    Returns a badge string if verified, None otherwise.
-    Also returns the primary evidence quote if available.
+    Combines two independent pieces of provenance into one block:
+      1. "Independently verified" if dual_agent_verification passed
+      2. Quote: "..." whenever extraction_evidence has a primary_value
+         row, regardless of verification status
+
+    Returns None when neither exists.
     """
     if not extraction_id:
         return None
@@ -358,43 +375,37 @@ def _get_verification_badge(extraction_id: int | None) -> str | None:
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
 
-    # Check validation_results for dual_agent_verification
-    row = conn.execute(
-        "SELECT passed FROM validation_results "
-        "WHERE extraction_id = ? AND check_name = 'dual_agent_verification' "
-        "ORDER BY checked_at DESC LIMIT 1",
-        (extraction_id,),
-    ).fetchone()
+    try:
+        verified_row = conn.execute(
+            "SELECT passed FROM validation_results "
+            "WHERE extraction_id = ? AND check_name = 'dual_agent_verification' "
+            "ORDER BY checked_at DESC LIMIT 1",
+            (extraction_id,),
+        ).fetchone()
+        is_verified = bool(verified_row and verified_row["passed"])
 
-    if not row:
-        conn.close()
-        return None
-
-    if row["passed"]:
-        # Get the primary evidence quote
         ev = conn.execute(
             "SELECT excerpt_text FROM extraction_evidence "
             "WHERE extraction_id = ? AND excerpt_role = 'primary_value' "
             "LIMIT 1",
             (extraction_id,),
         ).fetchone()
+    finally:
         conn.close()
 
-        badge = "Independently verified"
-        if ev and ev["excerpt_text"]:
-            import re
-            # Strip any residual HTML entities
-            text = re.sub(r'&#\d+;', ' ', ev["excerpt_text"])
-            text = re.sub(r'&#x[0-9A-Fa-f]+;', ' ', text)
-            text = re.sub(r'&[a-z]+;', ' ', text)
-            text = re.sub(r'\s+', ' ', text).strip()
-            # Extract first sentence with a number
-            sentences = re.split(r'(?<=[.!?])\s+', text)
-            for s in sentences:
-                if re.search(r'\d', s):
-                    badge += f'\nQuote: "{s[:200]}"'
-                    break
-        return badge
+    parts: list[str] = []
+    if is_verified:
+        parts.append("Independently verified")
+    if ev and ev["excerpt_text"]:
+        import re
+        text = re.sub(r'&#\d+;', ' ', ev["excerpt_text"])
+        text = re.sub(r'&#x[0-9A-Fa-f]+;', ' ', text)
+        text = re.sub(r'&[a-z]+;', ' ', text)
+        text = re.sub(r'\s+', ' ', text).strip()
+        sentences = re.split(r'(?<=[.!?])\s+', text)
+        for s in sentences:
+            if re.search(r'\d', s):
+                parts.append(f'Quote: "{s[:200]}"')
+                break
 
-    conn.close()
-    return None
+    return "\n".join(parts) if parts else None

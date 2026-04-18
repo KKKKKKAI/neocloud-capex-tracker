@@ -39,6 +39,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary  # XBRL for headline metrics, LLM for segments
+    quarterly_convention:
+      default: three_month_column   # 10-Q exposes explicit 3M and YTD columns
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Microsoft's fiscal year ends in June. FY2016 started July 2015.
       Segment reporting changed in FY2018 — "Commercial Cloud" became
@@ -54,6 +61,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: three_month_column
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       AWS has been reported as a separate segment since Q1 2015 (first
       quarterly segment disclosure in the 10-Q for Q1 2015). Clean
@@ -68,6 +82,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: three_month_column
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Google Cloud was first reported as a separate segment in Q4 2020
       (10-K for FY2020). Before that, cloud revenue was bundled into
@@ -83,6 +104,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: three_month_column
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Meta is an AI infrastructure BUYER, not a cloud vendor. They do
       not sell cloud services and have no "cloud segment revenue."
@@ -98,6 +126,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: three_month_column
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Oracle's fiscal year ends in May. Cloud segment naming has changed
       multiple times: "Cloud Software", "Cloud Services and License
@@ -115,6 +150,15 @@ companies:
       annual: 20-F
       quarterly: null  # 20-F filers don't file 10-Q; 6-K has quarterly press releases
     extraction_approach: llm_primary  # IFRS reporting, segment names change
+    quarterly_convention:
+      default: standalone_quarterly   # 6-K press releases report 3-month values directly
+      filing_header_signatures:
+        expect_any_of:
+          - "quarter ended"
+          - "In the quarter ended"
+          - "Three months ended"
+        must_not_match:
+          - "Nine months ended"   # YTD phrasing would conflict with standalone
     notes: |
       Alibaba's fiscal year ends in March. Reports in RMB/CNY under
       IFRS. Files 20-F annually on SEC (preferred) and HK-AR on HKEX.
@@ -134,6 +178,14 @@ companies:
       annual: 20-F
       quarterly: null
     extraction_approach: llm_primary
+    quarterly_convention:
+      default: standalone_quarterly
+      filing_header_signatures:
+        expect_any_of:
+          - "Three months ended"
+          - "quarter ended"
+        must_not_match:
+          - "Nine months ended"
     notes: |
       Reports in RMB/CNY. Files 20-F on SEC. Cloud segment variously
       called "AI Cloud", "Baidu Cloud", "Intelligent Cloud". Segment
@@ -151,6 +203,14 @@ companies:
       annual: 20-F
       quarterly: null
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: standalone_quarterly
+      filing_header_signatures:
+        expect_any_of:
+          - "Three months ended"
+          - "quarter ended"
+        must_not_match:
+          - "Nine months ended"
     notes: |
       GDS is a pure-play datacenter operator. Total revenue IS the
       cloud/datacenter revenue — no segment extraction needed, just
@@ -168,6 +228,12 @@ companies:
       annual: HK-AR
       quarterly: null  # HK-IR is semi-annual only; voluntary quarterly press releases
     extraction_approach: llm_primary
+    quarterly_convention:
+      default: semi_annual   # HKEX interim report only, no 3-month quarterly
+      filing_header_signatures:
+        expect_any_of:
+          - "Six months ended"
+          - "interim"
     notes: |
       HKEX-only filer. Reports in RMB/CNY. Cloud revenue is bundled
       into "FinTech and Business Services" segment which also includes
@@ -186,6 +252,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: three_month_column
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Pure-play GPU cloud provider. Total revenue = cloud revenue.
       IPO'd March 2025 — very limited history. First 10-K filed
@@ -200,6 +273,13 @@ companies:
       annual: 10-K
       quarterly: 10-Q
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: three_month_column
+      filing_header_signatures:
+        expect_any_of:
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Applied Digital pivoted from crypto mining to HPC/datacenter
       hosting around 2022. Pre-pivot revenue is not comparable. FYE May.
@@ -214,6 +294,12 @@ companies:
       annual: 20-F
       quarterly: null
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: standalone_quarterly   # 6-K press releases; 20-F annual only
+      filing_header_signatures:
+        expect_any_of:
+          - "Three months ended"
+          - "quarter ended"
     notes: |
       Australian company, NASDAQ-listed, reports in USD. Formerly Iris
       Energy. Primarily Bitcoin mining + HPC hosting. FYE June. Total
@@ -228,6 +314,14 @@ companies:
       annual: 20-F
       quarterly: null
     extraction_approach: xbrl_primary
+    quarterly_convention:
+      default: standalone_quarterly
+      filing_header_signatures:
+        expect_any_of:
+          - "Three months ended"
+          - "quarter ended"
+        must_not_match:
+          - "Nine months ended"
     notes: |
       Dutch holding company spun out of Yandex's restructuring. AI
       infrastructure business. Very limited history — only FY2024 20-F

@@ -16,8 +16,8 @@ from pathlib import Path
 from typing import Any
 
 from ...db import Database
+from ...read.sections import get_extraction_sections, parse_sections
 from ...read.text import extract_text
-from ...read.sections import parse_sections, get_extraction_sections
 from ..base import ExtractionCandidate
 from ..coverage import DatasetTreatment
 

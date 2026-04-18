@@ -47,6 +47,7 @@ def write_extractions(
     *,
     db: Database | None = None,
     provenance_check_fn: Any | None = None,
+    convention_check_fn: Any | None = None,
 ) -> dict[str, Any]:
     """Validate and write a batch of extraction results to the DB.
 
@@ -93,6 +94,18 @@ def write_extractions(
         if "value_usd" not in result or result["value_usd"] is None:
             _apply_fx_normalization(result, db)
 
+        # 2c. Optional convention check (callable takes result, returns
+        # ConventionCheck-like object with .ok and .warnings). Failures
+        # are appended to summary["errors"] and the row is still
+        # written — the writer never drops data, it flags it.
+        if convention_check_fn is not None:
+            check = convention_check_fn(result)
+            if check is not None and not getattr(check, "ok", True):
+                summary["errors"].append({
+                    "metric_key": result.get("metric_key", "?"),
+                    "convention_warnings": getattr(check, "warnings", []),
+                })
+
         # 3. Write to DB
         try:
             row_id = _insert_extraction(db, result, now)
@@ -119,14 +132,22 @@ def _insert_extraction(
     db: Database, result: dict[str, Any], now: str
 ) -> int | None:
     """Insert one extraction row. Returns row ID, or None if already exists."""
+    period_type = result.get("period_type", "") or ""
     with db.mutating() as conn:
-        # Idempotent: check if (source_document_id, metric_key, extracting_model) exists
+        # Idempotent: include period_type so one filing can carry
+        # multiple period-basis rows for the same metric + model.
         existing = conn.execute(
             """
             SELECT id FROM extractions
-            WHERE source_document_id = ? AND metric_key = ? AND extracting_model = ?
+            WHERE source_document_id = ? AND metric_key = ?
+              AND extracting_model = ? AND period_type = ?
             """,
-            (result["source_document_id"], result["metric_key"], result["extracting_model"]),
+            (
+                result["source_document_id"],
+                result["metric_key"],
+                result["extracting_model"],
+                period_type,
+            ),
         ).fetchone()
 
         if existing:
@@ -138,8 +159,9 @@ def _insert_extraction(
                 source_document_id, metric_key, value, value_text, unit,
                 quote, locator_page, locator_section, extraction_type,
                 confidence, extracting_model, protocol_version, extracted_at,
-                value_usd, fx_rate, fx_rate_date, reporting_currency
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                value_usd, fx_rate, fx_rate_date, reporting_currency,
+                period_type, basis_period_months, reporting_convention
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 result["source_document_id"],
@@ -159,6 +181,9 @@ def _insert_extraction(
                 result.get("fx_rate"),
                 result.get("fx_rate_date"),
                 result.get("reporting_currency", "USD"),
+                period_type,
+                result.get("basis_period_months"),
+                result.get("reporting_convention"),
             ),
         )
         row_id = cur.lastrowid

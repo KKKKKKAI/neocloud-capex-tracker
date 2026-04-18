@@ -45,6 +45,7 @@ flowchart TD
     subgraph L4["3 — Read + Extract"]
         TEXT["read/text.py\nHTML & PDF → text"]
         SECT["read/sections.py\nItem 7 · Item 8 · Notes"]
+        CVAL["convention_validator.py\nperiod-header sanity check"]
 
         subgraph Extractors["Extraction Strategies"]
             EX_XBRL["xbrl.py\n1,257 records"]
@@ -57,6 +58,7 @@ flowchart TD
     subgraph L3["4 — Storage Trunk"]
         FXR["fx/rates.py\nCNY/GBP → USD"]
         WRITER["extract/writer.py\nvalidation + audit"]
+        RECONCILE["reconcile.py\nperiod identities"]
         DB[("SQLite\ncapex.db")]
         DUMP["dump.sql\nauto-generated"]
     end
@@ -87,8 +89,11 @@ flowchart TD
     EX_LLM --> WRITER
     EX_SEG --> WRITER
     EX_6K --> WRITER
+    SECT --> CVAL
+    CVAL -.-> WRITER
     FXR -.-> WRITER
     WRITER --> DB
+    DB --> RECONCILE --> DB
     DB --> DUMP
     DB --> EXCEL --> XLSX
     DB --> CHART --> PNG
@@ -101,7 +106,7 @@ flowchart TD
 
     class SEC,HKEX,XBRL,ECB source
     class RAW,DB,DUMP store
-    class SECF,HKEXF,DISP,TEXT,SECT,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,EXCEL,CHART,ICHART process
+    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART process
     class XLSX,PNG,GHPAGES output
 ```
 <!-- ARCHITECTURE_END -->
@@ -229,9 +234,14 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 4b | Static PNG charts | ✅ | Annual cloud revenue with YoY overlay |
 | 4c | Interactive Plotly chart + GitHub Pages | ✅ | Annual/quarterly toggle, deployed to Pages |
 | 4d | Quarterly de-cumulation (10-Q YTD → standalone) | ✅ | Q4 derived from Annual - sum(Q1:Q3) |
+| 4e | Calendar-quarter chart labels | ✅ | Non-Dec-FYE companies align on calendar Jan-Mar/Apr-Jun/Jul-Sep/Oct-Dec |
+| 4f | Quarterly reporting convention config | ✅ | Per-company `quarterly_convention` in `coverage.yaml`; `convention_validator.py` checks filing headers; `period_type`/`basis_period_months` columns on `extractions` |
+| 4g | Period reconciliation engine | ✅ | `extract/reconcile.py` derives Q2/Q3/Q4/H1/9M via identities; `capex reconcile` CLI; `scripts/audit_quarterly_coverage.py` matrix; `scripts/backfill_period_type.py` |
+| 4h | Citation style: XBRL quote-based format | ✅ | "cross-checked against SEC XBRL structured data" sentence removed; structured locator line emitted for XBRL rows; Quote line surfaces from `extraction_evidence` without requiring dual-agent verification |
 | 5a | Citation URL fixes | 🚧 | Direct filing URLs replacing SEC directory links |
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
-| 6 | Quarterly pipeline expansion | 📋 | 10-Q segment extraction for quarterly cloud revenue |
+| 6 | Quarterly cloud segment extraction | 📋 | LLM-extract AWS/Azure/GCP quarterly segment revenue from 10-Qs so `cloud_segment_revenue` Q4 2019/2020 can be reconciled |
+| 6b | XBRL filing-text quote backfill | 📋 | `xbrl_excerpt.py` to locate filing HTML snippets and populate `extraction_evidence` for XBRL-sourced rows |
 | 7a | Fiscal calendar monitor | 📋 | Automated new-filing detection via Alpha Vantage |
 | 7b | Headless LLM extraction (CLI `-p` mode) | 📋 | Unattended cron extraction without Claude Code session |
 | 8a | Auto-publish pipeline | 📋 | CI-driven Excel + chart regeneration on new data |

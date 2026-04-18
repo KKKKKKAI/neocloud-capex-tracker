@@ -1,6 +1,6 @@
 ---
 name: organize-sources
-description: Walk the `data/_sources/` archive, find any newly fetched company filings sitting in `_raw/` subfolders, and create canonical human-friendly copies under year-level directories using the naming convention `[dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>`. Use this skill whenever the user says anything like "organize the sources folder", "rename the filings", "tidy up the annual report archive", "clean up _sources", or after any batch of `fetch-company-report` runs. Also use this skill proactively if the user is exploring `data/_sources/` and notices raw unrenamed files, or if a scheduled nightly sweep is kicking off. This is the only sanctioned writer of canonical filenames — never rename files in `_sources/` by hand or via other tools.
+description: Walk the `data/_sources/` archive, find any newly fetched company filings sitting in `_raw/` subfolders, and create canonical human-friendly copies under year-level directories using the naming convention `[yyyy.mm.dd][TICKER][PERIOD][FORM].<ext>`. Use this skill whenever the user says anything like "organize the sources folder", "rename the filings", "tidy up the annual report archive", "clean up _sources", or after any batch of `fetch-company-report` runs. Also use this skill proactively if the user is exploring `data/_sources/` and notices raw unrenamed files, or if a scheduled nightly sweep is kicking off. This is the only sanctioned writer of canonical filenames — never rename files in `_sources/` by hand or via other tools.
 ---
 
 # organize-sources
@@ -39,7 +39,7 @@ Default is a full sweep with writes enabled.
 
 ## Outputs
 
-1. **Canonical file copies** at `data/_sources/<TICKER>/<YYYY>/[dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>` (extension matches the original — `.htm` for SEC HTML filings, `.pdf` for HKEX or any PDF the regulator served).
+1. **Canonical file copies** at `data/_sources/<TICKER>/<YYYY>/[yyyy.mm.dd][TICKER][PERIOD][FORM].<ext>` (extension matches the original — `.htm` for SEC HTML filings, `.pdf` for HKEX or any PDF the regulator served).
 2. **An updated `source_documents.canonical_path`** column for each file copied (UPDATE statement on the matching row identified by sha256).
 3. **An append-only log** at `data/_sources/_organizer_log.csv` capturing every action taken (including no-ops and collisions).
 
@@ -58,12 +58,12 @@ Returns a summary object:
 ## Naming grammar
 
 ```
-[dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>
+[yyyy.mm.dd][TICKER][PERIOD][FORM].<ext>
 ```
 
 | Token       | Value                                                                                          |
 |-------------|------------------------------------------------------------------------------------------------|
-| `dd.mm.yyyy`| `filing_date` from the sidecar / DB row (not `period_of_report`)                                |
+| `yyyy.mm.dd`| `filing_date` from the sidecar / DB row (not `period_of_report`)                                |
 | `TICKER`    | The `companies.ticker` key: SEC ticker (`MSFT`), HK stock code (`0700`), or canonical alias    |
 | `PERIOD`    | One of `AR`, `Q1`, `Q2`, `Q3`, `H1`, `H2` — derived from form + `period_of_report` + FYE month |
 | `FORM`      | One of `10-K`, `10-Q`, `20-F`, `HK-AR`, `HK-IR`                                                |
@@ -81,11 +81,11 @@ The fiscal year used for the `<YYYY>/` folder is the **fiscal year the filing be
 
 ### Examples
 
-- `[30.07.2025][MSFT][AR][10-K].htm` — Microsoft FY25 10-K (HTML primary).
-- `[24.10.2025][NVDA][Q3][10-Q].htm` — Nvidia fiscal Q3 10-Q.
-- `[27.06.2025][BABA][AR][20-F].htm` — Alibaba 20-F (dual-listed, fetched from SEC).
-- `[20.03.2026][0700][AR][HK-AR].pdf` — Tencent annual report (HKEX-only PDF).
-- `[15.08.2025][0700][H1][HK-IR].pdf` — Tencent interim report.
+- `[2025.07.30][MSFT][AR][10-K].htm` — Microsoft FY25 10-K (HTML primary).
+- `[2025.10.24][NVDA][Q3][10-Q].htm` — Nvidia fiscal Q3 10-Q.
+- `[2025.06.27][BABA][AR][20-F].htm` — Alibaba 20-F (dual-listed, fetched from SEC).
+- `[2026.03.20][0700][AR][HK-AR].pdf` — Tencent annual report (HKEX-only PDF).
+- `[2025.08.15][0700][H1][HK-IR].pdf` — Tencent interim report.
 
 ## Folder layout (what the skill produces)
 
@@ -96,13 +96,13 @@ data/_sources/
       msft-20250630.htm
       msft-20250630.htm.fetch.json
     2025/
-      [30.07.2025][MSFT][AR][10-K].htm    ← copy produced by this skill
+      [2025.07.30][MSFT][AR][10-K].htm    ← copy produced by this skill
   0700/
     _raw/
       tencent-2024-ar.pdf
       tencent-2024-ar.pdf.fetch.json
     2024/
-      [20.03.2025][0700][AR][HK-AR].pdf
+      [2025.03.20][0700][AR][HK-AR].pdf
   _identity.yaml
   _organizer_log.csv
 ```

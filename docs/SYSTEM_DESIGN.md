@@ -162,7 +162,7 @@ data/_sources/
     │   ├── <sanitized>.<htm|pdf>      # whatever the regulator served
     │   └── <sanitized>.fetch.json     # sidecar metadata
     └── <YYYY>/                # canonical, regeneratable from _raw/
-        └── [dd.mm.yyyy][TICKER][PERIOD][FORM].<htm|pdf>
+        └── [yyyy.mm.dd][TICKER][PERIOD][FORM].<htm|pdf>
 ```
 
 - `_raw/` stores the regulator's bytes **as-is**, no conversion. SEC 10-Ks and 20-Fs are typically HTML; HKEXnews annual reports are PDFs. We do not render HTML to PDF — the extraction layer parses text from whatever format we have, and the locator references humans use are section headings + verbatim quotes (not page numbers).

@@ -122,7 +122,7 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     # Build canonical filename at download time — no separate organize step.
-    # Format: [dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>
+    # Format: [yyyy.mm.dd][TICKER][PERIOD][FORM].<ext>
     ext = Path(primary_doc).suffix or ".htm"
     from ..organize.namer import canonical_name, compute_period_token
     # Look up FYE month from companies table (fall back to 12 if not found)

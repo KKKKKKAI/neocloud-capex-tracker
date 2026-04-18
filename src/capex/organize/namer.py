@@ -5,10 +5,10 @@ row (or sidecar), produce the canonical filename and the fiscal-year
 folder name. Re-runnable: same inputs always produce the same outputs.
 
 Naming grammar (authoritative):
-    [dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>
+    [yyyy.mm.dd][TICKER][PERIOD][FORM].<ext>
 
 Where:
-    dd.mm.yyyy   - filing_date (NOT period_of_report)
+    yyyy.mm.dd   - filing_date (NOT period_of_report)
     TICKER       - companies.ticker key
     PERIOD       - AR / Q1 / Q2 / Q3 / H1 / H2 (derived from form + period)
     FORM         - 10-K / 10-Q / 20-F / HK-AR / HK-IR
@@ -118,7 +118,7 @@ def canonical_name(
     form_type: str,
     extension: str,
 ) -> str:
-    """Build the canonical filename: [dd.mm.yyyy][TICKER][PERIOD][FORM].ext
+    """Build the canonical filename: [yyyy.mm.dd][TICKER][PERIOD][FORM].ext
 
     Args:
         filing_date: ISO date string YYYY-MM-DD.
@@ -131,10 +131,10 @@ def canonical_name(
         The canonical filename. Pure function — no I/O, no path resolution.
     """
     parts = filing_date.split("-")
-    dd_mm_yyyy = f"{parts[2]}.{parts[1]}.{parts[0]}"
+    yyyy_mm_dd = f"{parts[0]}.{parts[1]}.{parts[2]}"
     if not extension.startswith("."):
         extension = "." + extension
-    return f"[{dd_mm_yyyy}][{ticker}][{period_token}][{form_type}]{extension}"
+    return f"[{yyyy_mm_dd}][{ticker}][{period_token}][{form_type}]{extension}"
 
 
 # ----------------------------------------------------------------------------

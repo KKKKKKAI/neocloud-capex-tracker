@@ -560,7 +560,7 @@ is removed. Files are saved with the canonical name format directly
 in `_raw/` at download time. This eliminates the duplicate copy that
 doubled disk usage (~1.7 GB saved on the big pull).
 
-New download naming: `_raw/[dd.mm.yyyy][TICKER][PERIOD][FORM].<ext>`
+New download naming: `_raw/[yyyy.mm.dd][TICKER][PERIOD][FORM].<ext>`
 
 Changes:
 - [ ] 6A.3B.1 Update `src/capex/fetch/sec.py` and `hkex.py`: at download time, compute the canonical filename using `namer.canonical_name()` instead of sanitizing the regulator's filename. Requires period_token and filing_date which are already available from the submissions API response.

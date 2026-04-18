@@ -80,16 +80,16 @@ def test_q4_10q_raises():
 
 
 def test_canonical_name_format():
-    """Filename format: [dd.mm.yyyy][TICKER][PERIOD][FORM].ext"""
+    """Filename format: [yyyy.mm.dd][TICKER][PERIOD][FORM].ext"""
     name = canonical_name("2025-07-30", "MSFT", "AR", "10-K", ".htm")
-    assert name == "[30.07.2025][MSFT][AR][10-K].htm", name
+    assert name == "[2025.07.30][MSFT][AR][10-K].htm", name
 
     name = canonical_name("2024-10-24", "NVDA", "Q3", "10-Q", ".htm")
-    assert name == "[24.10.2024][NVDA][Q3][10-Q].htm", name
+    assert name == "[2024.10.24][NVDA][Q3][10-Q].htm", name
 
     # Extension without dot is also accepted.
     name = canonical_name("2025-03-20", "0700", "AR", "HK-AR", "pdf")
-    assert name == "[20.03.2025][0700][AR][HK-AR].pdf", name
+    assert name == "[2025.03.20][0700][AR][HK-AR].pdf", name
 
 
 def test_unknown_form_type_raises():

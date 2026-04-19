@@ -1874,6 +1874,8 @@ INSERT INTO "audit_log" VALUES(1859,'2026-04-18T21:45:54+00:00','reconcile@0.1.0
 INSERT INTO "audit_log" VALUES(1860,'2026-04-18T21:45:54+00:00','reconcile@0.1.0','extraction_derived','extractions',3227,'{"components": [1281, 3198, 3199, 3200], "fiscal_year": 2025, "formula": "Q1 = FY - (Q2+Q3+Q4)", "metric_key": "cloud_segment_revenue", "period_type": "Q1", "ticker": "BABA", "value": 4045.9500000000007}');
 INSERT INTO "audit_log" VALUES(1861,'2026-04-18T21:45:54+00:00','reconcile@0.1.0','extraction_derived','extractions',3228,'{"components": [null, 3198, 3199], "fiscal_year": 2025, "formula": "9M = Q1+Q2+Q3", "metric_key": "cloud_segment_revenue", "period_type": "9M", "ticker": "BABA", "value": 11923.870000000003}');
 INSERT INTO "audit_log" VALUES(1862,'2026-04-18T21:45:54+00:00','reconcile@0.1.0','extraction_derived','extractions',3229,'{"components": [null, 3198], "fiscal_year": 2025, "formula": "H1 = Q1+Q2", "metric_key": "cloud_segment_revenue", "period_type": "H1", "ticker": "BABA", "value": 7701.480000000001}');
+INSERT INTO "audit_log" VALUES(1863,'2026-04-19T15:08:11+00:00','baba-6k-url-fix','source_doc_url_corrected','source_documents',489,'{"new_accn": "0001104659-25-085638", "new_url": "https://www.sec.gov/Archives/edgar/data/1577552/000110465925085638/tm2524743d1_ex99-1.htm", "old_accn": "0001104659-25-074564", "old_url": "https://www.sec.gov/Archives/edgar/data/1577552/000110465925074564/tm2522605d1_ex99-2.htm", "reason": "DB had AGM circular; corrected to Q1 FY26 earnings 6-K"}');
+INSERT INTO "audit_log" VALUES(1864,'2026-04-19T15:08:22+00:00','baba-cloud-6k@0.1.0','baba_cloud_6k_extracted','extractions',3230,'{"fiscal_year": 2026, "period_of_report": "2025-06-30", "period_type": "Q2", "value_rmb_m": 33398.0, "value_usd_m": 4661.36}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -4611,6 +4613,7 @@ INSERT INTO "extractions" VALUES(3226,266,'cloud_segment_revenue','H1',6,NULL,6.
 INSERT INTO "extractions" VALUES(3227,6,'cloud_segment_revenue','Q1',3,NULL,4.04595000000000072767e+03,'$4,046M (derived)','USD_millions','Derived: Q1 = FY - (Q2+Q3+Q4)',NULL,'Derived from Q1 = FY - (Q2+Q3+Q4)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-18T21:45:54+00:00',4.04595000000000072767e+03,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(3228,6,'cloud_segment_revenue','9M',9,NULL,1.19238700000000026189e+04,'$11,924M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-18T21:45:54+00:00',1.19238700000000026189e+04,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(3229,6,'cloud_segment_revenue','H1',6,NULL,7.70148000000000138237e+03,'$7,701M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-18T21:45:54+00:00',7.70148000000000138237e+03,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(3230,489,'cloud_segment_revenue','Q2',3,'standalone_quarterly',33398.0,'RMB 33,398M','USD_millions','Cloud Intelligence Group For the quarter ended June 30, 2025, revenue from Cloud Intelligence Group was RMB33,398 million',NULL,'6-K Press Release — Cloud Intelligence Group','direct',NULL,'baba-cloud-6k@0.1.0','0.1.0-draft','2026-04-19T15:08:22+00:00',4661.36,0.13957,'2025-06-30','CNY');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -5188,7 +5191,7 @@ INSERT INTO "source_documents" VALUES(485,'NBIS','6-K','2021-06-30','2021-06-30'
 INSERT INTO "source_documents" VALUES(486,'NBIS','6-K','2021-09-30','2021-09-30',2021,'Q3','6k-llm-NBIS-2021-09-30','6k://llm/NBIS/2021-09-30',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1513845/000151384521000034/yndx-20210930ex99129ff59.htm','','2026-04-14T08:06:27+00:00','llm-extract@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(487,'NBIS','6-K','2025-03-31','2025-03-31',2025,'Q1','6k-llm-NBIS-2025-03-31','6k://llm/NBIS/2025-03-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1513845/000110465925050975/tm2515580d1_ex99-1.htm','','2026-04-14T08:06:27+00:00','llm-extract@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(488,'BABA','6-K','2023-08-10','2023-06-30',2024,'Q1','6k-llm-BABA-2023-06-30','6k://llm/BABA/2023-06-30',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1577552/000110465923089768/tm2323406d1_ex99-1.htm','0001104659-23-089768','2026-04-15T20:20:43+00:00','llm-extract@0.1.0','0.1.0-draft');
-INSERT INTO "source_documents" VALUES(489,'BABA','6-K','2025-08-06','2025-06-30',2026,'Q1','6k-llm-BABA-2025-06-30','6k://llm/BABA/2025-06-30',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1577552/000110465925074564/tm2522605d1_ex99-2.htm','0001104659-25-074564','2026-04-15T20:20:43+00:00','llm-extract@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(489,'BABA','6-K','2025-08-06','2025-06-30',2026,'Q1','6k-llm-BABA-2025-06-30','6k://llm/BABA/2025-06-30',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1577552/000110465925085638/tm2524743d1_ex99-1.htm','0001104659-25-085638','2026-04-15T20:20:43+00:00','llm-extract@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(490,'GDS','6-K','2024-08-21','2024-06-30',2024,'Q2','6k-llm-GDS-2024-06-30','6k://llm/GDS/2024-06-30',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1526125/000110465924091462/tm2422115d2_ex99-1.htm','0001104659-24-091462','2026-04-15T20:20:43+00:00','llm-extract@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(491,'GDS','6-K','2025-08-20','2025-06-30',2025,'Q2','6k-llm-GDS-2025-06-30','6k://llm/GDS/2025-06-30',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1526125/000110465925080582/tm2523954d2_ex99-1.htm','0001104659-25-080582','2026-04-15T20:20:43+00:00','llm-extract@0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
@@ -5307,10 +5310,10 @@ CREATE INDEX idx_extractions_metric ON extractions(metric_key);
 CREATE INDEX idx_extractions_doc_metric_period
     ON extractions(source_document_id, metric_key, period_type);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',1862);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',1864);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',491);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',93);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
-INSERT INTO "sqlite_sequence" VALUES('extractions',3229);
+INSERT INTO "sqlite_sequence" VALUES('extractions',3230);
 COMMIT;

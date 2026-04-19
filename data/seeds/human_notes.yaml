@@ -1,0 +1,16 @@
+# Human-authored extraction guidance. Elicited via `capex audit review`.
+#
+# Loaded alongside coverage.yaml at extraction time and injected into
+# Agent A's system prompt (LLM extractor) and the segment-extractor's
+# keyword weighting. Notes are scoped by (ticker, metric_key,
+# period_range, form_types) so they only apply where they make sense.
+#
+# Each note carries full provenance: the audit run that surfaced it,
+# the cell that triggered the review, the reviewer's verbatim input,
+# and the resulting structured guidance. Notes can be revoked by
+# setting `state: revoked` — the extractor will ignore them.
+#
+# Schema v1. See docs/PROTOCOL_ELICITATION_LOOP.md for the full spec.
+
+schema_version: 1
+notes: []

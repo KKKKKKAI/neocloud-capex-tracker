@@ -50,8 +50,15 @@ def build_agent_a_prompt(
     sections_text: str,
     unit: str = "USD_millions",
     derivation_rules: str = "",
+    human_notes_block: str = "",
 ) -> str:
-    """Format the Agent A prompt for extraction + context capture."""
+    """Format the Agent A prompt for extraction + context capture.
+
+    `human_notes_block` is the rendered-markdown output of
+    `capex.audit.human_notes.format_for_prompt(notes)` — it carries
+    scoped caution notes authored by prior human reviewers via the
+    Protocol Elicitation Loop. Empty string when no notes apply.
+    """
     template = (PROMPTS_DIR / "agent_a.txt").read_text(encoding="utf-8")
     return template.format(
         company_name=company_name,
@@ -61,6 +68,7 @@ def build_agent_a_prompt(
         sections_text=sections_text,
         unit=unit,
         derivation_rules=derivation_rules,
+        human_notes_block=human_notes_block,
     )
 
 

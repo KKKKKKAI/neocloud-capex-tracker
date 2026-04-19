@@ -223,11 +223,58 @@ def _reconcile_command(argv: list[str]) -> int:
 
 
 def _audit_command(argv: list[str]) -> int:
-    """Invoke scripts/audit_data_quality.py with the passed args."""
+    """Dispatch `capex audit ...` subcommands.
+
+    Modes:
+      capex audit                → run the full data-quality audit
+      capex audit review [...]   → open the human-in-the-loop review session
+                                    over the last audit's JSON sidecar
+    """
+    if argv and argv[0] == "review":
+        return _audit_review_command(argv[1:])
+
     import subprocess
     from pathlib import Path
     script = Path(__file__).resolve().parents[3] / "scripts" / "audit_data_quality.py"
     return subprocess.call([sys.executable, str(script), *argv])
+
+
+def _audit_review_command(argv: list[str]) -> int:
+    """Route `capex audit review` to the PEL-backed review session."""
+    cluster = None
+    limit = None
+    report_path = None
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == "--cluster" and i + 1 < len(argv):
+            cluster = argv[i + 1]
+            i += 2
+        elif a == "--limit" and i + 1 < len(argv):
+            limit = int(argv[i + 1])
+            i += 2
+        elif a == "--report" and i + 1 < len(argv):
+            from pathlib import Path
+            report_path = Path(argv[i + 1])
+            i += 2
+        elif a in ("-h", "--help"):
+            print("usage: capex audit review [--cluster TICKER[:METRIC]] "
+                  "[--limit N] [--report PATH]")
+            print()
+            print("Walks flagged audit clusters, prompts for natural-language")
+            print("guidance, formalizes it into data/seeds/human_notes.yaml,")
+            print("and logs each interaction to the audit_review_feedback table.")
+            return 0
+        else:
+            print(f"unknown option: {a}", file=sys.stderr)
+            return 2
+
+    from capex.audit.review import run_review
+    return run_review(
+        cluster_filter=cluster,
+        limit=limit,
+        report_path=report_path,
+    )
 
 
 def _export_command(argv: list[str]) -> int:
@@ -253,6 +300,8 @@ def _extract_command(argv: list[str]) -> int:
     ticker = None
     form_type = None
     metric_key = None
+    period = None
+    force = False
     batch = False
     i = 0
     while i < len(argv):
@@ -265,6 +314,12 @@ def _extract_command(argv: list[str]) -> int:
         elif argv[i] == "--form" and i + 1 < len(argv):
             form_type = argv[i + 1]
             i += 2
+        elif argv[i] == "--period" and i + 1 < len(argv):
+            period = argv[i + 1]
+            i += 2
+        elif argv[i] == "--force":
+            force = True
+            i += 1
         elif not argv[i].startswith("-") and ticker is None:
             ticker = argv[i]
             i += 1
@@ -274,11 +329,16 @@ def _extract_command(argv: list[str]) -> int:
 
     # Batch mode: use the router
     if batch:
-        return _extract_batch(metric_keys=[metric_key] if metric_key else None)
+        return _extract_batch(
+            metric_keys=[metric_key] if metric_key else None, force=force,
+        )
 
     # Single ticker with --metric: use the router
     if ticker and metric_key:
-        return _extract_single(ticker, metric_key, form_type=form_type)
+        return _extract_single(
+            ticker, metric_key, form_type=form_type,
+            period=period, force=force,
+        )
 
     # Legacy dry-run mode (no --metric)
     if not ticker:
@@ -362,17 +422,30 @@ def _extract_command(argv: list[str]) -> int:
     return 0
 
 
-def _extract_single(ticker: str, metric_key: str, form_type: str | None = None) -> int:
+def _extract_single(
+    ticker: str,
+    metric_key: str,
+    form_type: str | None = None,
+    period: str | None = None,
+    force: bool = False,
+) -> int:
     """Extract a single metric for a ticker via the unified router."""
     from capex.extract.router import extract_metric
 
-    print(f"extracting {metric_key} for {ticker}...")
-    result = extract_metric(ticker, metric_key, form_type=form_type, write=True)
+    msg = f"extracting {metric_key} for {ticker}"
+    if force:
+        msg += " (force=overwrite existing)"
+    print(f"{msg}...")
+    result = extract_metric(
+        ticker, metric_key, period=period, form_type=form_type,
+        write=True, force=force,
+    )
 
     if result.status == "success":
         n = result.write_summary.get("inserted", 0) if result.write_summary else 0
         s = result.write_summary.get("skipped_existing", 0) if result.write_summary else 0
-        print(f"  ✓ {result.extractor}: inserted={n}, skipped={s}")
+        o = result.write_summary.get("overwritten", 0) if result.write_summary else 0
+        print(f"  ✓ {result.extractor}: inserted={n}, overwritten={o}, skipped={s}")
         return 0
     elif result.status == "needs_interactive":
         print(f"  → needs interactive LLM extraction (chain tried: {result.chain_tried})")
@@ -386,12 +459,17 @@ def _extract_single(ticker: str, metric_key: str, form_type: str | None = None) 
         return 1
 
 
-def _extract_batch(metric_keys: list[str] | None = None) -> int:
+def _extract_batch(
+    metric_keys: list[str] | None = None, force: bool = False,
+) -> int:
     """Batch extract for all companies."""
     from capex.extract.router import extract_batch
 
-    print("running batch extraction...")
-    result = extract_batch(metric_keys=metric_keys)
+    msg = "running batch extraction"
+    if force:
+        msg += " (force=overwrite existing)"
+    print(f"{msg}...")
+    result = extract_batch(metric_keys=metric_keys, force=force)
 
     print("\n=== Batch Results ===")
     print(f"  succeeded:        {result.summary['succeeded']}")
@@ -641,6 +719,12 @@ def _print_help() -> None:
         "                        -o PATH      output path (default: workbook/capex_tracker.xlsx)\n"
         "    chart               regenerate charts (YoY auto-recalculated)\n"
         "                        --interactive  also generate Plotly HTML\n"
+        "    audit               run the data-quality audit (markdown + JSON)\n"
+        "                        --apply        apply mechanical fixes\n"
+        "                        --with-llm     re-verify flagged via LLM\n"
+        "    audit review        open human-in-the-loop review of flagged items\n"
+        "                        --cluster T[:M]  filter to one cluster\n"
+        "                        --limit N        review at most N clusters\n"
     )
 
 

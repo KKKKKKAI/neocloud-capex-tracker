@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from ...audit import human_notes as hn_mod
 from ...db import Database
 from ..base import ExtractionCandidate
 from ..coverage import DatasetTreatment
@@ -71,12 +72,31 @@ class SegmentExtractor:
         if not filepath.exists():
             return None
 
+        # Merge in keyword phrases from any applicable human_notes —
+        # those phrases were observed in filings by a prior reviewer
+        # (e.g. renamed / reclassified segment names) and boost match
+        # recall when the segment label drifts from coverage.yaml.
+        fy_int: int | None = None
+        try:
+            fy_int = int(str(row["period_of_report"])[:4])
+        except (ValueError, TypeError):
+            fy_int = None
+        hnotes = hn_mod.resolve(
+            ticker=ticker, metric_key=metric_key,
+            fiscal_year=fy_int, form_type=row["form_type"],
+        )
+        merged_names = list(treatment.segment_names)
+        for n in hnotes:
+            for kw in n.keywords_to_match:
+                if kw and kw not in merged_names:
+                    merged_names.append(kw)
+
         # Run the segment extractor
         try:
             results = extract_segment_revenue(
                 str(filepath),
                 ticker,
-                treatment.segment_names,
+                merged_names,
                 form_type=row["form_type"],
             )
         except Exception:

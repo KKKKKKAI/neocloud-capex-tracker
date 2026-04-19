@@ -4356,6 +4356,17 @@ INSERT INTO "audit_log" VALUES(4341,'2026-04-19T18:49:15+00:00','baba-capex-20f@
 INSERT INTO "audit_log" VALUES(4342,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5058,'{"fiscal_year": 2022, "value_cny_m": 42028, "value_usd": 6626.98}');
 INSERT INTO "audit_log" VALUES(4343,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5059,'{"fiscal_year": 2023, "value_cny_m": 30373, "value_usd": 4418.06}');
 INSERT INTO "audit_log" VALUES(4344,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5060,'{"fiscal_year": 2024, "value_cny_m": 27579, "value_usd": 3815.55}');
+CREATE TABLE audit_review_feedback (
+    id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+    audit_run_id          TEXT NOT NULL,
+    cell_key              TEXT NOT NULL,        -- {ticker}:{metric}:{fy}{pt}
+    human_input           TEXT NOT NULL,         -- verbatim reviewer text
+    formalized_note_id    TEXT,                  -- FK (soft) to human_notes.yaml id
+    formalization_json    TEXT,                  -- raw JSON returned by sub-agent
+    reviewer              TEXT,                  -- free-text attribution
+    reviewed_at           TEXT NOT NULL,
+    UNIQUE(audit_run_id, cell_key)
+);
 CREATE TABLE audit_verdicts (
     id                       INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id            INTEGER NOT NULL REFERENCES extractions(id),
@@ -14236,6 +14247,7 @@ INSERT INTO "schema_version" VALUES(6,'2026-04-15T19:05:27+00:00');
 INSERT INTO "schema_version" VALUES(7,'2026-04-18T18:19:04+00:00');
 INSERT INTO "schema_version" VALUES(8,'2026-04-19T15:41:02+00:00');
 INSERT INTO "schema_version" VALUES(9,'2026-04-19T19:57:55+00:00');
+INSERT INTO "schema_version" VALUES(10,'2026-04-19T23:32:32+00:00');
 CREATE TABLE "source_documents" (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL REFERENCES companies(ticker),
@@ -14812,6 +14824,8 @@ CREATE INDEX idx_audit_verdicts_ext
     ON audit_verdicts(extraction_id);
 CREATE INDEX idx_audit_verdicts_run
     ON audit_verdicts(run_id);
+CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
+CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('audit_log',4344);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);

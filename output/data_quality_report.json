@@ -1,0 +1,4960 @@
+{
+  "schema_version": 1,
+  "run_id": "audit-20260419-233632",
+  "generated_at": "2026-04-19T23:36:33+00:00",
+  "counts": {
+    "gap_unfixable": 10,
+    "gap_fixable": 4,
+    "derived": 26,
+    "verified": 36,
+    "flagged": 1
+  },
+  "cells": [
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2015Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "Q1",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2015Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "Q2",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2015Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "Q3",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2015Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "Q4",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_fixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "status": "gap_fixable",
+            "reason": "source_document present, extractor needs to run"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2015H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "H1",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20159M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "9M",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2015FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2015,
+      "period_type": "FY",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_fixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "status": "gap_fixable",
+            "reason": "source_document present, extractor needs to run"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2016Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "Q1",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2016Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "Q2",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2016Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "Q3",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2016Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "Q4",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_fixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "status": "gap_fixable",
+            "reason": "source_document present, extractor needs to run"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2016H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "H1",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20169M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "9M",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_unfixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "info",
+          "details": {
+            "status": "gap_unfixable",
+            "reason": "no source document available"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2016FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "FY",
+      "value_usd": null,
+      "extraction_id": null,
+      "extracting_model": null,
+      "classification": "gap_fixable",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "status": "gap_fixable",
+            "reason": "source_document present, extractor needs to run"
+          }
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2017Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "Q1",
+      "value_usd": 302.4100000000001,
+      "extraction_id": 3203,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2017Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "Q2",
+      "value_usd": 187.11,
+      "extraction_id": 3174,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2017Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "Q3",
+      "value_usd": 223.79,
+      "extraction_id": 3175,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2017Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "Q4",
+      "value_usd": 254.02,
+      "extraction_id": 3176,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2017H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "H1",
+      "value_usd": 489.5200000000001,
+      "extraction_id": 3205,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20179M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "9M",
+      "value_usd": 713.3100000000001,
+      "extraction_id": 3204,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2017FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2017,
+      "period_type": "FY",
+      "value_usd": 967.33,
+      "extraction_id": 1348,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2018Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "Q1",
+      "value_usd": 770.8899999999999,
+      "extraction_id": 3206,
+      "extracting_model": "reconcile-derived",
+      "classification": "flagged",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "prev": 254.02,
+            "this": 770.8899999999999,
+            "factor": 3.035,
+            "prev_label": "2017Q4",
+            "this_label": "2018Q1"
+          }
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2018Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "Q2",
+      "value_usd": 358.5,
+      "extraction_id": 3177,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2018Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "Q3",
+      "value_usd": 447.23,
+      "extraction_id": 3178,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2018Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "Q4",
+      "value_usd": 553.06,
+      "extraction_id": 3179,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2018H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "H1",
+      "value_usd": 1129.3899999999999,
+      "extraction_id": 3208,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20189M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "9M",
+      "value_usd": 1576.62,
+      "extraction_id": 3207,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2018FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "FY",
+      "value_usd": 2129.68,
+      "extraction_id": 1349,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2019Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "Q1",
+      "value_usd": 1186.48,
+      "extraction_id": 3209,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2019Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "Q2",
+      "value_usd": 709.73,
+      "extraction_id": 3180,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2019Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "Q3",
+      "value_usd": 823.47,
+      "extraction_id": 3181,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2019Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "Q4",
+      "value_usd": 961.17,
+      "extraction_id": 3182,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2019H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "H1",
+      "value_usd": 1896.21,
+      "extraction_id": 3211,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20199M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "9M",
+      "value_usd": 2719.6800000000003,
+      "extraction_id": 3210,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2019FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "FY",
+      "value_usd": 3680.85,
+      "extraction_id": 1350,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2020Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "Q1",
+      "value_usd": 1662.13,
+      "extraction_id": 3212,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2020Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "Q2",
+      "value_usd": 1133.4,
+      "extraction_id": 3183,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2020Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "Q3",
+      "value_usd": 1300.65,
+      "extraction_id": 3184,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2020Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "Q4",
+      "value_usd": 1540.07,
+      "extraction_id": 3185,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2020H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "H1",
+      "value_usd": 2795.53,
+      "extraction_id": 3214,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20209M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "9M",
+      "value_usd": 4096.18,
+      "extraction_id": 3213,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2020FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "FY",
+      "value_usd": 5636.25,
+      "extraction_id": 1352,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2021Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "Q1",
+      "value_usd": 2779.33,
+      "extraction_id": 3215,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2021Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "Q2",
+      "value_usd": 1744.97,
+      "extraction_id": 3186,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2021Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "Q3",
+      "value_usd": 2188.07,
+      "extraction_id": 3187,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2021Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "Q4",
+      "value_usd": 2464.95,
+      "extraction_id": 3188,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2021H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "H1",
+      "value_usd": 4524.3,
+      "extraction_id": 3217,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20219M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "9M",
+      "value_usd": 6712.370000000001,
+      "extraction_id": 3216,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2021FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "FY",
+      "value_usd": 9177.32,
+      "extraction_id": 1353,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2022Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "Q1",
+      "value_usd": 2016.369999999999,
+      "extraction_id": 3218,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2022Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "Q2",
+      "value_usd": 2485.66,
+      "extraction_id": 3189,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2022Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "Q3",
+      "value_usd": 3095.08,
+      "extraction_id": 3190,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2022Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "Q4",
+      "value_usd": 4160.77,
+      "extraction_id": 3191,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2022H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "H1",
+      "value_usd": 4502.029999999999,
+      "extraction_id": 3220,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20229M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "9M",
+      "value_usd": 7597.109999999999,
+      "extraction_id": 3219,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2022FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "FY",
+      "value_usd": 11757.88,
+      "extraction_id": 1351,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2023Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "Q1",
+      "value_usd": 3853.630000000001,
+      "extraction_id": 3221,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2023Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "Q2",
+      "value_usd": 3571.31,
+      "extraction_id": 3192,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2023Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "Q3",
+      "value_usd": 3760.58,
+      "extraction_id": 3193,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2023Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "Q4",
+      "value_usd": 3869.15,
+      "extraction_id": 3194,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2023H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "H1",
+      "value_usd": 7424.9400000000005,
+      "extraction_id": 3223,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20239M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "9M",
+      "value_usd": 11185.52,
+      "extraction_id": 3222,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2023FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "FY",
+      "value_usd": 15054.67,
+      "extraction_id": 1279,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2024Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "Q1",
+      "value_usd": 3523.709999999999,
+      "extraction_id": 3224,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2024Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "Q2",
+      "value_usd": 3456.17,
+      "extraction_id": 3195,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2024Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "Q3",
+      "value_usd": 3786.67,
+      "extraction_id": 3196,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2024Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "Q4",
+      "value_usd": 3950.29,
+      "extraction_id": 3197,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2024H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "H1",
+      "value_usd": 6979.879999999999,
+      "extraction_id": 3226,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20249M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "9M",
+      "value_usd": 10766.55,
+      "extraction_id": 3225,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2024FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2024,
+      "period_type": "FY",
+      "value_usd": 14716.84,
+      "extraction_id": 1280,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2025Q1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "Q1",
+      "value_usd": 4045.9500000000007,
+      "extraction_id": 3227,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2025Q2",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "Q2",
+      "value_usd": 3655.53,
+      "extraction_id": 3198,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2025Q3",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "Q3",
+      "value_usd": 4222.39,
+      "extraction_id": 3199,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2025Q4",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "Q4",
+      "value_usd": 4348.65,
+      "extraction_id": 3200,
+      "extracting_model": "baba-cloud-6k@0.1.0",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "continuity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2025H1",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "H1",
+      "value_usd": 7701.480000000001,
+      "extraction_id": 3229,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:20259M",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "9M",
+      "value_usd": 11923.870000000003,
+      "extraction_id": 3228,
+      "extracting_model": "reconcile-derived",
+      "classification": "derived",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    },
+    {
+      "cell_key": "BABA:cloud_segment_revenue:2025FY",
+      "ticker": "BABA",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2025,
+      "period_type": "FY",
+      "value_usd": 16272.52,
+      "extraction_id": 1281,
+      "extracting_model": "claude-code",
+      "classification": "verified",
+      "check_results": [
+        {
+          "check": "gap",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "present"
+          }
+        },
+        {
+          "check": "identity",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "range",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "cross_source",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_quote"
+          }
+        },
+        {
+          "check": "sign",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "currency",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        },
+        {
+          "check": "segment_def",
+          "passed": true,
+          "severity": "info",
+          "details": {
+            "status": "no_segment_names_configured"
+          }
+        },
+        {
+          "check": "period_type",
+          "passed": true,
+          "severity": "info",
+          "details": {}
+        }
+      ],
+      "llm_verdict": null,
+      "fix_applied": null
+    }
+  ],
+  "fixes_applied": [
+    {
+      "ticker": "BABA",
+      "fiscal_year": 2018,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q1",
+      "fix_class": "xbrl_refetch (dry-run)",
+      "old_usd": 770.8899999999999,
+      "new_usd": null
+    },
+    {
+      "ticker": "BABA",
+      "fiscal_year": 2015,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q4",
+      "fix_class": "gap_extract (manual: scripts/extract_baba_cloud_6k.py)",
+      "old_usd": null,
+      "new_usd": null
+    },
+    {
+      "ticker": "BABA",
+      "fiscal_year": 2015,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "FY",
+      "fix_class": "gap_extract (manual: scripts/extract_baba_cloud_6k.py)",
+      "old_usd": null,
+      "new_usd": null
+    },
+    {
+      "ticker": "BABA",
+      "fiscal_year": 2016,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q4",
+      "fix_class": "gap_extract (manual: scripts/extract_baba_cloud_6k.py)",
+      "old_usd": null,
+      "new_usd": null
+    },
+    {
+      "ticker": "BABA",
+      "fiscal_year": 2016,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "FY",
+      "fix_class": "gap_extract (manual: scripts/extract_baba_cloud_6k.py)",
+      "old_usd": null,
+      "new_usd": null
+    }
+  ]
+}

@@ -48,6 +48,7 @@ def write_extractions(
     db: Database | None = None,
     provenance_check_fn: Any | None = None,
     convention_check_fn: Any | None = None,
+    force: bool = False,
 ) -> dict[str, Any]:
     """Validate and write a batch of extraction results to the DB.
 
@@ -58,15 +59,22 @@ def write_extractions(
         provenance_check_fn: optional callable(quote, source_text) → bool
             for substring verification. If provided, each quote is checked
             and the result is written to validation_results.
+        force: if True, overwrite an existing row for
+            (source_document_id, metric_key, extracting_model,
+            period_type) instead of skipping it. Writes an
+            `extraction_overwritten` audit_log entry carrying both
+            the old and new values. Used by the Protocol Elicitation
+            Loop re-extract path.
 
     Returns:
-        Summary dict: {inserted: N, skipped_existing: N, errors: [...]}
+        Summary dict: {inserted, overwritten, skipped_existing, errors, ids}
     """
     db = db or Database()
     now = _now_iso()
 
     summary: dict[str, Any] = {
         "inserted": 0,
+        "overwritten": 0,
         "skipped_existing": 0,
         "errors": [],
         "ids": [],
@@ -108,11 +116,14 @@ def write_extractions(
 
         # 3. Write to DB
         try:
-            row_id = _insert_extraction(db, result, now)
+            row_id, was_overwrite = _insert_extraction(db, result, now, force)
             if row_id is None:
                 summary["skipped_existing"] += 1
             else:
-                summary["inserted"] += 1
+                if was_overwrite:
+                    summary["overwritten"] += 1
+                else:
+                    summary["inserted"] += 1
                 summary["ids"].append(row_id)
 
                 # 4. Provenance check if function provided
@@ -129,16 +140,23 @@ def write_extractions(
 
 
 def _insert_extraction(
-    db: Database, result: dict[str, Any], now: str
-) -> int | None:
-    """Insert one extraction row. Returns row ID, or None if already exists."""
+    db: Database, result: dict[str, Any], now: str, force: bool = False,
+) -> tuple[int | None, bool]:
+    """Insert one extraction row.
+
+    Returns `(row_id, was_overwrite)`. When `force=True` and a row
+    already exists for the same (source_document_id, metric_key,
+    extracting_model, period_type), the old row is deleted and a
+    new one inserted, with an `extraction_overwritten` audit_log
+    entry carrying both the old row id and the old numeric value.
+    """
     period_type = result.get("period_type", "") or ""
     with db.mutating() as conn:
         # Idempotent: include period_type so one filing can carry
         # multiple period-basis rows for the same metric + model.
         existing = conn.execute(
             """
-            SELECT id FROM extractions
+            SELECT id, value, value_usd FROM extractions
             WHERE source_document_id = ? AND metric_key = ?
               AND extracting_model = ? AND period_type = ?
             """,
@@ -150,8 +168,46 @@ def _insert_extraction(
             ),
         ).fetchone()
 
+        was_overwrite = False
         if existing:
-            return None
+            if not force:
+                return None, False
+            # Delete the old row + dependent evidence rows; the audit
+            # trail below records the prior value so we never lose it.
+            old_id, old_value, old_value_usd = (
+                existing[0], existing[1], existing[2],
+            )
+            conn.execute(
+                "DELETE FROM extraction_evidence WHERE extraction_id = ?",
+                (old_id,),
+            )
+            conn.execute(
+                "DELETE FROM validation_results WHERE extraction_id = ?",
+                (old_id,),
+            )
+            conn.execute("DELETE FROM extractions WHERE id = ?", (old_id,))
+            conn.execute(
+                """
+                INSERT INTO audit_log
+                    (ts, actor, action, target_table, target_id, payload)
+                VALUES (?, ?, 'extraction_overwritten', 'extractions', ?, ?)
+                """,
+                (
+                    now,
+                    ACTOR_EXTRACT,
+                    old_id,
+                    json.dumps({
+                        "old_value": old_value,
+                        "old_value_usd": old_value_usd,
+                        "new_value": result.get("value"),
+                        "metric_key": result["metric_key"],
+                        "source_document_id": result["source_document_id"],
+                        "extracting_model": result["extracting_model"],
+                        "period_type": period_type,
+                    }, sort_keys=True),
+                ),
+            )
+            was_overwrite = True
 
         cur = conn.execute(
             """
@@ -206,7 +262,7 @@ def _insert_extraction(
             ),
         )
 
-        return row_id
+        return row_id, was_overwrite
 
 
 def _run_provenance_check(

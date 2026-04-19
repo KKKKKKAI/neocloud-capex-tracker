@@ -15,6 +15,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from ...audit import human_notes as hn_mod
 from ...db import Database
 from ...fx.rates import normalize_to_usd
 from ...read.sections import get_extraction_sections, parse_sections
@@ -122,6 +123,22 @@ class LLMHeadlessExtractor:
         deriv_rules = get_derivation_rules(treatment)
         unit = f"{currency}_millions"
 
+        # Resolve any human-authored guidance that applies to this cell
+        # (from data/seeds/human_notes.yaml, elicited via
+        # `capex audit review`). Empty block when no notes apply.
+        fy_int: int | None = None
+        try:
+            fy_int = int(str(row["period_of_report"])[:4])
+        except (ValueError, TypeError):
+            fy_int = None
+        hnotes = hn_mod.resolve(
+            ticker=ticker,
+            metric_key=metric_key,
+            fiscal_year=fy_int,
+            form_type=row["form_type"],
+        )
+        human_notes_block = hn_mod.format_for_prompt(hnotes)
+
         # Retry loop (max 3 attempts if B says insufficient context)
         for attempt in range(1, MAX_RETRIES + 1):
             # Agent A: extract value + context
@@ -133,6 +150,7 @@ class LLMHeadlessExtractor:
                 sections_text=sections_text,
                 unit=unit,
                 derivation_rules=deriv_rules,
+                human_notes_block=human_notes_block,
             )
 
             response_a = backend.extract(system="", user=prompt_a)

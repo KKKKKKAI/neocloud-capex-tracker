@@ -5,7 +5,7 @@ disclosures across major hyperscalers and neocloud providers.
 
 ![Cloud Revenue](charts/cloud_revenue_annual.png)
 
-**[Interactive Chart](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)**
+**[Interactive Chart](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)**
 
 ---
 
@@ -19,6 +19,45 @@ line item the number came from.
 
 **13 companies** tracked. **1,455 data points** extracted.
 **267 quarterly revenue** series across 12 companies.
+
+---
+
+## Human-in-the-loop review — the Protocol Elicitation Loop
+
+When an automated data-quality check flags something odd, the reviewer
+rarely wants to hand-edit YAML. They want to *say*, in their own
+words, what the agent should watch for next time — and have that
+knowledge stick. The **Protocol Elicitation Loop (PEL)** is the
+workflow that makes that happen: detect → contextualize → elicit →
+formalize → preview → propagate → measure. Each note is scoped
+(ticker × metric × period), provenance-tracked, revocable, and
+injected into future extraction prompts automatically.
+
+```mermaid
+flowchart LR
+    A[capex audit] --> B[flagged cell<br/>+ quote + URL]
+    B --> C{reviewer speaks<br/>in natural language}
+    C --> D[formalizer<br/>NL → JSON]
+    D -- unclear --> C
+    D --> E{preview<br/>diff + impact}
+    E -- approve --> F[human_notes.yaml<br/>+ audit_review_feedback]
+    F --> G[future extractions<br/>pick up guidance]
+    G --> A
+
+    classDef agent fill:#f3e5f5,stroke:#7b1fa2
+    classDef human fill:#fff3e0,stroke:#f57c00
+    classDef artifact fill:#e8f5e9,stroke:#388e3c
+    class A,B,D,G agent
+    class C,E human
+    class F artifact
+```
+
+Run `capex audit review` after any audit run to walk the flagged
+clusters. Full workflow spec, schema reference, and reuse guide live
+in **[docs/PROTOCOL_ELICITATION_LOOP.md](docs/PROTOCOL_ELICITATION_LOOP.md)**.
+The engine at `src/capex/pel/` is domain-agnostic and designed to be
+re-used for any "automated check + human domain expert" feedback loop
+beyond capex.
 
 <!-- ARCHITECTURE_START -->
 ## Architecture
@@ -63,6 +102,12 @@ flowchart TD
         DUMP["dump.sql\nauto-generated"]
     end
 
+    subgraph L5["Review (PEL)"]
+        AUDIT["audit/orchestrator.py\n9 mechanical checks"]
+        REVIEW["audit/review.py\ncapex audit review"]
+        HNYAML[("human_notes.yaml\nscoped guidance")]
+    end
+
     subgraph L6["5 — Export"]
         EXCEL["excel.py\n8-sheet workbook"]
         CHART["charts.py\nstatic PNG"]
@@ -101,6 +146,9 @@ flowchart TD
     DB --> CHART --> PNG
     DB --> ICHART --> GHPAGES
     DB --> CALHTML --> CALPAGE
+    DB --> AUDIT --> REVIEW --> HNYAML
+    HNYAML -.-> EX_LLM
+    HNYAML -.-> EX_SEG
 
     classDef source fill:#e1f5fe,stroke:#0288d1
     classDef store fill:#fff3e0,stroke:#f57c00
@@ -108,8 +156,8 @@ flowchart TD
     classDef output fill:#e8f5e9,stroke:#388e3c
 
     class SEC,HKEX,XBRL,ECB source
-    class RAW,DB,DUMP store
-    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML process
+    class RAW,DB,DUMP,HNYAML store
+    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,AUDIT,REVIEW process
     class XLSX,PNG,GHPAGES,CALPAGE output
 ```
 <!-- ARCHITECTURE_END -->
@@ -251,6 +299,7 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 4p | XBRL extractions now carry filing-text quotes | ✅ | `scripts/backfill_xbrl_quotes.py` opens each locally-archived 10-K/10-Q, locates the numeric value in the filing text, grabs the surrounding sentence/table row, and writes it to `extraction_evidence` as a `primary_value` excerpt. The Excel cell comments now show a `Quote: "..."` line for 967 XBRL-sourced values. |
 | 4q | Data-quality audit framework (`capex audit`) | ✅ | New `src/capex/audit/` package with 9 mechanical checks (gap, identity, range, continuity, cross_source, sign, currency, segment_def, period_type), bounds YAML, markdown report generator, fix orchestrator, and an LLM re-verifier scaffold. 28 unit tests. Produces `output/data_quality_report.md` summarizing 4,171-cell universe coverage with flagged / gap-fixable / gap-unfixable breakdown. Dry-run by default; `--apply` commits fixes; `--with-llm` asks an LLM to re-verify flagged items. |
 | 4r | Earnings calendar viewer (HTML + rich CLI) | ✅ | `docs/calendar.html` is a 5th nav pill alongside the 4 chart pages — upcoming 90 days + recent 30 days grouped by date, per-row status badges (upcoming / detected / fetched / extracted / failed), `in N days` countdown, and direct SEC EDGAR / HKEXnews links once filings have landed. `capex calendar show` now prints a box-drawing table with `--days`, `--ticker`, `--format json`, `--include-past/--no-past` flags. Data sourced from the existing `fiscal_calendar` table + joined `source_documents`. Shared `query_for_viewer` in `monitor/calendar.py` is the single source of truth consumed by both the HTML and CLI. 13 unit tests cover fiscal-year/period derivation (Dec / Jun / May FYE), table formatting, nav pill presence, and empty-DB safety. |
+| 4s | Protocol Elicitation Loop (`capex audit review`) | ✅ | Closes the feedback gap between the data-quality audit and the reviewer's domain knowledge. Walks flagged clusters, captures free-form NL guidance, calls a formalization sub-agent (via `CLIBackend` → `claude -p`) that returns a scoped JSON artifact, previews the diff, writes a new `human_notes.yaml` entry + an `audit_review_feedback` row (migration 0010), and reports the re-audit delta. Notes are injected into `Agent A`'s prompt (`prompts/agent_a.txt :: {human_notes_block}`) and into the segment extractor's keyword matching, so future extractions pick up the guidance automatically. `writer.py` gains a `force=True` overwrite path with an `extraction_overwritten` audit-log trail for re-extract. Engine is split into `src/capex/pel/` (domain-agnostic: `Anomaly`/`Artifact`/`Effect`/`Checker`) and `src/capex/audit/review.py` (capex adapter) — the engine is reusable for any automated-check-plus-human-expert workflow beyond capex. 34 new unit tests (19 for `human_notes`, 15 for the PEL engine). Full illustrated spec in [docs/PROTOCOL_ELICITATION_LOOP.md](docs/PROTOCOL_ELICITATION_LOOP.md). |
 | 5a | Citation URL fixes | 🚧 | Direct filing URLs replacing SEC directory links |
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
 | 6 | Quarterly cloud segment extraction | 📋 | LLM-extract AWS/Azure/GCP quarterly segment revenue from 10-Qs so `cloud_segment_revenue` Q4 2019/2020 can be reconciled |

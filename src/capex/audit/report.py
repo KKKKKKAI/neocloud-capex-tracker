@@ -3,9 +3,15 @@
 Reads aggregated verdicts from `audit.orchestrator` and produces a
 single markdown file — coverage matrix, flagged items, fixed items,
 known-unfixable gaps, run metadata.
+
+Also emits a stable-schema JSON sidecar (`*.json`) alongside the
+markdown so downstream tooling (e.g. `capex audit review`, the
+Protocol Elicitation Loop) can load the flagged cells without
+re-parsing prose.
 """
 from __future__ import annotations
 
+import json
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -54,7 +60,12 @@ def write_report(
     run_id: str,
     output: Path,
 ) -> Path:
-    """Write the full markdown report to `output` and return the path."""
+    """Write the full markdown report to `output` and return the path.
+
+    Also writes a companion JSON file with the same stem (e.g.
+    `data_quality_report.md` → `data_quality_report.json`) containing
+    the full set of cells in a stable machine-readable schema.
+    """
     output.parent.mkdir(parents=True, exist_ok=True)
     lines: list[str] = []
     _hdr(lines, cells, run_id)
@@ -64,7 +75,57 @@ def write_report(
     _unfixable_section(lines, cells)
     _metadata(lines, cells)
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _write_json_sidecar(cells, fixes_applied, run_id, output)
     return output
+
+
+def _write_json_sidecar(
+    cells: list[CellRecord],
+    fixes_applied: list[dict],
+    run_id: str,
+    md_output: Path,
+) -> Path:
+    """Emit a machine-readable snapshot alongside the markdown report."""
+    json_output = md_output.with_suffix(".json")
+    payload = {
+        "schema_version": 1,
+        "run_id": run_id,
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "counts": dict(_counts(cells)),
+        "cells": [_cell_to_json(c) for c in cells],
+        "fixes_applied": list(fixes_applied),
+    }
+    json_output.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    return json_output
+
+
+def _cell_to_json(c: CellRecord) -> dict:
+    """Serialize a CellRecord (stable schema for downstream tools)."""
+    return {
+        "cell_key": f"{c.ticker}:{c.metric_key}:{c.fiscal_year}{c.period_type}",
+        "ticker": c.ticker,
+        "metric_key": c.metric_key,
+        "fiscal_year": c.fiscal_year,
+        "period_type": c.period_type,
+        "value_usd": c.value_usd,
+        "extraction_id": c.extraction_id,
+        "extracting_model": c.extracting_model,
+        "classification": c.classification,
+        "check_results": [
+            {
+                "check": cr.check_name,
+                "passed": cr.passed,
+                "severity": cr.severity,
+                "details": cr.details,
+            }
+            for cr in c.check_results
+        ],
+        "llm_verdict": c.llm_verdict,
+        "fix_applied": c.fix_applied,
+    }
 
 
 def _hdr(lines, cells, run_id):

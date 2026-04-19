@@ -4,6 +4,7 @@ TASK: Find and extract: {metric_description}
 
 {derivation_rules}
 
+{human_notes_block}
 RULES:
 1. Search the filing text for the exact data point.
 2. If FOUND: extract the VALUE and the CONTEXT — verbatim text passages (including surrounding table rows, footnote references, and qualifying language) that PROVE this value is correct.

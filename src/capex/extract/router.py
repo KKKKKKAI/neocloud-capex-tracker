@@ -50,6 +50,7 @@ def extract_metric(
     interactive: bool = False,
     backend: Any | None = None,
     db: Database | None = None,
+    force: bool = False,
 ) -> ExtractResult:
     """Unified extraction entry point.
 
@@ -104,7 +105,7 @@ def extract_metric(
             summary = None
             if write:
                 result_dicts = [c.to_writer_dict() for c in candidates]
-                summary = write_extractions(result_dicts, db=db)
+                summary = write_extractions(result_dicts, db=db, force=force)
 
             return ExtractResult(
                 status="success",
@@ -175,6 +176,7 @@ def extract_batch(
     *,
     backend: Any | None = None,
     db: Database | None = None,
+    force: bool = False,
 ) -> BatchResult:
     """Extract metrics for multiple companies.
 
@@ -205,7 +207,7 @@ def extract_batch(
                 r = extract_metric(
                     ticker, metric_key, period=period,
                     write=True, interactive=False,
-                    backend=backend, db=db,
+                    backend=backend, db=db, force=force,
                 )
 
                 if r.status == "success":

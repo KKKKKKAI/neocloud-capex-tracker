@@ -247,13 +247,6 @@ def main() -> int:
 
     # Resolve ex99.1 URLs and extract
     records: list[dict] = []
-    with db.connect() as conn:
-        existing_by_period = {
-            r["period_of_report"]: dict(r) for r in conn.execute(
-                "SELECT id, period_of_report FROM source_documents "
-                "WHERE ticker='BIDU' AND form_type='6-K'"
-            )
-        }
     for f in filings:
         time.sleep(RATE_DELAY)
         url = _accession_ex991(f["accession"])
@@ -263,7 +256,8 @@ def main() -> int:
         time.sleep(RATE_DELAY)
         html = _fetch(url)
         if not html or len(html) < 30000:
-            print(f"  {f['filing_date']}: press release too small ({len(html) if html else 0}), skip")
+            sz = len(html) if html else 0
+            print(f"  {f['filing_date']}: press release too small ({sz}), skip")
             continue
         text = _strip(html)
         period = _guess_period_from_text(text, f["filing_date"])
@@ -315,7 +309,6 @@ def main() -> int:
 
     # Find or create source_documents + write extractions
     inserted = 0
-    replaced = 0
     created_source_docs = 0
     with db.mutating() as conn:
         # Delete old proxy/scaled rows

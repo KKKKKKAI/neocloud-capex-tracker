@@ -4356,6 +4356,17 @@ INSERT INTO "audit_log" VALUES(4341,'2026-04-19T18:49:15+00:00','baba-capex-20f@
 INSERT INTO "audit_log" VALUES(4342,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5058,'{"fiscal_year": 2022, "value_cny_m": 42028, "value_usd": 6626.98}');
 INSERT INTO "audit_log" VALUES(4343,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5059,'{"fiscal_year": 2023, "value_cny_m": 30373, "value_usd": 4418.06}');
 INSERT INTO "audit_log" VALUES(4344,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5060,'{"fiscal_year": 2024, "value_cny_m": 27579, "value_usd": 3815.55}');
+CREATE TABLE audit_verdicts (
+    id                       INTEGER PRIMARY KEY AUTOINCREMENT,
+    extraction_id            INTEGER NOT NULL REFERENCES extractions(id),
+    run_id                   TEXT NOT NULL,
+    checked_at               TEXT NOT NULL,
+    mechanical_flags_json    TEXT NOT NULL,
+    llm_verdict              TEXT,
+    llm_response_json        TEXT,
+    applied_fix_json         TEXT,
+    severity                 TEXT NOT NULL CHECK(severity IN ('info', 'warn', 'error'))
+);
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -14224,6 +14235,7 @@ INSERT INTO "schema_version" VALUES(5,'2026-04-14T00:42:55+00:00');
 INSERT INTO "schema_version" VALUES(6,'2026-04-15T19:05:27+00:00');
 INSERT INTO "schema_version" VALUES(7,'2026-04-18T18:19:04+00:00');
 INSERT INTO "schema_version" VALUES(8,'2026-04-19T15:41:02+00:00');
+INSERT INTO "schema_version" VALUES(9,'2026-04-19T19:57:55+00:00');
 CREATE TABLE "source_documents" (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker            TEXT NOT NULL REFERENCES companies(ticker),
@@ -14796,6 +14808,10 @@ CREATE INDEX idx_extractions_doc_metric_period
     ON extractions(source_document_id, metric_key, period_type);
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
+CREATE INDEX idx_audit_verdicts_ext
+    ON audit_verdicts(extraction_id);
+CREATE INDEX idx_audit_verdicts_run
+    ON audit_verdicts(run_id);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('audit_log',4344);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);

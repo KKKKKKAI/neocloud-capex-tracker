@@ -85,8 +85,6 @@ def _find_filing_path(ticker: str, form_type: str, period: str) -> Path | None:
     # Match on period + form_type (the filing date in the filename is
     # the FILING date, not period_of_report, so exact filename match
     # isn't possible — scan all and pick one with matching period token).
-    period_month = int(period[5:7])
-    target_token = None
     # Cheap heuristic: AR ends on FY end (usually Dec but varies).
     candidates = sorted(base.glob(f"*{ticker}*{form_type}*.htm"))
     if not candidates:

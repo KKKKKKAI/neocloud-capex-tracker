@@ -55,7 +55,9 @@ def build_disk_manifest() -> list[tuple[Path, Path]]:
     return manifest
 
 
-def build_db_manifest(conn: sqlite3.Connection) -> list[tuple[int, str, str | None, str, str | None]]:
+def build_db_manifest(
+    conn: sqlite3.Connection,
+) -> list[tuple[int, str, str | None, str, str | None]]:
     """Build list of DB rows that need updating.
 
     Returns: [(id, old_raw_path, old_canonical_path, new_raw_path, new_canonical_path), ...]

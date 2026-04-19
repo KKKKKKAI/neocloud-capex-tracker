@@ -68,6 +68,12 @@ target-version = "py311"
 select = ["E", "F", "W", "I", "B", "UP", "N"]
 ignore = ["UP017"]  # datetime.UTC requires 3.11+; we use timezone.utc for 3.10 compat
 
+[tool.ruff.lint.per-file-ignores]
+# Standalone scripts intentionally mutate sys.path before importing capex.*.
+"scripts/*.py" = ["E402"]
+# Test files legitimately import modules with short aliases for legibility.
+"tests/**/*.py" = ["N812"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers"

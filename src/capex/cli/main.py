@@ -53,6 +53,8 @@ def main(argv: list[str] | None = None) -> int:
         return _chart_command(rest)
     if cmd == "reconcile":
         return _reconcile_command(rest)
+    if cmd == "audit":
+        return _audit_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -213,6 +215,14 @@ def _reconcile_command(argv: list[str]) -> int:
         f"conflicts={summary.conflicts} unresolved_q4={summary.unresolved}"
     )
     return 0
+
+
+def _audit_command(argv: list[str]) -> int:
+    """Invoke scripts/audit_data_quality.py with the passed args."""
+    import subprocess
+    from pathlib import Path
+    script = Path(__file__).resolve().parents[3] / "scripts" / "audit_data_quality.py"
+    return subprocess.call([sys.executable, str(script), *argv])
 
 
 def _export_command(argv: list[str]) -> int:

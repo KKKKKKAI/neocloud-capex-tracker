@@ -16,9 +16,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import glob
 import json
-import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -28,7 +26,6 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from capex.db import Database
 from capex.fx.rates import normalize_to_usd
-from capex.read.text import extract_text
 
 ACTOR = "baba-capex-20f@0.1.0"
 
@@ -97,9 +94,10 @@ def main() -> int:
             )
             if args.dry_run:
                 if existing:
+                    action = ("SKIP" if "xbrl" in (existing["extracting_model"] or "")
+                              else "REPLACE")
                     print(f"  FY{fy}: EXISTS (model={existing['extracting_model']}, "
-                          f"usd=${existing['value_usd']:,.0f}M) — would "
-                          f"{'SKIP' if 'xbrl' in (existing['extracting_model'] or '') else 'REPLACE'}")
+                          f"usd=${existing['value_usd']:,.0f}M) — would {action}")
                 else:
                     print(f"  FY{fy}: would INSERT CNY{value_cny_m:,.0f}M → "
                           f"${value_usd:,.0f}M USD")

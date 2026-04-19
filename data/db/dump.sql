@@ -4006,6 +4006,356 @@ INSERT INTO "audit_log" VALUES(3991,'2026-04-19T16:01:48+00:00','reconcile@0.1.0
 INSERT INTO "audit_log" VALUES(3992,'2026-04-19T16:01:48+00:00','reconcile@0.1.0','extraction_derived','extractions',4708,'{"components": [640, 639], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "depreciation_amortization", "period_type": "Q2", "ticker": "META", "value": 4342.0}');
 INSERT INTO "audit_log" VALUES(3993,'2026-04-19T16:01:48+00:00','reconcile@0.1.0','extraction_derived','extractions',4709,'{"components": [641, 640], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "depreciation_amortization", "period_type": "Q3", "ticker": "META", "value": 4963.0}');
 INSERT INTO "audit_log" VALUES(3994,'2026-04-19T16:01:48+00:00','reconcile@0.1.0','extraction_derived','extractions',4710,'{"components": [642, 641], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "depreciation_amortization", "period_type": "Q4", "ticker": "META", "value": 5411.0}');
+INSERT INTO "audit_log" VALUES(3995,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4711,'{"components": [182, 183, 184], "fiscal_year": 2015, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 3279.0}');
+INSERT INTO "audit_log" VALUES(3996,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4712,'{"components": [182, 183], "fiscal_year": 2015, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 2084.0}');
+INSERT INTO "audit_log" VALUES(3997,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4713,'{"components": [185, 182, 183, 184], "fiscal_year": 2015, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 1310.0}');
+INSERT INTO "audit_log" VALUES(3998,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4714,'{"components": [186, 187, 188], "fiscal_year": 2016, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 4731.0}');
+INSERT INTO "audit_log" VALUES(3999,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4715,'{"components": [186, 187], "fiscal_year": 2016, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 2890.0}');
+INSERT INTO "audit_log" VALUES(4000,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4716,'{"components": [189, 186, 187, 188], "fiscal_year": 2016, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 2006.0}');
+INSERT INTO "audit_log" VALUES(4001,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4717,'{"components": [1192, 1193, 1194], "fiscal_year": 2018, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 9693.0}');
+INSERT INTO "audit_log" VALUES(4002,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4718,'{"components": [1192, 1193], "fiscal_year": 2018, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 6341.0}');
+INSERT INTO "audit_log" VALUES(4003,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4719,'{"components": [1195, 1192, 1193, 1194], "fiscal_year": 2018, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 3734.0}');
+INSERT INTO "audit_log" VALUES(4004,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4720,'{"components": [1196, 1197, 1198], "fiscal_year": 2019, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 11549.0}');
+INSERT INTO "audit_log" VALUES(4005,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4721,'{"components": [1196, 1197], "fiscal_year": 2019, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 6852.0}');
+INSERT INTO "audit_log" VALUES(4006,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4722,'{"components": [1199, 1196, 1197, 1198], "fiscal_year": 2019, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 5312.0}');
+INSERT INTO "audit_log" VALUES(4007,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4723,'{"components": [1200, 1201, 1202], "fiscal_year": 2020, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 25317.0}');
+INSERT INTO "audit_log" VALUES(4008,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4724,'{"components": [1200, 1201], "fiscal_year": 2020, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 14254.0}');
+INSERT INTO "audit_log" VALUES(4009,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4725,'{"components": [1203, 1200, 1201, 1202], "fiscal_year": 2020, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 14823.0}');
+INSERT INTO "audit_log" VALUES(4010,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4726,'{"components": [1204, 1205, 1206], "fiscal_year": 2021, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 42118.0}');
+INSERT INTO "audit_log" VALUES(4011,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4727,'{"components": [1204, 1205], "fiscal_year": 2021, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 26370.0}');
+INSERT INTO "audit_log" VALUES(4012,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4728,'{"components": [1207, 1204, 1205, 1206], "fiscal_year": 2021, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 18935.0}');
+INSERT INTO "audit_log" VALUES(4013,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4729,'{"components": [1208, 1209, 1210], "fiscal_year": 2022, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 47053.0}');
+INSERT INTO "audit_log" VALUES(4014,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4730,'{"components": [1208, 1209], "fiscal_year": 2022, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 30675.0}');
+INSERT INTO "audit_log" VALUES(4015,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4731,'{"components": [1211, 1208, 1209, 1210], "fiscal_year": 2022, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 16592.0}');
+INSERT INTO "audit_log" VALUES(4016,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4732,'{"components": [1212, 1213, 1214], "fiscal_year": 2023, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 38141.0}');
+INSERT INTO "audit_log" VALUES(4017,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4733,'{"components": [1212, 1213], "fiscal_year": 2023, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 25662.0}');
+INSERT INTO "audit_log" VALUES(4018,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4734,'{"components": [1215, 1212, 1213, 1214], "fiscal_year": 2023, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 14588.0}');
+INSERT INTO "audit_log" VALUES(4019,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4735,'{"components": [1216, 1217, 1218], "fiscal_year": 2024, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 55165.0}');
+INSERT INTO "audit_log" VALUES(4020,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4736,'{"components": [1216, 1217], "fiscal_year": 2024, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 32545.0}');
+INSERT INTO "audit_log" VALUES(4021,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4737,'{"components": [1219, 1216, 1217, 1218], "fiscal_year": 2024, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 27834.0}');
+INSERT INTO "audit_log" VALUES(4022,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4738,'{"components": [1220, 1221, 1222], "fiscal_year": 2025, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "AMZN", "value": 92297.0}');
+INSERT INTO "audit_log" VALUES(4023,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4739,'{"components": [1220, 1221], "fiscal_year": 2025, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "AMZN", "value": 57202.0}');
+INSERT INTO "audit_log" VALUES(4024,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4740,'{"components": [1223, 1220, 1221, 1222], "fiscal_year": 2025, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "AMZN", "value": 39522.0}');
+INSERT INTO "audit_log" VALUES(4025,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4741,'{"components": [985, 984], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "APLD", "value": 9.32}');
+INSERT INTO "audit_log" VALUES(4026,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4742,'{"components": [986, 985], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "APLD", "value": 21.15}');
+INSERT INTO "audit_log" VALUES(4027,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4743,'{"components": [987, 986], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "APLD", "value": 26.79}');
+INSERT INTO "audit_log" VALUES(4028,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4744,'{"components": [989, 988], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "APLD", "value": 38.64}');
+INSERT INTO "audit_log" VALUES(4029,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4745,'{"components": [990, 989], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "APLD", "value": 25.89999999999999}');
+INSERT INTO "audit_log" VALUES(4030,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4746,'{"components": [1224, 990], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "APLD", "value": 32.510000000000005}');
+INSERT INTO "audit_log" VALUES(4031,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4747,'{"components": [1226, 1225], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "APLD", "value": 41.17}');
+INSERT INTO "audit_log" VALUES(4032,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4748,'{"components": [1227, 1226], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "APLD", "value": 54.81}');
+INSERT INTO "audit_log" VALUES(4033,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4749,'{"components": [1229, 1228], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "APLD", "value": 171.05}');
+INSERT INTO "audit_log" VALUES(4034,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4750,'{"components": [1230, 1229], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "APLD", "value": 257.49}');
+INSERT INTO "audit_log" VALUES(4035,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4751,'{"components": [1231, 1230], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "APLD", "value": 198.26000000000005}');
+INSERT INTO "audit_log" VALUES(4036,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4752,'{"components": [1233, 1232], "fiscal_year": 2026, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "APLD", "value": 552.07}');
+INSERT INTO "audit_log" VALUES(4037,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4753,'{"components": [1234, 1233], "fiscal_year": 2026, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "APLD", "value": 775.21}');
+INSERT INTO "audit_log" VALUES(4038,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4754,'{"components": [944, 943], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "CRWV", "value": 2247.17}');
+INSERT INTO "audit_log" VALUES(4039,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4755,'{"components": [945, 944], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "CRWV", "value": 1215.15}');
+INSERT INTO "audit_log" VALUES(4040,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4756,'{"components": [946, 945], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "CRWV", "value": 3497.75}');
+INSERT INTO "audit_log" VALUES(4041,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4757,'{"components": [948, 947], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "CRWV", "value": 2452.99}');
+INSERT INTO "audit_log" VALUES(4042,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4758,'{"components": [949, 948], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "CRWV", "value": 2388.89}');
+INSERT INTO "audit_log" VALUES(4043,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4759,'{"components": [950, 949], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "CRWV", "value": 4059.76}');
+INSERT INTO "audit_log" VALUES(4044,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4760,'{"components": [347, 348, 349], "fiscal_year": 2015, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "GOOGL", "value": 7825.0}');
+INSERT INTO "audit_log" VALUES(4045,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4761,'{"components": [347, 348], "fiscal_year": 2015, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "GOOGL", "value": 5442.0}');
+INSERT INTO "audit_log" VALUES(4046,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4762,'{"components": [350, 347, 348, 349], "fiscal_year": 2015, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 2090.0}');
+INSERT INTO "audit_log" VALUES(4047,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4763,'{"components": [351, 352, 353], "fiscal_year": 2016, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "GOOGL", "value": 7105.0}');
+INSERT INTO "audit_log" VALUES(4048,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4764,'{"components": [351, 352], "fiscal_year": 2016, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "GOOGL", "value": 4551.0}');
+INSERT INTO "audit_log" VALUES(4049,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4765,'{"components": [354, 351, 352, 353], "fiscal_year": 2016, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 3107.0}');
+INSERT INTO "audit_log" VALUES(4050,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4766,'{"components": [355, 356, 357], "fiscal_year": 2017, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "GOOGL", "value": 8877.0}');
+INSERT INTO "audit_log" VALUES(4051,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4767,'{"components": [355, 356], "fiscal_year": 2017, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "GOOGL", "value": 5339.0}');
+INSERT INTO "audit_log" VALUES(4052,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4768,'{"components": [358, 355, 356, 357], "fiscal_year": 2017, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 4307.0}');
+INSERT INTO "audit_log" VALUES(4053,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4769,'{"components": [359, 360, 361], "fiscal_year": 2018, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "GOOGL", "value": 18058.0}');
+INSERT INTO "audit_log" VALUES(4054,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4770,'{"components": [359, 360], "fiscal_year": 2018, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "GOOGL", "value": 12776.0}');
+INSERT INTO "audit_log" VALUES(4055,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4771,'{"components": [362, 359, 360, 361], "fiscal_year": 2018, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 7081.0}');
+INSERT INTO "audit_log" VALUES(4056,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4772,'{"components": [363, 364, 365], "fiscal_year": 2019, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "GOOGL", "value": 17496.0}');
+INSERT INTO "audit_log" VALUES(4057,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4773,'{"components": [363, 364], "fiscal_year": 2019, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "GOOGL", "value": 10764.0}');
+INSERT INTO "audit_log" VALUES(4058,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4774,'{"components": [366, 363, 364, 365], "fiscal_year": 2019, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 6052.0}');
+INSERT INTO "audit_log" VALUES(4059,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4775,'{"components": [367, 368, 369], "fiscal_year": 2020, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "GOOGL", "value": 16802.0}');
+INSERT INTO "audit_log" VALUES(4060,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4776,'{"components": [367, 368], "fiscal_year": 2020, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "GOOGL", "value": 11396.0}');
+INSERT INTO "audit_log" VALUES(4061,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4777,'{"components": [370, 367, 368, 369], "fiscal_year": 2020, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 5479.0}');
+INSERT INTO "audit_log" VALUES(4062,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4778,'{"components": [372, 371], "fiscal_year": 2021, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "GOOGL", "value": 5496.0}');
+INSERT INTO "audit_log" VALUES(4063,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4779,'{"components": [373, 372], "fiscal_year": 2021, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "GOOGL", "value": 6819.0}');
+INSERT INTO "audit_log" VALUES(4064,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4780,'{"components": [374, 373], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 6383.0}');
+INSERT INTO "audit_log" VALUES(4065,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4781,'{"components": [376, 375], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "GOOGL", "value": 6828.0}');
+INSERT INTO "audit_log" VALUES(4066,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4782,'{"components": [377, 376], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "GOOGL", "value": 7276.0}');
+INSERT INTO "audit_log" VALUES(4067,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4783,'{"components": [378, 377], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 7595.0}');
+INSERT INTO "audit_log" VALUES(4068,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4784,'{"components": [380, 379], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "GOOGL", "value": 6888.0}');
+INSERT INTO "audit_log" VALUES(4069,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4785,'{"components": [381, 380], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "GOOGL", "value": 8055.0}');
+INSERT INTO "audit_log" VALUES(4070,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4786,'{"components": [382, 381], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 11019.0}');
+INSERT INTO "audit_log" VALUES(4071,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4787,'{"components": [384, 383], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "GOOGL", "value": 13186.0}');
+INSERT INTO "audit_log" VALUES(4072,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4788,'{"components": [385, 384], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "GOOGL", "value": 13061.0}');
+INSERT INTO "audit_log" VALUES(4073,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4789,'{"components": [386, 385], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 14276.0}');
+INSERT INTO "audit_log" VALUES(4074,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4790,'{"components": [388, 387], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "GOOGL", "value": 22446.0}');
+INSERT INTO "audit_log" VALUES(4075,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4791,'{"components": [389, 388], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "GOOGL", "value": 23953.0}');
+INSERT INTO "audit_log" VALUES(4076,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4792,'{"components": [390, 389], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "GOOGL", "value": 27851.0}');
+INSERT INTO "audit_log" VALUES(4077,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4793,'{"components": [1076, 1075], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "IREN", "value": 139.06}');
+INSERT INTO "audit_log" VALUES(4078,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4794,'{"components": [1081, 1080], "fiscal_year": 2026, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "IREN", "value": 539.69}');
+INSERT INTO "audit_log" VALUES(4079,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4795,'{"components": [494, 493], "fiscal_year": 2015, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 549.0}');
+INSERT INTO "audit_log" VALUES(4080,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4796,'{"components": [495, 494], "fiscal_year": 2015, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 780.0}');
+INSERT INTO "audit_log" VALUES(4081,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4797,'{"components": [496, 495], "fiscal_year": 2015, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 692.0}');
+INSERT INTO "audit_log" VALUES(4082,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4798,'{"components": [498, 497], "fiscal_year": 2016, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 995.0}');
+INSERT INTO "audit_log" VALUES(4083,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4799,'{"components": [499, 498], "fiscal_year": 2016, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 1095.0}');
+INSERT INTO "audit_log" VALUES(4084,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4800,'{"components": [500, 499], "fiscal_year": 2016, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 1269.0}');
+INSERT INTO "audit_log" VALUES(4085,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4801,'{"components": [502, 501], "fiscal_year": 2017, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 1444.0}');
+INSERT INTO "audit_log" VALUES(4086,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4802,'{"components": [503, 502], "fiscal_year": 2017, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 1755.0}');
+INSERT INTO "audit_log" VALUES(4087,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4803,'{"components": [504, 503], "fiscal_year": 2017, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 2263.0}');
+INSERT INTO "audit_log" VALUES(4088,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4804,'{"components": [506, 505], "fiscal_year": 2018, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 3460.0}');
+INSERT INTO "audit_log" VALUES(4089,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4805,'{"components": [507, 506], "fiscal_year": 2018, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 3342.0}');
+INSERT INTO "audit_log" VALUES(4090,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4806,'{"components": [508, 507], "fiscal_year": 2018, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 4301.0}');
+INSERT INTO "audit_log" VALUES(4091,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4807,'{"components": [510, 509], "fiscal_year": 2019, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 3633.0}');
+INSERT INTO "audit_log" VALUES(4092,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4808,'{"components": [511, 510], "fiscal_year": 2019, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 3532.0}');
+INSERT INTO "audit_log" VALUES(4093,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4809,'{"components": [512, 511], "fiscal_year": 2019, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 4100.0}');
+INSERT INTO "audit_log" VALUES(4094,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4810,'{"components": [514, 513], "fiscal_year": 2020, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 3255.0}');
+INSERT INTO "audit_log" VALUES(4095,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4811,'{"components": [515, 514], "fiscal_year": 2020, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 3689.0}');
+INSERT INTO "audit_log" VALUES(4096,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4812,'{"components": [516, 515], "fiscal_year": 2020, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 4613.0}');
+INSERT INTO "audit_log" VALUES(4097,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4813,'{"components": [518, 517], "fiscal_year": 2021, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 4612.0}');
+INSERT INTO "audit_log" VALUES(4098,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4814,'{"components": [519, 518], "fiscal_year": 2021, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 4314.0}');
+INSERT INTO "audit_log" VALUES(4099,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4815,'{"components": [520, 519], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 5369.0}');
+INSERT INTO "audit_log" VALUES(4100,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4816,'{"components": [522, 521], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 7572.0}');
+INSERT INTO "audit_log" VALUES(4101,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4817,'{"components": [523, 522], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 9375.0}');
+INSERT INTO "audit_log" VALUES(4102,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4818,'{"components": [524, 523], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 9043.0}');
+INSERT INTO "audit_log" VALUES(4103,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4819,'{"components": [526, 525], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 6216.0}');
+INSERT INTO "audit_log" VALUES(4104,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4820,'{"components": [527, 526], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 6543.0}');
+INSERT INTO "audit_log" VALUES(4105,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4821,'{"components": [528, 527], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 7665.0}');
+INSERT INTO "audit_log" VALUES(4106,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4822,'{"components": [530, 529], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 8173.0}');
+INSERT INTO "audit_log" VALUES(4107,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4823,'{"components": [531, 530], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 8258.0}');
+INSERT INTO "audit_log" VALUES(4108,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4824,'{"components": [532, 531], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 14425.0}');
+INSERT INTO "audit_log" VALUES(4109,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4825,'{"components": [534, 533], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "META", "value": 16538.0}');
+INSERT INTO "audit_log" VALUES(4110,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4826,'{"components": [535, 534], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "META", "value": 18829.0}');
+INSERT INTO "audit_log" VALUES(4111,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4827,'{"components": [536, 535], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "META", "value": 21383.0}');
+INSERT INTO "audit_log" VALUES(4112,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4828,'{"components": [10, 11, 12], "fiscal_year": 2016, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 5688.0}');
+INSERT INTO "audit_log" VALUES(4113,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4829,'{"components": [10, 11], "fiscal_year": 2016, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 3380.0}');
+INSERT INTO "audit_log" VALUES(4114,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4830,'{"components": [13, 10, 11, 12], "fiscal_year": 2016, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 2655.0}');
+INSERT INTO "audit_log" VALUES(4115,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4831,'{"components": [14, 15, 16], "fiscal_year": 2017, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 5846.0}');
+INSERT INTO "audit_log" VALUES(4116,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4832,'{"components": [14, 15], "fiscal_year": 2017, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 4151.0}');
+INSERT INTO "audit_log" VALUES(4117,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4833,'{"components": [17, 14, 15, 16], "fiscal_year": 2017, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 2283.0}');
+INSERT INTO "audit_log" VALUES(4118,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4834,'{"components": [18, 19, 20], "fiscal_year": 2018, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 7652.0}');
+INSERT INTO "audit_log" VALUES(4119,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4835,'{"components": [18, 19], "fiscal_year": 2018, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 4718.0}');
+INSERT INTO "audit_log" VALUES(4120,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4836,'{"components": [21, 18, 19, 20], "fiscal_year": 2018, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 3980.0}');
+INSERT INTO "audit_log" VALUES(4121,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4837,'{"components": [22, 23, 24], "fiscal_year": 2019, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 9874.0}');
+INSERT INTO "audit_log" VALUES(4122,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4838,'{"components": [22, 23], "fiscal_year": 2019, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 7309.0}');
+INSERT INTO "audit_log" VALUES(4123,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4839,'{"components": [25, 22, 23, 24], "fiscal_year": 2019, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 4051.0}');
+INSERT INTO "audit_log" VALUES(4124,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4840,'{"components": [26, 27, 28], "fiscal_year": 2020, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 10697.0}');
+INSERT INTO "audit_log" VALUES(4125,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4841,'{"components": [26, 27], "fiscal_year": 2020, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 6930.0}');
+INSERT INTO "audit_log" VALUES(4126,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4842,'{"components": [29, 26, 27, 28], "fiscal_year": 2020, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 4744.0}');
+INSERT INTO "audit_log" VALUES(4127,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4843,'{"components": [30, 31, 32], "fiscal_year": 2021, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 14170.0}');
+INSERT INTO "audit_log" VALUES(4128,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4844,'{"components": [30, 31], "fiscal_year": 2021, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 9081.0}');
+INSERT INTO "audit_log" VALUES(4129,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4845,'{"components": [33, 30, 31, 32], "fiscal_year": 2021, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 6452.0}');
+INSERT INTO "audit_log" VALUES(4130,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4846,'{"components": [34, 35, 36], "fiscal_year": 2022, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 17015.0}');
+INSERT INTO "audit_log" VALUES(4131,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4847,'{"components": [34, 35], "fiscal_year": 2022, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 11675.0}');
+INSERT INTO "audit_log" VALUES(4132,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4848,'{"components": [37, 34, 35, 36], "fiscal_year": 2022, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 6871.0}');
+INSERT INTO "audit_log" VALUES(4133,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4849,'{"components": [38, 39, 40], "fiscal_year": 2023, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 19164.0}');
+INSERT INTO "audit_log" VALUES(4134,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4850,'{"components": [38, 39], "fiscal_year": 2023, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 12557.0}');
+INSERT INTO "audit_log" VALUES(4135,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4851,'{"components": [41, 38, 39, 40], "fiscal_year": 2023, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 8943.0}');
+INSERT INTO "audit_log" VALUES(4136,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4852,'{"components": [42, 43, 44], "fiscal_year": 2024, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 30604.0}');
+INSERT INTO "audit_log" VALUES(4137,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4853,'{"components": [42, 43], "fiscal_year": 2024, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 19652.0}');
+INSERT INTO "audit_log" VALUES(4138,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4854,'{"components": [45, 42, 43, 44], "fiscal_year": 2024, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 13873.0}');
+INSERT INTO "audit_log" VALUES(4139,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4855,'{"components": [46, 47, 48], "fiscal_year": 2025, "formula": "9M = Q1+Q2+Q3", "metric_key": "capital_expenditures", "period_type": "9M", "ticker": "MSFT", "value": 47472.0}');
+INSERT INTO "audit_log" VALUES(4140,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4856,'{"components": [46, 47], "fiscal_year": 2025, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 30727.0}');
+INSERT INTO "audit_log" VALUES(4141,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4857,'{"components": [1, 46, 47, 48], "fiscal_year": 2025, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "MSFT", "value": 17079.0}');
+INSERT INTO "audit_log" VALUES(4142,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4858,'{"components": [50, 51], "fiscal_year": 2026, "formula": "H1 = Q1+Q2", "metric_key": "capital_expenditures", "period_type": "H1", "ticker": "MSFT", "value": 49270.0}');
+INSERT INTO "audit_log" VALUES(4143,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4859,'{"components": [666, 665], "fiscal_year": 2015, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 597.0}');
+INSERT INTO "audit_log" VALUES(4144,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4860,'{"components": [668, 667], "fiscal_year": 2016, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 195.0}');
+INSERT INTO "audit_log" VALUES(4145,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4861,'{"components": [669, 668], "fiscal_year": 2016, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 368.0}');
+INSERT INTO "audit_log" VALUES(4146,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4862,'{"components": [670, 669], "fiscal_year": 2016, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 180.0}');
+INSERT INTO "audit_log" VALUES(4147,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4863,'{"components": [672, 671], "fiscal_year": 2017, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 757.0}');
+INSERT INTO "audit_log" VALUES(4148,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4864,'{"components": [673, 672], "fiscal_year": 2017, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 440.0}');
+INSERT INTO "audit_log" VALUES(4149,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4865,'{"components": [674, 673], "fiscal_year": 2017, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 525.0}');
+INSERT INTO "audit_log" VALUES(4150,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4866,'{"components": [676, 675], "fiscal_year": 2018, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 599.0}');
+INSERT INTO "audit_log" VALUES(4151,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4867,'{"components": [677, 676], "fiscal_year": 2018, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 286.0}');
+INSERT INTO "audit_log" VALUES(4152,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4868,'{"components": [678, 677], "fiscal_year": 2018, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 378.0}');
+INSERT INTO "audit_log" VALUES(4153,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4869,'{"components": [680, 679], "fiscal_year": 2019, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 421.0}');
+INSERT INTO "audit_log" VALUES(4154,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4870,'{"components": [681, 680], "fiscal_year": 2019, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 443.0}');
+INSERT INTO "audit_log" VALUES(4155,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4871,'{"components": [682, 681], "fiscal_year": 2019, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 413.0}');
+INSERT INTO "audit_log" VALUES(4156,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4872,'{"components": [684, 683], "fiscal_year": 2020, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 349.0}');
+INSERT INTO "audit_log" VALUES(4157,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4873,'{"components": [685, 684], "fiscal_year": 2020, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 396.0}');
+INSERT INTO "audit_log" VALUES(4158,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4874,'{"components": [686, 685], "fiscal_year": 2020, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 433.0}');
+INSERT INTO "audit_log" VALUES(4159,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4875,'{"components": [688, 687], "fiscal_year": 2021, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 568.0}');
+INSERT INTO "audit_log" VALUES(4160,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4876,'{"components": [689, 688], "fiscal_year": 2021, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 414.0}');
+INSERT INTO "audit_log" VALUES(4161,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4877,'{"components": [690, 689], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 717.0}');
+INSERT INTO "audit_log" VALUES(4162,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4878,'{"components": [692, 691], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 925.0}');
+INSERT INTO "audit_log" VALUES(4163,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4879,'{"components": [693, 692], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 1101.0}');
+INSERT INTO "audit_log" VALUES(4164,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4880,'{"components": [694, 693], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 1423.0}');
+INSERT INTO "audit_log" VALUES(4165,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4881,'{"components": [696, 695], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 2435.0}');
+INSERT INTO "audit_log" VALUES(4166,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4882,'{"components": [697, 696], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 2628.0}');
+INSERT INTO "audit_log" VALUES(4167,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4883,'{"components": [698, 697], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 1913.0}');
+INSERT INTO "audit_log" VALUES(4168,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4884,'{"components": [700, 699], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 1080.0}');
+INSERT INTO "audit_log" VALUES(4169,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4885,'{"components": [701, 700], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 1674.0}');
+INSERT INTO "audit_log" VALUES(4170,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4886,'{"components": [702, 701], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 2798.0}');
+INSERT INTO "audit_log" VALUES(4171,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4887,'{"components": [704, 703], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 3970.0}');
+INSERT INTO "audit_log" VALUES(4172,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4888,'{"components": [705, 704], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 5862.0}');
+INSERT INTO "audit_log" VALUES(4173,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4889,'{"components": [706, 705], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 9080.0}');
+INSERT INTO "audit_log" VALUES(4174,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4890,'{"components": [708, 707], "fiscal_year": 2026, "formula": "Q2 = H1 - Q1", "metric_key": "capital_expenditures", "period_type": "Q2", "ticker": "ORCL", "value": 12033.0}');
+INSERT INTO "audit_log" VALUES(4175,'2026-04-19T18:47:00+00:00','reconcile@0.1.0','extraction_derived','extractions',4891,'{"components": [709, 708], "fiscal_year": 2026, "formula": "Q3 = 9M - H1", "metric_key": "capital_expenditures", "period_type": "Q3", "ticker": "ORCL", "value": 18635.0}');
+INSERT INTO "audit_log" VALUES(4176,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4892,'{"components": [238, 239, 240], "fiscal_year": 2015, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 6106.0}');
+INSERT INTO "audit_log" VALUES(4177,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4893,'{"components": [238, 239], "fiscal_year": 2015, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 3496.0}');
+INSERT INTO "audit_log" VALUES(4178,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4894,'{"components": [241, 238, 239, 240], "fiscal_year": 2015, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 5814.0}');
+INSERT INTO "audit_log" VALUES(4179,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4895,'{"components": [242, 243, 244], "fiscal_year": 2016, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 10111.0}');
+INSERT INTO "audit_log" VALUES(4180,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4896,'{"components": [242, 243], "fiscal_year": 2016, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 5625.0}');
+INSERT INTO "audit_log" VALUES(4181,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4897,'{"components": [245, 242, 243, 244], "fiscal_year": 2016, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 6332.0}');
+INSERT INTO "audit_log" VALUES(4182,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4898,'{"components": [246, 247, 248], "fiscal_year": 2017, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 9270.0}');
+INSERT INTO "audit_log" VALUES(4183,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4899,'{"components": [246, 247], "fiscal_year": 2017, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 5419.0}');
+INSERT INTO "audit_log" VALUES(4184,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4900,'{"components": [249, 246, 247, 248], "fiscal_year": 2017, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 9164.0}');
+INSERT INTO "audit_log" VALUES(4185,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4901,'{"components": [250, 251, 252], "fiscal_year": 2018, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 17828.0}');
+INSERT INTO "audit_log" VALUES(4186,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4902,'{"components": [250, 251], "fiscal_year": 2018, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 9240.0}');
+INSERT INTO "audit_log" VALUES(4187,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4903,'{"components": [253, 250, 251, 252], "fiscal_year": 2018, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 12895.0}');
+INSERT INTO "audit_log" VALUES(4188,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4904,'{"components": [254, 255, 256], "fiscal_year": 2019, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 18856.0}');
+INSERT INTO "audit_log" VALUES(4189,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4905,'{"components": [254, 255], "fiscal_year": 2019, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 10964.0}');
+INSERT INTO "audit_log" VALUES(4190,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4906,'{"components": [257, 254, 255, 256], "fiscal_year": 2019, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 19658.0}');
+INSERT INTO "audit_log" VALUES(4191,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4907,'{"components": [258, 259, 260], "fiscal_year": 2020, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 35634.0}');
+INSERT INTO "audit_log" VALUES(4192,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4908,'{"components": [258, 259], "fiscal_year": 2020, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 23670.0}');
+INSERT INTO "audit_log" VALUES(4193,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4909,'{"components": [261, 258, 259, 260], "fiscal_year": 2020, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 30430.0}');
+INSERT INTO "audit_log" VALUES(4194,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4910,'{"components": [262, 263, 264], "fiscal_year": 2021, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 24241.0}');
+INSERT INTO "audit_log" VALUES(4195,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4911,'{"components": [262, 263], "fiscal_year": 2021, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 16928.0}');
+INSERT INTO "audit_log" VALUES(4196,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4912,'{"components": [265, 262, 263, 264], "fiscal_year": 2021, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 22086.0}');
+INSERT INTO "audit_log" VALUES(4197,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4913,'{"components": [266, 267, 268], "fiscal_year": 2022, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 23159.0}');
+INSERT INTO "audit_log" VALUES(4198,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4914,'{"components": [266, 267], "fiscal_year": 2022, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 11755.0}');
+INSERT INTO "audit_log" VALUES(4199,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4915,'{"components": [269, 266, 267, 268], "fiscal_year": 2022, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 23593.0}');
+INSERT INTO "audit_log" VALUES(4200,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4916,'{"components": [270, 271, 272], "fiscal_year": 2023, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 42481.0}');
+INSERT INTO "audit_log" VALUES(4201,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4917,'{"components": [270, 271], "fiscal_year": 2023, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 21264.0}');
+INSERT INTO "audit_log" VALUES(4202,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4918,'{"components": [273, 270, 271, 272], "fiscal_year": 2023, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 42465.0}');
+INSERT INTO "audit_log" VALUES(4203,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4919,'{"components": [274, 275, 276], "fiscal_year": 2024, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 70241.0}');
+INSERT INTO "audit_log" VALUES(4204,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4920,'{"components": [274, 275], "fiscal_year": 2024, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 44270.0}');
+INSERT INTO "audit_log" VALUES(4205,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4921,'{"components": [277, 274, 275, 276], "fiscal_year": 2024, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 45636.0}');
+INSERT INTO "audit_log" VALUES(4206,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4922,'{"components": [278, 279, 280], "fiscal_year": 2025, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "AMZN", "value": 85055.0}');
+INSERT INTO "audit_log" VALUES(4207,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4923,'{"components": [278, 279], "fiscal_year": 2025, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "AMZN", "value": 49530.0}');
+INSERT INTO "audit_log" VALUES(4208,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4924,'{"components": [281, 278, 279, 280], "fiscal_year": 2025, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "AMZN", "value": 54459.0}');
+INSERT INTO "audit_log" VALUES(4209,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4925,'{"components": [1014, 1013], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "APLD", "value": 0.08}');
+INSERT INTO "audit_log" VALUES(4210,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4926,'{"components": [1016, 1015], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "APLD", "value": 0.8900000000000001}');
+INSERT INTO "audit_log" VALUES(4211,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4927,'{"components": [1017, 1016], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "APLD", "value": 1.7800000000000002}');
+INSERT INTO "audit_log" VALUES(4212,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4928,'{"components": [1020, 1019], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "APLD", "value": 10.690000000000001}');
+INSERT INTO "audit_log" VALUES(4213,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4929,'{"components": [1021, 1020], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "APLD", "value": 26.16}');
+INSERT INTO "audit_log" VALUES(4214,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4930,'{"components": [1022, 1021], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "APLD", "value": 4.589999999999996}');
+INSERT INTO "audit_log" VALUES(4215,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4931,'{"components": [1024, 1023], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "APLD", "value": 4.540000000000001}');
+INSERT INTO "audit_log" VALUES(4216,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4932,'{"components": [1025, 1024], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "APLD", "value": 38.839999999999996}');
+INSERT INTO "audit_log" VALUES(4217,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4933,'{"components": [1028, 1027], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "APLD", "value": 52.260000000000005}');
+INSERT INTO "audit_log" VALUES(4218,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4934,'{"components": [1032, 1031], "fiscal_year": 2026, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "APLD", "value": 15.850000000000009}');
+INSERT INTO "audit_log" VALUES(4219,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4935,'{"components": [963, 962], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "CRWV", "value": 641.23}');
+INSERT INTO "audit_log" VALUES(4220,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4936,'{"components": [964, 963], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "CRWV", "value": 186.55999999999995}');
+INSERT INTO "audit_log" VALUES(4221,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4937,'{"components": [966, 965], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "CRWV", "value": 128.91000000000003}');
+INSERT INTO "audit_log" VALUES(4222,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4938,'{"components": [967, 966], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "CRWV", "value": 1308.97}');
+INSERT INTO "audit_log" VALUES(4223,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4939,'{"components": [968, 967], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "CRWV", "value": 1558.95}');
+INSERT INTO "audit_log" VALUES(4224,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4940,'{"components": [423, 422], "fiscal_year": 2015, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 7096.0}');
+INSERT INTO "audit_log" VALUES(4225,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4941,'{"components": [424, 423], "fiscal_year": 2015, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 5791.0}');
+INSERT INTO "audit_log" VALUES(4226,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4942,'{"components": [425, 424], "fiscal_year": 2015, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 6415.0}');
+INSERT INTO "audit_log" VALUES(4227,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4943,'{"components": [427, 426], "fiscal_year": 2016, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 9120.0}');
+INSERT INTO "audit_log" VALUES(4228,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4944,'{"components": [428, 427], "fiscal_year": 2016, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 9845.0}');
+INSERT INTO "audit_log" VALUES(4229,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4945,'{"components": [429, 428], "fiscal_year": 2016, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 9413.0}');
+INSERT INTO "audit_log" VALUES(4230,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4946,'{"components": [431, 430], "fiscal_year": 2017, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 7403.0}');
+INSERT INTO "audit_log" VALUES(4231,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4947,'{"components": [432, 431], "fiscal_year": 2017, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 9872.0}');
+INSERT INTO "audit_log" VALUES(4232,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4948,'{"components": [433, 432], "fiscal_year": 2017, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 10268.0}');
+INSERT INTO "audit_log" VALUES(4233,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4949,'{"components": [435, 434], "fiscal_year": 2018, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 10132.0}');
+INSERT INTO "audit_log" VALUES(4234,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4950,'{"components": [436, 435], "fiscal_year": 2018, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 13210.0}');
+INSERT INTO "audit_log" VALUES(4235,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4951,'{"components": [437, 436], "fiscal_year": 2018, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 12987.0}');
+INSERT INTO "audit_log" VALUES(4236,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4952,'{"components": [439, 438], "fiscal_year": 2019, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 12627.0}');
+INSERT INTO "audit_log" VALUES(4237,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4953,'{"components": [440, 439], "fiscal_year": 2019, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 15466.0}');
+INSERT INTO "audit_log" VALUES(4238,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4954,'{"components": [441, 440], "fiscal_year": 2019, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 14427.0}');
+INSERT INTO "audit_log" VALUES(4239,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4955,'{"components": [443, 442], "fiscal_year": 2020, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 13993.0}');
+INSERT INTO "audit_log" VALUES(4240,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4956,'{"components": [444, 443], "fiscal_year": 2020, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 17003.0}');
+INSERT INTO "audit_log" VALUES(4241,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4957,'{"components": [445, 444], "fiscal_year": 2020, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 22677.0}');
+INSERT INTO "audit_log" VALUES(4242,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4958,'{"components": [447, 446], "fiscal_year": 2021, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 21890.0}');
+INSERT INTO "audit_log" VALUES(4243,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4959,'{"components": [448, 447], "fiscal_year": 2021, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 25539.0}');
+INSERT INTO "audit_log" VALUES(4244,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4960,'{"components": [449, 448], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 24934.0}');
+INSERT INTO "audit_log" VALUES(4245,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4961,'{"components": [451, 450], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 19422.0}');
+INSERT INTO "audit_log" VALUES(4246,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4962,'{"components": [452, 451], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 23353.0}');
+INSERT INTO "audit_log" VALUES(4247,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4963,'{"components": [453, 452], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 23614.0}');
+INSERT INTO "audit_log" VALUES(4248,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4964,'{"components": [455, 454], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 28666.0}');
+INSERT INTO "audit_log" VALUES(4249,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4965,'{"components": [456, 455], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 30656.0}');
+INSERT INTO "audit_log" VALUES(4250,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4966,'{"components": [457, 456], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 18915.0}');
+INSERT INTO "audit_log" VALUES(4251,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4967,'{"components": [459, 458], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 26640.0}');
+INSERT INTO "audit_log" VALUES(4252,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4968,'{"components": [460, 459], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 30698.0}');
+INSERT INTO "audit_log" VALUES(4253,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4969,'{"components": [461, 460], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 39113.0}');
+INSERT INTO "audit_log" VALUES(4254,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4970,'{"components": [463, 462], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "GOOGL", "value": 27747.0}');
+INSERT INTO "audit_log" VALUES(4255,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4971,'{"components": [464, 463], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "GOOGL", "value": 48414.0}');
+INSERT INTO "audit_log" VALUES(4256,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4972,'{"components": [465, 464], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "GOOGL", "value": 52402.0}');
+INSERT INTO "audit_log" VALUES(4257,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4973,'{"components": [1088, 1087], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "IREN", "value": 45.72}');
+INSERT INTO "audit_log" VALUES(4258,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4974,'{"components": [1091, 1090], "fiscal_year": 2026, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "IREN", "value": 71.65}');
+INSERT INTO "audit_log" VALUES(4259,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4975,'{"components": [553, 552], "fiscal_year": 2015, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 1880.0}');
+INSERT INTO "audit_log" VALUES(4260,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4976,'{"components": [554, 553], "fiscal_year": 2015, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 2192.0}');
+INSERT INTO "audit_log" VALUES(4261,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4977,'{"components": [555, 554], "fiscal_year": 2015, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 2827.0}');
+INSERT INTO "audit_log" VALUES(4262,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4978,'{"components": [558, 556], "fiscal_year": 2016, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 3198.0}');
+INSERT INTO "audit_log" VALUES(4263,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4979,'{"components": [560, 558], "fiscal_year": 2016, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 3577.0}');
+INSERT INTO "audit_log" VALUES(4264,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4980,'{"components": [564, 563], "fiscal_year": 2017, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 5360.0}');
+INSERT INTO "audit_log" VALUES(4265,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4981,'{"components": [565, 564], "fiscal_year": 2017, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 6127.0}');
+INSERT INTO "audit_log" VALUES(4266,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4982,'{"components": [566, 565], "fiscal_year": 2017, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 7671.0}');
+INSERT INTO "audit_log" VALUES(4267,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4983,'{"components": [568, 567], "fiscal_year": 2018, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 6298.0}');
+INSERT INTO "audit_log" VALUES(4268,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4984,'{"components": [569, 568], "fiscal_year": 2018, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 7498.0}');
+INSERT INTO "audit_log" VALUES(4269,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4985,'{"components": [570, 569], "fiscal_year": 2018, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 7618.0}');
+INSERT INTO "audit_log" VALUES(4270,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4986,'{"components": [572, 571], "fiscal_year": 2019, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 8616.0}');
+INSERT INTO "audit_log" VALUES(4271,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4987,'{"components": [573, 572], "fiscal_year": 2019, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 9307.0}');
+INSERT INTO "audit_log" VALUES(4272,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4988,'{"components": [574, 573], "fiscal_year": 2019, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 9083.0}');
+INSERT INTO "audit_log" VALUES(4273,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4989,'{"components": [576, 575], "fiscal_year": 2020, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 3877.0}');
+INSERT INTO "audit_log" VALUES(4274,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4990,'{"components": [577, 576], "fiscal_year": 2020, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 9829.0}');
+INSERT INTO "audit_log" VALUES(4275,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4991,'{"components": [578, 577], "fiscal_year": 2020, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 14040.0}');
+INSERT INTO "audit_log" VALUES(4276,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4992,'{"components": [580, 579], "fiscal_year": 2021, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 13247.0}');
+INSERT INTO "audit_log" VALUES(4277,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4993,'{"components": [581, 580], "fiscal_year": 2021, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 14090.0}');
+INSERT INTO "audit_log" VALUES(4278,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4994,'{"components": [582, 581], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 18104.0}');
+INSERT INTO "audit_log" VALUES(4279,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4995,'{"components": [584, 583], "fiscal_year": 2022, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 12196.0}');
+INSERT INTO "audit_log" VALUES(4280,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4996,'{"components": [585, 584], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 9692.0}');
+INSERT INTO "audit_log" VALUES(4281,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4997,'{"components": [586, 585], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 14511.0}');
+INSERT INTO "audit_log" VALUES(4282,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4998,'{"components": [588, 587], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 17309.0}');
+INSERT INTO "audit_log" VALUES(4283,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',4999,'{"components": [589, 588], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 20402.0}');
+INSERT INTO "audit_log" VALUES(4284,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5000,'{"components": [590, 589], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 19404.0}');
+INSERT INTO "audit_log" VALUES(4285,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5001,'{"components": [592, 591], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 19370.0}');
+INSERT INTO "audit_log" VALUES(4286,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5002,'{"components": [593, 592], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 24724.0}');
+INSERT INTO "audit_log" VALUES(4287,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5003,'{"components": [594, 593], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 27988.0}');
+INSERT INTO "audit_log" VALUES(4288,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5004,'{"components": [596, 595], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "META", "value": 25561.0}');
+INSERT INTO "audit_log" VALUES(4289,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5005,'{"components": [597, 596], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "META", "value": 29999.0}');
+INSERT INTO "audit_log" VALUES(4290,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5006,'{"components": [598, 597], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "META", "value": 36214.0}');
+INSERT INTO "audit_log" VALUES(4291,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5007,'{"components": [104, 105, 106], "fiscal_year": 2018, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 32466.0}');
+INSERT INTO "audit_log" VALUES(4292,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5008,'{"components": [104, 105], "fiscal_year": 2018, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 20315.0}');
+INSERT INTO "audit_log" VALUES(4293,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5009,'{"components": [107, 104, 105, 106], "fiscal_year": 2018, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 11418.0}');
+INSERT INTO "audit_log" VALUES(4294,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5010,'{"components": [108, 109, 110], "fiscal_year": 2019, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 36077.0}');
+INSERT INTO "audit_log" VALUES(4295,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5011,'{"components": [108, 109], "fiscal_year": 2019, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 22557.0}');
+INSERT INTO "audit_log" VALUES(4296,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5012,'{"components": [111, 108, 109, 110], "fiscal_year": 2019, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 16108.0}');
+INSERT INTO "audit_log" VALUES(4297,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5013,'{"components": [112, 113, 114], "fiscal_year": 2020, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 42002.0}');
+INSERT INTO "audit_log" VALUES(4298,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5014,'{"components": [112, 113], "fiscal_year": 2020, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 24498.0}');
+INSERT INTO "audit_log" VALUES(4299,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5015,'{"components": [115, 112, 113, 114], "fiscal_year": 2020, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 18673.0}');
+INSERT INTO "audit_log" VALUES(4300,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5016,'{"components": [116, 117, 118], "fiscal_year": 2021, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 54030.0}');
+INSERT INTO "audit_log" VALUES(4301,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5017,'{"components": [116, 117], "fiscal_year": 2021, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 31851.0}');
+INSERT INTO "audit_log" VALUES(4302,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5018,'{"components": [119, 116, 117, 118], "fiscal_year": 2021, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 22710.0}');
+INSERT INTO "audit_log" VALUES(4303,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5019,'{"components": [120, 121, 122], "fiscal_year": 2022, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 64406.0}');
+INSERT INTO "audit_log" VALUES(4304,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5020,'{"components": [120, 121], "fiscal_year": 2022, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 39020.0}');
+INSERT INTO "audit_log" VALUES(4305,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5021,'{"components": [123, 120, 121, 122], "fiscal_year": 2022, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 24629.0}');
+INSERT INTO "audit_log" VALUES(4306,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5022,'{"components": [124, 125, 126], "fiscal_year": 2023, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 58812.0}');
+INSERT INTO "audit_log" VALUES(4307,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5023,'{"components": [124, 125], "fiscal_year": 2023, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 34371.0}');
+INSERT INTO "audit_log" VALUES(4308,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5024,'{"components": [127, 124, 125, 126], "fiscal_year": 2023, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 28770.0}');
+INSERT INTO "audit_log" VALUES(4309,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5025,'{"components": [128, 129, 130], "fiscal_year": 2024, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 81353.0}');
+INSERT INTO "audit_log" VALUES(4310,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5026,'{"components": [128, 129], "fiscal_year": 2024, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 49436.0}');
+INSERT INTO "audit_log" VALUES(4311,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5027,'{"components": [131, 128, 129, 130], "fiscal_year": 2024, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 37195.0}');
+INSERT INTO "audit_log" VALUES(4312,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5028,'{"components": [132, 133, 134], "fiscal_year": 2025, "formula": "9M = Q1+Q2+Q3", "metric_key": "operating_cash_flow", "period_type": "9M", "ticker": "MSFT", "value": 93515.0}');
+INSERT INTO "audit_log" VALUES(4313,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5029,'{"components": [132, 133], "fiscal_year": 2025, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 56471.0}');
+INSERT INTO "audit_log" VALUES(4314,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5030,'{"components": [3, 132, 133, 134], "fiscal_year": 2025, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 42647.0}');
+INSERT INTO "audit_log" VALUES(4315,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5031,'{"components": [136, 137], "fiscal_year": 2026, "formula": "H1 = Q1+Q2", "metric_key": "operating_cash_flow", "period_type": "H1", "ticker": "MSFT", "value": 80815.0}');
+INSERT INTO "audit_log" VALUES(4316,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5032,'{"components": [734, 733], "fiscal_year": 2018, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 850.0}');
+INSERT INTO "audit_log" VALUES(4317,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5033,'{"components": [735, 734], "fiscal_year": 2018, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 3310.0}');
+INSERT INTO "audit_log" VALUES(4318,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5034,'{"components": [736, 735], "fiscal_year": 2018, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 4660.0}');
+INSERT INTO "audit_log" VALUES(4319,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5035,'{"components": [738, 737], "fiscal_year": 2019, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 546.0}');
+INSERT INTO "audit_log" VALUES(4320,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5036,'{"components": [739, 738], "fiscal_year": 2019, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 2861.0}');
+INSERT INTO "audit_log" VALUES(4321,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5037,'{"components": [740, 739], "fiscal_year": 2019, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 4422.0}');
+INSERT INTO "audit_log" VALUES(4322,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5038,'{"components": [742, 741], "fiscal_year": 2020, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 513.0}');
+INSERT INTO "audit_log" VALUES(4323,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5039,'{"components": [743, 742], "fiscal_year": 2020, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 3012.0}');
+INSERT INTO "audit_log" VALUES(4324,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5040,'{"components": [744, 743], "fiscal_year": 2020, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 3614.0}');
+INSERT INTO "audit_log" VALUES(4325,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5041,'{"components": [746, 745], "fiscal_year": 2021, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 1388.0}');
+INSERT INTO "audit_log" VALUES(4326,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5042,'{"components": [747, 746], "fiscal_year": 2021, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 3704.0}');
+INSERT INTO "audit_log" VALUES(4327,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5043,'{"components": [748, 747], "fiscal_year": 2021, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 4842.0}');
+INSERT INTO "audit_log" VALUES(4328,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5044,'{"components": [751, 750], "fiscal_year": 2022, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 3845.0}');
+INSERT INTO "audit_log" VALUES(4329,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5045,'{"components": [752, 751], "fiscal_year": 2022, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 3985.0}');
+INSERT INTO "audit_log" VALUES(4330,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5046,'{"components": [754, 753], "fiscal_year": 2023, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 849.0}');
+INSERT INTO "audit_log" VALUES(4331,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5047,'{"components": [755, 754], "fiscal_year": 2023, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 4275.0}');
+INSERT INTO "audit_log" VALUES(4332,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5048,'{"components": [756, 755], "fiscal_year": 2023, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 5647.0}');
+INSERT INTO "audit_log" VALUES(4333,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5049,'{"components": [758, 757], "fiscal_year": 2024, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 143.0}');
+INSERT INTO "audit_log" VALUES(4334,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5050,'{"components": [759, 758], "fiscal_year": 2024, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 5475.0}');
+INSERT INTO "audit_log" VALUES(4335,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5051,'{"components": [760, 759], "fiscal_year": 2024, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 6081.0}');
+INSERT INTO "audit_log" VALUES(4336,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5052,'{"components": [762, 761], "fiscal_year": 2025, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 1304.0}');
+INSERT INTO "audit_log" VALUES(4337,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5053,'{"components": [763, 762], "fiscal_year": 2025, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 5933.0}');
+INSERT INTO "audit_log" VALUES(4338,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5054,'{"components": [764, 763], "fiscal_year": 2025, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 6157.0}');
+INSERT INTO "audit_log" VALUES(4339,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5055,'{"components": [766, 765], "fiscal_year": 2026, "formula": "Q2 = H1 - Q1", "metric_key": "operating_cash_flow", "period_type": "Q2", "ticker": "ORCL", "value": 2066.0}');
+INSERT INTO "audit_log" VALUES(4340,'2026-04-19T18:47:01+00:00','reconcile@0.1.0','extraction_derived','extractions',5056,'{"components": [767, 766], "fiscal_year": 2026, "formula": "Q3 = 9M - H1", "metric_key": "operating_cash_flow", "period_type": "Q3", "ticker": "ORCL", "value": 7151.0}');
+INSERT INTO "audit_log" VALUES(4341,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5057,'{"fiscal_year": 2021, "value_cny_m": 36160, "value_usd": 5519.82}');
+INSERT INTO "audit_log" VALUES(4342,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5058,'{"fiscal_year": 2022, "value_cny_m": 42028, "value_usd": 6626.98}');
+INSERT INTO "audit_log" VALUES(4343,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5059,'{"fiscal_year": 2023, "value_cny_m": 30373, "value_usd": 4418.06}');
+INSERT INTO "audit_log" VALUES(4344,'2026-04-19T18:49:15+00:00','baba-capex-20f@0.1.0','baba_capex_20f_inserted','extractions',5060,'{"fiscal_year": 2024, "value_cny_m": 27579, "value_usd": 3815.55}');
 CREATE TABLE companies (
     ticker                TEXT PRIMARY KEY,
     name                  TEXT NOT NULL,
@@ -4156,6 +4506,6985 @@ INSERT INTO "extraction_evidence" VALUES(90,1531,'Revenue was RMB234,156 million
 INSERT INTO "extraction_evidence" VALUES(91,1532,'Revenue was RMB247,652 million (US$34,571 million), an increase of 2% year-over-year.','6-K Press Release','primary_value','2026-04-15T20:20:45+00:00');
 INSERT INTO "extraction_evidence" VALUES(92,1533,'Net revenue in the second quarter of 2024 was RMB2,826.4 million (US$388.9 million).','6-K Press Release','primary_value','2026-04-15T20:20:46+00:00');
 INSERT INTO "extraction_evidence" VALUES(93,1534,'Net revenue increased by 12.4% year-over-year to RMB2,900.3 million (US$404.9 million).','6-K Press Release','primary_value','2026-04-15T20:20:47+00:00');
+INSERT INTO "extraction_evidence" VALUES(94,236,'Nine Months EndedSeptember 30,
+2024 2025 2024 2025
+Net product sales $ 67,601 $ 74,058 $ 190,085 $ 206,274
+Net service sales 91,276 106,111 260,082 297,264
+Total net sales 158,877 180,169 450,167 503,538
+Operating expenses:
+Cost of sales 80,977 88,670 227,395 246,455','[2025.10.31][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(95,280,'2
+Accrued expenses and other 129 (1,999) (6,946) (11,012) (352) (6,970)
+Unearned revenue 421 (632) 2,396 (23) 6,025 1,588
+Net cash provided by (used in) operating activities 25,971 35,525 70,241 85,055 112,706 130,691
+INVESTING ACTIVITIES:
+Purchases of property and eq','[2025.10.31][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(96,320,'le net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 13,442 16,796 37,164 46,285 50,984 61,916
+Stock-based compensation 5,333 4,847 17,016 15,070 2','[2025.10.31][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(97,1222,'23) 6,025 1,588
+Net cash provided by (used in) operating activities 25,971 35,525 70,241 85,055 112,706 130,691
+INVESTING ACTIVITIES:
+Purchases of property and equipment (22,620) (35,095) (55,165) (92,297) (69,753) (120,131)
+Proceeds from property and equipment sale','[2025.10.31][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(98,235,'une 30, Six Months EndedJune 30,
+2024 2025 2024 2025
+Net product sales $ 61,569 $ 68,246 $ 122,484 $ 132,216
+Net service sales 86,408 99,456 168,806 191,153
+Total net sales 147,977 167,702 291,290 323,369
+Operating expenses:
+Cost of sales 73,785 80,809 146,418 157,785','[2025.08.01][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(99,279,'crued expenses and other (4,147) (4,952) (7,075) (9,013) (1,802) (4,842)
+Unearned revenue 407 (119) 1,975 609 5,579 2,641
+Net cash provided by (used in) operating activities 25,281 32,515 44,270 49,530 107,952 121,137
+INVESTING ACTIVITIES:
+Purchases of property and eq','[2025.08.01][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(100,319,'le net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 12,038 15,227 23,722 29,489 49,673 58,562
+Stock-based compensation 6,722 6,534 11,683 10,223 2','[2025.08.01][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(101,1221,'609 5,579 2,641
+Net cash provided by (used in) operating activities 25,281 32,515 44,270 49,530 107,952 121,137
+INVESTING ACTIVITIES:
+Purchases of property and equipment (17,620) (32,183) (32,545) (57,202) (59,612) (107,656)
+Proceeds from property and equipment sale','[2025.08.01][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(102,234,'ions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2024 2025
+Net product sales $ 60,915 $ 63,970
+Net service sales 82,398 91,697
+Total net sales 143,313 155,667
+Operating expenses:
+Cost of sales 72,633 76,976
+Fulfillment 22,317 24,593
+Techno','[2025.05.02][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(103,278,'11,282) (9,043) 5,455 5,211
+Accrued expenses and other (2,928) (4,061) 407 (4,037)
+Unearned revenue 1,568 728 5,328 3,167
+Net cash provided by (used in) operating activities 18,989 17,015 99,147 113,903
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,925','[2025.05.02][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(104,318,'le net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 11,684 14,262 49,224 55,373
+Stock-based compensation 4,961 3,689 24,236 20,739
+Non-operating e','[2025.05.02][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(105,1220,'revenue 1,568 728 5,328 3,167
+Net cash provided by (used in) operating activities 18,989 17,015 99,147 113,903
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,925) (25,019) (53,447) (93,093)
+Proceeds from property and equipment sales and incentives 99','[2025.05.02][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(106,233,'lows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2023 2024
+Net Sales:
+North America $ 352,828 $ 387,497
+International 131,200 142,906
+AWS 90,757 107,556
+Consolidated $ 574,785 $ 637,959
+Year-over-year Percentage Growth:
+North America 12 % 10 %
+International 11 9
+AWS','[2025.02.07][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(107,277,'ovided by (used in) operating activities,” for 2023 and 2024 (in millions):
+
+[TABLE]
+Year Ended December 31,
+2023 2024
+Net cash provided by (used in) operating activities $ 84,946 $ 115,877
+Purchases of property and equipment, net of proceeds from sales and incentives (','[2025.02.07][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(108,317,'(loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 41,921 48,663 52,795
+Stock-based compensation 19,621 24,023 22,011
+Non-operating expense (income), ne','[2025.02.07][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(109,345,'ketable securities 13,393 22,423
+Inventories 33,318 34,214
+Accounts receivable, net and other 52,253 55,451
+Total current assets 172,351 190,867
+Property and equipment, net 204,177 252,665
+Operating leases 72,513 76,141
+Goodwill 22,789 23,074
+Other assets 56,024 82,147','[2025.02.07][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(110,1219,'ed revenue 2,216 4,578 4,007
+Net cash provided by (used in) operating activities 46,752 84,946 115,877
+INVESTING ACTIVITIES:
+Purchases of property and equipment (63,645) (52,729) (82,999)
+Proceeds from property and equipment sales and incentives 5,324 4,596 5,341
+Ac','[2025.02.07][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(111,232,', Nine Months EndedSeptember 30,
+2023 2024 2023 2024
+Net product sales $ 63,171 $ 67,601 $ 179,184 $ 190,085
+Net service sales 79,912 91,276 225,640 260,082
+Total net sales 143,083 158,877 404,824 450,167
+Operating expenses:
+Cost of sales 75,022 80,977 212,186 227,395','[2024.11.01][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(112,276,',134
+Accrued expenses and other (1,321) 129 (9,022) (6,946) (3,245) (352)
+Unearned revenue (25) 421 949 2,396 1,454 6,025
+Net cash provided by (used in) operating activities 21,217 25,971 42,481 70,241 71,654 112,706
+INVESTING ACTIVITIES:
+Purchases of property and equ','[2024.11.01][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(113,316,'le net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 12,131 13,442 34,843 37,164 47,528 50,984
+Stock-based compensation 5,829 5,333 17,704 17,016 2','[2024.11.01][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(114,1218,',396 1,454 6,025
+Net cash provided by (used in) operating activities 21,217 25,971 42,481 70,241 71,654 112,706
+INVESTING ACTIVITIES:
+Purchases of property and equipment (12,479) (22,620) (38,141) (55,165) (54,733) (69,753)
+Proceeds from property and equipment sales','[2024.11.01][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(115,231,'une 30, Six Months EndedJune 30,
+2023 2024 2023 2024
+Net product sales $ 59,032 $ 61,569 $ 116,013 $ 122,484
+Net service sales 75,351 86,408 145,728 168,806
+Total net sales 134,383 147,977 261,741 291,290
+Operating expenses:
+Cost of sales 69,373 73,785 137,164 146,418','[2024.08.02][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(116,275,'Accrued expenses and other (1,938) (4,147) (7,701) (7,075) (1,944) (1,802)
+Unearned revenue 156 407 974 1,975 1,533 5,579
+Net cash provided by (used in) operating activities 16,476 25,281 21,264 44,270 61,841 107,952
+INVESTING ACTIVITIES:
+Purchases of property and equ','[2024.08.02][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(117,315,'le net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 11,589 12,038 22,712 23,722 45,724 49,673
+Stock-based compensation 7,127 6,722 11,875 11,683 2','[2024.08.02][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(118,1217,',975 1,533 5,579
+Net cash provided by (used in) operating activities 16,476 25,281 21,264 44,270 61,841 107,952
+INVESTING ACTIVITIES:
+Purchases of property and equipment (11,455) (17,620) (25,662) (32,545) (58,632) (59,612)
+Proceeds from property and equipment sales','[2024.08.02][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(119,230,'ions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2023 2024
+Net product sales $ 56,981 $ 60,915
+Net service sales 70,377 82,398
+Total net sales 127,358 143,313
+Operating expenses:
+Cost of sales 67,791 72,633
+Fulfillment 20,905 22,317
+Techno','[2024.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(120,274,'11,264) (11,282) 1,061 5,455
+Accrued expenses and other (5,763) (2,928) (1,418) 407
+Unearned revenue 818 1,568 1,698 5,328
+Net cash provided by (used in) operating activities 4,788 18,989 54,330 99,147
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,207)','[2024.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(121,314,'le net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 11,123 11,684 43,851 49,224
+Stock-based compensation 4,748 4,961 21,119 24,236
+Non-operating e','[2024.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(122,1216,'ed revenue 818 1,568 1,698 5,328
+Net cash provided by (used in) operating activities 4,788 18,989 54,330 99,147
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,207) (14,925) (62,901) (53,447)
+Proceeds from property and equipment sales and incentives 1,','[2024.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(123,229,'llows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2022 2023
+Net Sales:
+North America $ 315,880 $ 352,828
+International 118,007 131,200
+AWS 80,096 90,757
+Consolidated $ 513,983 $ 574,785
+Year-over-year Percentage Growth (Decline):
+North America 13 % 12 %
+Internationa','[2024.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(124,273,'ovided by (used in) operating activities,” for 2022 and 2023 (in millions):
+
+[TABLE]
+Year Ended December 31,
+2022 2023
+Net cash provided by (used in) operating activities $ 46,752 $ 84,946
+Purchases of property and equipment, net of proceeds from sales and incentives (','[2024.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(125,313,'(loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 34,433 41,921 48,663
+Stock-based compensation 12,757 19,621 24,023
+Non-operating expense (income), ne','[2024.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(126,1215,'ned revenue 2,314 2,216 4,578
+Net cash provided by (used in) operating activities 46,327 46,752 84,946
+INVESTING ACTIVITIES:
+Purchases of property and equipment (61,053) (63,645) (52,729)
+Proceeds from property and equipment sales and incentives 5,657 5,324 4,596
+Ac','[2024.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(127,228,', Nine Months EndedSeptember 30,
+2022 2023 2022 2023
+Net product sales $ 59,340 $ 63,171 $ 172,370 $ 179,184
+Net service sales 67,761 79,912 192,409 225,640
+Total net sales 127,101 143,083 364,779 404,824
+Operating expenses:
+Cost of sales 70,268 75,022 203,191 212,186','[2023.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(128,272,',437
+Accrued expenses and other (20) (1,321) (7,335) (9,022) 1,998 (3,245)
+Unearned revenue 54 (25) 1,711 949 2,631 1,454
+Net cash provided by (used in) operating activities 11,404 21,217 17,579 42,481 39,665 71,654
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2023.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(129,312,'income (loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 10,327 12,131 29,236 34,843 39,103 47,528
+Stock-based compensation 5,556 5,829 14,015 17,704 1','[2023.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(130,1214,'1 949 2,631 1,454
+Net cash provided by (used in) operating activities 11,404 21,217 17,579 42,481 39,665 71,654
+INVESTING ACTIVITIES:
+Purchases of property and equipment (16,378) (12,479) (47,053) (38,141) (65,988) (54,733)
+Proceeds from property and equipment sales','[2023.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(131,227,'une 30, Six Months EndedJune 30,
+2022 2023 2022 2023
+Net product sales $ 56,575 $ 59,032 $ 113,030 $ 116,013
+Net service sales 64,659 75,351 124,648 145,728
+Total net sales 121,234 134,383 237,678 261,741
+Operating expenses:
+Cost of sales 66,424 69,373 132,923 137,164','[2023.08.04][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(132,271,'391
+Accrued expenses and other (1,412) (1,938) (7,315) (7,701) 553 (1,944)
+Unearned revenue 321 156 1,657 974 2,915 1,533
+Net cash provided by (used in) operating activities 8,965 16,476 6,175 21,264 35,574 61,841
+INVESTING ACTIVITIES:
+Purchases of property and equip','[2023.08.04][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(133,311,'income (loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 9,716 11,589 18,909 22,712 37,748 45,724
+Stock-based compensation 5,209 7,127 8,459 11,875 15','[2023.08.04][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(134,1213,'657 974 2,915 1,533
+Net cash provided by (used in) operating activities 8,965 16,476 6,175 21,264 35,574 61,841
+INVESTING ACTIVITIES:
+Purchases of property and equipment (15,724) (11,455) (30,675) (25,662) (65,358) (58,632)
+Proceeds from property and equipment sales','[2023.08.04][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(135,226,'ions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2022 2023
+Net product sales $ 56,455 $ 56,981
+Net service sales 59,989 70,377
+Total net sales 116,444 127,358
+Operating expenses:
+Cost of sales 66,499 67,791
+Fulfillment 20,271 20,905
+Techno','[2023.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(136,270,',380) (11,264) 2,488 1,061
+Accrued expenses and other (5,903) (5,763) 280 (1,418)
+Unearned revenue 1,336 818 2,750 1,698
+Net cash provided by (used in) operating activities (2,790) 4,788 39,324 54,330
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,951)','[2023.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(137,310,'income (loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 9,193 11,123 36,088 43,851
+Stock-based compensation 3,250 4,748 13,701 21,119
+Other expense (','[2023.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(138,1212,'d revenue 1,336 818 2,750 1,698
+Net cash provided by (used in) operating activities (2,790) 4,788 39,324 54,330
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,951) (14,207) (63,922) (62,901)
+Proceeds from property and equipment sales and incentives 1,','[2023.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(139,225,'llows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2021 2022
+Net Sales:
+North America $ 279,833 $ 315,880
+International 127,787 118,007
+AWS 62,202 80,096
+Consolidated $ 469,822 $ 513,983
+Year-over-year Percentage Growth (Decline):
+North America 18 % 13 %
+Internationa','[2023.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(140,269,'ovided by (used in) operating activities,” for 2021 and 2022 (in millions):
+
+[TABLE]
+Year Ended December 31,
+2021 2022
+Net cash provided by (used in) operating activities $ 46,327 $ 46,752
+Purchases of property and equipment, net of proceeds from sales and incentives (','[2023.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(141,309,'(loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 25,180 34,433 41,921
+Stock-based compensation 9,208 12,757 19,621
+Other expense (income), net (2,582)','[2023.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(142,1211,'ned revenue 1,265 2,314 2,216
+Net cash provided by (used in) operating activities 66,064 46,327 46,752
+INVESTING ACTIVITIES:
+Purchases of property and equipment (40,140) (61,053) (63,645)
+Proceeds from property and equipment sales and incentives 5,096 5,657 5,324
+Ac','[2023.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(143,224,', Nine Months EndedSeptember 30,
+2021 2022 2021 2022
+Net product sales $ 54,876 $ 59,340 $ 170,371 $ 172,370
+Net service sales 55,936 67,761 162,039 192,409
+Total net sales 110,812 127,101 332,410 364,779
+Operating expenses:
+Cost of sales 62,930 70,268 189,509 203,191','[2022.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(144,268,'3 1,082
+Accrued expenses and other (1,465) (20) (7,210) (7,335) (84) 1,998
+Unearned revenue 338 54 1,394 1,711 1,727 2,631
+Net cash provided by (used in) operating activities 7,313 11,404 24,241 17,579 54,671 39,665
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2022.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(145,308,'income (loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 8,948 10,204 24,494 28,776 32,112 38,578
+Stock-based compensation 3,180 5,556 9,077 14,015 11','[2022.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(146,1210,'1,711 1,727 2,631
+Net cash provided by (used in) operating activities 7,313 11,404 24,241 17,579 54,671 39,665
+INVESTING ACTIVITIES:
+Purchases of property and equipment (15,748) (16,378) (42,118) (47,053) (56,941) (65,988)
+Proceeds from property and equipment sales','[2022.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(147,223,'une 30, Six Months EndedJune 30,
+2021 2022 2021 2022
+Net product sales $ 58,004 $ 56,575 $ 115,495 $ 113,030
+Net service sales 55,076 64,659 106,103 124,648
+Total net sales 113,080 121,234 221,598 237,678
+Operating expenses:
+Cost of sales 64,176 66,424 126,579 132,923','[2022.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(148,267,'140
+Accrued expenses and other (1,685) (1,412) (5,745) (7,315) 1,071 553
+Unearned revenue 156 321 1,056 1,657 1,467 2,915
+Net cash provided by (used in) operating activities 12,715 8,965 16,928 6,175 59,322 35,574
+INVESTING ACTIVITIES:
+Purchases of property and equip','[2022.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(149,307,'income (loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 8,038 9,594 15,546 18,572 29,687 37,322
+Stock-based compensation 3,591 5,209 5,897 8,459 10,','[2022.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(150,1209,'6 1,657 1,467 2,915
+Net cash provided by (used in) operating activities 12,715 8,965 16,928 6,175 59,322 35,574
+INVESTING ACTIVITIES:
+Purchases of property and equipment (14,288) (15,724) (26,370) (30,675) (52,256) (65,358)
+Proceeds from property and equipment sales','[2022.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(151,222,'ions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2021 2022
+Net product sales $ 57,491 $ 56,455
+Net service sales 51,027 59,989
+Total net sales 108,518 116,444
+Operating expenses:
+Cost of sales 62,403 66,499
+Fulfillment 16,530 20,271
+Techno','[2022.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(152,266,'(8,266) (9,380) 17,258 2,488
+Accrued expenses and other (4,060) (5,903) 4,455 280
+Unearned revenue 900 1,336 1,558 2,750
+Net cash provided by (used in) operating activities 4,213 (2,790) 67,213 39,324
+INVESTING ACTIVITIES:
+Purchases of property and equipment (12,08','[2022.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(153,306,'income (loss) to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 7,508 8,978 27,397 35,766
+Stock-based compensation 2,306 3,250 9,757 13,701
+Other operating','[2022.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(154,1208,'d revenue 900 1,336 1,558 2,750
+Net cash provided by (used in) operating activities 4,213 (2,790) 67,213 39,324
+INVESTING ACTIVITIES:
+Purchases of property and equipment (12,082) (14,951) (45,427) (63,922)
+Proceeds from property and equipment sales and incentives 89','[2022.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(155,221,'llows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2020 2021
+Net Sales:
+North America $ 236,282 $ 279,833
+International 104,412 127,787
+AWS 45,370 62,202
+Consolidated $ 386,064 $ 469,822
+Year-over-year Percentage Growth:
+North America 38 % 18 %
+International 40 22
+AW','[2022.02.04][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(156,265,'ovided by (used in) operating activities,” for 2020 and 2021 (in millions):
+
+[TABLE]
+Year Ended December 31,
+2020 2021
+Net cash provided by (used in) operating activities $ 66,064 $ 46,327
+Purchases of property and equipment, net of proceeds from sales and incentives (','[2022.02.04][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(157,305,'income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 21,789 25,251 34,296
+Stock-based compensation 6,864 9,208 12,757
+Other operating expense (income), ne','[2022.02.04][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(158,1207,'ned revenue 1,711 1,265 2,314
+Net cash provided by (used in) operating activities 38,514 66,064 46,327
+INVESTING ACTIVITIES:
+Purchases of property and equipment (16,861) (40,140) (61,053)
+Proceeds from property and equipment sales and incentives 4,172 5,096 5,657
+Ac','[2022.02.04][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(159,220,'0, Nine Months EndedSeptember 30,
+2020 2021 2020 2021
+Net product sales $ 52,774 $ 54,876 $ 144,859 $ 170,371
+Net service sales 43,371 55,936 115,650 162,039
+Total net sales 96,145 110,812 260,509 332,410
+Operating expenses:
+Cost of sales 57,106 62,930 154,023 189,509','[2021.10.29][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(160,264,'4 8,863
+Accrued expenses and other (310) (1,465) (1,375) (7,210) 1,520 (84)
+Unearned revenue 78 338 932 1,394 1,417 1,727
+Net cash provided by (used in) operating activities 11,964 7,313 35,633 24,241 55,292 54,671
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2021.10.29][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(161,304,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 6,523 8,948 17,633 24,494 23,803 32,112
+Stock-based compensation 2,288 3,180 6,646 9,077 8,4','[2021.10.29][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(162,1206,'1,394 1,417 1,727
+Net cash provided by (used in) operating activities 11,964 7,313 35,633 24,241 55,292 54,671
+INVESTING ACTIVITIES:
+Purchases of property and equipment (11,063) (15,748) (25,317) (42,118) (30,629) (56,941)
+Proceeds from property and equipment sales','[2021.10.29][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(163,219,'edJune 30, Six Months EndedJune 30,
+2020 2021 2020 2021
+Net product sales $ 50,244 $ 58,004 $ 92,085 $ 115,495
+Net service sales 38,668 55,076 72,279 106,103
+Total net sales 88,912 113,080 164,364 221,598
+Operating expenses:
+Cost of sales 52,660 64,176 96,917 126,579
+F','[2021.07.30][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(164,263,'8,689
+Accrued expenses and other 1,699 (1,685) (1,063) (5,745) 1,110 1,071
+Unearned revenue 247 156 854 1,056 1,286 1,467
+Net cash provided by (used in) operating activities 20,606 12,715 23,669 16,928 51,220 59,322
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2021.07.30][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(165,303,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 5,748 8,038 11,110 15,546 22,843 29,687
+Stock-based compensation 2,601 3,591 4,358 5,897 7,9','[2021.07.30][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(166,1205,'1,056 1,286 1,467
+Net cash provided by (used in) operating activities 20,606 12,715 23,669 16,928 51,220 59,322
+INVESTING ACTIVITIES:
+Purchases of property and equipment (7,459) (14,288) (14,254) (26,370) (24,263) (52,256)
+Proceeds from property and equipment sales','[2021.07.30][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(167,218,'lions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2020 2021
+Net product sales $ 41,841 $ 57,491
+Net service sales 33,611 51,027
+Total net sales 75,452 108,518
+Operating expenses:
+Cost of sales 44,257 62,403
+Fulfillment 11,531 16,530
+Techno','[2021.04.30][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(168,262,'(8,044) (8,266) 6,532 17,258
+Accrued expenses and other (2,761) (4,060) (1,213) 4,455
+Unearned revenue 607 900 1,430 1,558
+Net cash provided by (used in) operating activities 3,064 4,213 39,732 67,213
+INVESTING ACTIVITIES:
+Purchases of property and equipment (6,795)','[2021.04.30][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(169,302,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 5,362 7,508 22,297 27,397
+Stock-based compensation 1,757 2,306 7,347 9,757
+Other operating e','[2021.04.30][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(170,1204,'earned revenue 607 900 1,430 1,558
+Net cash provided by (used in) operating activities 3,064 4,213 39,732 67,213
+INVESTING ACTIVITIES:
+Purchases of property and equipment (6,795) (12,082) (20,365) (45,427)
+Proceeds from property and equipment sales and incentives 1,','[2021.04.30][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(171,217,'[TABLE]
+Year Ended December 31,
+2016 2017 (1) 2018 2019 2020
+(in millions, except per share data)
+Statements of Operations:
+Net sales $ 135,987 $ 177,866 $ 232,887 $ 280,522 $ 386,064
+Operating income $ 4,186 $ 4,106 $ 12,421 $ 14,541 $ 22,899
+Net income (loss) $','[2021.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(172,261,'share:
+Basic 474 480 487 494 500
+Diluted 484 493 500 504 510
+Statements of Cash Flows:
+Net cash provided by (used in) operating activities (3) $ 17,203 $ 18,365 $ 30,723 $ 38,514 $ 66,064
+December 31,
+2016 2017 2018 2019 (4) 2020
+(in millions)
+Balance Sheets:
+Total as','[2021.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(173,301,'income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 15,341 21,789 25,251
+Stock-based compensation 5,418 6,864 9,208
+Other operating expense (income), net','[2021.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(174,1203,'ned revenue 1,151 1,711 1,265
+Net cash provided by (used in) operating activities 30,723 38,514 66,064
+INVESTING ACTIVITIES:
+Purchases of property and equipment (13,427) (16,861) (40,140)
+Proceeds from property and equipment sales and incentives 2,104 4,172 5,096
+Ac','[2021.02.03][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(175,215,'30, Nine Months EndedSeptember 30,
+2019 2020 2019 2020
+Net product sales $ 39,726 $ 52,774 $ 109,866 $ 144,859
+Net service sales 30,255 43,371 83,220 115,650
+Total net sales 69,981 96,145 193,086 260,509
+Operating expenses:
+Cost of sales 41,302 57,106 111,559 154,023','[2020.10.30][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(176,260,'14,914
+Accrued expenses and other (722) (310) (4,277) (1,375) (1,612) 1,520
+Unearned revenue (53) 78 1,225 932 1,753 1,417
+Net cash provided by (used in) operating activities 7,892 11,964 18,855 35,633 35,332 55,292
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2020.10.30][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(177,300,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 5,563 6,523 15,619 17,633 19,881 23,803
+Stock-based compensation 1,779 2,288 5,024 6,646 6,4','[2020.10.30][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(178,344,'arketable securities 18,929 38,472
+Inventories 20,497 23,735
+Accounts receivable, net and other 20,816 20,832
+Total current assets 96,334 112,969
+Property and equipment, net 72,705 99,981
+Operating leases 25,141 34,119
+Goodwill 14,754 14,960
+Other assets 16,314 20,150','[2020.10.30][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(179,1202,'225 932 1,753 1,417
+Net cash provided by (used in) operating activities 7,892 11,964 18,855 35,633 35,332 55,292
+INVESTING ACTIVITIES:
+Purchases of property and equipment (4,697) (11,063) (11,549) (25,317) (15,282) (30,629)
+Proceeds from property and equipment sales','[2020.10.30][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(180,213,'ndedJune 30, Six Months EndedJune 30,
+2019 2020 2019 2020
+Net product sales $ 35,856 $ 50,244 $ 70,139 $ 92,085
+Net service sales 27,548 38,668 52,965 72,279
+Total net sales 63,404 88,912 123,104 164,364
+Operating expenses:
+Cost of sales 36,337 52,660 70,257 96,917
+Fu','[2020.07.31][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(181,259,'0 11,482
+Accrued expenses and other (623) 1,699 (3,556) (1,063) (653) 1,110
+Unearned revenue 390 247 1,278 854 1,806 1,286
+Net cash provided by (used in) operating activities 9,118 20,606 10,963 23,669 36,029 51,220
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2020.07.31][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(182,299,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 5,202 5,748 10,056 11,110 18,097 22,843
+Stock-based compensation 1,971 2,601 3,245 4,358 6,0','[2020.07.31][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(183,343,'arketable securities 18,929 33,925
+Inventories 20,497 19,599
+Accounts receivable, net and other 20,816 19,918
+Total current assets 96,334 110,908
+Property and equipment, net 72,705 86,517
+Operating leases 25,141 28,537
+Goodwill 14,754 14,751
+Other assets 16,314 17,601','[2020.07.31][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(184,1201,'278 854 1,806 1,286
+Net cash provided by (used in) operating activities 9,118 20,606 10,963 23,669 36,029 51,220
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,562) (7,459) (6,852) (14,254) (13,938) (24,263)
+Proceeds from property and equipment sales','[2020.07.31][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(185,211,'lions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2019 2020
+Net product sales $ 34,283 $ 41,841
+Net service sales 25,417 33,611
+Total net sales 59,700 75,452
+Operating expenses:
+Cost of sales 33,920 44,257
+Fulfillment 8,601 11,531
+Technol','[2020.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(186,258,'4 ) (8,044 ) 7,095 6,532
+Accrued expenses and other (2,932 ) (2,761 ) (235 ) (1,213 )
+Unearned revenue 888 607 1,133 1,430
+Net cash provided by (used in) operating activities 1,846 3,064 34,360 39,732
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,290 )','[2020.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(187,298,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 4,854 5,362 16,524 22,297
+Stock-based compensation 1,274 1,757 5,509 7,347
+Other operating e','[2020.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(188,342,'Marketable securities 18,929 22,091
+Inventories 20,497 18,857
+Accounts receivable, net and other 20,816 17,836
+Total current assets 96,334 85,985
+Property and equipment, net 72,705 77,779
+Operating leases 25,141 26,279
+Goodwill 14,754 14,739
+Other assets 16,314 16,456','[2020.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(189,1200,'arned revenue 888 607 1,133 1,430
+Net cash provided by (used in) operating activities 1,846 3,064 34,360 39,732
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,290 ) (6,795 ) (13,619 ) (20,365 )
+Proceeds from property and equipment sales and incentives','[2020.05.01][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(190,210,'[TABLE]
+Year Ended December 31,
+2015 2016 2017 (1) 2018 2019
+(in millions, except per share data)
+Statements of Operations:
+Net sales $ 107,006 $ 135,987 $ 177,866 $ 232,887 $ 280,522
+Operating income $ 2,233 $ 4,186 $ 4,106 $ 12,421 $ 14,541
+Net income (loss) $ 5','[2020.01.31][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(191,257,'share:
+Basic 467 474 480 487 494
+Diluted 477 484 493 500 504
+Statements of Cash Flows:
+Net cash provided by (used in) operating activities (3) $ 11,909 $ 17,203 $ 18,365 $ 30,723 $ 38,514
+December 31,
+2015 2016 2017 2018 2019 (4)
+(in millions)
+Balance Sheets:
+Total as','[2020.01.31][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(192,297,'income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 11,478 15,341 21,789
+Stock-based compensation 4,215 5,418 6,864
+Other operating expense (income), net','[2020.01.31][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(193,341,'Marketable securities 9,500 18,929
+Inventories 17,174 20,497
+Accounts receivable, net and other 16,677 20,816
+Total current assets 75,101 96,334
+Property and equipment, net 61,797 72,705
+Operating leases — 25,141
+Goodwill 14,548 14,754
+Other assets 11,202 16,314
+Tota','[2020.01.31][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(194,1199,'ned revenue 738 1,151 1,711
+Net cash provided by (used in) operating activities 18,365 30,723 38,514
+INVESTING ACTIVITIES:
+Purchases of property and equipment (11,955 ) (13,427 ) (16,861 )
+Proceeds from property and equipment sales and incentives 1,897 2,104 4,172
+A','[2020.01.31][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(195,208,'r 30, Nine Months EndedSeptember 30,
+2018 2019 2018 2019
+Net product sales $ 33,746 $ 39,726 $ 97,215 $ 109,866
+Net service sales 22,830 30,255 63,289 83,220
+Total net sales 56,576 69,981 160,504 193,086
+Operating expenses:
+Cost of sales 33,003 41,302 94,370 111,559
+F','[2019.10.25][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(196,256,'4,393
+Accrued expenses and other 237 (722 ) (2,193 ) (4,277 ) (131 ) (1,612 )
+Unearned revenue — (53 ) 623 1,225 759 1,753
+Net cash provided by (used in) operating activities 8,588 7,892 14,246 18,855 26,604 35,332
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2019.10.25][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(197,296,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 3,778 5,563 11,079 15,619 14,577 19,881
+Stock-based compensation 1,350 1,779 4,001 5,024 5,1','[2019.10.25][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(198,340,'Marketable securities 9,500 20,146
+Inventories 17,174 18,766
+Accounts receivable, net and other 16,677 16,887
+Total current assets 75,101 79,054
+Property and equipment, net 61,797 67,662
+Operating leases — 23,114
+Goodwill 14,548 14,734
+Other assets 11,202 14,535
+Tota','[2019.10.25][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(199,1198,'623 1,225 759 1,753
+Net cash provided by (used in) operating activities 8,588 7,892 14,246 18,855 26,604 35,332
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,352 ) (4,697 ) (9,693 ) (11,549 ) (13,312 ) (15,282 )
+Proceeds from property and equipment s','[2019.10.25][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(200,206,'ndedJune 30, Six Months EndedJune 30,
+2018 2019 2018 2019
+Net product sales $ 31,864 $ 35,856 $ 63,468 $ 70,139
+Net service sales 21,022 27,548 40,460 52,965
+Total net sales 52,886 63,404 103,928 123,104
+Operating expenses:
+Cost of sales 30,632 36,337 61,367 70,257
+Fu','[2019.07.26][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(201,255,'0
+Accrued expenses and other (205 ) (623 ) (2,430 ) (3,556 ) (491 ) (653 )
+Unearned revenue (283 ) 390 623 1,278 943 1,806
+Net cash provided by (used in) operating activities 7,449 9,118 5,658 10,963 21,793 36,029
+INVESTING ACTIVITIES:
+Purchases of property and equip','[2019.07.26][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(202,295,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 3,630 5,202 7,301 10,056 13,711 18,097
+Stock-based compensation 1,468 1,971 2,651 3,245 4,91','[2019.07.26][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(203,339,'Marketable securities 9,500 18,847
+Inventories 17,174 18,580
+Accounts receivable, net and other 16,677 16,747
+Total current assets 75,101 76,790
+Property and equipment, net 61,797 64,723
+Operating leases — 21,649
+Goodwill 14,548 14,727
+Other assets 11,202 13,462
+Tota','[2019.07.26][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(204,1197,'623 1,278 943 1,806
+Net cash provided by (used in) operating activities 7,449 9,118 5,658 10,963 21,793 36,029
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,243 ) (3,562 ) (6,341 ) (6,852 ) (13,035 ) (13,938 )
+Proceeds from property and equipment in','[2019.07.26][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(205,204,'lions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months EndedMarch 31,
+2018 2019
+Net product sales $ 31,605 $ 34,283
+Net service sales 19,437 25,417
+Total net sales 51,042 59,700
+Operating expenses:
+Cost of sales 30,735 33,920
+Fulfillment 7,792 8,601
+Marketin','[2019.04.26][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(206,254,'16 ) (6,384 ) 3,749 7,095
+Accrued expenses and other (2,225 ) (2,932 ) (538 ) (235 )
+Unearned revenue 906 888 838 1,133
+Net cash provided by (used in) operating activities (1,791 ) 1,846 18,194 34,360
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,098 )','[2019.04.26][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(207,294,'ile net income to net cash from operating activities:
+Depreciation and amortization of property and equipment and capitalized content costs, operating lease assets, and other 3,671 4,854 12,714 16,524
+Stock-based compensation 1,182 1,274 4,605 5,509
+Other operating e','[2019.04.26][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(208,338,'Marketable securities 9,500 13,905
+Inventories 17,174 16,432
+Accounts receivable, net and other 16,677 15,979
+Total current assets 75,101 69,431
+Property and equipment, net 61,797 61,048
+Operating leases — 20,132
+Goodwill 14,548 14,708
+Other assets 11,202 12,783
+Tota','[2019.04.26][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(209,1196,'rned revenue 906 888 838 1,133
+Net cash provided by (used in) operating activities (1,791 ) 1,846 18,194 34,360
+INVESTING ACTIVITIES:
+Purchases of property and equipment (3,098 ) (3,290 ) (12,905 ) (13,619 )
+Proceeds from property and equipment incentives 371 569 1','[2019.04.26][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(210,203,'[TABLE]
+Year Ended December 31,
+2014 2015 2016 2017 (1) 2018
+(in millions, except per share data)
+Statements of Operations:
+Net sales $ 88,988 $ 107,006 $ 135,987 $ 177,866 $ 232,887
+Operating income $ 178 $ 2,233 $ 4,186 $ 4,106 $ 12,421
+Net income (loss) $ (241','[2019.02.01][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(211,253,'r share:
+Basic 462 467 474 480 487
+Diluted 462 477 484 493 500
+Statements of Cash Flows:
+Net cash provided by (used in) operating activities (3) $ 6,976 $ 11,909 $ 17,203 $ 18,365 $ 30,723
+December 31,
+2014 2015 2016 2017 2018
+(in millions)
+Balance Sheets:
+Total assets','[2019.02.01][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(212,337,'Marketable securities 10,464 9,500
+Inventories 16,047 17,174
+Accounts receivable, net and other 13,164 16,677
+Total current assets 60,197 75,101
+Property and equipment, net 48,866 61,797
+Goodwill 13,350 14,548
+Other assets 8,897 11,202
+Total assets $ 131,310 $ 162,64','[2019.02.01][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(213,1195,'rned revenue 1,955 738 1,151
+Net cash provided by (used in) operating activities 17,203 18,365 30,723
+INVESTING ACTIVITIES:
+Purchases of property and equipment (7,804 ) (11,955 ) (13,427 )
+Proceeds from property and equipment incentives 1,067 1,897 2,104
+Acquisition','[2019.02.01][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(214,201,'er 30, Nine Months EndedSeptember 30,
+2017 2018 2017 2018
+Net product sales $ 28,768 $ 33,746 $ 77,248 $ 97,215
+Net service sales 14,976 22,830 40,165 63,289
+Total net sales 43,744 56,576 117,413 160,504
+Operating expenses:
+Cost of sales 27,549 33,003 73,439 94,370
+Fu','[2018.10.26][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(215,252,') 5,479 5,285
+Accrued expenses and other (122 ) 237 (1,778 ) (2,193 ) 476 (131 )
+Unearned revenue 184 — 603 623 1,316 759
+Net cash provided by (used in) operating activities 3,777 8,588 6,007 14,246 16,996 26,604
+INVESTING ACTIVITIES:
+Purchases of property and equip','[2018.10.26][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(216,336,'Marketable securities 10,464 9,340
+Inventories 16,047 15,862
+Accounts receivable, net and other 13,164 14,258
+Total current assets 60,197 59,885
+Property and equipment, net 48,866 58,019
+Goodwill 13,350 14,553
+Other assets 8,897 11,238
+Total assets $ 131,310 $ 143,69','[2018.10.26][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(217,1194,'ting activities 3,777 8,588 6,007 14,246 16,996 26,604
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (3,074 ) (3,352 ) (8,336 ) (9,693 ) (10,750 ) (13,312 )
+Proceeds from property and equipment in','[2018.10.26][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(218,200,'ed June 30, Six Months Ended June 30,
+2017 2018 2017 2018
+Net product sales $ 24,745 $ 31,864 $ 48,479 $ 63,468
+Net service sales 13,210 21,022 25,190 40,460
+Total net sales 37,955 52,886 73,669 103,928
+Operating expenses:
+Cost of sales 23,451 30,632 45,891 61,367
+Ful','[2018.07.27][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(219,251,'4
+Accrued expenses and other (252 ) (205 ) (1,657 ) (2,430 ) 1,039 (491 )
+Unearned revenue (387 ) (283 ) 419 623 1,537 943
+Net cash provided by (used in) operating activities 3,850 7,449 2,230 5,658 17,802 21,793
+INVESTING ACTIVITIES:
+Purchases of property and equipm','[2018.07.27][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(220,335,'Marketable securities 10,464 7,227
+Inventories 16,047 14,824
+Accounts receivable, net and other 13,164 12,607
+Total current assets 60,197 54,481
+Property and equipment, net 48,866 54,768
+Goodwill 13,350 13,944
+Other assets 8,897 10,907
+Total assets $ 131,310 $ 134,10','[2018.07.27][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(221,1193,'ating activities 3,850 7,449 2,230 5,658 17,802 21,793
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (3,113 ) (3,243 ) (5,261 ) (6,341 ) (9,763 ) (13,035 )
+Proceeds from property and equipment inc','[2018.07.27][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(222,198,'ions, except per share data)
+
+(unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2017 2018
+Net product sales $ 23,734 $ 31,605
+Net service sales 11,980 19,437
+Total net sales 35,714 51,042
+Operating expenses:
+Cost of sales 22,440 30,735
+Fulfillment 4,697 7,792
+Marketin','[2018.04.27][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(223,250,') (10,216 ) 3,935 3,749
+Accrued expenses and other (1,404 ) (2,225 ) 1,277 (538 )
+Unearned revenue 807 906 2,057 838
+Net cash provided by (used in) operating activities (1,619 ) (1,791 ) 17,547 18,194
+INVESTING ACTIVITIES:
+Purchases of property and equipment, incl','[2018.04.27][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(224,334,'Marketable securities 10,464 8,287
+Inventories 16,047 13,840
+Accounts receivable, net and other 13,164 12,026
+Total current assets 60,197 50,829
+Property and equipment, net 48,866 52,331
+Goodwill 13,350 13,388
+Other assets 8,897 9,814
+Total assets $ 131,310 $ 126,362','[2018.04.27][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(225,1192,') operating activities (1,619 ) (1,791 ) 17,547 18,194
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (2,148 ) (3,098 ) (8,539 ) (12,905 )
+Proceeds from property and equipment incentives 287 371 1,','[2018.04.27][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(226,196,'[TABLE]
+Year Ended December 31,
+2013 2014 2015 2016 2017 (1)
+(in millions, except per share data)
+Statements of Operations:
+Net sales $ 74,452 $ 88,988 $ 107,006 $ 135,987 $ 177,866
+Operating income $ 745 $ 178 $ 2,233 $ 4,186 $ 4,106
+Net income (loss) $ 274 $ (','[2018.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(227,249,'er share:
+Basic 457 462 467 474 480
+Diluted 465 462 477 484 493
+Statements of Cash Flows:
+Net cash provided by (used in) operating activities (3) $ 5,553 $ 6,848 $ 12,039 $ 17,272 $ 18,434
+December 31,
+2013 2014 2015 2016 2017
+(in millions)
+Balance Sheets:
+Total assets','[2018.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(228,333,'2
+Marketable securities 6,647 10,464
+Inventories 11,461 16,047
+Accounts receivable, net and other 8,339 13,164
+Total current assets 45,781 60,197
+Property and equipment, net 29,114 48,866
+Goodwill 3,784 13,350
+Other assets 4,723 8,897
+Total assets $ 83,402 $ 131,310
+L','[2018.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(229,1191,'in) operating activities 12,039 17,272 18,434
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (5,387 ) (7,804 ) (11,955 )
+Proceeds from property and equipment incentives 798 1,067 1,897
+Acquisitions,','[2018.02.02][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(230,194,'r 30, Nine Months Ended September 30,
+2016 2017 2016 2017
+Net product sales $ 22,339 $ 28,768 $ 64,036 $ 77,248
+Net service sales 10,375 14,976 28,210 40,165
+Total net sales 32,714 43,744 92,246 117,413
+Operating expenses:
+Cost of sales 21,260 27,549 59,306 73,439
+Ful','[2017.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(231,248,'6 10,862 10,377 14,837
+Amortization of previously unearned revenue (2,397 ) (3,578 ) (6,715 ) (10,259 ) (9,018 ) (13,521 )
+Net cash provided by (used in) operating activities 4,659 3,851 6,284 6,090 15,004 17,077
+INVESTING ACTIVITIES:
+Purchases of property and equipm','[2017.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(232,332,'7
+Marketable securities 6,647 11,543
+Inventories 11,461 13,711
+Accounts receivable, net and other 8,339 10,557
+Total current assets 45,781 48,578
+Property and equipment, net 29,114 45,335
+Goodwill 3,784 13,271
+Other assets 4,723 8,083
+Total assets $ 83,402 $ 115,267
+L','[2017.10.27][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(233,247,',154 7,100 9,355 13,877
+Amortization of previously unearned revenue (2,208 ) (3,434 ) (4,318 ) (6,681 ) (7,994 ) (12,340 )
+Net cash provided by (used in) operating activities 3,578 3,829 1,625 2,239 13,049 17,885
+INVESTING ACTIVITIES:
+Purchases of property and equipm','[2017.07.28][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(234,331,'203
+Marketable securities 6,647 8,248
+Inventories 11,461 11,510
+Accounts receivable, net and other 8,339 8,046
+Total current assets 45,781 41,007
+Property and equipment, net 29,114 37,083
+Goodwill 3,784 4,254
+Other assets 4,723 5,437
+Total assets $ 83,402 $ 87,781
+LIA','[2017.07.28][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(235,190,'rating activities (1,953 ) (1,590 ) 11,563 17,634
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development, net (1,179 ) (1,861 ) (4,897 ) (7,417 )
+Acquisitions, net of cash acquired, and other (16 ) (45 ) (','[2017.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(236,246,'ned revenue 2,814 4,054 8,412 13,171
+Amortization of previously unearned revenue (2,110 ) (3,247 ) (7,055 ) (11,114 )
+Net cash provided by (used in) operating activities (1,953 ) (1,590 ) 11,563 17,634
+INVESTING ACTIVITIES:
+Purchases of property and equipment, incl','[2017.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(237,330,'440
+Marketable securities 6,647 6,091
+Inventories 11,461 10,600
+Accounts receivable, net and other 8,339 7,329
+Total current assets 45,781 39,460
+Property and equipment, net 29,114 32,632
+Goodwill 3,784 3,823
+Other assets 4,723 5,054
+Total assets $ 83,402 $ 80,969
+LIA','[2017.04.28][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(238,189,'ed by (used in) operating activities $ 6,842 $ 11,920 $ 16,443
+Purchases of property and equipment, including internal-use software and website development, net (4,893 ) (4,589 ) (6,737 )
+Free cash flow $ 1,949 $ 7,331 $ 9,706
+Net cash provided by (used in) investi','[2017.02.10][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(239,191,'[TABLE]
+Year Ended December 31,
+2012 2013 2014 2015 2016
+(in millions, except per share data)
+Statements of Operations:
+Net sales $ 61,093 $ 74,452 $ 88,988 $ 107,006 $ 135,987
+Operating income $ 676 $ 745 $ 178 $ 2,233 $ 4,186
+Net income (loss) $ (39 ) $ 2','[2017.02.10][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(240,245,'ngs per share:
+Basic 453 457 462 467 474
+Diluted 453 465 462 477 484
+Statements of Cash Flows:
+Net cash provided by (used in) operating activities $ 4,180 $ 5,475 $ 6,842 $ 11,920 $ 16,443
+December 31,
+2012 2013 2014 2015 2016
+(in millions)
+Balance Sheets:
+Total assets','[2017.02.10][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(241,329,'334
+Marketable securities 3,918 6,647
+Inventories 10,243 11,461
+Accounts receivable, net and other 5,654 8,339
+Total current assets 35,705 45,781
+Property and equipment, net 21,838 29,114
+Goodwill 3,759 3,784
+Other assets 3,445 4,723
+Total assets $ 64,747 $ 83,402
+LIA','[2017.02.10][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(242,188,'operating activities 4,486 2,610 5,791 3,108 14,603 9,823
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development, net (1,841 ) (1,195 ) (4,731 ) (3,280 ) (6,040 ) (4,424 )
+Acquisitions, net of cash acquir','[2016.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(243,244,'1,779 7,956 4,979 10,377 6,358
+Amortization of previously unearned revenue (2,397 ) (1,373 ) (6,715 ) (3,805 ) (9,018 ) (5,144 )
+Net cash provided by (used in) operating activities 4,486 2,610 5,791 3,108 14,603 9,823
+INVESTING ACTIVITIES:
+Purchases of property and e','[2016.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(244,328,'6 $ 15,890
+Marketable securities 4,691 3,918
+Inventories 10,696 10,243
+Accounts receivable, net and other 6,566 5,654
+Total current assets 35,609 35,705
+Property and equipment, net 27,177 21,838
+Goodwill 3,815 3,759
+Other assets 4,296 3,445
+Total assets $ 70,897 $ 64,','[2016.10.28][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(245,187,'n) operating activities 3,465 1,997 1,305 498 12,726 8,980
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development, net (1,711 ) (1,213 ) (2,890 ) (2,084 ) (5,395 ) (4,607 )
+Acquisitions, net of cash acquir','[2016.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(246,243,'1,397 5,154 3,200 9,355 5,647
+Amortization of previously unearned revenue (2,208 ) (1,269 ) (4,318 ) (2,432 ) (7,994 ) (4,582 )
+Net cash provided by (used in) operating activities 3,465 1,997 1,305 498 12,726 8,980
+INVESTING ACTIVITIES:
+Purchases of property and equ','[2016.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(247,327,'21 $ 15,890
+Marketable securities 4,019 3,918
+Inventories 9,588 10,243
+Accounts receivable, net and other 6,092 5,654
+Total current assets 32,220 35,705
+Property and equipment, net 25,190 21,838
+Goodwill 3,774 3,759
+Other assets 3,892 3,445
+Total assets $ 65,076 $ 64,','[2016.07.29][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(248,186,'ed in) operating activities (2,160 ) (1,499 ) 11,258 7,845
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development, net (1,179 ) (871 ) (4,897 ) (4,684 )
+Acquisitions, net of cash acquired, and other (16 )','[2016.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(249,242,'ns to unearned revenue 2,814 1,803 8,412 5,144
+Amortization of previously unearned revenue (2,110 ) (1,163 ) (7,055 ) (4,123 )
+Net cash provided by (used in) operating activities (2,160 ) (1,499 ) 11,258 7,845
+INVESTING ACTIVITIES:
+Purchases of property and equipme','[2016.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(250,326,'70 $ 15,890
+Marketable securities 3,389 3,918
+Inventories 9,582 10,243
+Accounts receivable, net and other 5,072 5,654
+Total current assets 30,513 35,705
+Property and equipment, net 23,308 21,838
+Goodwill 3,785 3,759
+Other assets 3,522 3,445
+Total assets $ 61,128 $ 64,','[2016.04.29][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(251,185,'013
+Net cash provided by (used in) operating activities $ 11,920 $ 6,842 $ 5,475
+Purchases of property and equipment, including internal-use software and website development, net (4,589 ) (4,893 ) (3,444 )
+Free cash flow $ 7,331 $ 1,949 $ 2,031
+Net cash provided by','[2016.01.29][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(252,241,'ares used in computation of earnings per share:
+Basic 467 462 457 453 453
+Diluted 477 462 465 453 461
+Statements of Cash Flows:
+Net cash provided by (used in) operating activities $ 11,920 $ 6,842 $ 5,475 $ 4,180 $ 3,903
+December 31,
+2015 2014 2013 2012 2011
+(in milli','[2016.01.29][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(253,325,'90 $ 14,557
+Marketable securities 3,918 2,859
+Inventories 10,243 8,299
+Accounts receivable, net and other 6,423 5,612
+Total current assets 36,474 31,327
+Property and equipment, net 21,838 16,967
+Goodwill 3,759 3,319
+Other assets 3,373 2,892
+Total assets $ 65,444 $ 54,','[2016.01.29][AMZN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(254,184,'used in) operating activities 2,610 1,766 3,108 127 9,823 5,705
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (1,195 ) (1,378 ) (3,280 ) (3,748 ) (4,424 ) (4,628 )
+Acquisitions, net of cash acquir','[2015.10.23][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(255,240,'79 1,069 4,979 3,055 6,358 3,874
+Amortization of previously unearned revenue (1,373 ) (811 ) (3,805 ) (2,353 ) (5,144 ) (3,175 )
+Net cash provided by (used in) operating activities 2,610 1,766 3,108 127 9,823 5,705
+INVESTING ACTIVITIES:
+Purchases of property and equi','[2015.10.23][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(256,324,'709 $ 14,557
+Marketable securities 3,719 2,859
+Inventories 8,981 8,299
+Accounts receivable, net and other 5,440 5,612
+Total current assets 28,849 31,327
+Property and equipment, net 20,636 16,967
+Goodwill 3,529 3,319
+Other assets 3,216 2,892
+Total assets $ 56,230 $ 54,','[2015.10.23][AMZN][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(257,183,'sed in) operating activities 1,997 862 498 (1,640 ) 8,980 5,327
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (1,213 ) (1,290 ) (2,084 ) (2,370 ) (4,607 ) (4,288 )
+Acquisitions, net of cash acquir','[2015.07.24][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(258,239,',397 894 3,200 1,986 5,647 3,477
+Amortization of previously unearned revenue (1,269 ) (810 ) (2,432 ) (1,542 ) (4,582 ) (2,913 )
+Net cash provided by (used in) operating activities 1,997 862 498 (1,640 ) 8,980 5,327
+INVESTING ACTIVITIES:
+Purchases of property and equ','[2015.07.24][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(259,323,'269 $ 14,557
+Marketable securities 3,732 2,859
+Inventories 7,470 8,299
+Accounts receivable, net and other 4,920 5,612
+Total current assets 26,391 31,327
+Property and equipment, net 19,479 16,967
+Goodwill 3,523 3,319
+Other assets 3,047 2,892
+Total assets $ 52,440 $ 54,','[2015.07.24][AMZN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(260,182,'by (used in) operating activities (1,499 ) (2,502 ) 7,845 5,345
+INVESTING ACTIVITIES:
+Purchases of property and equipment, including internal-use software and website development (871 ) (1,080 ) (4,684 ) (3,854 )
+Acquisitions, net of cash acquired, and other (365','[2015.04.24][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(261,238,'ions to unearned revenue 1,803 1,092 5,144 3,100
+Amortization of previously unearned revenue (1,163 ) (732 ) (4,123 ) (2,564 )
+Net cash provided by (used in) operating activities (1,499 ) (2,502 ) 7,845 5,345
+INVESTING ACTIVITIES:
+Purchases of property and equipmen','[2015.04.24][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(262,322,'237 $ 14,557
+Marketable securities 3,544 2,859
+Inventories 7,369 8,299
+Accounts receivable, net and other 4,772 5,612
+Total current assets 25,922 31,327
+Property and equipment, net 17,736 16,967
+Goodwill 3,491 3,319
+Other assets 2,926 2,892
+Total assets $ 50,075 $ 54,','[2015.04.24][AMZN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(263,1054,'ttributable to common stockholders $ (0.36) $ (0.16) $ (0.51) $ (0.93)
+Basic and diluted weighted average number of shares outstanding 281,982,553 222,454,578 271,670,830 193,405,721
+[/TABLE]
+
+(1)Includes depreciation and amortization of $19.5 million and $17.5','[2026.04.08][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(264,1011,'$ (0.03) $ (0.01)
+Other Financial Data (3)
+EBITDA $ (6,478) $ (120,721) $ (24,617) $ (97,707)
+as a percentage of revenues (5) % (334) % (13) % (138) %
+Adjusted EBITDA $ 20,200 $ 6,127 $ 20,738 $ 12,389
+as a percentage of revenues 16 % 17 % 11 % 17 %
+[/TABLE]
+
+(1)','[2026.01.08][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(265,1053,'CASH FLOW FROM OPERATING ACTIVITIES
+Net loss $ (31,376) $ (142,973)
+Adjustments to reconcile net loss to net cash used in operating activities:
+Depreciation and amortization 12,739 60,761
+Stock-based compensation 44,592 542
+Lease expense 10,826 15,380
+Gain on c','[2026.01.08][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(266,1071,'13,345 3,043
+Prepaid expenses and other current assets 272,012 9,430
+Current assets held for sale 313,403 304,200
+Total current assets 2,717,317 430,593
+Property and equipment, net 2,001,450 1,239,941
+Operating lease right of use assets, net 656 960
+Finance lease ri','[2026.01.08][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(267,1233,'2)
+Other assets (2,617) (1,058)
+CASH FLOW USED IN OPERATING ACTIVITIES (97,868) (128,154)
+CASH FLOW FROM INVESTING ACTIVITIES
+Purchases of property and equipment and other assets (801,490) (225,847)
+Proceeds from satisfaction of contingency on sale of assets — 25','[2026.01.08][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(268,1010,'sed Consolidated Statements of Operations (Unaudited)
+
+(In thousands, except share and per share data)
+
+[TABLE]
+Three Months Ended
+August 31, 2025 August 31, 2024
+Revenue:
+Revenue $ 64,216 $ 32,923
+Related party revenue — 1,926
+Total revenue 64,216 34,849
+Costs an','[2025.10.09][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(269,1052,'solidated Statements of Cash Flows (Unaudited) (In thousands)
+[TABLE]
+Three Months Ended
+August 31, 2025 August 31, 2024
+CASH FLOW FROM OPERATING ACTIVITIES
+Net loss $ (16,926) $ (4,247)
+Adjustments to reconcile net loss to net cash used in operating activities','[2025.10.09][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(270,1232,'98) (8,757)
+Other assets 1,930 —
+CASH FLOW USED IN OPERATING ACTIVITIES (82,023) (75,890)
+CASH FLOW FROM INVESTING ACTIVITIES
+Purchases of property and equipment and other assets (249,420) (54,798)
+Proceeds from satisfaction of contingency on sale of assets — 25,','[2025.10.09][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(271,1008,'Legal Proceedings 53
+Item 1A','[2025.04.14][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(272,1029,'by $167.6 million, or 370%, from net cash provided by operating activities of $45.3 million for the nine months ended February 29, 2024 to net cash used in operating activities of $122.3 million for the nine months ended February 28, 2025','[2025.04.14][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(273,1068,'nts receivable 14,619 3,847
+Prepaid expenses and other current assets 5,416 1,343
+Current assets held for sale — 384
+Total current assets 274,259 30,262
+Property and equipment, net 1,002,206 340,381
+Operating lease right of use assets, net 153,434 153,611
+Finance le','[2025.04.14][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(274,1230,'ssets (757) (3,921)
+CASH FLOW (USED IN) PROVIDED BY OPERATING ACTIVITIES (122,257) 45,338
+CASH FLOW FROM INVESTING ACTIVITIES
+Purchases of property and equipment and other assets (483,340) (84,437)
+Proceeds from satisfaction of contingency on sale of assets 25,00','[2025.04.14][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(275,1007,'lied Digital Corporation per diluted share $ (0.06) $ (0.05) $ (0.19) $ (0.05)
+Other Financial Data (4)
+EBITDA $ (104,798) $ 5,536 $ (67,376) $ 4,224
+as a percentage of revenues (164) % 13 % (54) % 5 %
+Adjusted EBITDA $ 21,363 $ 11,086 $ 41,355 $ 20,950
+as a per','[2025.01.14][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(276,1028,'by $137.2 million, or 1515%, from net cash provided by operating activities of $9.1 million for the six months ended November 30, 2023 to net cash used in operating activities of $128.2 million for the six months ended November 30, 2024','[2025.01.14][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(277,1049,'8 $ 4,365 $ 6,657 $ 7,564
+Cloud services segment 21,733 8,782 51,951 13,290
+HPC hosting segment 1,353 184 2,074 311
+Other (1) 61 93 124 119
+Total depreciation and amortization (2) $ 26,445 $ 13,424 $ 60,806 $ 21,284
+[/TABLE]
+
+(1)Other includes corporate related it','[2025.01.14][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(278,1006,'e Months Ended
+August 31, 2024 August 31, 2023
+Revenue:
+Revenue $ 58,778 $ 32,139
+Related party revenue 1,926 4,184
+Total revenue 60,704 36,323
+Costs and expenses:
+Cost of revenues 61,060 25,221
+Selling, general and administrative (1) 14,341 16,170
+Gain on classi','[2024.10.09][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(279,1048,'FLOW FROM OPERATING ACTIVITIES
+Net loss $ (4,247) $ (11,854)
+Adjustments to reconcile net loss to net cash (used in) provided by operating activities:
+Depreciation and amortization 34,316 7,860
+Stock-based compensation (2,919) 5,641
+Lease expense 7,659 —
+Loss on','[2024.10.09][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(280,1066,'nts receivable 2,298 3,847
+Prepaid expenses and other current assets 2,063 1,343
+Current assets held for sale 192 384
+Total current assets 84,110 30,262
+Property and equipment, net 478,249 340,381
+Operating lease right of use assets, net 147,148 153,611
+Finance le','[2024.10.09][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(281,1026,'W FROM OPERATING ACTIVITIES
+Net loss $ (149,671) $ (45,606)
+Adjustments to reconcile net loss to net cash provided by operating activities:
+Depreciation and amortization 79,360 7,614
+Stock-based compensation 17,362 32,072
+Lease expense 13,944 —
+Deferred income ta','[2024.08.30][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(282,1047,'attributable to Applied Digital Corporation (GAAP) $ (149,274) $ (44,646)
+Interest expense, net 26,832 1,980
+Income tax expense (benefit) 96 (523)
+Depreciation and amortization (e) 79,360 7,267
+EBITDA (Non-GAAP) $ (42,986) $ (35,922)
+Stock-based compensation 17,1','[2024.08.30][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(283,1065,'Accounts receivable 3,847 82
+Prepaid expenses and other current assets 1,343 2,012
+Current assets held for sale 384 —
+Total current assets 30,262 45,668
+Property and equipment, net 340,381 198,151
+Operating lease right of use assets, net 153,611 1,290
+Finance leas','[2024.08.30][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(284,1004,'y 29, 2024 February 28, 2023 February 29, 2024 February 28, 2023
+Revenue:
+Revenue $ 40,284 $ 10,054 $ 110,993 $ 23,139
+Related party revenue 3,064 4,036 10,883 10,215
+Total revenue 43,348 14,090 121,876 33,354
+Costs and expenses:
+Cost of revenues (1) 47,061 10,53','[2024.04.11][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(285,1046,'oss $ (85,221) $ (38,750)
+Adjustments to reconcile net loss to net cash provided by operating activities:
+Depreciation and amortization 12,899 2,580
+Stock-based compensation 13,634 26,878
+Lease expense 41,473 2,296
+Deferred income taxes — (280)
+Loss on extinguish','[2024.04.11][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(286,1064,'counts receivable 225 82
+Prepaid expenses and other current assets 6,127 2,012
+Current assets held for sale 65,369 —
+Total current assets 105,701 45,668
+Property and equipment, net 211,172 195,593
+Operating lease right of use assets, net 95,429 1,290
+Finance lease','[2024.04.11][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(287,1003,'Datacenter hosting revenue $ 34,119 $ 8,747 $ 64,106 $ 13,086
+Cloud services revenue 4,450 — 6,602 —
+Related party datacenter hosting revenue 3,634 3,593 7,819 6,178
+Total revenue 42,203 12,340 78,527 19,264
+Costs and expenses:
+Cost of revenues 29,222 11,812 53,','[2024.01.16][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(288,1024,'ed Statements of Cash Flows (Unaudited) (In thousands)
+[TABLE]
+Six Months Ended
+November 30, 2023 November 30, 2022
+CASH FLOW FROM OPERATING ACTIVITIES
+Net loss $ (22,383) $ (31,409)
+Adjustments to reconcile net loss to net cash provided by operating activities','[2024.01.16][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(289,1045,'2023 November 30, 2022 November 30, 2023 November 30, 2022
+Depreciation and amortization:
+Datacenter hosting segment $ 4,365 $ 1,568 $ 7,564 $ 2,692
+Cloud services segment 8,782 — 13,290 —
+HPC hosting segment 184 — 311 —
+Other (1) 93 — 119 12
+Total depreciation','[2024.01.16][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(290,1002,'Three Months Ended
+August 31, 2023 August 31, 2022
+Revenue:
+Hosting revenue $ 29,987 $ 4,338
+Cloud services revenue 2,152 —
+Related party hosting revenue 4,184 2,586
+Total revenue 36,323 6,924
+Costs and expenses:
+Cost of revenues 24,398 6,093
+Selling, general an','[2023.10.10][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(291,1023,'IES
+Net loss $ (11,854) $ (4,659)
+Adjustments to reconcile net loss to net cash provided by operating activities:
+Depreciation and amortization 7,860 1,136
+Stock-based compensation 5,641 579
+Deferred income taxes — 32
+Loss on extinguishment of debt 2,353 94
+Loss','[2023.10.10][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(292,1044,'he following additional segment disclosures (in thousands):
+
+[TABLE]
+Three Months Ended
+August 31, 2023 August 31, 2022
+Depreciation and amortization:
+Cloud services segment $ 4,508 $ —
+Hosting segment 3,199 1,115
+HPC hosting segment 126 —
+Other (1) 27 21
+Total','[2023.10.10][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(293,1001,'24
+
+[TABLE]
+Three Months Ended Year Ended
+May 31, 2023 May 31, 2022 May 31, 2023 May 31, 2022
+Revenues:
+Hosting revenue $ 22,038 $ 7,523 $ 55,392 $ 8,549
+Cost of revenues $ 15,950 $ 7,433 $ 44,388 $ 9,506
+Gross profit 6,0','[2023.08.02][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(294,1043,'nergy costs used to generate hosting revenues;
+
+•approximately $0.9 million increase in personnel expenses directly attributable to generating hosting revenues;
+
+•approximately $0.7 million increase in depreciation and amortization expense directly attributable to the','[2023.08.02][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(295,990,'erating activities of discontinued operations — 966
+NET CASH PROVIDED BY OPERATING ACTIVITIES 54,144 4,228
+CASH FLOW FROM INVESTING ACTIVITIES
+Purchases of property and equipment (96,214) (28,180)
+Investments in private companies (100) —
+Net cash used in investi','[2023.04.06][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(296,1000,'n thousands, except per share data)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+February 28, 2023 February 28, 2022 February 28, 2023 February 28, 2022
+Revenues:
+Hosting revenue $ 14,090 $ 1,026 $ 33,354 $ 1,026
+Cost of revenues $ 10,533 $ 2,073 $ 28,438 $ 2,073','[2023.04.06][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(297,1021,'479
+Sales and use tax payable 1,563 —
+Interest on finance leases (104) —
+Lease Assets and Liabilities (796) (233)
+Net cash provided by operating activities of continuing operations 54,144 3,262
+Net cash provided by operating activities of discontinued operations','[2023.04.06][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(298,1042,'loss to net cash provided by operating activities:
+Depreciation and Amortization 4,631 245
+Gain on extinguishment of accounts payable — (405)
+Loss on extinguishment of debt 94 1,342
+Stock-Based Compensation 26,878 12,337
+Lease Expense 246 136
+Deferred Tax (280)','[2023.04.06][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(299,1060,'d cash equivalents $ 22,921 $ 46,299
+Accounts receivable 82 227
+Prepaid expenses and other current assets 1,387 1,336
+Total current assets 24,390 47,862
+Property and equipment, net 167,276 64,260
+Right of use asset, net 12,911 6,408
+Other Assets 3,030 1,450
+TOTAL','[2023.04.06][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(300,989,'erating activities of discontinued operations — 600
+NET CASH PROVIDED BY OPERATING ACTIVITIES 27,979 2,334
+CASH FLOW FROM INVESTING ACTIVITIES
+Purchases of property and equipment (70,305) (10,314)
+Deposit on equipment — (23,230)
+Net cash used in investing activi','[2023.01.10][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(301,999,'kMemberapld:CustomerEMember2022-06-012022-11-300001144879us-gaap:SalesRevenueNetMemberus-gaap:CustomerConcentrationRiskMemberapld:CustomerEMember2021-06-012021-11-3000011448792022-12-012022-11-300001144879srt:AffiliatedEntityMember2021-11-300001144879srt:Affilia','[2023.01.10][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(302,1041,'ues:
+Hosting revenue $ 12,340 $ — $ 19,264 $ —
+Cost of revenues $ 11,812 $ — $ 17,905 $ —
+Gross profit 528 — 1,359 —
+Costs and expenses:
+Selling, general and administrative $ 26,502 $ 1,181 $ 31,212 $ 14,216
+Depreciation and amortization 703 174 1,001 177
+Total','[2023.01.10][APLD][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(303,998,'Hosting revenue $ 6,924 $ —
+Cost of revenues $ 6,093 $ —
+Gross profit 831 —
+Costs and expenses:
+Selling, general and administrative $ 4,131 $ 698
+Stock-based compensation 579 12,337
+Depreciation and amortization 298 3
+Total costs and expenses $ 5,008 $ 13,038
+Op','[2022.10.12][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(304,1019,'0)
+Customer deposits 4,587 —
+Deferred revenue 15,316 —
+Accounts payable and accrued liabilities 196 368
+Net cash provided by (used in) operating activities of continuing operations 17,294 (1,870)
+Net cash provided by operating activities of discontinued operation','[2022.10.12][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(305,1040,'August 31, 2022 August 31, 2021
+Revenues:
+Hosting revenue $ 6,924 $ —
+Cost of revenues $ 6,093 $ —
+Gross profit 831 —
+Costs and expenses:
+Selling, general and administrative $ 4,131 $ 698
+Stock-based compensation 579 12,337
+Depreciation and amortization 298 3
+T','[2022.10.12][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(306,1058,'d cash equivalents $ 40,830 $ 46,299
+Accounts receivable 50 227
+Prepaid expenses and other current assets 1,500 1,336
+Total current assets 42,380 47,862
+Property and equipment, net 95,095 64,260
+Right of use asset, net 6,995 6,408
+Utility deposits 1,450 1,450
+TOT','[2022.10.12][APLD][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(307,987,'ing activities of discontinued operations (10,147) —
+NET CASH PROVIDED BY OPERATING ACTIVITIES (872) (83)
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchases of property and equipment (58,251) (20)
+Deposit on equipment 3,277 (3,282)
+Net cash used in investing activit','[2022.08.29][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(308,997,'for the fiscal year ended May 31, 2022 (fiscal year 2022) compared to fiscal year ended May 31, 2021
+
+24
+
+[TABLE]
+Fiscal Year Ended
+May 31, 2022 May 31, 2021
+Hosting revenue $ 8,549 $ —
+Cost of revenues $ 9,506 $ —
+Gross loss $ (957) $ —
+Costs and expenses:
+Sel','[2022.08.29][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(309,1018,'ctivities of discontinued operations (10,147) —
+NET CASH PROVIDED BY OPERATING ACTIVITIES (872) (83)
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchases of property and equipment (58,251) (20)
+Deposit on equipment 3,277 (3,282)
+Net cash used in investing activities','[2022.08.29][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(310,1039,'957) $ —
+Costs and expenses:
+Selling, general and administrative $ 7,555 $ 332
+Stock-based compensation 12,337 —
+Depreciation and amortization 49 —
+Total costs and expenses $ 19,941 $ 332
+Operating loss $ (20,898) $ (332)
+Other (expense) income:
+Interest expens','[2022.08.29][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(311,1057,',450 —
+Prepaid expenses and other current assets 1,336 5
+Total current assets 49,312 11,755
+Right of use asset, net 6,408 —
+Deposit on equipment — 3,277
+Property and equipment, net 64,260 20
+TOTAL ASSETS $ 119,980 $ 15,052
+LIABILITIES, MEZZANINE EQUITY AND STOCKH','[2022.08.29][APLD][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(312,986,'by operating activities of discontinued operations 966 —
+NET CASH PROVIDED BY OPERATING ACTIVITIES 4,113 —
+CASH FLOW FROM INVESTING ACTIVITIES
+Purchases of property and equipment (31,457)
+Deposit on equipment 3,277 —
+Payments for patents and trademarks — —
+Net c','[2022.05.13][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(313,996,'80001144879us-gaap:LandImprovementsMember2021-05-310001144879us-gaap:BuildingMember2021-06-012022-02-280001144879us-gaap:BuildingMember2022-02-280001144879us-gaap:BuildingMember2021-05-310001144879us-gaap:CustomerConcentrationRiskMemberus-gaap:SalesRevenueNetMe','[2022.05.13][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(314,1017,'274 —
+Changes in Operating Assets and liabilities:
+Accounts receivable (1,038) —
+Prepaid expenses and other current assets (2,091) —
+Accounts payable and accrued liabilities 10,654 223
+Payments of operating leases (233) —
+Net cash provided by operating activiti','[2022.05.13][APLD][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(315,822,'view
+
+Our total revenue increased by 2% from RMB853,062 million in fiscal year 2022 to RMB868,687 million in fiscal year 2023, and further increased by 8% to RMB941,168 million (US$130,350 million) in fiscal year 2024','[2024.05.23][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(316,830,'ofMajor VIEs Eliminations ConsolidatedTotal
+RMB RMB RMB RMB RMB RMB US$
+(in millions)
+Net cash provided by operating activities 93,308 (1) 112,457 8,994 163,315 (195,481 ) 182,593 25,289
+Net cash provided by (used in) investing activities 11,838 (1) 922 (10,596 ) (2)','[2024.05.23][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(317,852,'Prepayments, receivables and other assets 13 110,926 116,102 16,080
+Investments in equity method investees 14 207,380 203,131 28,133
+Property and equipment, net 15 176,031 185,161 25,645
+Intangible assets, net 16 46,913 26,950 3,733
+Goodwill 17 268,091 259,679 35,965','[2024.05.23][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(318,821,'iew
+
+Our total revenue increased by 19% from RMB717,289 million in fiscal year 2021 to RMB853,062 million in fiscal year 2022, and further increased by 2% to RMB868,687 million (US$126,491 million) in fiscal year 2023','[2023.07.21][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(319,829,'ofMajor VIEs Eliminations ConsolidatedTotal
+RMB RMB RMB RMB RMB RMB US$
+(in millions)
+Net cash provided by operating activities 71,885 (1) 154,186 3,622 196,309 (226,250 ) 199,752 29,086
+Net cash used in investing activities (12,290 ) (1) (87,248 ) (2,003 ) (2) (100,','[2023.07.21][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(320,851,'Prepayments, receivables and other assets 13 113,147 110,926 16,152
+Investments in equity method investees 14 219,642 207,380 30,197
+Property and equipment, net 15 171,806 176,031 25,632
+Intangible assets, net 16 59,231 46,913 6,831
+Goodwill 17 269,581 268,091 39,037','[2023.07.21][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(321,820,'ew
+
+Our total revenue increased by 41% from RMB509,711 million in fiscal year 2020 to RMB717,289 million in fiscal year 2021, and further increased by 19% to RMB853,062 million (US$134,567 million) in fiscal year 2022','[2022.07.26][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(322,828,'[TABLE]
+​ ​ ​ ​ ​ ​ ​ ​ ​
+​ ​ Year ended March 31,
+​ ​ 2020 ​ 2021 ​ 2022
+​ RMB RMB RMB US$
+​ ​ (in millions)
+Net cash provided by operating activities(1) 180,607 231,786 142,759 22,520
+Less: Purchase of property and equipment (excluding land use rights and construc','[2022.07.26][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(323,850,'ayments, receivables and other assets 13 98,432 113,147 ​ 17,849
+Investments in equity method investees 14 200,189 219,642 ​ 34,648
+Property and equipment, net 15 147,412 171,806 ​ 27,102
+Intangible assets, net 16 70,833 59,231 ​ 9,343
+Goodwill 17 292,771 269,581 ​ 42','[2022.07.26][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(324,819,'ew
+
+Our total revenue increased by 35% from RMB376,844 million in fiscal year 2019 to RMB509,711 million in fiscal year 2020, and further increased by 41% to RMB717,289 million (US$109,480 million) in fiscal year 2021','[2021.07.27][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(325,827,'[TABLE]
+​ ​ ​ ​ ​ ​ ​ ​ ​
+​ ​ Year ended March 31,
+​ ​ 2019 ​ 2020 ​ 2021
+​ RMB RMB RMB US$
+​ ​ (in millions)
+Net cash provided by operating activities(1) 150,975 180,607 231,786 35,378
+Less: Purchase of property and equipment (excluding land use rights and construc','[2021.07.27][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(326,849,'payments, receivables and other assets 13 57,985 98,432 ​ 15,024
+Investments in equity method investees 14 189,632 200,189 ​ 30,555
+Property and equipment, net 15 103,387 147,412 ​ 22,499
+Intangible assets, net 16 60,947 70,833 ​ 10,811
+Goodwill 17 276,782 292,771 ​ 4','[2021.07.27][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(327,818,'Our total revenue increased by 51% from RMB250,266 million in fiscal year 2018 to RMB376,844 million in fiscal year 2019, and further increased by 35% to RMB509,711 million (US$71,985 million) in fiscal year 2020','[2020.07.09][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(328,826,'ended March 31,
+​ ​ 2016 ​ 2017 ​ 2018 ​ 2019 ​ 2020
+​ RMB RMB RMB RMB RMB US$
+​ ​ (in millions)
+Net cash provided by operating activities(1) 56,836 82,854 125,805 150,975 180,607 25,507
+Less: Purchase of property and equipment (excluding land use rights and construc','[2020.07.09][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(329,848,'1 50,698
+Investment securities and investments in equity investees(1) 125,031 155,874 182,707 251,471 355,195 50,164
+Property and equipment, net 13,629 20,206 66,489 92,030 103,387 14,601
+Goodwill and intangible assets, net 87,015 139,528 189,614 333,211 337,729 47,69','[2020.07.09][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(330,1236,'07 25,507
+Less: Purchase of property and equipment (excluding land use rights and construction in progress relating to office campuses) (4,722) (5,680) (15,601) (32,336) (24,662) (3,483)
+Less: Acquisition of licensed copyrights and other intangible assets (716) (6,','[2020.07.09][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(331,817,'Our total revenue increased by 58% from RMB158,273 million in fiscal
+year 2017 to RMB250,266 million in fiscal year 2018, and further increased by 51% to RMB376,844 million (US$56,152 million) in fiscal year 2019','[2019.06.05][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(332,825,'ated:
+
+[TABLE]
+Year ended March 31,
+2015 2016 2017 2018 2019
+RMB RMB RMB RMB RMB US$
+(in millions)
+Net cash provided by operating activities(1) 42,017 56,836 82,854 125,805 150,975 22,496
+Less: Purchase of property and equipment (excluding land use rights and construc','[2019.06.05][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(333,847,',238 28,794
+Investment securities and investments in equity investees(1) 52,146 125,031 155,874 182,707 251,471 37,470
+Property and equipment, net 9,139 13,629 20,206 66,489 92,030 13,713
+Goodwill and intangible assets, net 48,508 87,015 139,528 189,614 333,211 49,650','[2019.06.05][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(334,1235,'22,496
+Less: Purchase of property and equipment (excluding land use rights and construction in progress relating to office campus) (4,370 ) (4,722 ) (5,680 ) (15,601 ) (32,336 ) (4,818 )
+Less: Acquisition of licensed copyrights and other intangible assets (400 ) (','[2019.06.05][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(335,816,'Our total revenue increased by 56% from
+RMB101,143 million in fiscal year 2016 to RMB158,273 million in fiscal year 2017, and further increased by 58% to RMB250,266 million (US$39,898 million) in fiscal year
+2018','[2018.07.27][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(336,824,'ndicated:
+
+[TABLE]
+Year ended March 31,
+2014 2015 2016 2017 2018
+RMB RMB RMB RMB RMB US$
+(in millions)
+Net cash provided by operating activities 26,379 41,217 56,836 80,326 125,171 19,955
+Less: Purchase of property and equipment, intangible assets and licensed copyrig','[2018.07.27][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(337,846,'05,395 32,745
+Investment securities and investments in equity investees(1) 22,131 52,146 125,031 155,874 182,707 29,128
+Property and equipment, net 5,581 9,139 13,629 20,206 66,489 10,600
+Goodwill and intangible assets, net 13,699 48,508 87,015 139,528 189,614 30,228','[2018.07.27][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(338,815,'Our total revenue increased by 33% from
+RMB76,204 million in fiscal year 2015 to RMB101,143 million in fiscal year 2016, and further increased by 56% to RMB158,273 million (US$22,994 million) in fiscal year 2017.
+Our net income increased by 193% from RMB24,320 million i','[2017.06.15][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(339,845,'18 146,747 21,319
+Investment securities and investment in equity investees(1) 2,426 22,131 52,146 125,031 155,874 22,645
+Property and equipment, net 3,808 5,581 9,139 13,629 20,206 2,936
+Goodwill and intangible assets, net 11,628 13,699 48,508 87,015 139,528 20,271
+T','[2017.06.15][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(340,814,'Our total revenue increased by 45% from
+RMB52,504 million in fiscal year 2014 to RMB76,204 million in fiscal year 2015, and further increased by 33% to RMB101,143 million (US$15,686 million) in fiscal year 2016.
+Our net income increased by 4% from RMB23,403 million in','[2016.05.24][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(341,844,'2,341 111,518 17,295
+Investment securities and investment in equity investees(1) 2,483 2,426 22,131 52,146 125,031 19,390
+Property and equipment, net 2,463 3,808 5,581 9,139 13,629 2,114
+Goodwill and intangible assets 11,791 11,628 13,699 48,508 87,015 13,495
+Total a','[2016.05.24][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(342,813,'Our total revenue increased by 52% from RMB34,517 million in fiscal year 2013 to RMB52,504 million in fiscal year 2014, and
+further increased by 45% to RMB76,204 million (US$12,293 million) in fiscal year 2015','[2015.06.25][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(343,843,'86 43,632 122,341 19,735
+Investment securities and investment in equity investees(2) 3,933 2,483 2,426 22,131 52,146 8,412
+Property and equipment, net 1,905 2,463 3,808 5,581 9,139 1,474
+Goodwill and intangible assets 11,846 11,791 11,628 13,699 48,508 7,825
+Total as','[2015.06.25][BABA][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(344,863,'Capital Expenditures
+
+We made capital expenditures of RMB8.3 billion, RMB11.2 billion and RMB8.1 billion (US$1.1 billion) in 2022, 2023 and 2024, representing 7%, 8% and 6% of our total revenues, respectively','[2025.03.28][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(345,871,'Revenues:
+Online marketing services 72,840 80,695 74,711 81,203 78,563 10,763
+Others 34,234 43,798 48,964 53,395 54,562 7,475
+Total revenues 107,074 124,493 123,675 134,598 133,125 18,238
+Operating costs and expenses:
+Cost of revenues 55,158 64,314 63,935 65,031 66,10','[2025.03.28][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(346,879,'ecember 31,
+2020 2021 2022 2023 2024
+RMB RMB RMB RMB RMB US$
+(In millions)
+Consolidated Cash Flow Data:
+Net cash provided by operating activities 24,200 20,122 26,170 36,615 21,234 2,909
+Net cash used in investing activities (27,552 ) (31,444 ) (3,944 ) (50,397 ) (8,','[2025.03.28][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(347,862,'Capital Expenditures
+
+We made capital expenditures of RMB10.9 billion, RMB8.3 billion and RMB11.2 billion (US$1.6 billion) in 2021, 2022 and 2023, representing 9%, 7% and 8% of our total revenues, respectively','[2024.03.15][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(348,870,'Revenues:
+Online marketing services 78,093 72,840 80,695 74,711 81,203 11,437
+Others 29,320 34,234 43,798 48,964 53,395 7,521
+Total revenues 107,413 107,074 124,493 123,675 134,598 18,958
+Operating costs and expenses:
+Cost of revenues 62,850 55,158 64,314 63,935 65,03','[2024.03.15][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(349,878,'ecember 31,
+2019 2020 2021 2022 2023
+RMB RMB RMB RMB RMB US$
+(In millions)
+Consolidated Cash Flow Data:
+Net cash provided by operating activities 28,458 24,200 20,122 26,170 36,615 5,157
+Net cash used in investing activities (19,974 ) (27,552 ) (31,444 ) (3,944 ) (50','[2024.03.15][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(350,861,'Capital Expenditures
+
+We made capital expenditures of RMB5.1 billion, RMB10.9 billion and RMB8.3 billion (US$1.2 billion) in 2020, 2021 and 2022, representing 5%, 9% and 7% of our total revenues, respectively','[2023.03.22][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(351,869,'Revenues:
+Online marketing services 81,912 78,093 72,840 80,695 74,711 10,832
+Others 20,365 29,320 34,234 43,798 48,964 7,099
+Total revenues 102,277 107,413 107,074 124,493 123,675 17,931
+Operating costs and expenses:
+Cost of revenues 51,744 62,850 55,158 64,314 63,93','[2023.03.22][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(352,877,'ecember 31,
+2018 2019 2020 2021 2022
+RMB RMB RMB RMB RMB US$
+(In millions)
+Consolidated Cash Flow Data:
+Net cash provided by operating activities 35,967 28,458 24,200 20,122 26,170 3,794
+Net cash used in investing activities (34,460 ) (19,974 ) (27,552 ) (31,444 ) (3','[2023.03.22][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(353,860,'Capital Expenditures
+
+We made capital expenditures of RMB6.4 billion, RMB5.1 billion and RMB10.9 billion (US$1.7 billion) in 2019, 2020 and 2021, representing 6%, 5% and 9% of our total revenues, respectively','[2022.03.28][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(354,868,'Revenues:
+Online marketing services 73,146 81,912 78,093 72,840 80,695 12,663
+Others 11,663 20,365 29,320 34,234 43,798 6,873
+Total revenues 84,809 102,277 107,413 107,074 124,493 19,536
+Operating costs and expenses:
+Cost of revenues 43,062 51,744 62,850 55,158 64,31','[2022.03.28][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(355,876,'ecember 31,
+2017 2018 2019 2020 2021
+RMB RMB RMB RMB RMB US$
+(In millions)
+Consolidated Cash Flow Data:
+Net cash provided by operating activities 32,828 35,967 28,458 24,200 20,122 3,158
+Net cash used in investing activities (76,949 ) (34,460 ) (19,974 ) (27,552 ) (3','[2022.03.28][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(356,859,'Capital Expenditures
+
+We made capital expenditures of RMB8.8 billion, RMB6.4 billion and RMB5.1 billion (US$779 million) in 2018, 2019 and 2020, representing 9%, 6% and 5% of our total revenues, respectively','[2021.03.09][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(357,867,'a:
+Revenues:
+Online marketing services 64,525 73,146 81,912 78,093 72,840 11,163
+Others 6,024 11,663 20,365 29,320 34,234 5,247
+Total revenues 70,549 84,809 102,277 107,413 107,074 16,410
+Operating costs and expenses:
+Cost of revenues 35,278 43,062 51,744 62,850 55,15','[2021.03.09][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(358,875,'ecember 31,
+2016 2017 2018 2019 2020
+RMB RMB RMB RMB RMB US$
+(In millions)
+Consolidated Cash Flow Data:
+Net cash provided by operating activities 22,480 32,828 35,967 28,458 24,200 3,709
+Net cash used in investing activities (35,911 ) (76,949 ) (34,460 ) (19,974 ) (2','[2021.03.09][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(359,858,'Capital Expenditures
+
+We made capital expenditures of RMB4.8 billion, RMB8.8 billion and RMB6.4 billion (US$923 million) in 2017, 2018 and 2019, representing 6%, 9% and 6% of our total revenues (excl','[2020.03.13][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(360,866,'ata:
+Revenues:
+Online marketing services 64,037 64,525 73,146 81,912 78,093 11,217
+Others 2,345 6,024 11,663 20,365 29,320 4,212
+Total revenues 66,382 70,549 84,809 102,277 107,413 15,429
+Operating costs and expenses:
+Cost of revenues 27,458 35,278 43,062 51,744 62,85','[2020.03.13][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(361,874,'ecember 31,
+2015 2016 2017 2018 2019
+RMB RMB RMB RMB RMB US$
+(In millions)
+Consolidated Cash Flow Data:
+Net cash provided by operating activities 19,771 22,480 32,828 35,967 28,458 4,088
+Net cash used in investing activities (31,621 ) (35,911 ) (76,949 ) (34,460 ) (1','[2020.03.13][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(362,857,'Capital Expenditures
+
+We made capital expenditures of RMB4.2 billion, RMB4.8 billion and RMB8.8 billion (US$1.3 billion) in 2016, 2017
+and 2018, representing 6%, 6% and 9% of our total revenues (excl','[2019.03.15][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(363,865,'me Data:
+Revenues:
+Online marketing services 48,495 64,037 64,525 73,146 81,912 11,914
+Others 557 2,345 6,024 11,663 20,365 2,962
+Total revenues 49,052 66,382 70,549 84,809 102,277 14,876
+Operating costs and expenses:
+Cost of revenues 18,885 27,458 35,278 43,062 51,74','[2019.03.15][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(364,856,'106
+
+Table of Contents
+
+Capital Expenditures
+
+We made capital expenditures of RMB5.2 billion, RMB4.2 billion and RMB4.8 billion (US$735 million) in 2015, 2016
+and 2017, representing 7.9%, 5.9% and 5.6% of our total revenues, respectively','[2018.03.15][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(365,855,'Capital Expenditures
+
+We made capital expenditures of RMB4.8 billion, RMB5.2 billion and RMB4.2 billion (US$603.4 million) in 2014,
+2015 and 2016, representing 9.8%, 7.9% and 5.9% of our total revenues, respectively','[2017.03.31][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(366,854,'Capital Expenditures
+
+We made capital expenditures of RMB2.8 billion, RMB4.8 billion and RMB5.2 billion (US$807.3 million) in 2013, 2014
+and 2015, representing 8.6%, 9.8% and 7.9% of our total revenues, respectively','[2016.04.08][BIDU][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(367,950,'ash provided by operating activities $ 3,058 $ 2,749 $ 1,833
+Cash flows from investing activities:
+Purchase of property and equipment, including capitalized internal-use software (10,309) (8,702) (2,943)
+Purchases of marketable securities (47) (34) (172)
+Maturities','crwv-20251231.htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(368,959,'e sets forth our consolidated statements of operations and comprehensive loss data for the periods indicated:
+
+[TABLE]
+Year Ended December 31,
+2025 2024 2023
+(in millions)
+Revenue $ 5,131 $ 1,915 $ 229
+Operating expenses:
+Cost of revenue(1) 1,453 493 69
+Technology an','crwv-20251231.htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(369,968,'Flows
+
+The following table presents our cash flows (in millions):
+
+75
+
+Table of Contents
+
+[TABLE]
+Year Ended December 31,
+2025 2024 2023
+Net cash provided by operating activities $ 3,058 $ 2,749 $ 1,833
+Net cash used in investing activities (10,271) (8,658) (3,148)','crwv-20251231.htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(370,977,'ash flows from operating activities:
+Net loss $ (1,167) $ (863) $ (594)
+Adjustments to reconcile net loss to net cash provided by operating activities
+Depreciation and amortization 2,454 863 103
+Amortization of debt discounts and issuance costs and accretion of redem','crwv-20251231.htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(371,982,'ts 339 101
+Total current assets 7,488 1,916
+Restricted cash and cash equivalents, non-current 184 637
+Restricted marketable securities, non-current — 29
+Property and equipment, net 30,557 11,915
+Operating lease right-of-use assets 8,231 2,590
+Intangible assets, net 23','crwv-20251231.htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(372,949,'h provided by operating activities $ 1,499,051 $ 2,562,436
+Cash flows from investing activities:
+Purchase of property and equipment, including capitalized internal-use software $ (6,249,239) $ (5,204,251)
+Sale of available-for-sale marketable securities — 1,270
+Mat','[2025.11.13][CRWV][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(373,967,'d revenue 1,402,164 2,417,010
+Lease liabilities (181,061) (45,119)
+Other non-current assets (344,822) (415,348)
+Other liabilities — 2,676
+Net cash provided by operating activities $ 1,499,051 $ 2,562,436
+Cash flows from investing activities:
+Purchase of property and','[2025.11.13][CRWV][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(374,976,'Cash flows from operating activities:
+Net loss $ (715,274) $ (812,076)
+Adjustments to reconcile net loss to net cash provided by operating activities
+Depreciation and amortization 1,633,457 497,994
+Non-cash lease expense 233,836 79,470
+Amortization of debt discount','[2025.11.13][CRWV][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(375,981,'rent assets 4,731,283 1,916,249
+Restricted cash and cash equivalents, non-current 477,515 637,356
+Restricted marketable securities, non-current — 29,308
+Property and equipment, net 20,659,181 11,914,774
+Operating lease right-of-use assets 4,677,057 2,589,547
+Intangib','[2025.11.13][CRWV][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(376,948,'by (used in) operating activities $ (190,083) $ 1,921,214
+Cash flows from investing activities:
+Purchase of property and equipment, including capitalized internal-use software $ (3,860,351) $ (3,989,096)
+Sale of available-for-sale marketable securities — 840
+Matur','[2025.08.13][CRWV][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(377,966,'3) 697,848
+Deferred revenue 742,892 1,524,487
+Lease liabilities (110,451) (20,708)
+Other non-current assets 49,968 (413,561)
+Net cash provided by (used in) operating activities $ (190,083) $ 1,921,214
+Cash flows from investing activities:
+Purchase of property and','[2025.08.13][CRWV][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(378,947,'ded by (used in) operating activities $ 61,168 $ 2,039,038
+Cash flows from investing activities:
+Purchase of property and equipment, including capitalized internal-use software $ (1,407,359) $ (1,741,935)
+Maturities of marketable securities 29,308 —
+Purchase of res','[2025.05.15][CRWV][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(379,965,'62,327 515,295
+Deferred revenue (15,904) 1,439,571
+Lease liabilities (51,109) (5,819)
+Other non-current assets 256,641 (80,464)
+Net cash provided by (used in) operating activities $ 61,168 $ 2,039,038
+Cash flows from investing activities:
+Purchase of property and','[2025.05.15][CRWV][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(380,906,'was RMB6,326.2 million (US$891.0 million) in 2023, which was primarily due to (i) the payments for purchase of property and equipment and land use rights of RMB6,021.8 million (US$848.2 million) for the development of our data centers, (ii) payments for acquisitions and in','[2024.04.29][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(381,935,'est expenses ​ 1,604,292 1,845,427 1,939,433 273,163
+Income tax expenses (benefits) ​ 242,461 276,235 (14,777) (2,081)
+Depreciation and amortization ​ 2,616,898 3,189,074 3,519,745 495,746
+Operating lease cost relating to prepaid land use rights ​ 40,422 101,848 1','[2024.04.29][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(382,914,'Our net revenue grew from RMB5,739.0 million in 2020 to RMB7,818.7 million in 2021, representing an increase of 36.2%, and increased to RMB9,325.6 million (US$1,352.1 million) in 2022, representing an increase of 19.3%','[2023.04.04][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(383,924,'​ ​ ​ ​ ​ ​ ​ ​
+​ ​ For the Year Ended December 31,
+​ ​ 2020 ​ 2021 ​ 2022
+​ RMB RMB RMB US$
+​ (in thousands)
+Net cash provided by operating activities 320,887 1,201,363 2,858,067 414,380
+Net cash used in investing activities (9,378,007) (13,691,538) (11,274,884)','[2023.04.04][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(384,934,'71)
+Net interest expenses ​ 1,287,495 1,604,292 1,845,427 267,562
+Income tax expenses ​ 120,778 242,461 276,235 40,050
+Depreciation and amortization ​ 1,638,474 2,616,898 3,189,074 462,372
+Operating lease cost relating to prepaid land use rights ​ 20,412 40,422 10','[2023.04.04][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(385,933,'tax expenses ​ 15,650 120,778 242,461 38,047
+Depreciation and amortization ​ 1,142,032 1,638,474 2,616,898 410,648
+Operating lease cost relating to prepaid land use rights ​ — 20,412 40,422 6,343
+Accretion expenses for asset retirement costs ​ 2,990 4,084 6,227 9','[2022.04.28][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(386,903,'es was RMB9,378.0 million (US$1,437.2 million) in 2020, which was primarily due to the payments for purchase of property and equipment and land use rights of RMB8,020.6 million (US$1,229.2 million) for the development of our data centers, including the deposit paid and net of','[2021.04.12][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(387,932,'915,676 1,287,495 197,317
+Income tax (benefits) expenses ​ (8,315) (6,076) (9,391) 15,650 120,778 18,510
+Depreciation and amortization ​ 227,355 378,130 741,507 1,142,032 1,638,474 251,107
+Operating lease cost relating to prepaid land use rights ​ — — — — 20,412 3','[2021.04.12][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(388,911,'Our net revenue grew from RMB1,616.2 million in 2017 to RMB2,792.1 million in 2018, representing an increase of 72.8%, and increased to RMB4,122.4 million (US$592.1 million) in 2019, representing an increase of 47.6%','[2020.04.17][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(389,931,'403 636,973 915,676 131,529
+Income tax (benefits) expenses ​ (11,983) (8,315) (6,076) (9,391) 15,650 2,248
+Depreciation and amortization ​ 145,406 227,355 378,130 741,507 1,142,032 164,043
+Accretion expenses for asset retirement costs ​ 255 588 949 1,840 2,990 429','[2020.04.17][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(390,910,'Our net revenue grew from RMB1,056.0 million in 2016 to RMB 1,616.2 million in 2017, representing an increase of 53.1%, and further increased to RMB2,792.1 million (US$406.1 million) in 2018, representing an increase of 72.8%','[2019.03.13][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(391,920,'onsolidated financial statements for the years ended December 31, 2016, 2017 and 2018 are as follows:
+
+[TABLE]
+Years ended December 31,
+2016 2017 2018
+Net revenue 846,168 1,469,929 2,712,875
+Net income (loss) 22,246 44,541 (59,757 )
+Net cash provided by operatin','[2019.03.13][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(392,940,'1 364,654 536,842 78,080
+Total current assets 745,831 1,186,699 2,210,313 2,454,028 3,037,396 441,771
+Property and equipment, net 1,694,944 2,512,687 4,322,891 8,165,601 13,994,945 2,035,480
+Goodwill and intangible assets 1,350,524 1,341,599 1,433,656 1,919,221 2,23','[2019.03.13][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(393,909,'Our net revenue grew from RMB703.6 million in 2015 to RMB1,056.0 million in 2016, representing an increase of 50.1%, and increased to RMB 1,616.2 million (US$248.4 million) in 2017, representing an increase of 53.1%','[2018.03.29][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(394,919,'ts for the years ended December 31, 2015, 2016 and 2017 are as follows:
+
+[TABLE]
+Years ended December 31,
+2015 2016 2017
+Net revenue 30,598 846,168 1,469,929
+Net (loss) income (5,327 ) 22,246 44,541
+Net cash provided by operating activities 8,631 239,624 183,180','[2018.03.29][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(395,929,'nterest expenses 124,973 125,546 263,164 406,403 62,463
+Income tax benefits (4,583 ) (11,983 ) (8,315 ) (6,076 ) (934 )
+Depreciation and amortization 82,753 145,406 227,355 378,130 58,117
+Accretion expenses for asset retirement costs 73 255 588 949 146
+Share-base','[2018.03.29][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(396,939,'le, net 73,366 111,013 198,851 364,654 56,046
+Total current assets 745,831 1,186,699 2,210,313 2,454,028 377,176
+Property and equipment, net 1,694,944 2,512,687 4,322,891 8,165,601 1,255,030
+Goodwill and intangible assets 1,350,524 1,341,599 1,433,656 1,919,221 294,','[2018.03.29][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(397,899,'h used in investing activities was RMB1,147.1 million (US$165.2 million) in 2016, which was primarily due to payments for purchase of property and equipment of RMB987.8 million (US$142.3 million) in the development of our data centers and payments related to acquisitions of','[2017.04.19][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(398,908,'Our net revenues for managed services and consulting services were RMB108.4 million, RMB152.7 million and RMB232.9 million (US$33.6 million) in 2014, 2015 and 2016, representing 23','[2017.04.19][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(399,918,'to related parties (3,086 ) 2,668 (2,668 )
+Increase (decrease) of deferred revenue 10,675 3,207 (5,851 )
+Increase (decrease) of accrued expenses and other payables 18,293 (1,071 ) 22,018
+Increase of other long-term liabilities 6,373 15,327 23,785
+Net cash provid','[2017.04.19][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(400,928,'3 ) (8,315 ) (1,198 )
+Depreciation and amortization 82,753 145,406 227,355 32,746
+Accretion expenses for asset retirement costs 73 255 588 85
+Share-based compensation expenses 27,333 4,061 64,165 9,242
+Gain on remeasurement of equity investment (62,506 ) — — —
+Ad','[2017.04.19][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(401,938,'19 260,884
+Accounts receivable, net 73,366 111,013 198,851 28,640
+Total current assets 745,831 1,186,699 2,210,313 318,351
+Property and equipment, net 1,694,944 2,512,687 4,322,891 622,626
+Goodwill and intangible assets 1,350,524 1,341,599 1,433,656 206,489
+Total','[2017.04.19][GDS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(402,389,'ccrued revenue share 478 100
+Deferred revenue 860 1,317
+Net cash provided by operating activities 86,186 112,311
+Investing activities
+Purchases of property and equipment (38,259) (63,596)
+Purchases of marketable securities (65,034) (60,834)
+Maturities and sales of m','[2025.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(403,420,'EMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2024 2025 2024 2025
+Revenues $ 88,268 $ 102,346 $ 253,549 $ 289,007
+Costs and expenses:
+Cost of revenues 36,474 41,369 105,693','[2025.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(404,464,'ts payable (42) (771)
+Accrued expenses and other liabilities (6,366) 6,199
+Accrued revenue share 478 100
+Deferred revenue 860 1,317
+Net cash provided by operating activities 86,186 112,311
+Investing activities
+Purchases of property and equipment (38,259) (63,596)
+Purch','[2025.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(405,388,'Accrued revenue share 97 (219)
+Deferred revenue 220 636
+Net cash provided by operating activities 55,488 63,897
+Investing activities
+Purchases of property and equipment (25,198) (39,643)
+Purchases of marketable securities (43,011) (39,870)
+Maturities and sales of m','[2025.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(406,419,'IDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2024 2025 2024 2025
+Revenues $ 84,742 $ 96,428 $ 165,281 $ 186,662
+Costs and expenses:
+Cost of revenues 35,507 39,039 69,219 7','[2025.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(407,463,'payable (563) (327)
+Accrued expenses and other liabilities (5,176) (1,560)
+Accrued revenue share 97 (219)
+Deferred revenue 220 636
+Net cash provided by operating activities 55,488 63,897
+Investing activities
+Purchases of property and equipment (25,198) (39,643)
+Purch','[2025.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(408,387,'crued revenue share (322) 116
+Deferred revenue (141) 500
+Net cash provided by operating activities 28,848 36,150
+Investing activities
+Purchases of property and equipment (12,012) (17,197)
+Purchases of marketable securities (20,684) (18,453)
+Maturities and sales of m','[2025.04.25][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(409,462,'ble (2,124) (880)
+Accrued expenses and other liabilities (5,054) (5,045)
+Accrued revenue share (322) 116
+Deferred revenue (141) 500
+Net cash provided by operating activities 28,848 36,150
+Investing activities
+Purchases of property and equipment (12,012) (17,197)
+Purch','[2025.04.25][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(410,492,'er current assets 15,714 15,724
+Total current assets 163,711 162,052
+Non-marketable securities 37,982 51,029
+Deferred income taxes 17,180 18,386
+Property and equipment, net 171,036 185,062
+Operating lease assets 13,588 13,722
+Goodwill 31,885 32,173
+Other non-current as','[2025.04.25][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(411,1189,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended
+March 31,
+2024 2025
+Revenues $ 80,539 $ 90,234
+Costs and expenses:
+Cost of revenues 33,712 36,361
+Research and development 11,9','[2025.04.25][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(412,386,'2 1,059
+Deferred revenue 367 525 1,043
+Net cash provided by operating activities 91,495 101,746 125,299
+Investing activities
+Purchases of property and equipment (31,485) (32,251) (52,535)
+Purchases of marketable securities (78,874) (77,858) (86,679)
+Maturities and s','[2025.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(413,418,'ted financial results (in millions, except for per share information and percentages):
+
+[TABLE]
+Year Ended December 31,
+2023 2024 $ Change % Change
+Consolidated revenues $ 307,394 $ 350,018 $ 42,624 14 %
+Change in consolidated constant currency revenues(1) 15 %
+Cost of','[2025.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(414,461,'The following table presents our cash flows (in millions):
+[TABLE]
+Year Ended December 31,
+2023 2024
+Net cash provided by operating activities $ 101,746 $ 125,299
+Net cash used in investing activities $ (27,063) $ (45,536)
+Net cash used in fin','[2025.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(415,491,'er current assets 12,650 15,714
+Total current assets 171,530 163,711
+Non-marketable securities 31,008 37,982
+Deferred income taxes 12,169 17,180
+Property and equipment, net 134,345 171,036
+Operating lease assets 14,091 13,588
+Goodwill 29,198 31,885
+Other non-current as','[2025.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(416,385,'Accrued revenue share (315) 478
+Deferred revenue 690 860
+Net cash provided by operating activities 82,831 86,186
+Investing activities
+Purchases of property and equipment (21,232) (38,259)
+Purchases of marketable securities (49,422) (65,034)
+Maturities and sales of m','[2024.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(417,417,'EMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2023 2024 2023 2024
+Revenues $ 76,693 $ 88,268 $ 221,084 $ 253,549
+Costs and expenses:
+Cost of revenues 33,229 36,474 95,757 1','[2024.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(418,460,'unts payable 237 (42)
+Accrued expenses and other liabilities (380) (6,366)
+Accrued revenue share (315) 478
+Deferred revenue 690 860
+Net cash provided by operating activities 82,831 86,186
+Investing activities
+Purchases of property and equipment (21,232) (38,259)
+Purch','[2024.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(419,490,'er current assets 12,650 15,207
+Total current assets 171,530 157,541
+Non-marketable securities 31,008 36,177
+Deferred income taxes 12,169 15,915
+Property and equipment, net 134,345 161,270
+Operating lease assets 14,091 13,561
+Goodwill 29,198 31,935
+Other non-current as','[2024.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(420,384,'Accrued revenue share (418) 97
+Deferred revenue (17) 220
+Net cash provided by operating activities 52,175 55,488
+Investing activities
+Purchases of property and equipment (13,177) (25,198)
+Purchases of marketable securities (35,589) (43,011)
+Maturities and sales of m','[2024.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(421,416,'IDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2023 2024 2023 2024
+Revenues $ 74,604 $ 84,742 $ 144,391 $ 165,281
+Costs and expenses:
+Cost of revenues 31,916 35,507 62,528 6','[2024.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(422,459,'ts payable 14 (563)
+Accrued expenses and other liabilities (4,037) (5,176)
+Accrued revenue share (418) 97
+Deferred revenue (17) 220
+Net cash provided by operating activities 52,175 55,488
+Investing activities
+Purchases of property and equipment (13,177) (25,198)
+Purch','[2024.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(423,489,'er current assets 12,650 14,183
+Total current assets 171,530 161,995
+Non-marketable securities 31,008 34,172
+Deferred income taxes 12,169 14,958
+Property and equipment, net 134,345 151,155
+Operating lease assets 14,091 13,606
+Goodwill 29,198 29,185
+Other non-current as','[2024.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(424,383,'ed revenue share (602) (322)
+Deferred revenue (201) (141)
+Net cash provided by operating activities 23,509 28,848
+Investing activities
+Purchases of property and equipment (6,289) (12,012)
+Purchases of marketable securities (14,227) (20,684)
+Maturities and sales of m','[2024.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(425,458,',105) (2,124)
+Accrued expenses and other liabilities (4,496) (5,054)
+Accrued revenue share (602) (322)
+Deferred revenue (201) (141)
+Net cash provided by operating activities 23,509 28,848
+Investing activities
+Purchases of property and equipment (6,289) (12,012)
+Purcha','[2024.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(426,488,'er current assets 12,650 12,829
+Total current assets 171,530 165,471
+Non-marketable securities 31,008 33,994
+Deferred income taxes 12,169 11,687
+Property and equipment, net 134,345 143,182
+Operating lease assets 14,091 13,768
+Goodwill 29,198 29,183
+Other non-current as','[2024.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(427,1188,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended
+March 31,
+2023 2024
+Revenues $ 69,787 $ 80,539
+Costs and expenses:
+Cost of revenues 30,612 33,712
+Research and development 11,4','[2024.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(428,382,'(445) 482
+Deferred revenue 774 367 525
+Net cash provided by operating activities 91,652 91,495 101,746
+Investing activities
+Purchases of property and equipment (24,640) (31,485) (32,251)
+Purchases of marketable securities (135,196) (78,874) (77,858)
+Maturities and','[2024.01.31][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(429,415,'ted financial results (in millions, except for per share information and percentages):
+
+[TABLE]
+Year Ended December 31,
+2022 2023 $ Change % Change
+Consolidated revenues $ 282,836 $ 307,394 $ 24,558 9 %
+Change in consolidated constant currency revenues(1) 10 %
+Cost of','[2024.01.31][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(430,457,'[/TABLE]
+
+The following table presents our cash flows (in millions):
+[TABLE]
+Year Ended December 31,
+2022 2023
+Net cash provided by operating activities $ 91,495 $ 101,746
+Net cash used in investing activities $ (20,298) $ (27,063)
+Net cash used in fin','[2024.01.31][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(431,487,'her current assets 10,775 12,650
+Total current assets 164,795 171,530
+Non-marketable securities 30,492 31,008
+Deferred income taxes 5,261 12,169
+Property and equipment, net 112,668 134,345
+Operating lease assets 14,381 14,091
+Goodwill 28,960 29,198
+Other non-current as','[2024.01.31][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(432,381,'ued revenue share (1,022) (315)
+Deferred revenue 104 690
+Net cash provided by operating activities 67,881 82,831
+Investing activities
+Purchases of property and equipment (23,890) (21,232)
+Purchases of marketable securities (67,253) (49,422)
+Maturities and sales of m','[2023.10.25][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(433,456,'ounts payable 735 237
+Accrued expenses and other liabilities 491 (380)
+Accrued revenue share (1,022) (315)
+Deferred revenue 104 690
+Net cash provided by operating activities 67,881 82,831
+Investing activities
+Purchases of property and equipment (23,890) (21,232)
+Purch','[2023.10.25][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(434,1187,'EMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2022 2023 2022 2023
+Revenues $ 69,092 $ 76,693 $ 206,788 $ 221,084
+Costs and expenses:
+Cost of revenues 31,158 33,229 90,861 9','[2023.10.25][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(435,380,'rued revenue share (942) (418)
+Deferred revenue (8) (17)
+Net cash provided by operating activities 44,528 52,175
+Investing activities
+Purchases of property and equipment (16,614) (13,177)
+Purchases of marketable securities (50,199) (35,589)
+Maturities and sales of m','[2023.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(436,455,'yable (1,172) 14
+Accrued expenses and other liabilities (1,719) (4,037)
+Accrued revenue share (942) (418)
+Deferred revenue (8) (17)
+Net cash provided by operating activities 44,528 52,175
+Investing activities
+Purchases of property and equipment (16,614) (13,177)
+Purch','[2023.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(437,1186,'IDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2022 2023 2022 2023
+Revenues $ 69,685 $ 74,604 $ 137,696 $ 144,391
+Costs and expenses:
+Cost of revenues 30,104 31,916 59,703 6','[2023.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(438,379,'ued revenue share (828) (602)
+Deferred revenue (94) (201)
+Net cash provided by operating activities 25,106 23,509
+Investing activities
+Purchases of property and equipment (9,786) (6,289)
+Purchases of marketable securities (28,462) (14,227)
+Maturities and sales of m','[2023.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(439,454,'2,373) (1,105)
+Accrued expenses and other liabilities (3,216) (4,496)
+Accrued revenue share (828) (602)
+Deferred revenue (94) (201)
+Net cash provided by operating activities 25,106 23,509
+Investing activities
+Purchases of property and equipment (9,786) (6,289)
+Purchas','[2023.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(440,1185,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended
+March 31,
+2022 2023
+Revenues $ 68,011 $ 69,787
+Costs and expenses:
+Cost of revenues 29,599 30,612
+Research and development 9,11','[2023.04.26][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(441,378,'1,682 (445)
+Deferred revenue 635 774 367
+Net cash provided by operating activities 65,124 91,652 91,495
+Investing activities
+Purchases of property and equipment (22,281) (24,640) (31,485)
+Purchases of marketable securities (136,576) (135,196) (78,874)
+Maturities and','[2023.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(442,453,'[/TABLE]
+
+The following table presents our cash flows (in millions):
+[TABLE]
+Year Ended December 31,
+2021 2022
+Net cash provided by operating activities $ 91,652 $ 91,495
+Net cash used in investing activities $ (35,523) $ (20,298)
+Net cash used in fin','[2023.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(443,486,'0
+Other current assets 8,020 8,105
+Total current assets 188,143 164,795
+Non-marketable securities 29,549 30,492
+Deferred income taxes 1,284 5,261
+Property and equipment, net 97,599 112,668
+Operating lease assets 12,959 14,381
+Intangible assets, net 1,417 2,084
+Goodwill','[2023.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(444,1184,'ted financial results (in millions, except for per share information and percentages):
+
+[TABLE]
+Year Ended December 31,
+2021 2022 $ Change % Change
+Consolidated revenues $ 257,637 $ 282,836 $ 25,199 10 %
+Change in consolidated constant currency revenues(1) 14 %
+Cost of','[2023.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(445,377,'crued revenue share 386 (1,022)
+Deferred revenue 406 104
+Net cash provided by operating activities 66,718 67,881
+Investing activities
+Purchases of property and equipment (18,257) (23,890)
+Purchases of marketable securities (95,106) (67,253)
+Maturities and sales of m','[2022.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(446,452,'ounts payable (874) 735
+Accrued expenses and other liabilities 2,763 491
+Accrued revenue share 386 (1,022)
+Deferred revenue 406 104
+Net cash provided by operating activities 66,718 67,881
+Investing activities
+Purchases of property and equipment (18,257) (23,890)
+Purch','[2022.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(447,1183,'EMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2021 2022 2021 2022
+Revenues $ 65,118 $ 69,092 $ 182,312 $ 206,788
+Costs and expenses:
+Cost of revenues 27,621 31,158 77,951 9','[2022.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(448,376,'Accrued revenue share 29 (942)
+Deferred revenue 134 (8)
+Net cash provided by operating activities 41,179 44,528
+Investing activities
+Purchases of property and equipment (11,438) (16,614)
+Purchases of marketable securities (60,609) (50,199)
+Maturities and sales of m','[2022.07.27][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(449,451,'payable (1,112) (1,172)
+Accrued expenses and other liabilities 201 (1,719)
+Accrued revenue share 29 (942)
+Deferred revenue 134 (8)
+Net cash provided by operating activities 41,179 44,528
+Investing activities
+Purchases of property and equipment (11,438) (16,614)
+Purch','[2022.07.27][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(450,1182,'IDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2021 2022 2021 2022
+Revenues $ 61,880 $ 69,685 $ 117,194 $ 137,696
+Costs and expenses:
+Cost of revenues 26,227 30,104 50,330 5','[2022.07.27][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(451,375,'crued revenue share (444) (828)
+Deferred revenue 137 (94)
+Net cash provided by operating activities 19,289 25,106
+Investing activities
+Purchases of property and equipment (5,942) (9,786)
+Purchases of marketable securities (36,426) (28,462)
+Maturities and sales of m','[2022.04.27][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(452,450,'le (982) (2,373)
+Accrued expenses and other liabilities (3,530) (3,216)
+Accrued revenue share (444) (828)
+Deferred revenue 137 (94)
+Net cash provided by operating activities 19,289 25,106
+Investing activities
+Purchases of property and equipment (5,942) (9,786)
+Purchas','[2022.04.27][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(453,1181,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended
+March 31,
+2021 2022
+Revenues $ 55,314 $ 68,011
+Costs and expenses:
+Cost of revenues 24,103 29,599
+Research and development 7,48','[2022.04.27][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(454,374,'1,639 1,682
+Deferred revenue 37 635 774
+Net cash provided by operating activities 54,520 65,124 91,652
+Investing activities
+Purchases of property and equipment (23,548) (22,281) (24,640)
+Purchases of marketable securities (100,315) (136,576) (135,196)
+Maturities an','[2022.02.02][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(455,414,'s otherwise specified (in millions, except for per share information and percentages):
+
+[TABLE]
+Year Ended December 31,
+2020 2021 $ Change % Change
+Consolidated revenues $ 182,527 $ 257,637 $ 75,110 41 %
+Change in consolidated constant currency revenues 39 %
+Cost of re','[2022.02.02][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(456,449,'The following table presents our cash flows (in millions):
+[TABLE]
+Year Ended December 31,
+2020 2021
+Net cash provided by operating activities $ 65,124 $ 91,652
+Net cash used in investing activities $ (32,773) $ (35,523)
+Net cash used in fin','[2022.02.02][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(457,485,'0
+Other current assets 5,490 7,054
+Total current assets 174,296 188,143
+Non-marketable securities 20,703 29,549
+Deferred income taxes 1,084 1,284
+Property and equipment, net 84,749 97,599
+Operating lease assets 12,211 12,959
+Intangible assets, net 1,445 1,417
+Goodwill','[2022.02.02][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(458,373,'3
+Accrued revenue share 277 386
+Deferred revenue 428 406
+Net cash provided by operating activities 42,447 66,718
+Investing activities
+Purchases of property and equipment (16,802) (18,257)
+Purchases of marketable securities (104,932) (95,106)
+Maturities and sales of','[2021.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(459,448,'ccounts payable (269) (874)
+Accrued expenses and other liabilities 891 2,763
+Accrued revenue share 277 386
+Deferred revenue 428 406
+Net cash provided by operating activities 42,447 66,718
+Investing activities
+Purchases of property and equipment (16,802) (18,257)
+Purch','[2021.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(460,1180,'EMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2020 2021 2020 2021
+Revenues $ 46,173 $ 65,118 $ 125,629 $ 182,312
+Costs and expenses:
+Cost of revenues 21,117 27,621 58,652 7','[2021.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(461,372,'Accrued revenue share (692) 29
+Deferred revenue 148 134
+Net cash provided by operating activities 25,444 41,179
+Investing activities
+Purchases of property and equipment (11,396) (11,438)
+Purchases of marketable securities (64,111) (60,609)
+Maturities and sales of m','[2021.07.28][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(462,413,'DATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2020 2021 2020 2021
+Revenues $ 38,297 $ 61,880 $ 79,456 $ 117,194
+Costs and expenses:
+Cost of revenues 18,553 26,227 37,535 50','[2021.07.28][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(463,447,'ts payable (689) (1,112)
+Accrued expenses and other liabilities (2,099) 201
+Accrued revenue share (692) 29
+Deferred revenue 148 134
+Net cash provided by operating activities 25,444 41,179
+Investing activities
+Purchases of property and equipment (11,396) (11,438)
+Purch','[2021.07.28][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(464,371,'Accrued revenue share (871) (444)
+Deferred revenue 37 137
+Net cash provided by operating activities 11,451 19,289
+Investing activities
+Purchases of property and equipment (6,005) (5,942)
+Purchases of marketable securities (37,563) (36,426)
+Maturities and sales of m','[2021.04.28][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(465,412,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended
+March 31,
+2020 2021
+Revenues $ 41,159 $ 55,314
+Costs and expenses:
+Cost of revenues 18,982 24,103
+Research and development 6,82','[2021.04.28][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(466,446,'ayable (835) (982)
+Accrued expenses and other liabilities (3,531) (3,530)
+Accrued revenue share (871) (444)
+Deferred revenue 37 137
+Net cash provided by operating activities 11,451 19,289
+Investing activities
+Purchases of property and equipment (6,005) (5,942)
+Purchas','[2021.04.28][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(467,370,'1,273 1,639
+Deferred revenue 371 37 635
+Net cash provided by operating activities 47,971 54,520 65,124
+Investing activities
+Purchases of property and equipment (25,139) (23,548) (22,281)
+Purchases of marketable securities (50,158) (100,315) (136,576)
+Maturities and','[2021.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(468,411,'E]
+Year Ended December 31,
+2016 2017 2018 2019 2020
+(in millions, except per share amounts)
+Consolidated Statements of Income Data:
+Revenues $ 90,272 $ 110,855 $ 136,819 $ 161,857 $ 182,527
+Income from operations $ 23,737 $ 26,178 $ 27,524 $ 34,231 $ 41,224
+Net income $','[2021.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(469,445,'[/TABLE]
+
+The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2019 2020
+Net cash provided by operating activities $ 54,520 $ 65,124
+Net cash used in investing activities $ (29,491) $ (32,773)
+Net cash used in fin','[2021.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(470,484,'28
+Other current assets 4,412 5,490
+Total current assets 152,578 174,296
+Non-marketable investments 13,078 20,703
+Deferred income taxes 721 1,084
+Property and equipment, net 73,646 84,749
+Operating lease assets 10,941 12,211
+Intangible assets, net 1,979 1,445
+Goodwill','[2021.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(471,369,'18,658 $ 15,964
+Other Bets 71 120 195 320
+Reconciling items(2) (567) (179) (1,357) 518
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 6,732 $ 5,406 $ 17,496 $ 16,802
+[/TABLE]
+
+(2) Reconciling items are related to timing differe','[2020.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(472,444,'ounts payable (386) (269)
+Accrued expenses and other liabilities 2,927 891
+Accrued revenue share 201 277
+Deferred revenue (149) 428
+Net cash provided by operating activities 40,093 42,447
+Investing activities
+Purchases of property and equipment (17,496) (16,802)
+Purch','[2020.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(473,1179,'MENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2019 2020 2019 2020
+Revenues $ 40,499 $ 46,173 $ 115,782 $ 125,629
+Costs and expenses:
+Cost of revenues 17,568 21,117 50,876 5','[2020.10.30][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(474,368,'36 $ 11,430 $ 10,499
+Other Bets 65 96 124 200
+Reconciling items(2) (835) 459 (790) 697
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 6,126 $ 5,391 $ 10,764 $ 11,396
+[/TABLE]
+
+(2) Reconciling items are related to timing differe','[2020.07.31][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(475,410,'DATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2019 2020 2019 2020
+Revenues $ 38,944 $ 38,297 $ 75,283 $ 79,456
+Costs and expenses:
+Cost of revenues 17,296 18,553 33,308 37,','[2020.07.31][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(476,443,'payable (443) (689)
+Accrued expenses and other liabilities 1,074 (2,099)
+Accrued revenue share (60) (692)
+Deferred revenue (90) 148
+Net cash provided by operating activities 24,627 25,444
+Investing activities
+Purchases of property and equipment (10,764) (11,396)
+Purch','[2020.07.31][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(477,367,'ccrued revenue share (147) (871)
+Deferred revenue (81) 37
+Net cash provided by operating activities 12,000 11,451
+Investing activities
+Purchases of property and equipment (4,638) (6,005)
+Purchases of marketable securities (20,883) (37,563)
+Maturities and sales of m','[2020.04.29][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(478,409,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended
+March 31,
+2019 2020
+Revenues $ 36,339 $ 41,159
+Costs and expenses:
+Cost of revenues 16,012 18,982
+Research and development 6,02','[2020.04.29][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(479,442,'payable (425) (835)
+Accrued expenses and other liabilities (229) (3,531)
+Accrued revenue share (147) (871)
+Deferred revenue (81) 37
+Net cash provided by operating activities 12,000 11,451
+Investing activities
+Purchases of property and equipment (4,638) (6,005)
+Purchas','[2020.04.29][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(480,366,'483 1,273
+Deferred revenue 390 371 37
+Net cash provided by operating activities 37,091 47,971 54,520
+Investing activities
+Purchases of property and equipment (13,184 ) (25,139 ) (23,548 )
+Purchases of marketable securities (92,195 ) (50,158 ) (100,315 )
+Maturities','[2020.02.04][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(481,408,'LE]
+Year Ended December 31,
+2015 2016 2017 2018 2019
+(in millions, except per share amounts)
+Consolidated Statements of Income Data:
+Revenues $ 74,989 $ 90,272 $ 110,855 $ 136,819 $ 161,857
+Income from operations $ 19,360 $ 23,737 $ 26,178 $ 27,524 $ 34,231
+Net income $','[2020.02.04][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(482,441,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2018 2019
+Net cash provided by operating activities $ 47,971 $ 54,520
+Net cash used in investing activities $ (28,504 ) $ (29,491 )
+Net cash used in f','[2020.02.04][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(483,483,'999
+Other current assets 4,236 4,412
+Total current assets 135,676 152,578
+Non-marketable investments 13,859 13,078
+Deferred income taxes 737 721
+Property and equipment, net 59,719 73,646
+Operating lease assets 0 10,941
+Intangible assets, net 2,220 1,979
+Goodwill 17,8','[2020.02.04][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(484,365,'1 $ 18,658
+Other Bets 55 71 120 195
+Reconciling items(2) (416 ) (567 ) (673 ) (1,357 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 5,282 $ 6,732 $ 18,058 $ 17,496
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are related to timing','[2019.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(485,440,'payable 293 (386 )
+Accrued expenses and other liabilities 6,457 2,927
+Accrued revenue share (196 ) 201
+Deferred revenue 272 (149 )
+Net cash provided by operating activities 34,984 40,093
+Investing activities
+Purchases of property and equipment (18,058 ) (17,496 )
+Pur','[2019.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(486,482,',401
+Other current assets 4,236 4,699
+Total current assets 135,676 148,358
+Non-marketable investments 13,859 12,488
+Deferred income taxes 737 564
+Property and equipment, net 59,719 69,252
+Operating lease assets 0 10,341
+Intangible assets, net 2,220 1,747
+Goodwill 17,8','[2019.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(487,1178,'MENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2018 2019 2018 2019
+Revenues $ 33,740 $ 40,499 $ 97,543 $ 115,782
+Costs and expenses:
+Cost of revenues 14,281 17,568 41,631 50','[2019.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(488,364,'12,968 $ 11,430
+Other Bets 10 65 65 124
+Reconciling items(2) 168 (835 ) (257 ) (790 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 5,477 $ 6,126 $ 12,776 $ 10,764
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are related to timing','[2019.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(489,439,'yable (23 ) (443 )
+Accrued expenses and other liabilities 4,600 1,074
+Accrued revenue share (303 ) (60 )
+Deferred revenue 295 (90 )
+Net cash provided by operating activities 21,774 24,627
+Investing activities
+Purchases of property and equipment (12,776 ) (10,764 )
+Pur','[2019.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(490,481,'964
+Other current assets 4,236 4,100
+Total current assets 135,676 147,437
+Non-marketable investments 13,859 12,112
+Deferred income taxes 737 585
+Property and equipment, net 59,719 64,891
+Operating lease assets 0 9,713
+Intangible assets, net 2,220 1,902
+Goodwill 17,88','[2019.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(491,1177,'DATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2018 2019 2018 2019
+Revenues $ 32,657 $ 38,944 $ 63,803 $ 75,283
+Costs and expenses:
+Cost of revenues 13,883 17,296 27,350 33,','[2019.07.26][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(492,363,'d revenue share (286 ) (147 )
+Deferred revenue 130 (81 )
+Net cash provided by operating activities 11,642 12,000
+Investing activities
+Purchases of property and equipment (7,299 ) (4,638 )
+Proceeds from disposals of property and equipment 30 34
+Purchases of marketab','[2019.04.30][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(493,407,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended
+March 31,
+2018 2019
+Revenues $ 31,146 $ 36,339
+Costs and expenses:
+Cost of revenues 13,467 16,012
+Research and development 5,03','[2019.04.30][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(494,438,'le 122 (425 )
+Accrued expenses and other liabilities (1,142 ) (229 )
+Accrued revenue share (286 ) (147 )
+Deferred revenue 130 (81 )
+Net cash provided by operating activities 11,642 12,000
+Investing activities
+Purchases of property and equipment (7,299 ) (4,638 )
+Proce','[2019.04.30][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(495,480,',053
+Other current assets 4,236 4,406
+Total current assets 135,676 138,207
+Non-marketable investments 13,859 14,474
+Deferred income taxes 737 750
+Property and equipment, net 59,719 60,528
+Operating lease assets 0 8,837
+Intangible assets, net 2,220 2,063
+Goodwill 17,88','[2019.04.30][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(496,362,'3 955 483
+Deferred revenue 223 390 371
+Net cash provided by operating activities 36,036 37,091 47,971
+Investing activities
+Purchases of property and equipment (10,212 ) (13,184 ) (25,139 )
+Proceeds from disposals of property and equipment 240 99 98
+Purchases of mark','[2019.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(497,406,'BLE]
+Year Ended December 31,
+2014 2015 2016 2017 2018
+(in millions, except per share amounts)
+Consolidated Statements of Income Data:
+Revenues $ 66,001 $ 74,989 $ 90,272 $ 110,855 $ 136,819
+Income from operations $ 16,496 $ 19,360 $ 23,716 $ 26,146 $ 26,321
+Net income f','[2019.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(498,437,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2016 2017 2018
+Net cash provided by operating activities $ 36,036 $ 37,091 $ 47,971
+Net cash used in investing activities $ (31,165 ) $ (31,401 ) $ (28,504 )
+Net ca','[2019.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(499,479,'1,107
+Other current assets 2,983 4,236
+Total current assets 124,308 135,676
+Non-marketable investments 7,813 13,859
+Deferred income taxes 680 737
+Property and equipment, net 42,383 59,719
+Intangible assets, net 2,692 2,220
+Goodwill 16,747 17,888
+Other non-current asse','[2019.02.05][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(500,361,',810 $ 18,611
+Other Bets 73 55 388 120
+Reconciling items(2) (98 ) (416 ) (321 ) (673 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 3,538 $ 5,282 $ 8,877 $ 18,058
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are related to timing','[2018.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(501,405,'MENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2017 2018 2017 2018
+Revenues $ 27,772 $ 33,740 $ 78,532 $ 97,543
+Costs and expenses:
+Cost of revenues 11,148 14,281 31,316 41,','[2018.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(502,436,'ccounts payable 58 293
+Accrued expenses and other liabilities 3,121 6,457
+Accrued revenue share 182 (196 )
+Deferred revenue 228 272
+Net cash provided by operating activities 26,823 34,984
+Investing activities
+Purchases of property and equipment (8,877 ) (18,058 )
+Proc','[2018.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(503,478,'1,212
+Other current assets 2,983 4,007
+Total current assets 124,308 129,702
+Non-marketable investments 7,813 12,673
+Deferred income taxes 680 682
+Property and equipment, net 42,383 55,300
+Intangible assets, net 2,692 2,448
+Goodwill 16,747 17,895
+Other non-current asse','[2018.10.26][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(504,360,'5,247 $ 12,968
+Other Bets 148 10 315 65
+Reconciling items(2) (155 ) 168 (223 ) (257 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 2,831 $ 5,477 $ 5,339 $ 12,776
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are related to timing','[2018.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(505,404,'DATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2017 2018 2017 2018
+Revenues $ 26,010 $ 32,657 $ 50,760 $ 63,803
+Costs and expenses:
+Cost of revenues 10,373 13,883 20,168 27,','[2018.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(506,435,'counts payable 119 (23 )
+Accrued expenses and other liabilities 1,687 4,600
+Accrued revenue share 6 (303 )
+Deferred revenue 195 295
+Net cash provided by operating activities 16,951 21,774
+Investing activities
+Purchases of property and equipment (5,339 ) (12,776 )
+Proc','[2018.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(507,477,'9 698
+Other current assets 2,983 3,961
+Total current assets 124,308 124,157
+Non-marketable investments 7,813 11,487
+Deferred income taxes 680 685
+Property and equipment, net 42,383 51,672
+Intangible assets, net 2,692 2,662
+Goodwill 16,747 17,895
+Other non-current asse','[2018.07.24][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(508,359,'crued revenue share (74 ) (286 )
+Deferred revenue 111 130
+Net cash provided by operating activities 9,548 11,642
+Investing activities
+Purchases of property and equipment (2,508 ) (7,299 )
+Proceeds from disposals of property and equipment 41 30
+Purchases of marketab','[2018.04.24][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(509,403,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended
+March 31,
+2017 2018
+Revenues $ 24,750 $ 31,146
+Costs and expenses:
+Cost of revenues 9,795 13,467
+Research and development 3,942','[2018.04.24][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(510,434,'payable 103 122
+Accrued expenses and other liabilities (1,868 ) (1,142 )
+Accrued revenue share (74 ) (286 )
+Deferred revenue 111 130
+Net cash provided by operating activities 9,548 11,642
+Investing activities
+Purchases of property and equipment (2,508 ) (7,299 )
+Proce','[2018.04.24][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(511,476,'9 636
+Other current assets 2,983 3,426
+Total current assets 124,308 123,761
+Non-marketable investments 7,813 10,976
+Deferred income taxes 680 678
+Property and equipment, net 42,383 48,845
+Intangible assets, net 2,692 2,809
+Goodwill 16,747 17,862
+Other non-current asse','[2018.04.24][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(512,358,'339 593 955
+Deferred revenue 43 223 390
+Net cash provided by operating activities 26,572 36,036 37,091
+Investing activities
+Purchases of property and equipment (9,950 ) (10,212 ) (13,184 )
+Proceeds from disposals of property and equipment 35 240 99
+Purchases of mark','[2018.02.06][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(513,402,'ABLE]
+Year Ended December 31,
+2013 2014 2015 2016 2017
+(in millions, except per share amounts)
+Consolidated Statements of Income Data:
+Revenues $ 55,519 $ 66,001 $ 74,989 $ 90,272 $ 110,855
+Income from operations 15,403 16,496 19,360 23,716 26,146
+Net income from contin','[2018.02.06][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(514,433,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2015 2016 2017
+Net cash provided by operating activities $ 26,572 $ 36,036 $ 37,091
+Net cash used in investing activities $ (23,711 ) $ (31,165 ) $ (31,401 )
+Net ca','[2018.02.06][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(515,475,'68 749
+Other current assets 4,575 2,983
+Total current assets 105,408 124,308
+Non-marketable investments 5,878 7,813
+Deferred income taxes 383 680
+Property and equipment, net 34,234 42,383
+Intangible assets, net 3,307 2,692
+Goodwill 16,468 16,747
+Other non-current asse','[2018.02.06][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(516,357,',529 $ 8,800
+Other Bets 324 77 881 398
+Reconciling items(2) (204 ) (98 ) (276 ) (321 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 2,554 $ 3,538 $ 7,134 $ 8,877
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are related to timing d','[2017.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(517,401,'MENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2016 2017 2016 2017
+Revenues $ 22,451 $ 27,772 $ 64,208 $ 78,532
+Costs and expenses:
+Cost of revenues 8,699 11,148 24,477 31,3','[2017.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(518,432,'86 )
+Accounts payable 238 58
+Accrued expenses and other liabilities 338 3,121
+Accrued revenue share 138 182
+Deferred revenue 42 228
+Net cash provided by operating activities 26,623 26,823
+Investing activities
+Purchases of property and equipment (7,134 ) (8,877 )
+Proce','[2017.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(519,474,'68 765
+Other current assets 4,575 2,860
+Total current assets 105,408 119,345
+Non-marketable investments 5,878 7,269
+Deferred income taxes 383 505
+Property and equipment, net 34,234 40,120
+Intangible assets, net 3,307 2,883
+Goodwill 16,468 16,731
+Other non-current asse','[2017.10.27][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(520,356,'095 $ 5,241
+Other Bets 280 151 557 321
+Reconciling items(2) (200 ) (155 ) (72 ) (223 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 2,136 $ 2,831 $ 4,580 $ 5,339
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are related to timing d','[2017.07.25][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(521,400,'DATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2016 2017 2016 2017
+Revenues $ 21,500 $ 26,010 $ 41,757 $ 50,760
+Costs and expenses:
+Cost of revenues 8,130 10,373 15,778 20,1','[2017.07.25][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(522,431,'ccounts payable (221 ) 119
+Accrued expenses and other liabilities (471 ) 1,687
+Accrued revenue share (48 ) 6
+Deferred revenue 3 195
+Net cash provided by operating activities 16,778 16,951
+Investing activities
+Purchases of property and equipment (4,580 ) (5,339 )
+Proce','[2017.07.25][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(523,473,'86
+Prepaid revenue share, expenses and other assets, non-current 1,819 2,004
+Non-marketable investments 5,878 6,642
+Deferred income taxes 383 376
+Property and equipment, net 34,234 37,676
+Intangible assets, net 3,307 2,933
+Goodwill 16,468 16,604
+Total assets $ 167,497','[2017.07.25][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(524,355,'Accrued revenue share (131 ) (74 )
+Deferred revenue 18 111
+Net cash provided by operating activities 7,658 9,548
+Investing activities
+Purchases of property and equipment (2,444 ) (2,508 )
+Proceeds from disposals of property and equipment 16 41
+Purchases of marketab','[2017.05.02][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(525,399,'CONSOLIDATED STATEMENTS OF INCOME
+
+(in millions, except per share amounts; unaudited)
+
+[TABLE]
+Three Months Ended
+March 31,
+2016 2017
+Revenues $ 20,257 $ 24,750
+Costs and expenses:
+Cost of revenues 7,648 9,795
+Research and development 3,367','[2017.05.02][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(526,430,'yable (269 ) 103
+Accrued expenses and other liabilities (1,064 ) (1,868 )
+Accrued revenue share (131 ) (74 )
+Deferred revenue 18 111
+Net cash provided by operating activities 7,658 9,548
+Investing activities
+Purchases of property and equipment (2,444 ) (2,508 )
+Proce','[2017.05.02][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(527,472,'94
+Prepaid revenue share, expenses and other assets, non-current 1,819 1,846
+Non-marketable investments 5,878 6,131
+Deferred income taxes 383 365
+Property and equipment, net 34,234 35,936
+Intangible assets, net 3,307 3,137
+Goodwill 16,468 16,547
+Total assets $ 167,497','[2017.05.02][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(528,354,'339 593
+Deferred revenue (175 ) 43 223
+Net cash provided by operating activities 23,024 26,572 36,036
+Investing activities
+Purchases of property and equipment (11,014 ) (9,950 ) (10,212 )
+Proceeds from disposals of property and equipment 55 35 240
+Purchases of mark','[2017.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(529,398,'ABLE]
+Year Ended December 31,
+2012 2013 2014 2015 2016
+(in millions, except per share amounts)
+Consolidated Statements of Income Data:
+Revenues $ 46,039 $ 55,519 $ 66,001 $ 74,989 $ 90,272
+Income from operations 13,834 15,403 16,496 19,360 23,716
+Net income from contin','[2017.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(530,429,'[TABLE]
+Year Ended December 31,
+2014 (1) 2015 (1) 2016
+Net cash provided by operating activities $ 23,024 $ 26,572 $ 36,036
+Net cash used in investing activities (21,055 ) (23,711 ) (31,165 )
+Net cash use','[2017.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(531,471,'08
+Prepaid revenue share, expenses and other assets, non-current 3,181 1,819
+Non-marketable investments 5,183 5,878
+Deferred income taxes 251 383
+Property and equipment, net 29,016 34,234
+Intangible assets, net 3,847 3,307
+Goodwill 15,869 16,468
+Total assets $ 147,461','[2017.02.03][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(532,353,'7,081 $ 6,529
+Other Bets 271 324 657 881
+Reconciling items(2) (228 ) (204 ) 110 (276 )
+Total capital expenditures as presented on the Consolidated Statements of Cash Flows $ 2,383 $ 2,554 $ 7,848 $ 7,134
+[/TABLE]
+
+28
+
+[TABLE]
+Table of Contents Alphabet Inc.
+[/TABLE]','[2016.11.03][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(533,397,'ENTS OF INCOME
+
+(In millions, except per share amounts)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2015 2016 2015 2016
+(unaudited)
+Revenues $ 18,675 $ 22,451 $ 53,660 $ 64,208
+Costs and expenses:
+Cost of revenues 7,037 8,699 19,976 24,47','[2016.11.03][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(534,428,'ccounts payable (168 ) 238
+Accrued expenses and other liabilities 820 338
+Accrued revenue share (69 ) 138
+Deferred revenue (55 ) 42
+Net cash provided by operating activities 19,963 26,623
+Investing activities
+Purchases of property and equipment (7,848 ) (7,134 )
+Proce','[2016.11.03][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(535,470,'46
+Prepaid revenue share, expenses and other assets, non-current 3,181 3,276
+Non-marketable investments 5,183 5,705
+Deferred income taxes 251 273
+Property and equipment, net 29,016 32,753
+Intangible assets, net 3,847 3,367
+Goodwill 15,869 16,028
+Total assets $ 147,461','[2016.11.03][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(536,352,',056 $ 4,741 $ 4,095
+Other Bets 232 280 386 557
+Reconciling items(2) 223 (213 ) 315 (101 )
+Total capital expenditures as presented in Consolidated Statements of Cash Flows $ 2,515 $ 2,123 $ 5,442 $ 4,551
+[/TABLE]
+
+[TABLE]
+(2) Reconciling items are primarily related t','[2016.08.04][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(537,396,'ATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+[TABLE]
+Three Months Ended Six Months Ended
+June 30, June 30,
+2015 2016 2015 2016
+(unaudited)
+Revenues $ 17,727 $ 21,500 $ 34,985 $ 41,757
+Costs and expenses:
+Cost of revenues 6,583 8,130 12,939 15,77','[2016.08.04][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(538,427,'payable (398 ) (221 )
+Accrued expenses and other liabilities 237 (471 )
+Accrued revenue share (121 ) (48 )
+Deferred revenue (34 ) 3
+Net cash provided by operating activities 13,818 16,778
+Investing activities
+Purchases of property and equipment (5,442 ) (4,551 )
+Purch','[2016.08.04][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(539,469,'38
+Prepaid revenue share, expenses and other assets, non-current 3,181 3,275
+Non-marketable investments 5,183 5,820
+Deferred income taxes 251 253
+Property and equipment, net 29,016 31,413
+Intangible assets, net 3,847 3,452
+Goodwill 15,869 15,841
+Total assets $ 147,461','[2016.08.04][GOOGL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(540,351,'rued revenue share (205 ) (131 )
+Deferred revenue (59 ) 18
+Net cash provided by operating activities 6,722 7,658
+Investing activities
+Purchases of property and equipment (2,927 ) (2,428 )
+Purchases of marketable securities (12,558 ) (20,748 )
+Maturities and sales o','[2016.05.03][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(541,395,'CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+[TABLE]
+Three Months Ended
+March 31,
+2015 2016
+(unaudited)
+Revenues $ 17,258 $ 20,257
+Costs and expenses:
+Cost of revenues 6,356 7,648
+Research and development 2,753','[2016.05.03][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(542,426,'le (24 ) (269 )
+Accrued expenses and other liabilities (601 ) (1,064 )
+Accrued revenue share (205 ) (131 )
+Deferred revenue (59 ) 18
+Net cash provided by operating activities 6,722 7,658
+Investing activities
+Purchases of property and equipment (2,927 ) (2,428 )
+Purch','[2016.05.03][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(543,468,'55
+Prepaid revenue share, expenses and other assets, non-current 3,181 3,297
+Non-marketable investments 5,183 5,577
+Deferred income taxes 251 233
+Property and equipment, net 29,016 30,162
+Intangible assets, net 3,847 3,657
+Goodwill 15,869 15,866
+Total assets $ 147,461','[2016.05.03][GOOGL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(544,350,'245 339
+Deferred revenue 233 (175 ) 43
+Net cash provided by operating activities 18,659 22,376 26,024
+Investing activities
+Purchases of property and equipment (7,358 ) (10,959 ) (9,915 )
+Purchases of marketable securities (45,444 ) (56,310 ) (74,368 )
+Maturities a','[2016.02.11][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(545,394,'presented:
+
+[TABLE]
+Year Ended December 31,
+2011(1) 2012(1) 2013(1) 2014(1) 2015
+(in millions)
+Consolidated Statements of Income Data:
+Revenues $ 37,905 $ 46,039 $ 55,519 $ 66,001 $ 74,989
+Income from operations 11,742 13,834 15,403 16,496 19,360
+Net income from contin','[2016.02.11][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(546,425,'For 2013, 2014 and 2015, our cash flows were as follows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2013 2014 2015
+Net cash provided by operating activities $ 18,659 $ 22,376 $ 26,024
+Net cash used in investing activities (13,679 ) (21,055 ) (23,711 )
+Net cash use','[2016.02.11][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(547,467,'14
+Prepaid revenue share, expenses and other assets, non-current 3,187 3,181
+Non-marketable investments 3,079 5,183
+Deferred income taxes 176 251
+Property and equipment, net 23,883 29,016
+Intangible assets, net 4,607 3,847
+Goodwill 15,599 15,869
+Total assets $ 129,187','[2016.02.11][GOOGL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(548,393,'ENTS OF INCOME
+
+(In millions, except per share amounts)
+
+[TABLE]
+Three Months Ended Nine Months Ended
+September 30, September 30,
+2014 2015 2014 2015
+(unaudited)
+Revenues $ 16,523 $ 18,675 $ 47,898 $ 53,660
+Costs and expenses:
+Cost of revenues 6,695 7,037 18,770 19,97','[2015.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(549,424,'counts payable (113 ) (168 )
+Accrued expenses and other liabilities 416 820
+Accrued revenue share 36 (69 )
+Deferred revenue 0 (55 )
+Net cash provided by operating activities 16,012 19,609
+Investing activities
+Purchases of property and equipment (7,408 ) (7,815 )
+Purch','[2015.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(550,466,'tal current assets 79,978 88,103
+Prepaid revenue share, expenses and other assets, non-current 3,280 3,329
+Non-marketable investments 3,079 4,813
+Property and equipment, net 23,883 28,338
+Intangible assets, net 4,607 4,023
+Goodwill 15,599 15,675
+Total assets $ 130,426','[2015.10.29][GOOGL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(551,1091,'ash equivalents 152 (1,224)
+Net cash and cash equivalents at the end of the period $ 3,260,589 $ 427,273
+[/TABLE]
+
+Operating activities
+
+Our net cash from operating activities was $214.0 million for the six months ended December 31, 2025, compared to net cash from operating','[2026.02.05][IREN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(552,1098,'nded December 31,
+Note 2025 2024 2025 2024
+Revenue:
+Bitcoin mining revenue $ 167,394 $ 113,483 $ 400,342 $ 163,058
+AI Cloud Services revenue 17,298 2,661 24,645 5,850
+Total revenue 184,692 116,144 424,987 168,908
+Cost of revenue (exclusive of depreciation and amor','[2026.02.05][IREN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(553,1381,'Our total revenue was $184.7 million and $116.1 million for the three months ended December 31, 2025 and 2024, respectively, and $425.0 million and $168.9 million for the six months ended December 31, 2025 and 2024, respectively','[2026.02.05][IREN][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(554,1090,'1,032,263 $ 98,589
+[/TABLE]
+
+48
+
+Operating activities
+
+Comparison of cash flows for the three months ended September 30, 2025 and 2024
+
+Our net cash from operating activities was $142.4 million for the three months ended September 30, 2025, compared to net cash used in ope','[2025.11.06][IREN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(555,1097,'(728) (232)
+Total cost of revenue (80,673) (31,859)
+Operating (expenses) income:
+Selling, general and administrative expenses 4 (138,359) (25,172)
+Depreciation and amortization 9 (85,226) (33,931)
+Impairment of assets 9 (16,257) (6,942)
+Gain (loss) on disposal o','[2025.11.06][IREN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(556,1101,'ets 10 2,910 5,756
+Income taxes receivable 18 — 2,581
+Other receivables 11,353 20,838
+Total current assets 1,123,940 641,173
+Non-current assets
+Property, plant and equipment, net 9 2,115,436 1,930,567
+Operating lease right-of-use asset, net 1,425 1,463
+Deposits and','[2025.11.06][IREN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(557,1380,'share data)
+[/TABLE]
+
+[TABLE]
+Three Months Ended September 30,
+Note 2025 2024
+Revenue:
+Bitcoin mining revenue $ 232,948 $ 49,575
+AI Cloud Services revenue 7,347 3,189
+Total revenue 240,295 52,764
+Cost of revenue (exclusive of depreciation and amortization shown be','[2025.11.06][IREN][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(558,1084,'Our total revenue was $501.0 million for the year ended June 30, 2025, compared to total revenue of $187.2 million for the year ended June 30, 2024','[2025.08.28][IREN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(559,1096,'al cost of revenue (158,992) (87,067) (39,419)
+Operating (expenses) income:
+Selling, general and administrative expenses (136,458) (70,424) (49,004)
+Depreciation and amortization (181,136) (50,470) (30,673)
+Impairment of assets (7,223) — (105,172)
+Gain (loss) on','[2025.08.28][IREN][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(560,535,'ities (2,883) (1,199)
+Other liabilities 868 1,691
+Net cash provided by operating activities 79,586 63,340
+Cash flows from investing activities
+Purchases of property and equipment (48,308) (22,831)
+Purchases of marketable securities (22,349) (14,644)
+Sales and maturi','[2025.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(561,597,'assets (209) (70)
+Accounts payable (637) (195)
+Accrued expenses and other current liabilities (2,883) (1,199)
+Other liabilities 868 1,691
+Net cash provided by operating activities 79,586 63,340
+Cash flows from investing activities
+Purchases of property and equipment','[2025.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(562,641,'24
+Cash flows from operating activities
+Net income $ 37,690 $ 41,522
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 13,205 11,038
+Share-based compensation 14,537 12,428
+Deferred income taxes 17,704 (3,40','[2025.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(563,1175,'024
+Advertising $ 50,082 $ 39,885 $ 138,037 $ 113,850
+Other revenue 690 434 1,784 1,203
+Family of Apps 50,772 40,319 139,821 115,053
+Reality Labs 470 270 1,252 1,063
+Total revenue $ 51,242 $ 40,589 $ 141,073 $ 116,116
+[/TABLE]
+
+Revenue disaggregated by geography, base','[2025.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(564,534,'ities (3,338) (1,771)
+Other liabilities 1,604 790
+Net cash provided by operating activities 49,587 38,616
+Cash flows from investing activities
+Purchases of property and equipment (29,479) (14,573)
+Purchases of marketable securities (19,509) (10,176)
+Sales and maturi','[2025.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(565,596,'assets (242) (41)
+Accounts payable (574) (862)
+Accrued expenses and other current liabilities (3,338) (1,771)
+Other liabilities 1,604 790
+Net cash provided by operating activities 49,587 38,616
+Cash flows from investing activities
+Purchases of property and equipment','[2025.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(566,640,'24
+Cash flows from operating activities
+Net income $ 34,981 $ 25,834
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 8,242 7,011
+Share-based compensation 8,981 8,178
+Deferred income taxes (2,163) (2,098)','[2025.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(567,1174,'024 2025 2024
+Advertising $ 46,563 $ 38,329 $ 87,955 $ 73,965
+Other revenue 583 389 1,093 769
+Family of Apps 47,146 38,718 89,048 74,734
+Reality Labs 370 353 782 793
+Total revenue $ 47,516 $ 39,071 $ 89,830 $ 75,527
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2025.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(568,533,'bilities (2,231) (1,274)
+Other liabilities 712 83
+Net cash provided by operating activities 24,026 19,246
+Cash flows from investing activities
+Purchases of property and equipment (12,941) (6,400)
+Purchases of marketable securities (11,763) (6,887)
+Sales and maturiti','[2025.05.01][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(569,595,'assets (52) (94)
+Accounts payable (1,034) (1,112)
+Accrued expenses and other current liabilities (2,231) (1,274)
+Other liabilities 712 83
+Net cash provided by operating activities 24,026 19,246
+Cash flows from investing activities
+Purchases of property and equipment','[2025.05.01][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(570,639,'24
+Cash flows from operating activities
+Net income $ 16,644 $ 12,369
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 3,900 3,374
+Share-based compensation 4,147 3,562
+Deferred income taxes (993) (456)
+Oth','[2025.05.01][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(571,1173,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2025 2024
+Revenue $ 42,314 $ 36,455
+Costs and expenses:
+Cost of revenue 7,572 6,640
+Research and developme','[2025.05.01][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(572,532,'activities (in millions):
+
+[TABLE]
+Year Ended December 31,
+2024 2023 2022
+Net cash provided by operating activities $ 91,328 $ 71,113 $ 50,475
+Purchases of property and equipment (37,256) (27,045) (31,186)
+Principal payments on finance leases (1,969) (1,058) (850)
+F','[2025.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(573,594,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2024 2023 2022
+Net cash provided by operating activities $ 91,328 $ 71,113 $ 50,475
+Net cash used in investing activities $ (47,150) $ (24,495) $','[2025.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(574,638,'lows from operating activities
+Net income $ 62,360 $ 39,098 $ 23,200
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 15,498 11,178 8,686
+Share-based compensation 16,690 14,027 11,992
+Deferred income taxes','[2025.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(575,1172,'633 $ 131,948 $ 113,642 22 % 16 %
+Other revenue 1,722 1,058 808 63 % 31 %
+Family of Apps 162,355 133,006 114,450 22 % 16 %
+Reality Labs 2,146 1,896 2,159 13 % (12) %
+Total revenue $ 164,501 $ 134,902 $ 116,609 22 % 16 %
+[/TABLE]
+
+Family of Apps
+
+FoA revenue in 2024 inc','[2025.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(576,531,'s (1,199) 5,355
+Other liabilities 1,691 (39)
+Net cash provided by operating activities 63,340 51,709
+Cash flows from investing activities
+Purchases of property and equipment, net (22,831) (19,453)
+Purchases of marketable debt securities (14,644) (1,810)
+Sales and ma','[2024.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(577,593,'ther assets (70) 31
+Accounts payable (195) (543)
+Accrued expenses and other current liabilities (1,199) 5,355
+Other liabilities 1,691 (39)
+Net cash provided by operating activities 63,340 51,709
+Cash flows from investing activities
+Purchases of property and equipment,','[2024.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(578,637,'23
+Cash flows from operating activities
+Net income $ 41,522 $ 25,081
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 11,038 8,006
+Share-based compensation 12,428 10,603
+Deferred income taxes (3,406) 1,292','[2024.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(579,1171,'2024 2023
+Advertising $ 39,885 $ 33,643 $ 113,850 $ 93,242
+Other revenue 434 293 1,203 724
+Family of Apps 40,319 33,936 115,053 93,966
+Reality Labs 270 210 1,063 825
+Total revenue $ 40,589 $ 34,146 $ 116,116 $ 94,791
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2024.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(580,530,'ities (1,771) 5,268
+Other liabilities 790 33
+Net cash provided by operating activities 38,616 31,307
+Cash flows from investing activities
+Purchases of property and equipment, net (14,573) (12,957)
+Purchases of marketable debt securities (10,176) (803)
+Sales and matu','[2024.08.01][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(581,592,'Other assets (41) 67
+Accounts payable (862) (1,155)
+Accrued expenses and other current liabilities (1,771) 5,268
+Other liabilities 790 33
+Net cash provided by operating activities 38,616 31,307
+Cash flows from investing activities
+Purchases of property and equipment,','[2024.08.01][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(582,636,'23
+Cash flows from operating activities
+Net income $ 25,834 $ 13,498
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 7,011 5,147
+Share-based compensation 8,178 7,111
+Deferred income taxes (2,098) (1,757)','[2024.08.01][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(583,1170,'2023 2024 2023
+Advertising $ 38,329 $ 31,498 $ 73,965 $ 59,599
+Other revenue 389 225 769 430
+Family of Apps 38,718 31,723 74,734 60,029
+Reality Labs 353 276 793 616
+Total revenue $ 39,071 $ 31,999 $ 75,527 $ 60,645
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2024.08.01][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(584,529,'bilities (1,274) 94
+Other liabilities 83 184
+Net cash provided by operating activities 19,246 13,998
+Cash flows from investing activities
+Purchases of property and equipment, net (6,400) (6,823)
+Purchases of marketable debt securities (6,887) (85)
+Sales and maturit','[2024.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(585,591,'1
+Other assets (94) 30
+Accounts payable (1,112) (1,104)
+Accrued expenses and other current liabilities (1,274) 94
+Other liabilities 83 184
+Net cash provided by operating activities 19,246 13,998
+Cash flows from investing activities
+Purchases of property and equipment,','[2024.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(586,635,'023
+Cash flows from operating activities
+Net income $ 12,369 $ 5,709
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 3,374 2,524
+Share-based compensation 3,562 3,051
+Deferred income taxes (456) (620)
+Imp','[2024.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(587,1169,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2024 2023
+Revenue $ 36,455 $ 28,645
+Costs and expenses:
+Cost of revenue 6,640 6,108
+Research and developme','[2024.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(588,528,'4,210 3,544
+Other liabilities 624 886 941
+Net cash provided by operating activities 71,113 50,475 57,683
+Cash flows from investing activities
+Purchases of property and equipment (27,266) (31,431) (18,690)
+Proceeds relating to property and equipment 221 245 123
+Purc','[2024.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(589,590,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2023 2022 2021
+Net cash provided by operating activities $ 71,113 $ 50,475 $ 57,683
+Net cash used in investing activities $ (24,495) $ (28,970) $','[2024.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(590,634,'lows from operating activities
+Net income $ 39,098 $ 23,200 $ 39,370
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 11,178 8,686 7,967
+Share-based compensation 14,027 11,992 9,164
+Deferred income taxes 1','[2024.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(591,1168,'48 $ 113,642 $ 114,934 16 % (1) %
+Other revenue 1,058 808 721 31 % 12 %
+Family of Apps 133,006 114,450 115,655 16 % (1) %
+Reality Labs 1,896 2,159 2,274 (12) % (5) %
+Total revenue $ 134,902 $ 116,609 $ 117,929 16 % (1) %
+[/TABLE]
+
+Family of Apps
+
+FoA revenue in 2023 in','[2024.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(592,527,'iabilities 5,702 2,942
+Other liabilities (39) 411
+Net cash provided by operating activities 51,709 35,964
+Cash flows from investing activities
+Purchases of property and equipment (19,601) (22,388)
+Proceeds relating to property and equipment 148 190
+Purchases of mark','[2023.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(593,589,'unts payable (543) (666)
+Partners payable (347) (12)
+Accrued expenses and other current liabilities 5,702 2,942
+Other liabilities (39) 411
+Net cash provided by operating activities 51,709 35,964
+Cash flows from investing activities
+Purchases of property and equipment','[2023.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(594,633,'22
+Cash flows from operating activities
+Net income $ 25,081 $ 18,547
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 8,006 6,310
+Share-based compensation 10,603 8,984
+Deferred income taxes 1,292 (2,113)','[2023.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(595,1167,'022 2023 2022
+Advertising $ 33,643 $ 27,237 $ 93,242 $ 82,387
+Other revenue 293 192 724 624
+Family of Apps 33,936 27,429 93,966 83,011
+Reality Labs 210 285 825 1,433
+Total revenue $ 34,146 $ 27,714 $ 94,791 $ 84,444
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2023.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(596,526,'iabilities 5,624 1,943
+Other liabilities 33 (122)
+Net cash provided by operating activities 31,307 26,272
+Cash flows from investing activities
+Purchases of property and equipment (13,058) (13,013)
+Proceeds relating to property and equipment 101 170
+Purchases of mark','[2023.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(597,588,'ts payable (1,155) (645)
+Partners payable (356) (33)
+Accrued expenses and other current liabilities 5,624 1,943
+Other liabilities 33 (122)
+Net cash provided by operating activities 31,307 26,272
+Cash flows from investing activities
+Purchases of property and equipment','[2023.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(598,632,'22
+Cash flows from operating activities
+Net income $ 13,498 $ 14,152
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 5,147 4,135
+Share-based compensation 7,111 5,850
+Deferred income taxes (1,757) (1,016)','[2023.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(599,1166,'022 2023 2022
+Advertising $ 31,498 $ 28,152 $ 59,599 $ 55,150
+Other revenue 225 218 430 433
+Family of Apps 31,723 28,370 60,029 55,583
+Reality Labs 276 452 616 1,146
+Total revenue $ 31,999 $ 28,822 $ 60,645 $ 56,729
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2023.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(600,525,'nt liabilities 334 763
+Other liabilities 184 (57)
+Net cash provided by operating activities 13,998 14,076
+Cash flows from investing activities
+Purchases of property and equipment (6,842) (5,441)
+Proceeds relating to property and equipment 19 126
+Purchases of market','[2023.04.27][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(601,587,'ounts payable (1,104) (882)
+Partners payable (240) (105)
+Accrued expenses and other current liabilities 334 763
+Other liabilities 184 (57)
+Net cash provided by operating activities 13,998 14,076
+Cash flows from investing activities
+Purchases of property and equipment','[2023.04.27][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(602,631,'2022
+Cash flows from operating activities
+Net income $ 5,709 $ 7,465
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 2,524 2,156
+Share-based compensation 3,051 2,498
+Deferred income taxes (620) (563)
+Imp','[2023.04.27][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(603,1165,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2023 2022
+Revenue $ 28,645 $ 27,908
+Costs and expenses:
+Cost of revenue 6,108 6,005
+Research and developme','[2023.04.27][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(604,524,',544 (946)
+Other liabilities 886 941 (527)
+Net cash provided by operating activities 50,475 57,683 38,747
+Cash flows from investing activities
+Purchases of property and equipment (31,431) (18,690) (15,163)
+Proceeds relating to property and equipment 245 123 48
+Purch','[2023.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(605,586,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2022 2021 2020
+Net cash provided by operating activities $ 50,475 $ 57,683 $ 38,747
+Net cash used in investing activities $ (28,970) $ (7,570) $','[2023.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(606,630,'lows from operating activities
+Net income $ 23,200 $ 39,370 $ 29,146
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 8,686 7,967 6,862
+Share-based compensation 11,992 9,164 6,536
+Deferred income taxes (3','[2023.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(607,1164,'113,642 $ 114,934 $ 84,169 (1) % 37 %
+Other revenue 808 721 657 12 % 10 %
+Family of Apps 114,450 115,655 84,826 (1) % 36 %
+Reality Labs 2,159 2,274 1,139 (5) % 100 %
+Total revenue $ 116,609 $ 117,929 $ 85,965 (1) % 37 %
+[/TABLE]
+
+Family of Apps
+
+FoA revenue in 2022 dec','[2023.02.02][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(608,523,'ue and deposits (35) 87
+Other liabilities 446 527
+Net cash provided by operating activities 35,964 39,579
+Cash flows from investing activities
+Purchases of property and equipment (22,388) (13,290)
+Proceeds relating to property and equipment 190 92
+Purchases of marke','[2022.10.27][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(609,585,'ayable (12) (163)
+Accrued expenses and other current liabilities 2,942 895
+Deferred revenue and deposits (35) 87
+Other liabilities 446 527
+Net cash provided by operating activities 35,964 39,579
+Cash flows from investing activities
+Purchases of property and equipment','[2022.10.27][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(610,629,'21
+Cash flows from operating activities
+Net income $ 18,547 $ 29,085
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 6,310 5,953
+Share-based compensation 8,984 6,757
+Deferred income taxes (2,113) (139)
+I','[2022.10.27][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(611,1163,'1 2022 2021
+Advertising $ 27,237 $ 28,276 $ 82,387 $ 82,294
+Other revenue 192 176 624 567
+Family of Apps 27,429 28,452 83,011 82,861
+Reality Labs 285 558 1,433 1,397
+Total revenue $ 27,714 $ 29,010 $ 84,444 $ 84,258
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2022.10.27][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(612,522,'ue and deposits (28) 9
+Other liabilities (94) 184
+Net cash provided by operating activities 26,272 25,489
+Cash flows from investing activities
+Purchases of property and equipment (13,013) (8,944)
+Proceeds relating to property and equipment 170 60
+Purchases of market','[2022.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(613,584,'able (33) (133)
+Accrued expenses and other current liabilities 1,943 (200)
+Deferred revenue and deposits (28) 9
+Other liabilities (94) 184
+Net cash provided by operating activities 26,272 25,489
+Cash flows from investing activities
+Purchases of property and equipment','[2022.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(614,628,'21
+Cash flows from operating activities
+Net income $ 14,152 $ 19,892
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 4,135 3,958
+Share-based compensation 5,850 4,379
+Deferred income taxes (1,016) 647
+Oth','[2022.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(615,1162,'021 2022 2021
+Advertising $ 28,152 $ 28,580 $ 55,150 $ 54,018
+Other revenue 218 192 433 391
+Family of Apps 28,370 28,772 55,583 54,409
+Reality Labs 452 305 1,146 839
+Total revenue $ 28,822 $ 29,077 $ 56,729 $ 55,248
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2022.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(616,521,'nue and deposits (52) 6
+Other liabilities (5) 210
+Net cash provided by operating activities 14,076 12,242
+Cash flows from investing activities
+Purchases of property and equipment (5,441) (4,303)
+Proceeds relating to property and equipment 126 31
+Purchases of market','[2022.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(617,583,'yable (105) (72)
+Accrued expenses and other current liabilities 763 (1,681)
+Deferred revenue and deposits (52) 6
+Other liabilities (5) 210
+Net cash provided by operating activities 14,076 12,242
+Cash flows from investing activities
+Purchases of property and equipment','[2022.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(618,627,'2021
+Cash flows from operating activities
+Net income $ 7,465 $ 9,497
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 2,156 1,972
+Share-based compensation 2,498 1,830
+Deferred income taxes (563) 418
+Other','[2022.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(619,1161,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2022 2021
+Revenue $ 27,908 $ 26,171
+Costs and expenses:
+Cost of revenue 6,005 5,131
+Research and developme','[2022.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(620,520,'ties (in millions):
+
+[TABLE]
+Year Ended December 31,
+2021 2020 2019
+Net cash provided by operating activities $ 57,683 $ 38,747 $ 36,314
+Less: Purchases of property and equipment (18,567) (15,115) (15,102)
+Less: Principal payments on finance leases (677) (604) (552)','[2022.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(621,582,'The following table presents our cash flows (in millions):
+
+[TABLE]
+Year Ended December 31,
+2021 2020 2019
+Net cash provided by operating activities $ 57,683 $ 38,747 $ 36,314
+Net cash used in investing activities $ (7,570) $ (30,059) $','[2022.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(622,626,'lows from operating activities
+Net income $ 39,370 $ 29,146 $ 18,485
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 7,967 6,862 5,741
+Share-based compensation 9,164 6,536 4,836
+Deferred income taxes 609','[2022.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(623,1160,'ing $ 114,934 $ 84,169 $ 69,655 37 % 21 %
+Other revenue 721 657 541 10 % 21 %
+Family of Apps 115,655 84,826 70,196 36 % 21 %
+Reality Labs 2,274 1,139 501 100 % 127 %
+Total revenue $ 117,929 $ 85,965 $ 70,697 37 % 22 %
+[/TABLE]
+
+Family of Apps
+
+FoA revenue in 2021 incre','[2022.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(624,519,'e and deposits 87 111
+Other liabilities 527 (438)
+Net cash provided by operating activities 39,579 24,707
+Cash flows from investing activities
+Purchases of property and equipment (13,198) (10,502)
+Purchases of marketable securities (24,314) (28,193)
+Sales of marketa','[2021.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(625,581,'le (163) (100)
+Accrued expenses and other current liabilities 895 (3,273)
+Deferred revenue and deposits 87 111
+Other liabilities 527 (438)
+Net cash provided by operating activities 39,579 24,707
+Cash flows from investing activities
+Purchases of property and equipment','[2021.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(626,625,'20
+Cash flows from operating activities
+Net income $ 29,085 $ 17,927
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 5,953 4,999
+Share-based compensation 6,757 4,752
+Deferred income taxes (139) (816)
+Oth','[2021.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(627,1159,'Three Months Ended September 30, Nine Months Ended September 30,
+2021 2020 2021 2020
+Advertising $ 28,276 $ 21,221 $ 82,294 $ 56,981
+Other revenue 734 249 1,964 912
+Total revenue $ 29,010 $ 21,470 $ 84,258 $ 57,893
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2021.10.26][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(628,518,'ue and deposits 9 (1)
+Other liabilities 184 (554)
+Net cash provided by operating activities 25,489 14,878
+Cash flows from investing activities
+Purchases of property and equipment (8,884) (6,813)
+Purchases of marketable securities (16,528) (14,063)
+Sales of marketab','[2021.07.29][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(629,580,'e (133) (158)
+Accrued expenses and other current liabilities (200) (3,016)
+Deferred revenue and deposits 9 (1)
+Other liabilities 184 (554)
+Net cash provided by operating activities 25,489 14,878
+Cash flows from investing activities
+Purchases of property and equipment','[2021.07.29][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(630,624,'20
+Cash flows from operating activities
+Net income $ 19,892 $ 10,081
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 3,958 3,301
+Share-based compensation 4,379 3,030
+Deferred income taxes 647 690
+Other (','[2021.07.29][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(631,1158,'):
+
+[TABLE]
+Three Months Ended June 30, Six Months Ended June 30,
+2021 2020 2021 2020
+Advertising $ 28,580 $ 18,321 $ 54,018 $ 35,760
+Other revenue 497 366 1,230 663
+Total revenue $ 29,077 $ 18,687 $ 55,248 $ 36,423
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2021.07.29][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(632,517,'ue and deposits 6 (16)
+Other liabilities 210 (68)
+Net cash provided by operating activities 12,242 11,001
+Cash flows from investing activities
+Purchases of property and equipment (4,272) (3,558)
+Purchases of marketable securities (6,231) (7,884)
+Sales of marketable','[2021.04.29][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(633,579,'able (72) (169)
+Accrued expenses and other current liabilities (1,681) 980
+Deferred revenue and deposits 6 (16)
+Other liabilities 210 (68)
+Net cash provided by operating activities 12,242 11,001
+Cash flows from investing activities
+Purchases of property and equipment','[2021.04.29][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(634,623,'2020
+Cash flows from operating activities
+Net income $ 9,497 $ 4,902
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,972 1,597
+Share-based compensation 1,830 1,335
+Deferred income taxes 418 477
+Other (','[2021.04.29][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(635,1157,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2021 2020
+Revenue $ 26,171 $ 17,737
+Costs and expenses:
+Cost of revenue 5,131 3,459
+Research and developme','[2021.04.29][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(636,516,'cember 31,
+2020 2019 2018 2017 2016
+(in millions)
+Net cash provided by operating activities $ 38,747 $ 36,314 $ 29,274 $ 24,216 $ 16,108
+Less: Purchases of property and equipment (15,115) (15,102) (13,915) (6,733) (4,491)
+Less: Principal payments on finance leases (','[2021.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(637,578,'mparable GAAP measure, net cash provided by operating activities:
+
+[TABLE]
+Year Ended December 31,
+2020 2019 2018 2017 2016
+(in millions)
+Net cash provided by operating activities $ 38,747 $ 36,314 $ 29,274 $ 24,216 $ 16,108
+Less: Purchases of property and equipment (','[2021.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(638,622,'ing activities $ (10,292) $ (7,299) $ (15,572)
+Purchase of property and equipment and principal payments on finance leases $ 15,719 $ 15,654 $ 13,915
+Depreciation and amortization $ 6,862 $ 5,741 $ 4,315
+Share-based compensation $ 6,536 $ 4,836 $ 4,152
+[/TABLE]
+
+Our','[2021.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(639,1156,'31, 2020 vs 2019 % Change 2019 vs 2018 % Change
+2020 2019 2018
+(in millions)
+Advertising $ 84,169 $ 69,655 $ 55,013 21 % 27 %
+Other revenue 1,796 1,042 825 72 % 26 %
+Total revenue $ 85,965 $ 70,697 $ 55,838 22 % 27 %
+[/TABLE]
+
+2020 Compared to 2019','[2021.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(640,515,'posits 111 82
+Other liabilities (438 ) 2,001
+Net cash provided by operating activities 24,707 27,231
+Cash flows from investing activities
+Purchases of property and equipment, net (10,502 ) (11,002 )
+Purchases of marketable securities (28,193 ) (19,152 )
+Sales of mar','[2020.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(641,577,'100 ) 59
+Accrued expenses and other current liabilities (3,273 ) 6,439
+Deferred revenue and deposits 111 82
+Other liabilities (438 ) 2,001
+Net cash provided by operating activities 24,707 27,231
+Cash flows from investing activities
+Purchases of property and equipment,','[2020.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(642,621,'19
+Cash flows from operating activities
+Net income $ 17,927 $ 11,136
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 4,999 4,273
+Share-based compensation 4,752 3,562
+Deferred income taxes (816 ) 358
+Othe','[2020.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(643,664,'31, 2019, respectively 8,024 9,518
+Prepaid expenses and other current assets 2,155 1,852
+Total current assets 65,799 66,225
+Equity investments 6,164 86
+Property and equipment, net 42,291 35,323
+Operating lease right-of-use assets, net 9,439 9,460
+Intangible assets, n','[2020.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(644,1155,'E]
+Three Months Ended September 30, Nine Months Ended September 30,
+2020 2019 2020 2019
+Advertising $ 21,221 $ 17,383 $ 56,981 $ 48,919
+Other revenue 249 269 912 696
+Total revenue $ 21,470 $ 17,652 $ 57,893 $ 49,615
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2020.10.30][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(645,514,'osits (1 ) 51
+Other liabilities (554 ) 1,584
+Net cash provided by operating activities 14,878 17,924
+Cash flows from investing activities
+Purchases of property and equipment, net (6,813 ) (7,470 )
+Purchases of marketable securities (14,063 ) (11,755 )
+Sales of mark','[2020.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(646,576,'58 ) 20
+Accrued expenses and other current liabilities (3,016 ) 5,982
+Deferred revenue and deposits (1 ) 51
+Other liabilities (554 ) 1,584
+Net cash provided by operating activities 14,878 17,924
+Cash flows from investing activities
+Purchases of property and equipment,','[2020.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(647,620,'019
+Cash flows from operating activities
+Net income $ 10,081 $ 5,045
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 3,301 2,857
+Share-based compensation 3,030 2,313
+Deferred income taxes 690 184
+Other 4','[2020.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(648,663,'f June 30, 2020 and December 31, 2019, respectively 7,483 9,518
+Prepaid expenses and other current assets 2,407 1,852
+Total current assets 68,130 66,225
+Property and equipment, net 39,006 35,323
+Operating lease right-of-use assets, net 9,429 9,460
+Intangible assets, n','[2020.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(649,1154,'ns):
+
+[TABLE]
+Three Months Ended June 30, Six Months Ended June 30,
+2020 2019 2020 2019
+Advertising $ 18,321 $ 16,624 $ 35,760 $ 31,536
+Other revenue 366 262 663 427
+Total revenue $ 18,687 $ 16,886 $ 36,423 $ 31,963
+[/TABLE]
+
+15
+
+Revenue disaggregated by geography, ba','[2020.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(650,513,'eposits (16 ) (4 )
+Other liabilities (68 ) 77
+Net cash provided by operating activities 11,001 9,308
+Cash flows from investing activities
+Purchases of property and equipment, net (3,558 ) (3,837 )
+Purchases of marketable securities (7,884 ) (6,603 )
+Sales of market','[2020.04.30][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(651,575,'e (169 ) (1 )
+Accrued expenses and other current liabilities 980 3,154
+Deferred revenue and deposits (16 ) (4 )
+Other liabilities (68 ) 77
+Net cash provided by operating activities 11,001 9,308
+Cash flows from investing activities
+Purchases of property and equipment,','[2020.04.30][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(652,619,'2019
+Cash flows from operating activities
+Net income $ 4,902 $ 2,429
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,597 1,355
+Share-based compensation 1,335 1,010
+Deferred income taxes 477 183
+Other 6','[2020.04.30][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(653,662,'March 31, 2020 and December 31, 2019, respectively 7,289 9,518
+Prepaid expenses and other current assets 1,771 1,852
+Total current assets 69,349 66,225
+Property and equipment, net 37,127 35,323
+Operating lease right-of-use assets, net 9,359 9,460
+Intangible assets, n','[2020.04.30][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(654,1153,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2020 2019
+Revenue $ 17,737 $ 15,077
+Costs and expenses:
+Cost of revenue 3,459 2,816
+Research and developme','[2020.04.30][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(655,512,'r 31,
+2019 2018 2017 2016 2015
+(in millions)
+Net cash provided by operating activities $ 36,314 $ 29,274 $ 24,216 $ 16,108 $ 10,320
+Less: Purchases of property and equipment, net (15,102 ) (13,915 ) (6,733 ) (4,491 ) (2,523 )
+Less: Principal payments on finance leas','[2020.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(656,574,'mparable GAAP measure, net cash provided by operating activities:
+
+[TABLE]
+Year Ended December 31,
+2019 2018 2017 2016 2015
+(in millions)
+Net cash provided by operating activities $ 36,314 $ 29,274 $ 24,216 $ 16,108 $ 10,320
+Less: Purchases of property and equipment,','[2020.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(657,618,'ng activities $ (7,299 ) $ (15,572 ) $ (5,235 )
+Purchase of property and equipment and principal payments on finance leases $ 15,654 $ 13,915 $ 6,733
+Depreciation and amortization $ 5,741 $ 4,315 $ 3,025
+Share-based compensation $ 4,836 $ 4,152 $ 3,723
+[/TABLE]
+
+Our','[2020.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(658,1152,'r 31, 2019 vs 2018 % Change 2018 vs 2017 % Change
+2019 2018 2017
+(in millions)
+Advertising $ 69,655 $ 55,013 $ 39,942 27 % 38 %
+Other revenue 1,042 825 711 26 % 16 %
+Total revenue $ 70,697 $ 55,838 $ 40,653 27 % 37 %
+[/TABLE]
+
+2019 Compared to 2018','[2020.01.30][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(659,511,'-current 2,914 —
+Other liabilities 1,977 102
+Net cash provided by operating activities 27,231 21,656
+Cash flows from investing activities
+Purchases of property and equipment, net (11,002 ) (9,614 )
+Purchases of marketable securities (19,152 ) (12,658 )
+Sales of mark','[2019.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(660,573,'t liabilities 6,439 1,044
+Deferred revenue and deposits 82 20
+Operating lease liabilities, non-current 2,914 —
+Other liabilities 1,977 102
+Net cash provided by operating activities 27,231 21,656
+Cash flows from investing activities
+Purchases of property and equipment,','[2019.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(661,617,'18
+Cash flows from operating activities
+Net income $ 11,136 $ 15,230
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 4,273 3,090
+Share-based compensation 3,562 3,180
+Deferred income taxes 358 83
+Other 44','[2019.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(662,661,'tember 30, 2019 and December 31, 2018, respectively 7,673 7,587
+Prepaid expenses and other current assets 2,137 1,779
+Total current assets 62,079 50,480
+Property and equipment, net 32,284 24,683
+Operating lease right-of-use assets, net 8,403 —
+Intangible assets, net 8','[2019.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(663,1151,'onths Ended September 30, Nine Months Ended September 30,
+2019 2018 2019 2018
+Advertising $ 17,383 $ 13,539 $ 48,919 $ 38,373
+Payments and other fees 269 188 696 551
+Total revenue $ 17,652 $ 13,727 $ 49,615 $ 38,924
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2019.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(664,510,'rrent 1,638 —
+Other liabilities 1,657 (124 )
+Net cash provided by operating activities 17,924 14,158
+Cash flows from investing activities
+Purchases of property and equipment, net (7,470 ) (6,272 )
+Purchases of marketable securities (11,755 ) (8,283 )
+Sales of marke','[2019.07.25][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(665,572,'iabilities 5,982 690
+Deferred revenue and deposits 51 (4 )
+Operating lease liabilities, non-current 1,638 —
+Other liabilities 1,657 (124 )
+Net cash provided by operating activities 17,924 14,158
+Cash flows from investing activities
+Purchases of property and equipment,','[2019.07.25][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(666,616,'018
+Cash flows from operating activities
+Net income $ 5,045 $ 10,093
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 2,857 1,983
+Share-based compensation 2,313 2,141
+Deferred income taxes 184 54
+Other 14','[2019.07.25][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(667,660,'f June 30, 2019 and December 31, 2018, respectively 7,513 7,587
+Prepaid expenses and other current assets 1,852 1,779
+Total current assets 57,961 50,480
+Property and equipment, net 29,999 24,683
+Operating lease right-of-use assets, net 7,272 —
+Intangible assets, net 9','[2019.07.25][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(668,1150,'LE]
+Three Months Ended June 30, Six Months Ended June 30,
+2019 2018 2019 2018
+Advertising $ 16,624 $ 13,038 $ 31,536 $ 24,833
+Payments and other fees 262 193 427 364
+Total revenue $ 16,886 $ 13,231 $ 31,963 $ 25,197
+[/TABLE]
+
+Revenue disaggregated by geography, based','[2019.07.25][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(669,509,'n-current 1,083 —
+Other liabilities 184 (143 )
+Net cash provided by operating activities 9,308 7,860
+Cash flows from investing activities
+Purchases of property and equipment, net (3,837 ) (2,812 )
+Purchases of marketable securities (6,603 ) (4,022 )
+Sales of market','[2019.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(670,571,'iabilities 3,154 707
+Deferred revenue and deposits (4 ) (5 )
+Operating lease liabilities, non-current 1,083 —
+Other liabilities 184 (143 )
+Net cash provided by operating activities 9,308 7,860
+Cash flows from investing activities
+Purchases of property and equipment,','[2019.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(671,615,'2018
+Cash flows from operating activities
+Net income $ 2,429 $ 4,988
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,355 949
+Share-based compensation 1,010 955
+Deferred income taxes 183 (47 )
+Other 6 8','[2019.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(672,659,'March 31, 2019 and December 31, 2018, respectively 6,475 7,587
+Prepaid expenses and other current assets 1,582 1,779
+Total current assets 53,300 50,480
+Property and equipment, net 27,345 24,683
+Operating lease right-of-use assets, net 6,747 —
+Intangible assets, net 1','[2019.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(673,1149,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2019 2018
+Revenue $ 15,077 $ 11,966
+Costs and expenses:
+Cost of revenue 2,816 1,927
+Research and developme','[2019.04.25][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(674,508,'December 31,
+2018 2017 2016 2015 2014
+(in millions)
+Net cash provided by operating activities $ 29,274 $ 24,216 $ 16,108 $ 10,320 $ 7,326
+Purchases of property and equipment, net (13,915 ) (6,733 ) (4,491 ) (2,523 ) (1,831 )
+Free cash flow $ 15,359 $ 17,483 $ 11,617','[2019.01.31][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(675,570,'mparable GAAP measure, net cash provided by operating activities:
+
+[TABLE]
+Year Ended December 31,
+2018 2017 2016 2015 2014
+(in millions)
+Net cash provided by operating activities $ 29,274 $ 24,216 $ 16,108 $ 10,320 $ 7,326
+Purchases of property and equipment, net (13','[2019.01.31][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(676,614,'92 )
+Net cash used in financing activities $ (15,572 ) $ (5,235 ) $ (310 )
+Purchases of property and equipment, net $ (13,915 ) $ (6,733 ) $ (4,491 )
+Depreciation and amortization $ 4,315 $ 3,025 $ 2,342
+Share-based compensation $ 4,152 $ 3,723 $ 3,218
+[/TABLE]
+
+Our','[2019.01.31][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(677,658,', cash equivalents, and marketable securities $ 41,114 $ 41,711 $ 29,449 $ 18,434 $ 11,199
+Working capital $ 43,463 $ 44,803 $ 31,526 $ 19,727 $ 11,966
+Property and equipment, net $ 24,683 $ 13,721 $ 8,591 $ 5,687 $ 3,967
+Total assets $ 97,334 $ 84,524 $ 64,961 $ 49,4','[2019.01.31][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(678,1148,'8 vs 2017 % Change 2017 vs 2016 % Change
+2018 2017 2016
+(in millions)
+Advertising $ 55,013 $ 39,942 $ 26,885 38 % 49 %
+Payments and other fees 825 711 753 16 % (6 )%
+Total revenue $ 55,838 $ 40,653 $ 27,638 37 % 47 %
+[/TABLE]
+
+2018 Compared to 2017','[2019.01.31][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(679,507,'enue and deposits 20 12
+Other liabilities 102 550
+Net cash provided by operating activities 21,656 16,545
+Cash flows from investing activities
+Purchases of property and equipment (9,614 ) (4,470 )
+Purchases of marketable securities (12,658 ) (20,410 )
+Sales of mark','[2018.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(680,551,'Ended September 30, Nine Months Ended September 30,
+2018 2017(1) 2018 2017(1)
+Advertising $ 13,539 $ 10,142 $ 38,373 $ 27,163
+Payments and other fees 188 186 551 518
+Total revenue $ 13,727 $ 10,328 $ 38,924 $ 27,681
+[/TABLE]
+
+(1) As noted above, prior period amounts h','[2018.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(681,569,'tners payable 116 22
+Accrued expenses and other current liabilities 1,044 95
+Deferred revenue and deposits 20 12
+Other liabilities 102 550
+Net cash provided by operating activities 21,656 16,545
+Cash flows from investing activities
+Purchases of property and equipment','[2018.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(682,613,'17
+Cash flows from operating activities
+Net income $ 15,230 $ 11,665
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 3,090 2,172
+Share-based compensation 3,180 2,909
+Deferred income taxes 83 (152 )
+Other','[2018.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(683,657,'tember 30, 2018 and December 31, 2017, respectively 6,058 5,832
+Prepaid expenses and other current assets 1,883 1,020
+Total current assets 49,147 48,563
+Property and equipment, net 21,112 13,721
+Intangible assets, net 1,451 1,884
+Goodwill 18,304 18,221
+Other assets 2,','[2018.10.31][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(684,506,'d deposits (4 ) (4 )
+Other liabilities (124 ) 373
+Net cash provided by operating activities 14,158 10,418
+Cash flows from investing activities
+Purchases of property and equipment (6,272 ) (2,715 )
+Purchases of marketable securities (8,283 ) (14,137 )
+Sales of marke','[2018.07.26][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(685,550,'hree Months Ended June 30, Six Months Ended June 30,
+2018 2017(1) 2018 2017(1)
+Advertising $ 13,038 $ 9,164 $ 24,833 $ 17,021
+Payments and other fees 193 157 364 332
+Total revenue $ 13,231 $ 9,321 $ 25,197 $ 17,353
+[/TABLE]
+
+(1) As noted above, prior period amounts ha','[2018.07.26][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(686,568,'yable 53 (10 )
+Accrued expenses and other current liabilities 690 157
+Deferred revenue and deposits (4 ) (4 )
+Other liabilities (124 ) 373
+Net cash provided by operating activities 14,158 10,418
+Cash flows from investing activities
+Purchases of property and equipment','[2018.07.26][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(687,612,'017
+Cash flows from operating activities
+Net income $ 10,093 $ 6,959
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,983 1,400
+Share-based compensation 2,141 1,899
+Deferred income taxes 54 (58 )
+Other','[2018.07.26][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(688,656,'f June 30, 2018 and December 31, 2017, respectively 5,590 5,832
+Prepaid expenses and other current assets 1,934 1,020
+Total current assets 49,833 48,563
+Property and equipment, net 18,357 13,721
+Intangible assets, net 1,573 1,884
+Goodwill 18,263 18,221
+Other assets 2,','[2018.07.26][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(689,505,'nd deposits (5 ) (10 )
+Other liabilities (143 ) 222
+Net cash provided by operating activities 7,860 5,058
+Cash flows from investing activities
+Purchases of property and equipment (2,812 ) (1,271 )
+Purchases of marketable securities (4,022 ) (6,992 )
+Sales of market','[2018.04.26][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(690,549,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2018 2017
+Revenue $ 11,966 $ 8,032
+Costs and expenses:
+Cost of revenue 1,927 1,159
+Research and developmen','[2018.04.26][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(691,567,'payable 2 (3 )
+Accrued expenses and other current liabilities 707 61
+Deferred revenue and deposits (5 ) (10 )
+Other liabilities (143 ) 222
+Net cash provided by operating activities 7,860 5,058
+Cash flows from investing activities
+Purchases of property and equipment (','[2018.04.26][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(692,611,'2017
+Cash flows from operating activities
+Net income $ 4,988 $ 3,064
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 949 671
+Share-based compensation 955 867
+Deferred income taxes (47 ) (84 )
+Other 8 5','[2018.04.26][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(693,655,'March 31, 2018 and December 31, 2017, respectively 5,115 5,832
+Prepaid expenses and other current assets 1,341 1,020
+Total current assets 50,412 48,563
+Property and equipment, net 16,211 13,721
+Intangible assets, net 1,735 1,884
+Goodwill 18,268 18,221
+Other assets 2,','[2018.04.26][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(694,504,'Ended December 31,
+2017 2016 2015 2014 2013
+(in millions)
+Net cash provided by operating activities $ 24,216 $ 16,108 $ 10,320 $ 7,326 $ 4,831
+Purchases of property and equipment (6,733 ) (4,491 ) (2,523 ) (1,831 ) (1,362 )
+Property and equipment acquired under cap','[2018.02.01][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(695,548,'vs 2016% Change 2016 vs 2015 % Change
+2017 2016 2015
+(in millions)
+Advertising $ 39,942 $ 26,885 $ 17,079 49 % 57 %
+Payments and other fees 711 753 849 (6 )% (11 )%
+Total revenue $ 40,653 $ 27,638 $ 17,928 47 % 54 %
+[/TABLE]
+
+2017 Compared to 2016','[2018.02.01][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(696,566,'mparable GAAP measure, net cash provided by operating activities:
+
+[TABLE]
+Year Ended December 31,
+2017 2016 2015 2014 2013
+(in millions)
+Net cash provided by operating activities $ 24,216 $ 16,108 $ 10,320 $ 7,326 $ 4,831
+Purchases of property and equipment (6,733 )','[2018.02.01][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(697,610,'0,038 ) (11,739 ) (9,434 )
+Net cash used in financing activities (5,235 ) (310 ) (139 )
+Purchases of property and equipment (6,733 ) (4,491 ) (2,523 )
+Depreciation and amortization 3,025 2,342 1,945
+Share-based compensation 3,723 3,218 2,960
+[/TABLE]
+
+Our principal s','[2018.02.01][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(698,654,'Data:
+Cash, cash equivalents, and marketable securities $ 41,711 $ 29,449 $ 18,434 $ 11,199 $ 11,449
+Working capital 44,803 31,526 19,727 11,966 11,801
+Property and equipment, net 13,721 8,591 5,687 3,967 2,882
+Total assets 84,524 64,961 49,407 39,966 17,858
+Capital','[2018.02.01][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(699,503,'enue and deposits 12 21
+Other liabilities 550 677
+Net cash provided by operating activities 16,545 11,178
+Cash flows from investing activities
+Purchases of property and equipment (4,470 ) (3,222 )
+Purchases of marketable securities (20,410 ) (17,368 )
+Sales of mark','[2017.11.02][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(700,547,'ember 30, Nine Months Ended September 30,
+2017 2016 2017 2016
+Revenue:
+United States $ 4,482 $ 3,184 $ 12,057 $ 8,545
+Rest of the world (1) 5,846 3,827 15,624 10,284
+Total revenue $ 10,328 $ 7,011 $ 27,681 $ 18,829
+[/TABLE]
+
+[TABLE]
+(1) No individual country, other th','[2017.11.02][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(701,565,'Partners payable 22 20
+Accrued expenses and other current liabilities 95 642
+Deferred revenue and deposits 12 21
+Other liabilities 550 677
+Net cash provided by operating activities 16,545 11,178
+Cash flows from investing activities
+Purchases of property and equipment','[2017.11.02][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(702,609,'016
+Cash flows from operating activities
+Net income $ 11,665 $ 6,648
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 2,172 1,728
+Share-based compensation 2,909 2,387
+Deferred income taxes (152 ) (201 )
+O','[2017.11.02][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(703,653,'eptember 30, 2017 and December 31, 2016, respectively 4,424 3,993
+Prepaid expenses and other current assets 1,490 959
+Total current assets 44,203 34,401
+Property and equipment, net 12,158 8,591
+Intangible assets, net 2,050 2,535
+Goodwill 18,213 18,122
+Other assets 2,3','[2017.11.02][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(704,502,'nue and deposits (4 ) 23
+Other liabilities 373 646
+Net cash provided by operating activities 10,418 7,142
+Cash flows from investing activities
+Purchases of property and equipment (2,715 ) (2,127 )
+Purchases of marketable securities (14,137 ) (9,635 )
+Sales of marke','[2017.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(705,546,'ths Ended June 30, Six Months Ended June 30,
+2017 2016 2017 2016
+Revenue:
+United States $ 4,048 $ 2,852 $ 7,574 $ 5,361
+Rest of the world (1) 5,273 3,584 9,779 6,457
+Total revenue $ 9,321 $ 6,436 $ 17,353 $ 11,818
+[/TABLE]
+
+[TABLE]
+(1) No individual country, other th','[2017.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(706,564,'rs payable (10 ) 14
+Accrued expenses and other current liabilities 157 414
+Deferred revenue and deposits (4 ) 23
+Other liabilities 373 646
+Net cash provided by operating activities 10,418 7,142
+Cash flows from investing activities
+Purchases of property and equipment (','[2017.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(707,608,'2016
+Cash flows from operating activities
+Net income $ 6,959 $ 4,021
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,400 1,137
+Share-based compensation 1,899 1,563
+Deferred income taxes (58 ) (178 )
+Ot','[2017.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(708,652,'of June 30, 2017 and December 31, 2016, respectively 3,897 3,993
+Prepaid expenses and other current assets 1,455 959
+Total current assets 40,804 34,401
+Property and equipment, net 10,628 8,591
+Intangible assets, net 2,186 2,535
+Goodwill 18,129 18,122
+Other assets 2,0','[2017.07.27][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(709,501,'e and deposits (10 ) (2 )
+Other liabilities 222 351
+Net cash provided by operating activities 5,058 3,477
+Cash flows from investing activities
+Purchases of property and equipment (1,271 ) (1,132 )
+Purchases of marketable securities (6,992 ) (3,126 )
+Sales of market','[2017.05.04][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(710,545,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2017 2016
+Revenue $ 8,032 $ 5,382
+Costs and expenses:
+Cost of revenue 1,159 838
+Research and development','[2017.05.04][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(711,563,'yable (3 ) (3 )
+Accrued expenses and other current liabilities 61 (18 )
+Deferred revenue and deposits (10 ) (2 )
+Other liabilities 222 351
+Net cash provided by operating activities 5,058 3,477
+Cash flows from investing activities
+Purchases of property and equipment (','[2017.05.04][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(712,607,'2016
+Cash flows from operating activities
+Net income $ 3,064 $ 1,738
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 671 552
+Share-based compensation 867 746
+Deferred income taxes (84 ) (77 )
+Other 5 1','[2017.05.04][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(713,651,'of March 31, 2017 and December 31, 2016, respectively 3,415 3,993
+Prepaid expenses and other current assets 1,209 959
+Total current assets 36,930 34,401
+Property and equipment, net 9,462 8,591
+Intangible assets, net 2,360 2,535
+Goodwill 18,126 18,122
+Other assets 1,8','[2017.05.04][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(714,500,'ecember 31,
+2016 2015 2014 2013 2012
+(in millions)
+Net cash provided by operating activities (1) (2) $ 16,108 $ 10,320 $ 7,326 $ 4,831 $ 2,645
+Purchases of property and equipment (4,491 ) (2,523 ) (1,831 ) (1,362 ) (1,235 )
+Property and equipment acquired under cap','[2017.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(715,544,'vs 2015% Change 2015 vs 2014% Change
+2016 2015 2014
+(in millions)
+Advertising $ 26,885 $ 17,079 $ 11,492 57 % 49 %
+Payments and other fees 753 849 974 (11 )% (13 )%
+Total revenue $ 27,638 $ 17,928 $ 12,466 54 % 44 %
+[/TABLE]
+
+2016 Compared to 2015','[2017.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(716,562,'GAAP measure, net cash provided by operating activities:
+
+[TABLE]
+Year Ended December 31,
+2016 2015 2014 2013 2012
+(in millions)
+Net cash provided by operating activities (1) (2) $ 16,108 $ 10,320 $ 7,326 $ 4,831 $ 2,645
+Purchases of property and equipment (4,491 ) (','[2017.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(717,606,'1,739 ) (9,434 ) (5,913 )
+Net cash used in financing activities(1) (310 ) (139 ) (298 )
+Purchases of property and equipment (4,491 ) (2,523 ) (1,831 )
+Depreciation and amortization 2,342 1,945 1,243
+Share-based compensation(1) 3,218 2,960 1,786
+[/TABLE]
+
+[TABLE]
+(1)','[2017.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(718,650,'ata:
+Cash, cash equivalents, and marketable securities $ 29,449 $ 18,434 $ 11,199 $ 11,449 $ 9,626
+Working capital (2) 31,526 19,727 11,966 11,801 9,939
+Property and equipment, net 8,591 5,687 3,967 2,882 2,391
+Total assets (2) 64,961 49,407 39,966 17,858 14,982
+Capi','[2017.02.03][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(719,499,'and deposits 21 (18 )
+Other liabilities (103 ) 914
+Net cash provided by operating activities 9,758 5,772
+Cash flows from investing activities
+Purchases of property and equipment (3,222 ) (1,831 )
+Purchases of marketable securities (17,368 ) (10,333 )
+Sales of mark','[2016.11.03][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(720,543,'ptember 30, Nine Months Ended September 30,
+2016 2015 2016 2015
+Revenue:
+United States $ 3,184 $ 2,166 $ 8,545 $ 5,699
+Rest of the world (1) 3,827 2,335 10,284 6,388
+Total revenue $ 7,011 $ 4,501 $ 18,829 $ 12,087
+[/TABLE]
+
+[TABLE]
+(1) No individual country, other th','[2016.11.03][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(721,560,'s payable 20 40
+Accrued expenses and other current liabilities 641 291
+Deferred revenue and deposits 21 (18 )
+Other liabilities (103 ) 914
+Net cash provided by operating activities 9,758 5,772
+Cash flows from investing activities
+Purchases of property and equipment (','[2016.11.03][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(722,605,'2015
+Cash flows from operating activities
+Net income $ 5,944 $ 2,127
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,728 1,402
+Share-based compensation 2,371 2,214
+Deferred income taxes (123 ) (672 )
+T','[2016.11.03][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(723,649,'eptember 30, 2016 and December 31, 2015, respectively 3,070 2,559
+Prepaid expenses and other current assets 1,118 659
+Total current assets 30,328 21,652
+Property and equipment, net 7,899 5,687
+Intangible assets, net 2,702 3,246
+Goodwill 18,085 18,026
+Other assets 660','[2016.11.03][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(724,498,'nue and deposits 23 (17 )
+Other liabilities 111 350
+Net cash provided by operating activities 6,181 3,580
+Cash flows from investing activities
+Purchases of property and equipment (2,127 ) (1,051 )
+Purchases of marketable securities (9,635 ) (5,560 )
+Sales of market','[2016.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(725,542,'ths Ended June 30, Six Months Ended June 30,
+2016 2015 2016 2015
+Revenue:
+United States $ 2,852 $ 1,880 $ 5,361 $ 3,533
+Rest of the world (1) 3,584 2,162 6,457 4,053
+Total revenue $ 6,436 $ 4,042 $ 11,818 $ 7,586
+[/TABLE]
+
+[TABLE]
+(1) No individual country, other tha','[2016.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(726,558,'s payable 14 (19 )
+Accrued expenses and other current liabilities 422 241
+Deferred revenue and deposits 23 (17 )
+Other liabilities 111 350
+Net cash provided by operating activities 6,181 3,580
+Cash flows from investing activities
+Purchases of property and equipment (','[2016.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(727,604,'2015
+Cash flows from operating activities
+Net income $ 3,565 $ 1,231
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,137 916
+Share-based compensation 1,552 1,457
+Deferred income taxes (142 ) (289 )
+Tax','[2016.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(728,648,'as of June 30, 2016 and December 31, 2015, respectively 2,801 2,559
+Prepaid expenses and other current assets 916 659
+Total current assets 27,010 21,652
+Property and equipment, net 7,104 5,687
+Intangible assets, net 2,879 3,246
+Goodwill 18,043 18,026
+Other assets 703','[2016.07.28][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(729,497,'ue and deposits (2 ) (10 )
+Other liabilities 69 149
+Net cash provided by operating activities 2,983 1,700
+Cash flows from investing activities
+Purchases of property and equipment (1,132 ) (502 )
+Purchases of marketable securities (3,126 ) (3,055 )
+Sales of marketab','[2016.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(730,541,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2016 2015
+Revenue $ 5,382 $ 3,543
+Costs and expenses:
+Cost of revenue 838 654
+Research and development 1,','[2016.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(731,556,'able (3 ) (13 )
+Accrued expenses and other current liabilities (16 ) 134
+Deferred revenue and deposits (2 ) (10 )
+Other liabilities 69 149
+Net cash provided by operating activities 2,983 1,700
+Cash flows from investing activities
+Purchases of property and equipment (','[2016.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(732,603,'6 2015
+Cash flows from operating activities
+Net income $ 1,510 $ 512
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 552 457
+Share-based compensation 747 694
+Deferred income taxes (65 ) (223 )
+Tax bene','[2016.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(733,647,'s of March 31, 2016 and December 31, 2015, respectively 2,348 2,559
+Prepaid expenses and other current assets 843 659
+Total current assets 23,812 21,652
+Property and equipment, net 6,467 5,687
+Intangible assets, net 3,067 3,246
+Goodwill 18,029 18,026
+Other assets 700','[2016.04.28][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(734,496,'nded December 31,
+2015 2014 2013 2012 2011
+(in millions)
+Net cash provided by operating activities (1) $ 8,599 $ 5,457 $ 4,222 $ 1,612 $ 1,549
+Purchases of property and equipment (2,523 ) (1,831 ) (1,362 ) (1,235 ) (606 )
+Property and equipment acquired under capit','[2016.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(735,540,'015 vs 2014% Change 2014 vs 2013% Change
+2015 2014 2013
+(in millions)
+Advertising $ 17,079 $ 11,492 $ 6,986 49 % 65 %
+Payments and other fees 849 974 886 (13 )% 10 %
+Total revenue $ 17,928 $ 12,466 $ 7,872 44 % 58 %
+[/TABLE]
+
+2015 Compared to 2014','[2016.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(736,555,'able GAAP measure, net cash provided by operating activities:
+
+[TABLE]
+Year Ended December 31,
+2015 2014 2013 2012 2011
+(in millions)
+Net cash provided by operating activities (1) $ 8,599 $ 5,457 $ 4,222 $ 1,612 $ 1,549
+Purchases of property and equipment (2,523 ) (1','[2016.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(737,602,'5,913 ) (2,624 )
+Net cash provided by (used in) financing activities 1,582 1,571 (667 )
+Purchases of property and equipment (2,523 ) (1,831 ) (1,362 )
+Depreciation and amortization 1,945 1,243 1,011
+Share-based compensation 2,960 1,786 906
+[/TABLE]
+
+Our principal sou','[2016.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(738,646,'s Data:
+Cash, cash equivalents, and marketable securities $ 18,434 $ 11,199 $ 11,449 $ 9,626 $ 3,908
+Working capital(1) 19,727 11,966 11,801 9,939 3,679
+Property and equipment, net 5,687 3,967 2,882 2,391 1,475
+Total assets(1) 49,407 39,966 17,858 14,982 6,331
+Capita','[2016.01.28][META][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(739,495,'enue and deposits (18 ) 3
+Other liabilities 914 227
+Net cash provided by operating activities 5,772 3,874
+Cash flows from investing activities
+Purchases of property and equipment (1,831 ) (1,314 )
+Purchases of marketable securities (10,333 ) (6,215 )
+Sales of marke','[2015.11.05][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(740,539,'eptember 30, Nine Months Ended September 30,
+2015 2014 2015 2014
+Revenue:
+United States $ 2,166 $ 1,468 $ 5,699 $ 3,857
+Rest of the world (1) 2,335 1,735 6,388 4,758
+Total revenue $ 4,501 $ 3,203 $ 12,087 $ 8,615
+[/TABLE]
+
+[TABLE]
+(1) No individual country, other tha','[2015.11.05][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(741,554,'rs payable 40 (22 )
+Accrued expenses and other current liabilities 291 198
+Deferred revenue and deposits (18 ) 3
+Other liabilities 914 227
+Net cash provided by operating activities 5,772 3,874
+Cash flows from investing activities
+Purchases of property and equipment (','[2015.11.05][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(742,601,'2014
+Cash flows from operating activities
+Net income $ 2,127 $ 2,239
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 1,402 810
+Share-based compensation 2,214 941
+Deferred income taxes (672 ) (30 )
+Tax be','[2015.11.05][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(743,645,'eptember 30, 2015 and December 31, 2014, respectively 2,010 1,678
+Prepaid expenses and other current assets 1,295 793
+Total current assets 19,139 13,670
+Property and equipment, net 5,335 3,967
+Intangible assets, net 3,437 3,929
+Goodwill 18,024 17,981
+Other assets 534','[2015.11.05][META][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(744,494,'enue and deposits (17 ) 15
+Other liabilities 350 49
+Net cash provided by operating activities 3,580 2,626
+Cash flows from investing activities
+Purchases of property and equipment (1,051 ) (832 )
+Purchases of marketable securities (5,560 ) (4,482 )
+Sales of marketab','[2015.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(745,538,'ths Ended June 30, Six Months Ended June 30,
+2015 2014 2015 2014
+Revenue:
+United States $ 1,880 $ 1,260 $ 3,533 $ 2,389
+Rest of the world (1) 2,162 1,650 4,053 3,023
+Total revenue $ 4,042 $ 2,910 $ 7,586 $ 5,412
+[/TABLE]
+
+[TABLE]
+(1) No individual country, other than','[2015.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(746,553,'s payable (19 ) (5 )
+Accrued expenses and other current liabilities 241 75
+Deferred revenue and deposits (17 ) 15
+Other liabilities 350 49
+Net cash provided by operating activities 3,580 2,626
+Cash flows from investing activities
+Purchases of property and equipment (','[2015.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(747,600,'2014
+Cash flows from operating activities
+Net income $ 1,231 $ 1,433
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 916 521
+Share-based compensation 1,457 588
+Deferred income taxes (289 ) (34 )
+Tax be','[2015.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(748,644,'of June 30, 2015 and December 31, 2014, respectively 1,815 1,678
+Prepaid expenses and other current assets 1,011 793
+Total current assets 16,951 13,670
+Property and equipment, net 4,955 3,967
+Intangible assets, net 3,605 3,929
+Goodwill 18,025 17,981
+Other assets 594','[2015.07.31][META][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(749,493,'venue and deposits (10 ) —
+Other liabilities 149 26
+Net cash provided by operating activities 1,700 1,285
+Cash flows from investing activities
+Purchases of property and equipment (502 ) (363 )
+Purchases of marketable securities (3,055 ) (2,974 )
+Sales of marketab','[2015.04.23][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(750,537,'CONDENSED CONSOLIDATED STATEMENTS OF INCOME
+
+(In millions, except per share amounts)
+
+(Unaudited)
+
+[TABLE]
+Three Months Ended March 31,
+2015 2014
+Revenue $ 3,543 $ 2,502
+Costs and expenses:
+Cost of revenue 654 462
+Research and development 1,','[2015.04.23][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(751,552,'rs payable (13 ) 7
+Accrued expenses and other current liabilities 134 (27 )
+Deferred revenue and deposits (10 ) —
+Other liabilities 149 26
+Net cash provided by operating activities 1,700 1,285
+Cash flows from investing activities
+Purchases of property and equipment (','[2015.04.23][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(752,599,'015 2014
+Cash flows from operating activities
+Net income $ 512 $ 642
+Adjustments to reconcile net income to net cash provided by operating activities:
+Depreciation and amortization 457 264
+Share-based compensation 694 274
+Deferred income taxes (223 ) (1 )
+Tax benef','[2015.04.23][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(753,643,'of March 31, 2015 and December 31, 2014, respectively 1,508 1,678
+Prepaid expenses and other current assets 1,083 793
+Total current assets 15,004 13,670
+Property and equipment, net 4,619 3,967
+Intangible assets, net 3,774 3,929
+Goodwill 18,005 17,981
+Other assets 605','[2015.04.23][META][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(754,51,') (12,931 ) (11,744 )
+Other, net (699 ) (343 ) (1,368 ) (1,232 )
+Net cash used in financing (17,617 ) (11,243 ) (29,416 ) (27,819 )
+Investing
+Additions to property and equipment (29,876 ) (15,804 ) (49,270 ) (30,727 )
+Acquisition of companies, net of cash acquired','[2026.01.28][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(755,99,'ndedDecember 31, Six Months EndedDecember 31,
+2025 2024 2025 2024
+Revenue:
+Product $ 16,451 $ 16,219 $ 32,373 $ 31,491
+Service and other 64,822 53,413 126,573 103,726
+Total revenue 81,273 69,632 158,946 135,217
+Cost of revenue:
+Product 3,505 3,856 6,427 7,150
+Service','[2026.01.28][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(756,181,'69,905
+Inventories 1,059 938
+Other current assets 33,134 25,723
+Total current assets 180,190 191,131
+Property and equipment, net of accumulated depreciation of $104,950 and $93,653 261,126 204,966
+Operating lease right-of-use assets 25,103 24,823
+Equity and other inves','[2026.01.28][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(757,50,'(4,107 )
+Common stock cash dividends paid (6,169 ) (5,574 )
+Other, net (669 ) (889 )
+Net cash used in financing (11,799 ) (16,576 )
+Investing
+Additions to property and equipment (19,394 ) (14,923 )
+Acquisition of companies, net of cash acquired and divestitures, an','[2025.10.29][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(758,98,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2025 2024
+Revenue:
+Product $ 15,922 $ 15,272
+Service and other 61,751 50,313
+Total revenue 77,673 65,585
+Cost of revenue:
+Product 2,922 3,294
+Service and other 21,121 16,805
+Tota','[2025.10.29][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(759,180,'69,905
+Inventories 1,130 938
+Other current assets 33,030 25,723
+Total current assets 189,066 191,131
+Property and equipment, net of accumulated depreciation of $98,880 and $93,653 230,861 204,966
+Operating lease right-of-use assets 24,791 24,823
+Equity and other inves','[2025.10.29][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(760,48,') (17,913 ) (16,197 )
+Other, net (382 ) (498 ) (1,614 ) (1,006 )
+Net cash used in financing (13,036 ) (18,808 ) (40,855 ) (14,194 )
+Investing
+Additions to property and equipment (16,745 ) (10,952 ) (47,472 ) (30,604 )
+Acquisition of companies, net of cash acquired','[2025.04.30][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(761,96,'ths EndedMarch 31, Nine Months EndedMarch 31,
+2025 2024 2025 2024
+Revenue:
+Product $ 15,319 $ 17,080 $ 46,810 $ 51,556
+Service and other 54,747 44,778 158,473 128,839
+Total revenue 70,066 61,858 205,283 180,395
+Cost of revenue:
+Product 3,037 4,339 10,187 13,834
+Servic','[2025.04.30][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(762,178,'56,924
+Inventories 848 1,246
+Other current assets 24,478 26,021
+Total current assets 156,644 159,734
+Property and equipment, net of accumulated depreciation of $87,074 and $76,421 183,939 135,591
+Operating lease right-of-use assets 24,475 18,961
+Equity and other inves','[2025.04.30][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(763,47,') (11,744 ) (10,625 )
+Other, net (343 ) (201 ) (1,232 ) (508 )
+Net cash from (used in) financing (11,243 ) (10,147 ) (27,819 ) 4,614
+Investing
+Additions to property and equipment (15,804 ) (9,735 ) (30,727 ) (19,652 )
+Acquisition of companies, net of cash acquired,','[2025.01.29][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(764,95,'EndedDecember 31, Six Months EndedDecember 31,
+2024 2023 2024 2023
+Revenue:
+Product $ 16,219 $ 18,941 $ 31,491 $ 34,476
+Service and other 53,413 43,079 103,726 84,061
+Total revenue 69,632 62,020 135,217 118,537
+Cost of revenue:
+Product 3,856 5,964 7,150 9,495
+Service','[2025.01.29][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(765,177,'56,924
+Inventories 909 1,246
+Other current assets 26,428 26,021
+Total current assets 147,080 159,734
+Property and equipment, net of accumulated depreciation of $82,820 and $76,421 166,902 135,591
+Operating lease right-of-use assets 22,816 18,961
+Equity and other inves','[2025.01.29][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(766,46,'831 )
+Common stock cash dividends paid (5,574 ) (5,051 )
+Other, net (889 ) (307 )
+Net cash from (used in) financing (16,576 ) 14,761
+Investing
+Additions to property and equipment (14,923 ) (9,917 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2024.10.30][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(767,94,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2024 2023
+Revenue:
+Product $ 15,272 $ 15,535
+Service and other 50,313 40,982
+Total revenue 65,585 56,517
+Cost of revenue:
+Product 3,294 3,531
+Service and other 16,805 12,771
+Tota','[2024.10.30][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(768,176,'6,924
+Inventories 1,626 1,246
+Other current assets 25,724 26,021
+Total current assets 149,926 159,734
+Property and equipment, net of accumulated depreciation of $80,517 and $76,421 152,863 135,591
+Operating lease right-of-use assets 20,528 18,961
+Equity and other inves','[2024.10.30][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(769,45,'ends paid (21,771 ) (19,800 ) (18,135 )
+Other, net (1,309 ) (1,006 ) (863 )
+Net cash used in financing (37,757 ) (43,935 ) (58,876 )
+Investing
+Additions to property and equipment (44,477 ) (28,107 ) (23,886 )
+Acquisition of companies, net of cash acquired, and purch','[2024.07.30][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(770,93,'ABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2024 2023 2022
+Revenue:
+Product $ 64,773 $ 64,699 $ 72,732
+Service and other 180,349 147,216 125,538
+Total revenue 245,122 211,915 198,270
+Cost of revenue:
+Product 15,272 17,804 19,064
+Service and other','[2024.07.30][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(771,175,'8,688
+Inventories 1,246 2,500
+Other current assets 26,021 21,807
+Total current assets 159,734 184,257
+Property and equipment, net of accumulated depreciation of $76,421 and $68,251 135,591 95,641
+Operating lease right-of-use assets 18,961 14,346
+Equity and other invest','[2024.07.30][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(772,44,'59 ) (16,197 ) (14,746 )
+Other, net (498 ) (258 ) (1,006 ) (839 )
+Net cash used in financing (18,808 ) (10,290 ) (14,194 ) (32,522 )
+Investing
+Additions to property and equipment (10,952 ) (6,607 ) (30,604 ) (19,164 )
+Acquisition of companies, net of cash acquired,','[2024.04.25][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(773,92,'ths EndedMarch 31, Nine Months EndedMarch 31,
+2024 2023 2024 2023
+Revenue:
+Product $ 17,080 $ 15,588 $ 51,556 $ 47,846
+Service and other 44,778 37,269 128,839 107,880
+Total revenue 61,858 52,857 180,395 155,726
+Cost of revenue:
+Product 4,339 3,941 13,834 13,933
+Servic','[2024.04.25][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(774,174,'8,688
+Inventories 1,304 2,500
+Other current assets 21,826 21,807
+Total current assets 147,180 184,257
+Property and equipment, net of accumulated depreciation of $74,945 and $68,251 121,375 95,641
+Operating lease right-of-use assets 17,371 14,346
+Equity and other invest','[2024.04.25][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(775,43,'66 ) (10,625 ) (9,687 )
+Other, net (201 ) (317 ) (508 ) (581 )
+Net cash from (used in) financing (10,147 ) (11,349 ) 4,614 (22,232 )
+Investing
+Additions to property and equipment (9,735 ) (6,274 ) (19,652 ) (12,557 )
+Acquisition of companies, net of cash acquired,','[2024.01.30][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(776,91,'EndedDecember 31, Six Months EndedDecember 31,
+2023 2022 2023 2022
+Revenue:
+Product $ 18,941 $ 16,517 $ 34,476 $ 32,258
+Service and other 43,079 36,230 84,061 70,611
+Total revenue 62,020 52,747 118,537 102,869
+Cost of revenue:
+Product 5,964 5,690 9,495 9,992
+Service','[2024.01.30][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(777,173,'8,688
+Inventories 1,615 2,500
+Other current assets 21,930 21,807
+Total current assets 147,393 184,257
+Property and equipment, net of accumulated depreciation of $72,949 and $68,251 112,308 95,641
+Operating lease right-of-use assets 16,398 14,346
+Equity investments 13,3','[2024.01.30][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(778,42,'573 )
+Common stock cash dividends paid (5,051 ) (4,621 )
+Other, net (307 ) (264 )
+Net cash from (used in) financing 14,761 (10,883 )
+Investing
+Additions to property and equipment (9,917 ) (6,283 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2023.10.24][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(779,90,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2023 2022
+Revenue:
+Product $ 15,535 $ 15,741
+Service and other 40,982 34,381
+Total revenue 56,517 50,122
+Cost of revenue:
+Product 3,531 4,302
+Service and other 12,771 11,150
+Tota','[2023.10.24][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(780,172,'8,688
+Inventories 3,000 2,500
+Other current assets 23,682 21,807
+Total current assets 207,586 184,257
+Property and equipment, net of accumulated depreciation of $69,486 and $68,251 102,502 95,641
+Operating lease right-of-use assets 15,435 14,346
+Equity investments 11,4','[2023.10.24][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(781,41,'idends paid (19,800 ) (18,135 ) (16,521 )
+Other, net (1,006 ) (863 ) (769 )
+Net cash used in financing (43,935 ) (58,876 ) (48,486 )
+Investing
+Additions to property and equipment (28,107 ) (23,886 ) (20,622 )
+Acquisition of companies, net of cash acquired, and purch','[2023.07.27][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(782,89,'TABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2023 2022 2021
+Revenue:
+Product $ 64,699 $ 72,732 $ 71,074
+Service and other 147,216 125,538 97,014
+Total revenue 211,915 198,270 168,088
+Cost of revenue:
+Product 17,804 19,064 18,219
+Service and other','[2023.07.27][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(783,171,'4,261
+Inventories 2,500 3,742
+Other current assets 21,807 16,924
+Total current assets 184,257 169,684
+Property and equipment, net of accumulated depreciation of $68,251 and $59,660 95,641 74,398
+Operating lease right-of-use assets 14,346 13,148
+Equity investments 9,87','[2023.07.27][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(784,40,',645 ) (14,746 ) (13,503 )
+Other, net (258 ) (158 ) (839 ) (522 )
+Net cash used in financing (10,290 ) (17,345 ) (32,522 ) (45,607 )
+Investing
+Additions to property and equipment (6,607 ) (5,340 ) (19,164 ) (17,015 )
+Acquisition of companies, net of cash acquired,','[2023.04.25][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(785,88,'nths EndedMarch 31, Nine Months EndedMarch 31,
+2023 2022 2023 2022
+Revenue:
+Product $ 15,588 $ 17,366 $ 47,846 $ 54,776
+Service and other 37,269 31,994 107,880 91,629
+Total revenue 52,857 49,360 155,726 146,405
+Cost of revenue:
+Product 3,941 4,584 13,933 14,707
+Servic','[2023.04.25][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(786,170,'4,261
+Inventories 2,877 3,742
+Other current assets 19,165 16,924
+Total current assets 163,889 169,684
+Property and equipment, net of accumulated depreciation of $65,998 and $59,660 88,132 74,398
+Operating lease right-of-use assets 13,879 13,148
+Equity investments 9,41','[2023.04.25][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(787,39,'(4,652 ) (9,687 ) (8,858 )
+Other, net (317 ) (192 ) (581 ) (364 )
+Net cash used in financing (11,349 ) (11,986 ) (22,232 ) (28,262 )
+Investing
+Additions to property and equipment (6,274 ) (5,865 ) (12,557 ) (11,675 )
+Acquisition of companies, net of cash acquired,','[2023.01.24][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(788,87,'EndedDecember 31, Six Months EndedDecember 31,
+2022 2021 2022 2021
+Revenue:
+Product $ 16,517 $ 20,779 $ 32,258 $ 37,410
+Service and other 36,230 30,949 70,611 59,635
+Total revenue 52,747 51,728 102,869 97,045
+Cost of revenue:
+Product 5,690 6,331 9,992 10,123
+Service','[2023.01.24][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(789,169,'4,261
+Inventories 2,980 3,742
+Other current assets 19,502 16,924
+Total current assets 157,823 169,684
+Property and equipment, net of accumulated depreciation of $63,459 and $59,660 82,755 74,398
+Operating lease right-of-use assets 13,624 13,148
+Equity investments 7,09','[2023.01.24][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(790,38,'(7,684 )
+Common stock cash dividends paid (4,621 ) (4,206 )
+Other, net (264 ) (172 )
+Net cash used in financing (10,883 ) (16,276 )
+Investing
+Additions to property and equipment (6,283 ) (5,810 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2022.10.25][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(791,86,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2022 2021
+Revenue:
+Product $ 15,741 $ 16,631
+Service and other 34,381 28,686
+Total revenue 50,122 45,317
+Cost of revenue:
+Product 4,302 3,792
+Service and other 11,150 9,854
+Total','[2022.10.25][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(792,168,'4,261
+Inventories 4,268 3,742
+Other current assets 18,003 16,924
+Total current assets 160,812 169,684
+Property and equipment, net of accumulated depreciation of $60,638 and $59,660 77,037 74,398
+Operating lease right-of-use assets 13,347 13,148
+Equity investments 6,83','[2022.10.25][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(793,37,'ividends paid (18,135 ) (16,521 ) (15,137 )
+Other, net (863 ) (769 ) (334 )
+Net cash used in financing (58,876 ) (48,486 ) (46,031 )
+Investing
+Additions to property and equipment (23,886 ) (20,622 ) (15,441 )
+Acquisition of companies, net of cash acquired, and purch','[2022.07.28][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(794,85,'[TABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2022 2021 2020
+Revenue:
+Product $ 72,732 $ 71,074 $ 68,041
+Service and other 125,538 97,014 74,974
+Total revenue 198,270 168,088 143,015
+Cost of revenue:
+Product 19,064 18,219 16,017
+Service and other','[2022.07.28][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(795,167,'8,043
+Inventories 3,742 2,636
+Other current assets 16,924 13,393
+Total current assets 169,684 184,406
+Property and equipment, net of accumulated depreciation of $59,660 and $51,351 74,398 59,715
+Operating lease right-of-use assets 13,148 11,088
+Equity investments 6,89','[2022.07.28][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(796,36,',221 ) (13,503 ) (12,307 )
+Other, net (158 ) (183 ) (522 ) (339 )
+Net cash used in financing (17,345 ) (13,192 ) (45,607 ) (37,115 )
+Investing
+Additions to property and equipment (5,340 ) (5,089 ) (17,015 ) (14,170 )
+Acquisition of companies, net of cash acquired,','[2022.04.26][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(797,84,'onths EndedMarch 31, Nine Months EndedMarch 31,
+2022 2021 2022 2021
+Revenue:
+Product $ 17,366 $ 16,873 $ 54,776 $ 52,136
+Service and other 31,994 24,833 91,629 69,800
+Total revenue 49,360 41,706 146,405 121,936
+Cost of revenue:
+Product 4,584 4,277 14,707 13,932
+Servic','[2022.04.26][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(798,166,'8,043
+Inventories 3,296 2,636
+Other current assets 13,320 13,393
+Total current assets 153,922 184,406
+Property and equipment, net of accumulated depreciation of $58,053 and $51,351 70,298 59,715
+Operating lease right-of-use assets 12,916 11,088
+Equity investments 6,90','[2022.04.26][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(799,35,'2 ) (4,230 ) (8,858 ) (8,086 )
+Other, net (192 ) 79 (364 ) (156 )
+Net cash used in financing (11,986 ) (13,634 ) (28,262 ) (23,923 )
+Investing
+Additions to property and equipment (5,865 ) (4,174 ) (11,675 ) (9,081 )
+Acquisition of companies, net of cash acquired, a','[2022.01.25][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(800,83,'EndedDecember 31, Six Months EndedDecember 31,
+2021 2020 2021 2020
+Revenue:
+Product $ 20,779 $ 19,460 $ 37,410 $ 35,263
+Service and other 30,949 23,616 59,635 44,967
+Total revenue 51,728 43,076 97,045 80,230
+Cost of revenue:
+Product 6,331 6,058 10,123 9,655
+Service a','[2022.01.25][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(801,165,'8,043
+Inventories 3,019 2,636
+Other current assets 12,280 13,393
+Total current assets 174,188 184,406
+Property and equipment, net of accumulated depreciation of $55,277 and $51,351 67,214 59,715
+Operating lease right-of-use assets 12,354 11,088
+Equity investments 6,99','[2022.01.25][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(802,34,'(6,743 )
+Common stock cash dividends paid (4,206 ) (3,856 )
+Other, net (172 ) (235 )
+Net cash used in financing (16,276 ) (10,289 )
+Investing
+Additions to property and equipment (5,810 ) (4,907 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2021.10.26][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(803,82,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2021 2020
+Revenue:
+Product $ 16,631 $ 15,803
+Service and other 28,686 21,351
+Total revenue 45,317 37,154
+Cost of revenue:
+Product 3,792 3,597
+Service and other 9,854 7,405
+Total','[2021.10.26][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(804,164,'8,043
+Inventories 3,411 2,636
+Other current assets 12,951 13,393
+Total current assets 174,326 184,406
+Property and equipment, net of accumulated depreciation of $52,469 and $51,351 63,772 59,715
+Operating lease right-of-use assets 11,575 11,088
+Equity investments 6,39','[2021.10.26][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(805,33,'ividends paid (16,521 ) (15,137 ) (13,811 )
+Other, net (769 ) (334 ) (675 )
+Net cash used in financing (48,486 ) (46,031 ) (36,887 )
+Investing
+Additions to property and equipment (20,622 ) (15,441 ) (13,925 )
+Acquisition of companies, net of cash acquired, and purch','[2021.07.29][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(806,81,'[TABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2021 2020 2019
+Revenue:
+Product $ 71,074 $ 68,041 $ 66,069
+Service and other 97,014 74,974 59,774
+Total revenue 168,088 143,015 125,843
+Cost of revenue:
+Product 18,219 16,017 16,273
+Service and other','[2021.07.29][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(807,163,'2,011
+Inventories 2,636 1,895
+Other current assets 13,393 11,482
+Total current assets 184,406 181,915
+Property and equipment, net of accumulated depreciation of $51,351 and $43,197 59,715 44,151
+Operating lease right-of-use assets 11,088 8,753
+Equity investments 5,984','[2021.07.29][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(808,32,'76 ) (12,307 ) (11,272 )
+Other, net (183 ) (1,052 ) (339 ) (805 )
+Net cash used in financing (13,192 ) (14,645 ) (37,115 ) (33,769 )
+Investing
+Additions to property and equipment (5,089 ) (3,767 ) (14,170 ) (10,697 )
+Acquisition of companies, net of cash acquired,','[2021.04.27][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(809,80,'ths Ended March 31, Nine Months Ended March 31,
+2021 2020 2021 2020
+Revenue:
+Product $ 16,873 $ 15,871 $ 52,136 $ 49,894
+Service and other 24,833 19,150 69,800 55,088
+Total revenue 41,706 35,021 121,936 104,982
+Cost of revenue:
+Product 4,277 3,376 13,932 11,647
+Servic','[2021.04.27][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(810,162,'2,011
+Inventories 2,245 1,895
+Other current assets 11,640 11,482
+Total current assets 165,614 181,915
+Property and equipment, net of accumulated depreciation of $49,681 and $43,197 54,945 44,151
+Operating lease right-of-use assets 10,673 8,753
+Equity investments 5,395','[2021.04.27][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(811,31,'(4,230 ) (3,886 ) (8,086 ) (7,396 )
+Other, net 79 (39 ) (156 ) 247
+Net cash used in financing (13,634 ) (8,915 ) (23,923 ) (19,124 )
+Investing
+Additions to property and equipment (4,174 ) (3,545 ) (9,081 ) (6,930 )
+Acquisition of companies, net of cash acquired, an','[2021.01.26][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(812,79,'nded December 31, Six Months Ended December 31,
+2020 2019 2020 2019
+Revenue:
+Product $ 19,460 $ 18,255 $ 35,263 $ 34,023
+Service and other 23,616 18,651 44,967 35,938
+Total revenue 43,076 36,906 80,230 69,961
+Cost of revenue:
+Product 6,058 4,966 9,655 8,271
+Service an','[2021.01.26][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(813,161,'2,011
+Inventories 1,924 1,895
+Other current assets 12,769 11,482
+Total current assets 173,973 181,915
+Property and equipment, net of accumulated depreciation of $47,715 and $43,197 51,737 44,151
+Operating lease right-of-use assets 10,298 8,753
+Equity investments 3,794','[2021.01.26][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(814,30,'3 ) (4,912 )
+Common stock cash dividends paid (3,856 ) (3,510 )
+Other, net (235 ) 286
+Net cash used in financing (10,289 ) (10,209 )
+Investing
+Additions to property and equipment (4,907 ) (3,385 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2020.10.27][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(815,78,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2020 2019
+Revenue:
+Product $ 15,803 $ 15,768
+Service and other 21,351 17,287
+Total revenue 37,154 33,055
+Cost of revenue:
+Product 3,597 3,305
+Service and other 7,405 7,101
+Total','[2020.10.27][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(816,160,'2,011
+Inventories 2,705 1,895
+Other current assets 13,544 11,482
+Total current assets 177,077 181,915
+Property and equipment, net of accumulated depreciation of $45,417 and $43,197 47,927 44,151
+Operating lease right-of-use assets 9,047 8,753
+Equity investments 3,103','[2020.10.27][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(817,29,'ividends paid (15,137 ) (13,811 ) (12,699 )
+Other, net (334 ) (675 ) (971 )
+Net cash used in financing (46,031 ) (36,887 ) (33,590 )
+Investing
+Additions to property and equipment (15,441 ) (13,925 ) (11,632 )
+Acquisition of companies, net of cash acquired, and purch','[2020.07.30][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(818,77,'[TABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2020 2019 2018
+Revenue:
+Product $ 68,041 $ 66,069 $ 64,497
+Service and other 74,974 59,774 45,863
+Total revenue 143,015 125,843 110,360
+Cost of revenue:
+Product 16,017 16,273 15,420
+Service and other','[2020.07.30][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(819,159,'9,524
+Inventories 1,895 2,063
+Other current assets 11,482 10,146
+Total current assets 181,915 175,552
+Property and equipment, net of accumulated depreciation of $43,197 and $35,330 44,151 36,477
+Operating lease right-of-use assets 8,753 7,379
+Equity investments 2,965','[2020.07.30][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(820,28,'(3,526 ) (11,272 ) (10,290 )
+Other, net (1,052 ) 404 (805 ) (835 )
+Net cash used in financing (14,645 ) (7,601 ) (33,769 ) (28,201 )
+Investing
+Additions to property and equipment (3,767 ) (2,565 ) (10,697 ) (9,874 )
+Acquisition of companies, net of cash acquired, a','[2020.04.29][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(821,75,'onths EndedMarch 31, Nine Months EndedMarch 31,
+2020 2019 2020 2019
+Revenue:
+Product $ 15,871 $ 15,448 $ 49,894 $ 48,966
+Service and other 19,150 15,123 55,088 43,160
+Total revenue 35,021 30,571 104,982 92,126
+Cost of revenue:
+Product 3,376 3,441 11,647 12,975
+Service','[2020.04.29][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(822,158,'29,524
+Inventories 1,644 2,063
+Other current assets 8,536 10,146
+Total current assets 170,505 175,552
+Property and equipment, net of accumulated depreciation of $41,512 and $35,330 41,221 36,477
+Operating lease right-of-use assets 8,448 7,379
+Equity investments 2,660','[2020.04.29][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(823,27,') (3,544 ) (7,396 ) (6,764 )
+Other, net (39 ) (459 ) 247 (1,239 )
+Net cash used in financing (8,915 ) (13,216 ) (19,124 ) (20,600 )
+Investing
+Additions to property and equipment (3,545 ) (3,707 ) (6,930 ) (7,309 )
+Acquisition of companies, net of cash acquired, an','[2020.01.29][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(824,73,'EndedDecember 31, Six Months EndedDecember 31,
+2019 2018 2019 2018
+Revenue:
+Product $ 18,255 $ 16,219 $ 34,023 $ 33,518
+Service and other 18,651 16,252 35,938 28,037
+Total revenue 36,906 32,471 69,961 61,555
+Cost of revenue:
+Product 4,966 5,885 8,271 9,534
+Service an','[2020.01.29][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(825,157,'29,524
+Inventories 1,823 2,063
+Other current assets 7,473 10,146
+Total current assets 167,074 175,552
+Property and equipment, net of accumulated depreciation of $39,597 and $35,330 40,522 36,477
+Operating lease right-of-use assets 8,439 7,379
+Equity investments 2,755','[2020.01.29][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(826,26,'12 ) (3,744 )
+Common stock cash dividends paid (3,510 ) (3,220 )
+Other, net 286 (780 )
+Net cash used in financing (10,209 ) (7,384 )
+Investing
+Additions to property and equipment (3,385 ) (3,602 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2019.10.23][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(827,71,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2019 2018
+Revenue:
+Product $ 15,768 $ 17,299
+Service and other 17,287 11,785
+Total revenue 33,055 29,084
+Cost of revenue:
+Product 3,305 3,649
+Service and other 7,101 6,256
+Total','[2019.10.23][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(828,156,'29,524
+Inventories 2,622 2,063
+Other current assets 7,551 10,146
+Total current assets 165,896 175,552
+Property and equipment, net of accumulated depreciation of $36,971 and $35,330 38,409 36,477
+Operating lease right-of-use assets 7,890 7,379
+Equity investments 2,684','[2019.10.23][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(829,25,'dends paid (13,811 ) (12,699 ) (11,845 )
+Other, net (675 ) (971 ) (190 )
+Net cash from (used in) financing (36,887 ) (33,590 ) 8,408
+Investing
+Additions to property and equipment (13,925 ) (11,632 ) (8,129 )
+Acquisition of companies, net of cash acquired, and purcha','[2019.08.01][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(830,70,'[TABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2019 2018 2017
+Revenue:
+Product $ 66,069 $ 64,497 $ 63,811
+Service and other 59,774 45,863 32,760
+Total revenue 125,843 110,360 96,571
+Cost of revenue:
+Product 16,273 15,420 15,175
+Service and other 2','[2019.08.01][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(831,155,'nd $377 29,524 26,481
+Inventories 2,063 2,662
+Other 10,146 6,751
+Total current assets 175,552 169,662
+Property and equipment, net of accumulated depreciation of $35,330 and $29,223 36,477 29,460
+Operating lease right-of-use assets 7,379 6,686
+Equity investments 2,649','[2019.08.01][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(832,24,') (3,232 ) (10,290 ) (9,473 )
+Other, net 404 (640 ) (835 ) (946 )
+Net cash used in financing (7,601 ) (19,658 ) (28,201 ) (27,551 )
+Investing
+Additions to property and equipment (2,565 ) (2,934 ) (9,874 ) (7,652 )
+Acquisition of companies, net of cash acquired, an','[2019.04.24][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(833,68,'onths EndedMarch 31, Nine Months EndedMarch 31,
+2019 2018 2019 2018
+Revenue:
+Product $ 15,448 $ 15,114 $ 48,966 $ 47,338
+Service and other 15,123 11,705 43,160 32,937
+Total revenue 30,571 26,819 92,126 80,275
+Cost of revenue:
+Product 3,441 3,425 12,975 11,903
+Service','[2019.04.24][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(834,154,'and $377 19,269 26,481
+Inventories 1,951 2,662
+Other 7,049 6,751
+Total current assets 159,887 169,662
+Property and equipment, net of accumulated depreciation of $35,431 and $29,223 33,648 29,460
+Operating lease right-of-use assets 7,121 6,686
+Equity investments 2,403','[2019.04.24][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(835,23,'(3,238 ) (6,764 ) (6,241 )
+Other, net (459 ) (156 ) (1,239 ) (306 )
+Net cash used in financing (13,216 ) (1,552 ) (20,600 ) (7,893 )
+Investing
+Additions to property and equipment (3,707 ) (2,586 ) (7,309 ) (4,718 )
+Acquisition of companies, net of cash acquired, an','[2019.01.30][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(836,66,'EndedDecember 31, Six Months EndedDecember 31,
+2018 2017 2018 2017
+Revenue:
+Product $ 16,219 $ 17,926 $ 33,518 $ 32,224
+Service and other 16,252 10,992 28,037 21,232
+Total revenue 32,471 28,918 61,555 53,456
+Cost of revenue:
+Product 5,885 5,498 9,534 8,478
+Service an','[2019.01.30][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(837,153,'and $377 19,680 26,481
+Inventories 1,961 2,662
+Other 7,571 6,751
+Total current assets 156,874 169,662
+Property and equipment, net of accumulated depreciation of $33,082 and $29,223 32,717 29,460
+Operating lease right-of-use assets 6,806 6,686
+Equity investments 2,274','[2019.01.30][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(838,22,') (2,570 )
+Common stock cash dividends paid (3,220 ) (3,003 )
+Other, net (780 ) (150 )
+Net cash used in financing (7,384 ) (6,341 )
+Investing
+Additions to property and equipment (3,602 ) (2,132 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2018.10.24][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(839,64,'BLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2018 2017
+Revenue:
+Product $ 17,299 $ 14,298
+Service and other 11,785 10,240
+Total revenue 29,084 24,538
+Cost of revenue:
+Product 3,649 2,980
+Service and other 6,256 5,298
+Total','[2018.10.24][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(840,152,'and $377 17,390 26,481
+Inventories 3,614 2,662
+Other 7,311 6,751
+Total current assets 164,195 169,662
+Property and equipment, net of accumulated depreciation of $30,953 and $29,223 31,430 29,460
+Operating lease right-of-use assets 6,734 6,686
+Equity investments 2,034','[2018.10.24][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(841,21,'idends paid (12,699 ) (11,845 ) (11,006 )
+Other, net (971 ) (190 ) (369 )
+Net cash from (used in) financing (33,590 ) 8,408 (8,393 )
+Investing
+Additions to property and equipment (11,632 ) (8,129 ) (8,343 )
+Acquisition of companies, net of cash acquired, and purchas','[2018.08.03][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(842,63,'[TABLE]
+(In millions, except per share amounts)
+Year Ended June 30, 2018 2017 2016
+Revenue:
+Product $ 64,497 $ 63,811 $ 67,336
+Service and other 45,863 32,760 23,818
+Total revenue 110,360 96,571 91,154
+Cost of revenue:
+Product 15,420 15,175 17,880
+Service and other 22','[2018.08.03][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(843,151,'and $345 26,481 22,431
+Inventories 2,662 2,181
+Other 6,751 5,103
+Total current assets 169,662 162,696
+Property and equipment, net of accumulated depreciation of $29,223 and $24,179 29,460 23,734
+Operating lease right-of-use assets 6,686 6,555
+Equity and other investme','[2018.08.03][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(844,20,'012 ) (9,473 ) (8,836 )
+Other, net (640 ) (375 ) (946 ) (175 )
+Net cash from (used in) financing (19,658 ) (6,236 ) (27,551 ) 11,109
+Investing
+Additions to property and equipment (2,934 ) (1,695 ) (7,652 ) (5,846 )
+Acquisition of companies, net of cash acquired, an','[2018.04.26][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(845,62,'Months EndedMarch 31, Nine Months EndedMarch 31,
+2018 2017 2018 2017
+Revenue:
+Product $ 15,114 $ 14,513 $ 47,338 $ 47,754
+Service and other 11,705 8,699 32,937 23,212
+Total revenue 26,819 23,212 80,275 70,966
+Cost of revenue:
+Product 3,425 3,075 11,903 12,034
+Service','[2018.04.26][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(846,150,'and $345 17,208 22,431
+Inventories 2,084 2,181
+Other 5,097 5,103
+Total current assets 156,659 162,696
+Property and equipment, net of accumulated depreciation of $28,377 and $24,179 27,929 23,734
+Operating lease right-of-use assets 6,859 6,555
+Equity and other investme','[2018.04.26][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(847,19,'3,238 ) (3,024 ) (6,241 ) (5,824 )
+Other, net (156 ) 312 (306 ) 200
+Net cash from (used in) financing (1,552 ) 3,016 (7,893 ) 17,345
+Investing
+Additions to property and equipment (2,586 ) (1,988 ) (4,718 ) (4,151 )
+Acquisition of companies, net of cash acquired, an','[2018.01.31][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(848,60,'s EndedDecember 31, Six Months EndedDecember 31,
+2017 2016 2017 2016
+Revenue:
+Product $ 17,926 $ 18,273 $ 32,224 $ 33,241
+Service and other 10,992 7,553 21,232 14,513
+Total revenue 28,918 25,826 53,456 47,754
+Cost of revenue:
+Product 5,498 5,378 8,478 8,959
+Service an','[2018.01.31][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(849,149,'and $345 18,428 22,431
+Inventories 2,003 2,181
+Other 4,422 5,103
+Total current assets 167,633 162,696
+Property and equipment, net of accumulated depreciation of $26,849 and $24,179 26,304 23,734
+Operating lease right-of-use assets 6,749 6,555
+Equity and other investme','[2018.01.31][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(850,18,',362 )
+Common stock cash dividends paid (3,003 ) (2,800 )
+Other, net (150 ) (112 )
+Net cash from (used in) financing (6,341 ) 14,329
+Investing
+Additions to property and equipment (2,132 ) (2,163 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2017.10.26][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(851,58,'ABLE]
+(In millions, except per share amounts) (Unaudited)
+Three Months Ended September 30, 2017 2016
+Revenue:
+Product $ 14,298 $ 14,968
+Service and other 10,240 6,960
+Total revenue 24,538 21,928
+Cost of revenue:
+Product 2,980 3,581
+Service and other 5,298 4,263
+Total','[2017.10.26][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(852,148,'and $345 14,561 22,431
+Inventories 3,211 2,181
+Other 4,788 5,103
+Total current assets 161,031 162,696
+Property and equipment, net of accumulated depreciation of $25,523 and $24,179 24,809 23,734
+Operating lease right-of-use assets 6,844 6,555
+Equity and other investme','[2017.10.26][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(853,17,'h dividends paid (11,845 ) (11,006 ) (9,882 )
+Other, net (190 ) (369 ) 362
+Net cash from (used in) financing 8,408 (8,393 ) (9,668 )
+Investing
+Additions to property and equipment (8,129 ) (8,343 ) (5,944 )
+Acquisition of companies, net of cash acquired, and purchas','[2017.08.02][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(854,147,'and $426 19,792 18,277
+Inventories 2,181 2,251
+Other 4,897 5,892
+Total current assets 159,851 139,660
+Property and equipment, net of accumulated depreciation of $24,179 and $19,800 23,734 18,356
+Equity and other investments 6,023 10,431
+Goodwill 35,122 17,872
+Intangib','[2017.08.02][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(855,16,'2,842 ) (8,836 ) (8,185 )
+Other, net (375 ) (123 ) (175 ) (366 )
+Net cash from (used in) financing (6,236 ) (4,916 ) 11,109 (9,364 )
+Investing
+Additions to property and equipment (1,695 ) (2,308 ) (5,846 ) (5,688 )
+Acquisition of companies, net of cash acquired, an','[2017.04.27][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(856,146,'and $426 12,882 18,277
+Inventories 1,979 2,251
+Other 5,434 5,892
+Total current assets 146,313 139,660
+Property and equipment, net of accumulated depreciation of $22,992 and $19,800 21,962 18,356
+Equity and other investments 7,381 10,431
+Goodwill 34,668 17,872
+Intangib','[2017.04.27][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(857,15,'s paid (3,024 ) (2,868 ) (5,824 ) (5,343 )
+Other 312 (65 ) 200 (243 )
+Net cash from (used in) financing 3,016 (518 ) 17,345 (4,448 )
+Investing
+Additions to property and equipment (1,988 ) (2,024 ) (4,151 ) (3,380 )
+Acquisition of companies, net of cash acquired, an','[2017.01.26][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(858,145,'and $426 14,343 18,277
+Inventories 1,961 2,251
+Other 5,864 5,892
+Total current assets 144,949 139,660
+Property and equipment, net of accumulated depreciation of $21,888 and $19,800 21,379 18,356
+Equity and other investments 8,912 10,431
+Goodwill 34,524 17,872
+Intangib','[2017.01.26][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(859,14,') (4,757 )
+Common stock cash dividends paid (2,800 ) (2,475 )
+Other (112 ) (178 )
+Net cash from (used in) financing 14,329 (3,930 )
+Investing
+Additions to property and equipment (2,163 ) (1,356 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2016.10.20][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(860,144,'and $426 11,129 18,277
+Inventories 3,122 2,251
+Other 6,726 5,892
+Total current assets 157,909 139,660
+Property and equipment, net of accumulated depreciation of $20,885 and $19,800 19,224 18,356
+Equity and other investments 10,486 10,431
+Goodwill 17,907 17,872
+Intangi','[2016.10.20][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(861,13,'n stock cash dividends paid (11,006 ) (9,882 ) (8,879 )
+Other (369 ) 362 (39 )
+Net cash used in financing (8,393 ) (9,668 ) (8,665 )
+Investing
+Additions to property and equipment (8,343 ) (5,944 ) (5,485 )
+Acquisition of companies, net of cash acquired, and purchas','[2016.07.28][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(862,143,'and $335 18,277 17,908
+Inventories 2,251 2,902
+Other 5,892 5,461
+Total current assets 139,660 122,797
+Property and equipment, net of accumulated depreciation of $19,800 and $17,606 18,356 14,731
+Equity and other investments 10,431 12,053
+Goodwill 17,872 16,939
+Intangi','[2016.07.28][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(863,12,'paid (2,842 ) (2,532 ) (8,185 ) (7,386 )
+Other (123 ) 316 (366 ) 601
+Net cash used in financing (4,916 ) (3,096 ) (9,364 ) (6,064 )
+Investing
+Additions to property and equipment (2,308 ) (1,391 ) (5,688 ) (4,163 )
+Acquisition of companies, net of cash acquired, an','[2016.04.21][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(864,142,'2,450 2,902
+Deferred income taxes 1,574 1,915
+Other 6,598 5,461
+Total current assets 128,421 124,712
+Property and equipment, net of accumulated depreciation of $18,885 and $17,606 16,831 14,731
+Equity and other investments 11,315 12,053
+Goodwill 17,948 16,939
+Intangi','[2016.04.21][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(865,11,'rom stock-based compensation 20 22 302 524
+Other (65 ) 285 (243 ) 285
+Net cash from (used in) financing (498 ) 534 (4,146 ) (2,444 )
+Investing
+Additions to property and equipment (2,024 ) (1,490 ) (3,380 ) (2,772 )
+Acquisition of companies, net of cash acquired, an','[2016.01.28][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(866,141,'2,702 2,902
+Deferred income taxes 1,618 1,915
+Other 6,345 5,461
+Total current assets 127,812 124,712
+Property and equipment, net of accumulated depreciation of $18,008 and $17,606 15,789 14,731
+Equity and other investments 11,514 12,053
+Goodwill 17,436 16,939
+Intangi','[2016.01.28][MSFT][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(867,10,'475 ) (2,307 )
+Excess tax benefits from stock-based compensation 282 502
+Other (178 ) 0
+Net cash used in financing (3,648 ) (2,978 )
+Investing
+Additions to property and equipment (1,356 ) (1,282 )
+Acquisition of companies, net of cash acquired, and purchases of int','[2015.10.22][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(868,140,'3,816 2,902
+Deferred income taxes 1,447 1,915
+Other 5,594 5,461
+Total current assets 121,656 124,712
+Property and equipment, net of accumulated depreciation of $18,009 and $17,606 15,046 14,731
+Equity and other investments 11,438 12,053
+Goodwill 17,142 16,939
+Intangi','[2015.10.22][MSFT][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(869,9,'s tax benefits from stock-based compensation 588 271 209
+Other 362 (39 ) (10 )
+Net cash used in financing (9,080 ) (8,394 ) (8,148 )
+Investing
+Additions to property and equipment (5,944 ) (5,485 ) (4,257 )
+Acquisition of companies, net of cash acquired, and purchas','[2015.07.31][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(870,139,'2,902 2,660
+Deferred income taxes 1,915 1,941
+Other 5,461 4,392
+Total current assets 124,712 114,246
+Property and equipment, net of accumulated depreciation of $17,606 and $14,793 14,731 13,011
+Equity and other investments 12,053 14,597
+Goodwill 16,939 20,127
+Intangi','[2015.07.31][MSFT][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(871,8,'its from stock-based compensation 31 22 555 247
+Other 316 0 601 (39 )
+Net cash used in financing (3,065 ) (4,304 ) (5,509 ) (5,085 )
+Investing
+Additions to property and equipment (1,391 ) (1,192 ) (4,163 ) (4,155 )
+Acquisition of companies, net of cash acquired, an','[2015.04.23][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(872,138,'2,469 2,660
+Deferred income taxes 1,688 1,941
+Other 6,376 4,392
+Total current assets 118,398 114,246
+Property and equipment, net of accumulated depreciation of $16,839 and $14,793 14,375 13,011
+Equity and other investments 12,019 14,597
+Goodwill 21,728 20,127
+Intangi','[2015.04.23][MSFT][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(873,1120,'per share data)
+
+[TABLE]
+​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+​ ​ ​ ​ Year ended December 31,
+​ ​ Notes ​ 2021 ​ 2022 ​ 2023 ​ 2023
+​ ​ RUB RUB RUB $
+Revenues ​ 4 ​ 356,171 ​ 521,699 ​ 800,125 ​ 8,921.2
+Operating costs and expenses: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Cost of revenues(1) ​ ​ ​ 173,','[2024.04.26][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(874,1128,'nt assets ​ 11 ​ (11,740) ​ (11,989) ​ (18,719) ​ (208.7)
+Content liabilities ​ ​ ​ 1,711 ​ (1,061) ​ 1,614 ​ 18.0
+Net cash provided by operating activities ​ ​ 9,293 41,688 70,282 783.4
+CASH FLOWS PROVIDED BY/(USED IN) INVESTING ACTIVITIES: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Purch','[2024.04.26][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(875,1119,'per share data)
+
+[TABLE]
+​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+​ ​ ​ ​ Year ended December 31,
+​ ​ Notes ​ 2020 ​ 2021 ​ 2022 ​ 2022
+​ ​ RUB RUB RUB $
+Revenues ​ 4 ​ 218,344 ​ 356,171 ​ 521,699 ​ 7,417.1
+Operating costs and expenses: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Cost of revenues(1) ​ ​ ​ 85,7','[2023.04.20][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(876,1118,'share data)
+
+[TABLE]
+​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+​ ​ ​ ​ Year ended December 31,
+​ ​ Notes ​ 2019 ​ 2020 ​ 2021 ​ 2021
+​ ​ RUB RUB RUB $
+Revenues ​ 17, 18 ​ 175,391 ​ 218,344 ​ 356,171 ​ 4,794.2
+Operating costs and expenses: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Cost of revenues(1) ​ ​ ​ 55,7','[2022.04.20][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(877,1126,'ontent assets ​ 11 ​ (4,451) ​ (7,300) ​ (11,740) ​ (158.0)
+Content liabilities ​ ​ ​ 1,972 ​ 554 ​ 1,711 ​ 23.0
+Net cash provided by operating activities ​ ​ 44,379 32,604 9,293 ​ 125.1
+CASH FLOWS (USED IN)/PROVIDED BY INVESTING ACTIVITIES: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Purch','[2022.04.20][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(878,1136,'elopment(1) ​ ​ ​ 29,209 36,339 48,461 ​ 652.3
+Sales, general and administrative(1) ​ ​ ​ 50,295 62,913 122,924 ​ 1,654.7
+Depreciation and amortization ​ ​ ​ 14,777 17,687 24,111 ​ 324.5
+Goodwill impairment ​ 9 ​ 762 — ​ — ​ —
+Total operating costs and expenses ​ ​ ​','[2022.04.20][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(879,1107,',604 ​ 441.3
+CASH FLOWS PROVIDED BY/(USED IN) INVESTING ACTIVITIES: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Purchases of property and equipment and intangible assets ​ ​ (28,323) (20,543) (24,551) ​ (332.3)
+Proceeds from sale of property and equipment ​ ​ ​ 235 ​ 44 ​ 106 ​ 1.4
+Acquis','[2021.04.01][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(880,1125,'2,617 ​ 35.4
+Content assets ​ 11 ​ (575) ​ (4,451) ​ (7,300) ​ (98.8)
+Content liabilities ​ ​ ​ 92 ​ 1,972 ​ 554 ​ 7.5
+Net cash from operating activities ​ ​ 28,212 44,379 32,604 ​ 441.3
+CASH FLOWS PROVIDED BY/(USED IN) INVESTING ACTIVITIES: ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Purch','[2021.04.01][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(881,1135,'roduct development(1) 15,832 18,866 22,579 29,209 36,339 491.9
+Sales, general and administrative(1) 17,885 27,155 36,206 50,155 62,335 843.8
+Depreciation and amortization 9,607 11,239 12,137 14,777 17,687 239.4
+Goodwill impairment — — — 762 — —
+Total operating cos','[2021.04.01][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(882,1106,'activities 23,772 28,212 44,379 562.8
+CASH FLOWS (USED IN)/PROVIDED BY INVESTING ACTIVITIES:
+Purchases of property and equipment and intangible assets (12,389) (28,323) (20,543) (260.5)
+Proceeds from sale of property and equipment 73 235 44 0.5
+Acquisitions of bus','[2020.04.02][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(883,1116,'15 2016 2017* 2018* 2019
+RUB RUB RUB RUB RUB $
+(in millions, except share and per share data)
+Consolidated statements of income data:
+Revenues: 59,792 75,925 94,054 127,657 175,391 2,224.4
+Operating costs and expenses:
+Cost of revenues(1) 16,810 19,754 23,952 35,893 55','[2020.04.02][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(884,1134,'3,421 15,832 18,866 22,579 29,209 370.4
+Sales, general and administrative(1) 11,601 17,885 27,155 36,206 50,155 636.1
+Depreciation and amortization 7,791 9,607 11,239 12,137 14,777 187.4
+Goodwill impairment 576 — — — 762 9.7
+Total operating costs and expenses 50,199','[2020.04.02][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(885,1123,',224) (5,887) (84.7)
+Accounts payable and accrued liabilities 3,817 2,921 6,176 88.9
+Deferred revenue 298 321 479 6.9
+Net cash provided by operating activities 25,286 23,772 28,212 406.1
+CASH FLOWS (USED IN)/PROVIDED BY INVESTING ACTIVITIES:
+Purchases of property and','[2019.04.19][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(886,1143,'9,746 14,570 209.7
+Prepaid expenses 1,269 2,608 37.5
+Other current assets 5 4,039 6,444 92.8
+Total current assets 80,756 92,420 1,330.3
+Property and equipment, net 8 21,171 39,740 572.0
+Intangible assets, net 9 5,023 11,545 166.2
+Goodwill 9 9,328 52,662 758.0
+Long-t','[2019.04.19][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(887,1104,'ed by operating activities 19,375 25,286 23,772 412.7
+CASH FLOWS USED IN INVESTING ACTIVITIES:
+Purchases of property and equipment and intangible assets (13,045) (9,625) (12,389) (215.1)
+Proceeds from sale of property and equipment 95 177 73 1.3
+Acquisitions of bus','[2018.03.27][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(888,1132,'t(1) 5,827 8,842 13,421 15,832 18,761 325.7
+Sales, general and administrative(1) 6,537 7,782 11,601 17,885 27,081 470.2
+Depreciation and amortization 3,695 4,484 7,791 9,607 11,239 195.1
+Goodwill impairment — — 576 — — —
+Total operating costs and expenses 26,665 35,4','[2018.03.27][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(889,1131,'ment(1) 4,274 5,827 8,842 13,421 15,832 261.0
+Sales, general and administrative(1) 4,900 6,537 7,782 11,601 17,885 294.8
+Depreciation and amortization 2,951 3,695 4,484 7,791 9,607 158.4
+Goodwill impairment — — — 576 — —
+Total operating costs and expenses 19,313 26,6','[2017.03.22][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(890,1141,'5 5,586 7,741 127.6
+Prepaid expenses 1,505 1,481 24.6
+Other current assets 5 3,835 2,714 44.7
+Total current assets 53,229 74,970 1,236.0
+Property and equipment, net 8 20,860 18,817 310.2
+Intangible assets, net 9 5,988 5,514 90.9
+Goodwill 9 8,581 8,436 139.1
+Long-term','[2017.03.22][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(891,1102,'ing activities 14,705 15,546 19,576 268.6
+​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+CASH FLOWS USED IN INVESTING ACTIVITIES:
+Purchases of property and equipment (4,936 ) (9,679 ) (13,045 ) (179.0 )
+Proceeds from sale of property and equipment — 132 95 1.3
+Acquisitions of bus','[2016.03.22][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(892,1112,',
+2011 2012 2013 2014 2015
+RUB RUB RUB RUB RUB $
+(in millions, except share and per share data)
+Consolidated statements of income data:
+Revenues: 20,033 28,767 39,502 50,767 59,792 820.4
+Operating costs and expenses:
+Cost of revenues(1) 4,707 7,188 10,606 14,336 16,8','[2016.03.22][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(893,1140,'d expenses 1,508 1,505 20.6
+Other current assets 5 3,736 3,835 52.6
+​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​ ​
+Total current assets 35,579 53,229 730.3
+Property and equipment, net 8 14,195 20,860 286.2
+Intangible assets, net 9 5,337 5,988 82.2
+Goodwill 9 8,920 8,581 117.7
+Long-term','[2016.03.22][NBIS][AR][20-F].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(894,709,'es of marketable securities and other investments (1,663 ) (838 )
+Proceeds from sales and maturities of marketable securities and other investments 4,857 444
+Capital expenditures (39,170 ) (12,135 )
+Net cash used for investing activities (35,976 ) (12,529 )
+Cash flo','[2026.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(895,767,'counts payable and other liabilities (821 ) (633 )
+Decrease in income taxes payable (1,651 ) (1,222 )
+Increase in deferred revenues 250 35
+Net cash provided by operating activities 17,357 14,664
+Cash flows from investing activities:
+Purchases of marketable securities','[2026.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(896,812,'31, 2025, respectively 10,719 8,558
+Prepaid expenses and other current assets 5,023 4,818
+Total current assets 54,874 24,579
+Non-current assets:
+Property, plant and equipment, net 83,617 43,522
+Intangible assets, net 3,641 4,587
+Goodwill 62,274 62,207
+Deferred tax as','[2026.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(897,1377,'026 2025 2026 2025
+Revenues:
+Cloud $ 8,914 $ 6,210 $ 24,076 $ 17,769
+Software 6,119 5,926 17,717 17,756
+Hardware 714 703 2,160 2,086
+Services 1,443 1,291 4,220 3,885
+Total revenues 17,190 14,130 48,173 41,496
+Operating expenses:
+Cloud and software(1) 4,776 2,882 12,37','[2026.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(898,708,'ases of marketable securities and other investments (634 ) (636 )
+Proceeds from sales and maturities of marketable securities and other investments 4,737 356
+Capital expenditures (20,535 ) (6,273 )
+Net cash used for investing activities (16,432 ) (6,553 )
+Cash flows','[2025.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(899,766,'s payable and other liabilities (1,366 ) (1,143 )
+Decrease in income taxes payable (2,608 ) (1,685 )
+Increase in deferred revenues 467 454
+Net cash provided by operating activities 10,206 8,731
+Cash flows from investing activities:
+Purchases of marketable securities a','[2025.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(900,811,'y 31, 2025, respectively 9,440 8,558
+Prepaid expenses and other current assets 5,160 4,818
+Total current assets 34,366 24,579
+Non-current assets:
+Property, plant and equipment, net 67,875 43,522
+Intangible assets, net 3,760 4,587
+Goodwill 62,207 62,207
+Deferred tax as','[2025.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(901,1376,'025 2024 2025 2024
+Revenues:
+Cloud $ 7,977 $ 5,937 $ 15,162 $ 11,559
+Software 5,877 6,064 11,598 11,830
+Hardware 776 728 1,446 1,383
+Services 1,428 1,330 2,777 2,594
+Total revenues 16,058 14,059 30,983 27,366
+Operating expenses:
+Cloud and software(1) 3,990 2,746 7,597','[2025.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(902,707,'rchases of marketable securities and other investments (471 ) (477 )
+Proceeds from sales and maturities of marketable securities and other investments 255 15
+Capital expenditures (8,502 ) (2,303 )
+Net cash used for investing activities (8,718 ) (2,765 )
+Cash flows','[2025.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(903,765,'ayable and other liabilities (334 ) (531 )
+(Decrease) increase in income taxes payable (391 ) 24
+Increase in deferred revenues 2,550 2,305
+Net cash provided by operating activities 8,140 7,427
+Cash flows from investing activities:
+Purchases of marketable securities a','[2025.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(904,810,'y 31, 2025, respectively 8,843 8,558
+Prepaid expenses and other current assets 4,786 4,818
+Total current assets 24,634 24,579
+Non-current assets:
+Property, plant and equipment, net 53,194 43,522
+Intangible assets, net 4,167 4,587
+Goodwill 62,211 62,207
+Deferred tax as','[2025.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(905,1375,'ree Months Ended August 31,
+(in millions, except per share data) 2025 2024
+Revenues:
+Cloud $ 7,186 $ 5,623
+Software 5,721 5,766
+Hardware 670 655
+Services 1,349 1,263
+Total revenues 14,926 13,307
+Operating expenses:
+Cloud and software(1) 3,607 2,597
+Hardware(1) 178 162','[2025.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(906,705,'nvestments (838 ) (674 )
+Proceeds from sales and maturities of marketable securities and other investments 444 207
+Acquisitions, net of cash acquired — (59 )
+Capital expenditures (12,135 ) (4,068 )
+Net cash used for investing activities (12,529 ) (4,594 )
+Cash flows','[2025.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(907,763,'accounts payable and other liabilities (633 ) (682 )
+Decrease in income taxes payable (1,222 ) (788 )
+Increase in deferred revenues 35 303
+Net cash provided by operating activities 14,664 12,592
+Cash flows from investing activities:
+Purchases of marketable securities','[2025.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(908,808,'y 31, 2024, respectively 8,051 7,874
+Prepaid expenses and other current assets 4,242 4,019
+Total current assets 30,116 22,554
+Non-current assets:
+Property, plant and equipment, net 31,970 21,536
+Intangible assets, net 5,131 6,890
+Goodwill, net 62,171 62,230
+Deferred t','[2025.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(909,1374,'support $ 11,007 $ 9,963 $ 32,331 $ 29,149
+Cloud license and on-premise license 1,129 1,256 3,194 3,243
+Hardware 703 754 2,086 2,224
+Services 1,291 1,307 3,885 4,058
+Total revenues 14,130 13,280 41,496 38,674
+Operating expenses:
+Cloud services and license support(1) 2','[2025.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(910,704,'nvestments (636 ) (515 )
+Proceeds from sales and maturities of marketable securities and other investments 356 157
+Acquisitions, net of cash acquired — (59 )
+Capital expenditures (6,273 ) (2,394 )
+Net cash used for investing activities (6,553 ) (2,811 )
+Cash flows','[2024.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(911,762,'s payable and other liabilities (1,143 ) (1,048 )
+Decrease in income taxes payable (1,685 ) (1,541 )
+Increase in deferred revenues 454 149
+Net cash provided by operating activities 8,731 7,117
+Cash flows from investing activities:
+Purchases of marketable securities a','[2024.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(912,807,'y 31, 2024, respectively 8,177 7,874
+Prepaid expenses and other current assets 4,015 4,019
+Total current assets 23,503 22,554
+Non-current assets:
+Property, plant and equipment, net 26,432 21,536
+Intangible assets, net 5,679 6,890
+Goodwill, net 62,204 62,230
+Deferred t','[2024.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(913,1373,'support $ 10,806 $ 9,639 $ 21,324 $ 19,186
+Cloud license and on-premise license 1,195 1,178 2,065 1,987
+Hardware 728 756 1,383 1,470
+Services 1,330 1,368 2,594 2,751
+Total revenues 14,059 12,941 27,366 25,394
+Operating expenses:
+Cloud services and license support(1) 2','[2024.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(914,703,'urchases of marketable securities and other investments (477 ) (333 )
+Proceeds from sales and maturities of marketable securities and other investments 15 85
+Capital expenditures (2,303 ) (1,314 )
+Net cash used for investing activities (2,765 ) (1,562 )
+Cash flows','[2024.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(915,761,'e in accounts payable and other liabilities (531 ) (457 )
+Increase in income taxes payable 24 69
+Increase in deferred revenues 2,305 2,317
+Net cash provided by operating activities 7,427 6,974
+Cash flows from investing activities:
+Purchases of marketable securities a','[2024.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(916,806,'y 31, 2024, respectively 8,021 7,874
+Prepaid expenses and other current assets 4,140 4,019
+Total current assets 23,072 22,554
+Non-current assets:
+Property, plant and equipment, net 23,094 21,536
+Intangible assets, net 6,270 6,890
+Goodwill, net 62,249 62,230
+Deferred t','[2024.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(917,1372,'hare data) 2024 2023
+Revenues:
+Cloud services and license support $ 10,519 $ 9,547
+Cloud license and on-premise license 870 809
+Hardware 655 714
+Services 1,263 1,383
+Total revenues 13,307 12,453
+Operating expenses:
+Cloud services and license support(1) 2,597 2,179
+Har','[2024.09.10][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(918,702,'free cash flow as follows:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2024 Change 2023
+Net cash provided by operating activities $ 18,673 9% $ 17,165
+Capital expenditures (6,866 ) -21% (8,695 )
+Free cash flow $ 11,807 39% $ 8,470
+Net income $ 10,467 $ 8,503','[2024.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(919,729,'llars in millions) 2024 Actual Constant 2023
+Total Revenues by Geography:
+Americas $ 33,122 6% 6% $ 31,226
+EMEA(1) 13,030 8% 5% 12,109
+Asia Pacific 6,809 3% 6% 6,619
+Total revenues 52,961 6% 6% 49,954
+Total Operating Expenses 37,608 2% 2% 36,861
+Total Operating Margin','[2024.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(920,760,'53
+
+Table of Contents
+
+Index to Financial Statements
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2024 Change 2023
+Net cash provided by operating activities $ 18,673 9% $ 17,165
+Net cash used for investing activities $ (7,360 ) -80% $ (36,484 )
+N','[2024.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(921,805,'y 31, 2023, respectively 7,874 6,915
+Prepaid expenses and other current assets 4,019 3,902
+Total current assets 22,554 21,004
+Non-current assets:
+Property, plant and equipment, net 21,536 17,069
+Intangible assets, net 6,890 9,837
+Goodwill, net 62,230 62,261
+Deferred t','[2024.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(922,701,'ts (674 ) (921 )
+Proceeds from sales and maturities of marketable securities and other investments 207 552
+Acquisitions, net of cash acquired (59 ) (27,721 )
+Capital expenditures (4,068 ) (6,782 )
+Net cash used for investing activities (4,594 ) (34,872 )
+Cash flows','[2024.03.12][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(923,759,'accounts payable and other liabilities (682 ) (783 )
+Decrease in income taxes payable (788 ) (453 )
+Increase in deferred revenues 303 256
+Net cash provided by operating activities 12,592 11,518
+Cash flows from investing activities:
+Purchases of marketable securities','[2024.03.12][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(924,804,'y 31, 2023, respectively 7,297 6,915
+Prepaid expenses and other current assets 3,862 3,902
+Total current assets 21,063 21,004
+Non-current assets:
+Property, plant and equipment, net 19,117 17,069
+Intangible assets, net 7,629 9,837
+Goodwill, net 62,222 62,261
+Deferred t','[2024.03.12][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(925,1371,'support $ 9,963 $ 8,923 $ 29,149 $ 25,938
+Cloud license and on-premise license 1,256 1,288 3,243 3,627
+Hardware 754 811 2,224 2,424
+Services 1,307 1,376 4,058 4,129
+Total revenues 13,280 12,398 38,674 36,118
+Operating expenses:
+Cloud services and license support(1) 2','[2024.03.12][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(926,700,'ts (515 ) (603 )
+Proceeds from sales and maturities of marketable securities and other investments 157 462
+Acquisitions, net of cash acquired (59 ) (27,799 )
+Capital expenditures (2,394 ) (4,154 )
+Net cash used for investing activities (2,811 ) (32,094 )
+Cash flows','[2023.12.12][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(927,758,'ounts payable and other liabilities (1,048 ) (785 )
+Decrease in income taxes payable (1,541 ) (327 )
+Increase in deferred revenues 149 369
+Net cash provided by operating activities 7,117 7,243
+Cash flows from investing activities:
+Purchases of marketable securities a','[2023.12.12][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(928,803,'y 31, 2023, respectively 6,804 6,915
+Prepaid expenses and other current assets 3,795 3,902
+Total current assets 19,289 21,004
+Non-current assets:
+Property, plant and equipment, net 18,009 17,069
+Intangible assets, net 8,378 9,837
+Goodwill, net 62,231 62,261
+Deferred t','[2023.12.12][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(929,1370,'support $ 9,639 $ 8,598 $ 19,186 $ 17,015
+Cloud license and on-premise license 1,178 1,435 1,987 2,339
+Hardware 756 850 1,470 1,613
+Services 1,368 1,392 2,751 2,753
+Total revenues 12,941 12,275 25,394 23,720
+Operating expenses:
+Cloud services and license support(1) 2','[2023.12.12][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(930,699,'estments (333 ) (57 )
+Proceeds from sales and maturities of marketable securities and other investments 85 138
+Acquisitions, net of cash acquired — (27,798 )
+Capital expenditures (1,314 ) (1,719 )
+Net cash used for investing activities (1,562 ) (29,436 )
+Cash flows','[2023.09.12][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(931,757,'in accounts payable and other liabilities (457 ) (166 )
+Increase in income taxes payable 69 145
+Increase in deferred revenues 2,317 2,034
+Net cash provided by operating activities 6,974 6,394
+Cash flows from investing activities:
+Purchases of marketable securities a','[2023.09.12][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(932,802,'y 31, 2023, respectively 6,519 6,915
+Prepaid expenses and other current assets 3,564 3,902
+Total current assets 22,166 21,004
+Non-current assets:
+Property, plant and equipment, net 17,644 17,069
+Intangible assets, net 9,074 9,837
+Goodwill, net 62,206 62,261
+Deferred t','[2023.09.12][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(933,1369,'share data) 2023 2022
+Revenues:
+Cloud services and license support $ 9,547 $ 8,417
+Cloud license and on-premise license 809 904
+Hardware 714 763
+Services 1,383 1,361
+Total revenues 12,453 11,445
+Operating expenses:
+Cloud services and license support(1) 2,179 1,735
+Har','[2023.09.12][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(934,698,'free cash flow as follows:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2023 Change 2022
+Net cash provided by operating activities $ 17,165 80% $ 9,539
+Capital expenditures (8,695 ) 93% (4,511 )
+Free cash flow $ 8,470 68% $ 5,028
+Net income $ 8,503 $ 6,717
+Ne','[2023.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(935,728,'rs in millions) 2023 Actual Constant 2022
+Total Revenues by Geography:
+Americas $ 31,226 32% 32% $ 23,679
+EMEA(1) 12,109 1% 8% 12,011
+Asia Pacific 6,619 -2% 8% 6,750
+Total revenues 49,954 18% 22% 42,440
+Total Operating Expenses 36,861 17% 19% 31,514
+Total Operating Ma','[2023.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(936,756,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2023 Change 2022
+Net cash provided by operating activities $ 17,165 80% $ 9,539
+Net cash (used for) provided by investing activities $ (36,484 ) * $','[2023.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(937,801,'y 31, 2022, respectively 6,915 5,953
+Prepaid expenses and other current assets 3,902 3,778
+Total current assets 21,004 31,633
+Non-current assets:
+Property, plant and equipment, net 17,069 9,716
+Intangible assets, net 9,837 1,440
+Goodwill, net 62,261 43,811
+Deferred ta','[2023.06.20][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(938,697,') (10,134 )
+Proceeds from sales and maturities of marketable securities and other investments 552 25,735
+Acquisitions, net of cash acquired (27,721 ) (132 )
+Capital expenditures (6,782 ) (3,088 )
+Net cash (used for) provided by investing activities (34,872 ) 12,38','[2023.03.10][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(939,755,'ble and other liabilities (783 ) (683 )
+Decrease in income taxes payable (453 ) (661 )
+Increase (decrease) in deferred revenues 256 (643 )
+Net cash provided by operating activities 11,518 5,554
+Cash flows from investing activities:
+Purchases of marketable securities a','[2023.03.10][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(940,800,'y 31, 2022, respectively 6,213 5,953
+Prepaid expenses and other current assets 3,714 3,778
+Total current assets 18,696 31,633
+Non-current assets:
+Property, plant and equipment, net 16,345 9,716
+Intangible assets, net 10,707 1,440
+Goodwill, net 61,499 43,811
+Deferred t','[2023.03.10][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(941,1368,'se support $ 8,923 $ 7,637 $ 25,938 $ 22,562
+Cloud license and on-premise license 1,288 1,289 3,627 3,339
+Hardware 811 798 2,424 2,328
+Services 1,376 789 4,129 2,371
+Total revenues 12,398 10,513 36,118 30,600
+Operating expenses:
+Cloud services and license support(1) 1','[2023.03.10][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(942,696,'03 ) (9,631 )
+Proceeds from sales and maturities of marketable securities and other investments 462 21,617
+Acquisitions, net of cash acquired (27,799 ) (50 )
+Capital expenditures (4,154 ) (1,987 )
+Net cash (used for) provided by investing activities (32,094 ) 9,949','[2022.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(943,754,'ble and other liabilities (785 ) (918 )
+Decrease in income taxes payable (327 ) (849 )
+Increase (decrease) in deferred revenues 369 (531 )
+Net cash provided by operating activities 7,243 1,709
+Cash flows from investing activities:
+Purchases of marketable securities a','[2022.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(944,799,'y 31, 2022, respectively 6,197 5,953
+Prepaid expenses and other current assets 4,014 3,778
+Total current assets 17,561 31,633
+Non-current assets:
+Property, plant and equipment, net 14,351 9,716
+Intangible assets, net 11,593 1,440
+Goodwill, net 61,513 43,811
+Deferred t','[2022.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(945,1367,'se support $ 8,598 $ 7,554 $ 17,015 $ 14,925
+Cloud license and on-premise license 1,435 1,237 2,339 2,049
+Hardware 850 767 1,613 1,530
+Services 1,392 802 2,753 1,583
+Total revenues 12,275 10,360 23,720 20,087
+Operating expenses:
+Cloud services and license support(1) 1','[2022.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(946,695,'(57 ) (7,671 )
+Proceeds from sales and maturities of marketable securities and other investments 138 8,002
+Acquisitions, net of cash acquired (27,798 ) (50 )
+Capital expenditures (1,719 ) (1,062 )
+Net cash used for investing activities (29,436 ) (781 )
+Cash flows f','[2022.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(947,753,'yable and other liabilities (166 ) (713 )
+Increase (decrease) in income taxes payable 145 (221 )
+Increase in deferred revenues 2,034 1,486
+Net cash provided by operating activities 6,394 5,391
+Cash flows from investing activities:
+Purchases of marketable securities a','[2022.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(948,798,'y 31, 2022, respectively 5,937 5,953
+Prepaid expenses and other current assets 3,847 3,778
+Total current assets 21,004 31,633
+Non-current assets:
+Property, plant and equipment, net 12,280 9,716
+Intangible assets, net 12,499 1,440
+Goodwill, net 61,629 43,811
+Deferred t','[2022.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(949,1366,'r share data) 2022 2021
+Revenues:
+Cloud services and license support $ 8,417 $ 7,371
+Cloud license and on-premise license 904 813
+Hardware 763 763
+Services 1,361 781
+Total revenues 11,445 9,728
+Operating expenses:
+Cloud services and license support(1) 1,735 1,214
+Hard','[2022.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(950,694,'free cash flow as follows:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2022 Change 2021
+Net cash provided by operating activities $ 9,539 -40% $ 15,887
+Capital expenditures (4,511 ) 111% (2,135 )
+Free cash flow $ 5,028 -63% $ 13,752
+Net income $ 6,717 $ 13,74','[2022.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(951,727,'llars in millions) 2022 Actual Constant 2021
+Total Revenues by Geography:
+Americas $ 23,679 8% 8% $ 21,828
+EMEA(1) 12,011 1% 5% 11,894
+Asia Pacific 6,750 0% 4% 6,757
+Total revenues 42,440 5% 7% 40,479
+Total Operating Expenses 31,514 25% 26% 25,266
+Total Operating Marg','[2022.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(952,752,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2022 Change 2021
+Net cash provided by operating activities $ 9,539 -40% $ 15,887
+Net cash provided by (used for) investing activities $ 11,220 * $','[2022.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(953,797,'y 31, 2021, respectively 5,953 5,409
+Prepaid expenses and other current assets 3,778 3,604
+Total current assets 31,633 55,567
+Non-current assets:
+Property, plant and equipment, net 9,716 7,049
+Intangible assets, net 1,440 2,430
+Goodwill, net 43,811 43,935
+Deferred ta','[2022.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(954,693,'4 ) (26,775 )
+Proceeds from sales and maturities of marketable securities and other investments 25,735 19,035
+Acquisitions, net of cash acquired (132 ) (29 )
+Capital expenditures (3,088 ) (1,418 )
+Net cash provided by (used for) investing activities 12,381 (9,187 )','[2022.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(955,751,'s payable and other liabilities (683 ) (247 )
+Decrease in income taxes payable (661 ) (1,181 )
+Decrease in deferred revenues (643 ) (250 )
+Net cash provided by operating activities 5,554 11,045
+Cash flows from investing activities:
+Purchases of marketable securities','[2022.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(956,796,'y 31, 2021, respectively 4,588 5,409
+Prepaid expenses and other current assets 3,698 3,604
+Total current assets 31,675 55,567
+Non-current assets:
+Property, plant and equipment, net 8,609 7,049
+Intangible assets, net 1,688 2,430
+Goodwill, net 43,833 43,935
+Deferred ta','[2022.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(957,1365,'ense support $ 7,637 $ 7,252 $ 22,562 $ 21,311
+Cloud license and on-premise license 1,289 1,276 3,339 3,254
+Hardware 798 820 2,328 2,478
+Services 789 737 2,371 2,209
+Total revenues 10,513 10,085 30,600 29,252
+Operating expenses:
+Cloud services and license support(1) 1','[2022.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(958,692,'(9,631 ) (15,578 )
+Proceeds from sales and maturities of marketable securities and other investments 21,617 10,779
+Acquisitions, net of cash acquired (50 ) —
+Capital expenditures (1,987 ) (1,004 )
+Net cash provided by (used for) investing activities 9,949 (5,803 )','[2021.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(959,750,'s payable and other liabilities (918 ) (248 )
+Decrease in income taxes payable (849 ) (1,243 )
+Decrease in deferred revenues (531 ) (158 )
+Net cash provided by operating activities 1,709 7,341
+Cash flows from investing activities:
+Purchases of marketable securities a','[2021.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(960,795,'y 31, 2021, respectively 4,462 5,409
+Prepaid expenses and other current assets 3,778 3,604
+Total current assets 31,078 55,567
+Non-current assets:
+Property, plant and equipment, net 8,029 7,049
+Intangible assets, net 1,881 2,430
+Goodwill, net 43,842 43,935
+Deferred ta','[2021.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(961,1364,'ense support $ 7,554 $ 7,112 $ 14,925 $ 14,059
+Cloud license and on-premise license 1,237 1,092 2,049 1,978
+Hardware 767 844 1,530 1,658
+Services 802 752 1,583 1,472
+Total revenues 10,360 9,800 20,087 19,167
+Operating expenses:
+Cloud services and license support(1) 1,','[2021.12.10][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(962,691,'s (7,671 ) (10,678 )
+Proceeds from sales and maturities of marketable securities and other investments 8,002 1,459
+Acquisitions, net of cash acquired (50 ) —
+Capital expenditures (1,062 ) (436 )
+Net cash used for investing activities (781 ) (9,655 )
+Cash flows from','[2021.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(963,749,'ounts payable and other liabilities (713 ) (294 )
+Decrease in income taxes payable (221 ) (586 )
+Increase in deferred revenues 1,486 1,745
+Net cash provided by operating activities 5,391 5,953
+Cash flows from investing activities:
+Purchases of marketable securities a','[2021.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(964,794,'y 31, 2021, respectively 4,482 5,409
+Prepaid expenses and other current assets 3,325 3,604
+Total current assets 47,117 55,567
+Non-current assets:
+Property, plant and equipment, net 7,610 7,049
+Intangible assets, net 2,181 2,430
+Goodwill, net 43,862 43,935
+Deferred ta','[2021.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(965,1363,'per share data) 2021 2020
+Revenues:
+Cloud services and license support $ 7,371 $ 6,947
+Cloud license and on-premise license 813 886
+Hardware 763 814
+Services 781 720
+Total revenues 9,728 9,367
+Operating expenses:
+Cloud services and license support(1) 1,214 1,011
+Hard','[2021.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(966,690,'free cash flow as follows:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2021 Change 2020
+Net cash provided by operating activities $ 15,887 21% $ 13,139
+Capital expenditures (2,135 ) 37% (1,564 )
+Free cash flow $ 13,752 19% $ 11,575
+Net income $ 13,746 $ 10,13','[2021.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(967,726,'llars in millions) 2021 Actual Constant 2020
+Total Revenues by Geography:
+Americas $ 21,828 1% 2% $ 21,563
+EMEA(1) 11,894 8% 2% 11,035
+Asia Pacific 6,757 4% 1% 6,470
+Total revenues 40,479 4% 2% 39,068
+Total Operating Expenses 25,266 0% -1% 25,172
+Total Operating Margi','[2021.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(968,748,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2021 Change 2020
+Net cash provided by operating activities $ 15,887 21% $ 13,139
+Net cash (used for) provided by investing activities $ (13,098 ) *','[2021.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(969,793,'y 31, 2020, respectively 5,409 5,551
+Prepaid expenses and other current assets 3,604 3,532
+Total current assets 55,567 52,140
+Non-current assets:
+Property, plant and equipment, net 7,049 6,244
+Intangible assets, net 2,430 3,738
+Goodwill, net 43,935 43,769
+Deferred ta','[2021.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(970,689,'ketable securities and other investments 18,182 3,165
+Proceeds from sales of marketable securities 853 12,575
+Acquisitions, net of cash acquired (29 ) (111 )
+Capital expenditures (1,418 ) (1,131 )
+Net cash (used for) provided by investing activities (9,187 ) 14,099','[2021.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(971,747,'payable and other liabilities (247 ) (1,035 )
+Decrease in income taxes payable (1,181 ) (789 )
+Decrease in deferred revenues (250 ) (553 )
+Net cash provided by operating activities 11,045 9,525
+Cash flows from investing activities:
+Purchases of marketable securities a','[2021.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(972,792,'y 31, 2020, respectively 4,637 5,551
+Prepaid expenses and other current assets 3,243 3,532
+Total current assets 43,744 52,140
+Non-current assets:
+Property, plant and equipment, net 6,816 6,244
+Intangible assets, net 2,754 3,738
+Goodwill, net 43,954 43,769
+Deferred ta','[2021.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(973,1362,'ense support $ 7,252 $ 6,930 $ 21,311 $ 20,546
+Cloud license and on-premise license 1,276 1,231 3,254 3,169
+Hardware 820 857 2,478 2,542
+Services 737 778 2,209 2,372
+Total revenues 10,085 9,796 29,252 28,629
+Operating expenses:
+Cloud services and license support(1) 1,','[2021.03.11][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(974,688,'of marketable securities and other investments 10,776 2,204
+Proceeds from sales of marketable securities 3 12,575
+Acquisitions, net of cash acquired — (111 )
+Capital expenditures (1,004 ) (735 )
+Net cash (used for) provided by investing activities (5,803 ) 13,619
+C','[2020.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(975,746,'s payable and other liabilities (248 ) (916 )
+Decrease in income taxes payable (1,243 ) (613 )
+Decrease in deferred revenues (158 ) (318 )
+Net cash provided by operating activities 7,341 6,513
+Cash flows from investing activities:
+Purchases of marketable securities a','[2020.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(976,791,'y 31, 2020, respectively 4,423 5,551
+Prepaid expenses and other current assets 3,235 3,532
+Total current assets 46,251 52,140
+Non-current assets:
+Property, plant and equipment, net 6,627 6,244
+Intangible assets, net 3,061 3,738
+Goodwill, net 43,877 43,769
+Deferred ta','[2020.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(977,1361,'ense support $ 7,112 $ 6,811 $ 14,059 $ 13,616
+Cloud license and on-premise license 1,092 1,126 1,978 1,937
+Hardware 844 871 1,658 1,686
+Services 752 806 1,472 1,593
+Total revenues 9,800 9,614 19,167 18,832
+Operating expenses:
+Cloud services and license support(1) 1,','[2020.12.11][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(978,687,'ties of marketable securities and other investments 1,459 879
+Proceeds from sales of marketable securities — 12,111
+Acquisitions, net of cash acquired — (2 )
+Capital expenditures (436 ) (386 )
+Net cash (used for) provided by investing activities (9,655 ) 12,386
+C','[2020.09.15][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(979,745,'ounts payable and other liabilities (294 ) (813 )
+Decrease in income taxes payable (586 ) (121 )
+Increase in deferred revenues 1,745 1,761
+Net cash provided by operating activities 5,953 6,000
+Cash flows from investing activities:
+Purchases of marketable securities a','[2020.09.15][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(980,790,'y 31, 2020, respectively 4,576 5,551
+Prepaid expenses and other current assets 3,084 3,532
+Total current assets 49,939 52,140
+Non-current assets:
+Property, plant and equipment, net 6,401 6,244
+Intangible assets, net 3,405 3,738
+Goodwill, net 43,867 43,769
+Deferred ta','[2020.09.15][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(981,1360,'per share data) 2020 2019
+Revenues:
+Cloud services and license support $ 6,947 $ 6,805
+Cloud license and on-premise license 886 812
+Hardware 814 815
+Services 720 786
+Total revenues 9,367 9,218
+Operating expenses:
+Cloud services and license support(1) 1,011 982
+Hardwa','[2020.09.15][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(982,686,'ree cash flow as follows:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2020 Change 2019
+Net cash provided by operating activities $ 13,139 -10% $ 14,551
+Capital expenditures (1,564 ) -6% (1,660 )
+Free cash flow $ 11,575 -10% $ 12,891
+Net income $ 10,135 $ 11,0','[2020.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(983,725,'[TABLE]
+As of and for the Year Ended May 31,
+(in millions, except per share amounts) 2020 2019 2018 2017 2016(4)
+Consolidated Statements of Operations Data:
+Total revenues $ 39,068 $ 39,506 $ 39,383 $ 37,792 $ 37,047
+Operating income $ 13,896 $ 13,535 $ 13,264','[2020.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(984,744,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2020 Change 2019
+Net cash provided by operating activities $ 13,139 -10% $ 14,551
+Net cash provided by investing activities $ 9,843 -63% $ 26,557
+N','[2020.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(985,789,'y 31, 2019, respectively 5,551 5,134
+Prepaid expenses and other current assets 3,532 3,425
+Total current assets 52,140 46,386
+Non-current assets:
+Property, plant and equipment, net 6,244 6,252
+Intangible assets, net 3,738 5,279
+Goodwill, net 43,769 43,779
+Deferred ta','[2020.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(986,685,'ble securities and other investments 3,165 10,210
+Proceeds from sales of marketable securities 12,575 11,328
+Acquisitions, net of cash acquired (111 ) (330 )
+Capital expenditures (1,131 ) (1,247 )
+Net cash provided by investing activities 14,099 18,651
+Cash flows f','[2020.03.13][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(987,743,'s payable and other liabilities (1,035 ) (647 )
+Decrease in income taxes payable (789 ) (410 )
+Decrease in deferred revenues (553 ) (258 )
+Net cash provided by operating activities 9,525 10,129
+Cash flows from investing activities:
+Purchases of marketable securities','[2020.03.13][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(988,788,'y 31, 2019, respectively 4,162 5,134
+Prepaid expenses and other current assets 3,422 3,425
+Total current assets 33,442 46,386
+Non-current assets:
+Property, plant and equipment, net 6,248 6,252
+Intangible assets, net 4,088 5,279
+Goodwill, net 43,781 43,779
+Deferred ta','[2020.03.13][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(989,1359,'ense support $ 6,930 $ 6,662 $ 20,546 $ 19,908
+Cloud license and on-premise license 1,231 1,251 3,169 3,334
+Hardware 857 915 2,542 2,711
+Services 778 786 2,372 2,416
+Total revenues 9,796 9,614 28,629 28,369
+Operating expenses:
+Cloud services and license support(1) 99','[2020.03.13][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(990,684,'table securities and other investments 2,204 6,737
+Proceeds from sales of marketable securities 12,575 1,110
+Acquisitions, net of cash acquired (111 ) (313 )
+Capital expenditures (735 ) (804 )
+Net cash provided by investing activities 13,619 5,452
+Cash flows from','[2019.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(991,742,'ble and other liabilities (916 ) (364 )
+Decrease in income taxes payable (613 ) (679 )
+(Decrease) increase in deferred revenues (318 ) 124
+Net cash provided by operating activities 6,513 7,268
+Cash flows from investing activities:
+Purchases of marketable securities a','[2019.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(992,787,'y 31, 2019, respectively 4,050 5,134
+Prepaid expenses and other current assets 3,046 3,425
+Total current assets 34,540 46,386
+Non-current assets:
+Property, plant and equipment, net 6,270 6,252
+Intangible assets, net 4,492 5,279
+Goodwill, net 43,810 43,779
+Deferred ta','[2019.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(993,1358,'ense support $ 6,811 $ 6,637 $ 13,616 $ 13,246
+Cloud license and on-premise license 1,126 1,217 1,937 2,083
+Hardware 871 891 1,686 1,796
+Services 806 817 1,593 1,630
+Total revenues 9,614 9,562 18,832 18,755
+Operating expenses:
+Cloud services and license support(1) 1,','[2019.12.13][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(994,683,'of marketable securities and other investments 879 4,704
+Proceeds from sales of marketable securities 12,111 —
+Acquisitions, net of cash acquired (2 ) (50 )
+Capital expenditures (386 ) (383 )
+Net cash provided by investing activities 12,386 3,532
+Cash flows from','[2019.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(995,741,'ayable and other liabilities (813 ) (561 )
+(Decrease) increase in income taxes payable (121 ) 10
+Increase in deferred revenues 1,761 2,213
+Net cash provided by operating activities 6,000 6,722
+Cash flows from investing activities:
+Purchases of marketable securities a','[2019.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(996,786,'y 31, 2019, respectively 3,820 5,134
+Prepaid expenses and other current assets 2,860 3,425
+Total current assets 42,384 46,386
+Non-current assets:
+Property, plant and equipment, net 6,264 6,252
+Intangible assets, net 4,861 5,279
+Goodwill, net 43,733 43,779
+Deferred ta','[2019.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(997,1357,'per share data) 2019 2018
+Revenues:
+Cloud services and license support $ 6,805 $ 6,609
+Cloud license and on-premise license 812 867
+Hardware 815 904
+Services 786 813
+Total revenues 9,218 9,193
+Operating expenses:
+Cloud services and license support(1) 982 913
+Hardware','[2019.09.13][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(998,682,'free cash flow as follows:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2019 Change 2018
+Net cash provided by operating activities $ 14,551 -5% $ 15,386
+Capital expenditures (1,660 ) -4% (1,736 )
+Free cash flow $ 12,891 -6% $ 13,650
+Net income $ 11,083 $ 3,587','[2019.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(999,724,'TABLE]
+As of and for the Year Ended May 31,
+(in millions, except per share amounts) 2019 2018(4) 2017(4) 2016(4) 2015(4)
+Consolidated Statements of Operations Data:
+Total revenues $ 39,506 $ 39,383 $ 37,792 $ 37,047 $ 38,226
+Operating income $ 13,535 $ 13,264 $ 12,913','[2019.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1000,740,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2019 Change 2018
+Net cash provided by operating activities $ 14,551 -5% $ 15,386
+Net cash provided by (used for) investing activities $ 26,557 572%','[2019.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1001,785,'y 31, 2018, respectively 5,134 5,136
+Prepaid expenses and other current assets 3,425 3,762
+Total current assets 46,386 76,159
+Non-current assets:
+Property, plant and equipment, net 6,252 5,897
+Intangible assets, net 5,279 6,670
+Goodwill, net 43,779 43,755
+Deferred ta','[2019.06.21][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1002,681,'rketable securities and other investments 10,210 14,808
+Proceeds from sales of marketable securities 11,328 2,261
+Acquisitions, net of cash acquired (330 ) —
+Capital expenditures (1,247 ) (1,358 )
+Net cash provided by (used for) investing activities 18,651 (8,785 )','[2019.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1003,739,'e and other liabilities (647 ) (607 )
+(Decrease) increase in income taxes payable (410 ) 7,444
+Decrease in deferred revenues (258 ) (442 )
+Net cash provided by operating activities 10,129 10,726
+Cash flows from investing activities:
+Purchases of marketable securities','[2019.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1004,784,'y 31, 2018, respectively 3,993 5,136
+Prepaid expenses and other current assets 3,594 3,762
+Total current assets 47,617 76,159
+Non-current assets:
+Property, plant and equipment, net 6,197 5,897
+Intangible assets, net 5,678 6,670
+Goodwill, net 43,776 43,755
+Deferred ta','[2019.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1005,1356,'ense support $ 6,662 $ 6,587 $ 19,908 $ 19,454
+Cloud license and on-premise license 1,251 1,299 3,334 3,525
+Hardware 915 994 2,711 2,878
+Services 786 796 2,416 2,512
+Total revenues 9,614 9,676 28,369 28,369
+Operating expenses:
+Cloud services and license support(1) 93','[2019.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1006,680,'(1,278 ) (18,022 )
+Proceeds from maturities and sales of marketable securities and other investments 7,847 11,566
+Acquisitions, net of cash acquired (313 ) —
+Capital expenditures (804 ) (1,072 )
+Net cash provided by (used for) investing activities 5,452 (7,528 )','[2018.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1007,738,'other liabilities (364 ) (621 )
+(Decrease) increase in income taxes payable (679 ) 22
+Increase (decrease) in deferred revenues 124 (281 )
+Net cash provided by operating activities 7,268 7,416
+Cash flows from investing activities:
+Purchases of marketable securities a','[2018.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1008,783,'y 31, 2018, respectively 3,975 5,136
+Prepaid expenses and other current assets 3,572 3,762
+Total current assets 56,938 76,159
+Non-current assets:
+Property, plant and equipment, net 6,003 5,897
+Intangible assets, net 6,103 6,670
+Goodwill, net 43,778 43,755
+Deferred ta','[2018.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1009,1355,'ense support $ 6,637 $ 6,461 $ 13,246 $ 12,868
+Cloud license and on-premise license 1,217 1,331 2,083 2,225
+Hardware 891 941 1,796 1,884
+Services 817 856 1,630 1,716
+Total revenues 9,562 9,589 18,755 18,693
+Operating expenses:
+Cloud services and license support(1) 95','[2018.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1010,679,'ents (739 ) (7,671 )
+Proceeds from maturities and sales of marketable securities and other investments 4,704 6,326
+Acquisitions, net of cash acquired (50 ) —
+Capital expenditures (383 ) (473 )
+Net cash provided by (used for) investing activities 3,532 (1,818 )
+Ca','[2018.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1011,737,'e in accounts payable and other liabilities (561 ) (770 )
+Increase in income taxes payable 10 32
+Increase in deferred revenues 2,213 1,822
+Net cash provided by operating activities 6,722 6,566
+Cash flows from investing activities:
+Purchases of marketable securities a','[2018.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1012,782,'y 31, 2018, respectively 3,729 5,136
+Prepaid expenses and other current assets 3,186 3,762
+Total current assets 67,009 76,159
+Non-current assets:
+Property, plant and equipment, net 5,918 5,897
+Intangible assets, net 6,295 6,670
+Goodwill, net 43,702 43,755
+Deferred ta','[2018.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1013,1354,'per share data) 2018 2017
+Revenues:
+Cloud services and license support $ 6,609 $ 6,407
+Cloud license and on-premise license 867 894
+Hardware 904 943
+Services 813 860
+Total revenues 9,193 9,104
+Operating expenses:
+Cloud services and license support(1) 913 857
+Hardware','[2018.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1014,678,'ws:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2018 Change 2017 Change 2016
+Net cash provided by operating activities $ 15,386 9% $ 14,126 3% $ 13,685
+Capital expenditures (1,736 ) -14% (2,021 ) 70% (1,189 )
+Free cash flow $ 13,650 13% $ 12,105 -3% $ 12,496','[2018.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1015,723,'[TABLE]
+As of and for the Year Ended May 31,
+(in millions, except per share amounts) 2018 2017 2016 2015 2014
+Consolidated Statements of Operations Data:
+Total revenues $ 39,831 $ 37,728 $ 37,047 $ 38,226 $ 38,275
+Operating income $ 13,679 $ 12,710 $ 12,604','[2018.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1016,736,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2018 Change 2017 Change 2016
+Net cash provided by operating activities $ 15,386 9% $ 14,126 3% $ 13,685
+Net cash used for investing activities $ (5,625 ) -74% $','[2018.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1017,781,'y 31, 2017, respectively 5,279 5,300
+Prepaid expenses and other current assets 3,424 3,137
+Total current assets 75,964 74,515
+Non-current assets:
+Property, plant and equipment, net 5,897 5,315
+Intangible assets, net 6,670 7,679
+Goodwill, net 43,755 43,045
+Deferred ta','[2018.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1018,677,'96 ) (15,571 )
+Proceeds from maturities and sales of marketable securities and other investments 17,069 11,825
+Acquisitions, net of cash acquired — (10,406 )
+Capital expenditures (1,358 ) (1,496 )
+Net cash used for investing activities (8,785 ) (15,648 )
+Cash flows','[2018.03.21][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1019,722,'76 18,638 18,123
+Total cloud and on-premise software revenues 7,981 7,365 23,190 21,334
+Hardware revenues 994 1,028 2,878 3,037
+Services revenues 796 812 2,511 2,464
+Total revenues 9,771 9,205 28,579 26,835
+Operating expenses:
+Cloud software as a service(1) 398 330 1','[2018.03.21][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1020,735,'le and other liabilities (606 ) (862 )
+Increase (decrease) in income taxes payable 7,444 (10 )
+Decrease in deferred revenues (513 ) (330 )
+Net cash provided by operating activities 10,726 9,660
+Cash flows from investing activities:
+Purchases of marketable securities a','[2018.03.21][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1021,780,'vely 3,902 5,300
+Inventories 496 300
+Prepaid expenses and other current assets 2,879 2,837
+Total current assets 77,732 74,515
+Non-current assets:
+Property, plant and equipment, net 5,904 5,315
+Intangible assets, net 6,400 7,679
+Goodwill, net 42,965 43,045
+Deferred ta','[2018.03.21][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1022,676,',022 ) (10,090 )
+Proceeds from maturities and sales of marketable securities and other investments 11,566 6,080
+Acquisitions, net of cash acquired — (9,854 )
+Capital expenditures (1,072 ) (1,056 )
+Net cash used for investing activities (7,528 ) (14,920 )
+Cash flows','[2017.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1023,721,'24 12,223 11,947
+Total cloud and on-premise software revenues 7,825 7,177 15,209 13,968
+Hardware revenues 940 1,014 1,884 2,010
+Services revenues 856 844 1,716 1,652
+Total revenues 9,621 9,035 18,809 17,630
+Operating expenses:
+Cloud software as a service(1) 396 316 7','[2017.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1024,734,'in accounts payable and other liabilities (618 ) (499 )
+Increase in income taxes payable 22 9
+Decrease in deferred revenues (344 ) (208 )
+Net cash provided by operating activities 7,416 6,961
+Cash flows from investing activities:
+Purchases of marketable securities a','[2017.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1025,779,'vely 3,798 5,300
+Inventories 436 300
+Prepaid expenses and other current assets 2,731 2,837
+Total current assets 78,545 74,515
+Non-current assets:
+Property, plant and equipment, net 5,868 5,315
+Intangible assets, net 6,794 7,679
+Goodwill, net 42,964 43,045
+Deferred ta','[2017.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1026,675,'(7,671 ) (5,513 )
+Proceeds from maturities and sales of marketable securities and other investments 6,326 1,752
+Acquisitions, net of cash acquired — (1,143 )
+Capital expenditures (473 ) (299 )
+Net cash used for investing activities (1,818 ) (5,203 )
+Cash flows fr','[2017.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1027,720,'951 4,792
+Total on-premise software revenues 5,917 5,822
+Total cloud and on-premise software revenues 7,384 6,791
+Hardware revenues 943 996
+Services revenues 860 808
+Total revenues 9,187 8,595
+Operating expenses:
+Cloud software as a service(1) 374 283
+Cloud platform','[2017.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1028,733,'ble and other liabilities (1,062 ) (1,013 )
+Increase (decrease) in income taxes payable 32 (94 )
+Increase in deferred revenues 1,785 1,761
+Net cash provided by operating activities 6,566 5,875
+Cash flows from investing activities:
+Purchases of marketable securities a','[2017.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1029,778,'vely 3,591 5,300
+Inventories 312 300
+Prepaid expenses and other current assets 2,535 2,837
+Total current assets 73,335 74,515
+Non-current assets:
+Property, plant and equipment, net 5,586 5,315
+Intangible assets, net 7,186 7,679
+Goodwill, net 43,020 43,045
+Deferred ta','[2017.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1030,674,'s:
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2017 Change 2016 Change 2015
+Net cash provided by operating activities $ 14,126 3% $ 13,685 -6% $ 14,580
+Capital expenditures (2,021 ) 70% (1,189 ) -15% (1,391 )
+Free cash flow $ 12,105 -3% $ 12,496 -5% $ 13,189','[2017.06.27][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1031,719,'[TABLE]
+As of and for the Year Ended May 31,
+(in millions, except per share amounts) 2017 2016(1) 2015 2014 2013
+Consolidated Statements of Operations Data:
+Total revenues $ 37,728 $ 37,047 $ 38,226 $ 38,275 $ 37,180
+Operating income $ 12,710 $ 12,604 $ 13,871','[2017.06.27][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1032,732,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2017 Change 2016 Change 2015
+Net cash provided by operating activities $ 14,126 3% $ 13,685 -6% $ 14,580
+Net cash used for investing activities $ (21,494 ) 317%','[2017.06.27][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1033,777,'vely 5,300 5,385
+Inventories 300 212
+Prepaid expenses and other current assets 2,837 2,591
+Total current assets 74,515 64,313
+Non-current assets:
+Property, plant and equipment, net 5,315 4,000
+Intangible assets, net 7,679 4,943
+Goodwill, net 43,045 34,590
+Deferred ta','[2017.06.27][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1034,673,'(21,549 )
+Proceeds from maturities and sales of marketable securities and other investments 11,825 18,845
+Acquisitions, net of cash acquired (10,406 ) (313 )
+Capital expenditures (1,496 ) (1,009 )
+Net cash used for investing activities (15,648 ) (4,026 )
+Cash flows','[2017.03.17][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1035,718,'ardware products 520 604 1,478 1,746
+Hardware support 508 531 1,559 1,639
+Total hardware revenues 1,028 1,135 3,037 3,385
+Total services revenues 812 793 2,464 2,517
+Total revenues 9,205 9,012 26,835 26,453
+Operating expenses:
+Sales and marketing(1) 2,004 1,903 5,883','[2017.03.17][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1036,776,'vely 3,721 5,385
+Inventories 391 212
+Prepaid expenses and other current assets 2,547 2,591
+Total current assets 66,011 64,313
+Non-current assets:
+Property, plant and equipment, net 5,070 4,000
+Intangible assets, net 7,788 4,943
+Goodwill, net 42,504 34,590
+Deferred ta','[2017.03.17][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1037,672,') (17,638 )
+Proceeds from maturities and sales of marketable securities and other investments 6,080 15,088
+Acquisitions, net of cash acquired (9,854 ) (147 )
+Capital expenditures (1,056 ) (641 )
+Net cash used for investing activities (14,920 ) (3,338 )
+Cash flows f','[2016.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1038,717,'Hardware products 497 573 959 1,142
+Hardware support 517 550 1,051 1,108
+Total hardware revenues 1,014 1,123 2,010 2,250
+Total services revenues 844 861 1,652 1,724
+Total revenues 9,035 8,993 17,630 17,441
+Operating expenses:
+Sales and marketing(1) 1,960 1,945 3,879','[2016.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1039,775,'vely 3,690 5,385
+Inventories 327 212
+Prepaid expenses and other current assets 2,511 2,591
+Total current assets 64,734 64,313
+Non-current assets:
+Property, plant and equipment, net 4,882 4,000
+Intangible assets, net 7,968 4,943
+Goodwill, net 42,083 34,590
+Deferred ta','[2016.12.19][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1040,671,'5,513 ) (11,669 )
+Proceeds from maturities and sales of marketable securities and other investments 1,752 4,644
+Acquisitions, net of cash acquired (1,143 ) —
+Capital expenditures (299 ) (446 )
+Net cash used for investing activities (5,203 ) (7,471 )
+Cash flows fr','[2016.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1041,716,'oud and on-premise software revenues 6,791 6,458
+Hardware products 462 570
+Hardware support 534 558
+Total hardware revenues 996 1,128
+Total services revenues 808 862
+Total revenues 8,595 8,448
+Operating expenses:
+Sales and marketing(1) 1,919 1,731
+Cloud software as a','[2016.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1042,774,'vely 3,407 5,385
+Inventories 286 212
+Prepaid expenses and other current assets 2,362 2,591
+Total current assets 74,451 64,313
+Non-current assets:
+Property, plant and equipment, net 4,108 4,000
+Intangible assets, net 5,091 4,943
+Goodwill, net 35,350 34,590
+Deferred ta','[2016.09.19][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1043,670,':
+
+[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2016 Change 2015 Change 2014
+Net cash provided by operating activities $ 13,561 -5% $ 14,336 -4% $ 14,921
+Capital expenditures (1,189 ) -15% (1,391 ) 140% (580 )
+Free cash flow $ 12,372 -4% $ 12,945 -10% $ 14,341','[2016.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1044,715,'[TABLE]
+As of and for the Year Ended May 31,
+(in millions, except per share amounts) 2016(1) 2015(1) 2014 2013 2012
+Consolidated Statements of Operations Data:
+Total revenues $ 37,047 $ 38,226 $ 38,275 $ 37,180 $ 37,121
+Operating income $ 12,604 $ 13,871 $ 14,759','[2016.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1045,773,'vely 5,385 5,618
+Inventories 212 314
+Prepaid expenses and other current assets 2,591 2,220
+Total current assets 64,313 62,520
+Non-current assets:
+Property, plant and equipment, net 4,000 3,686
+Intangible assets, net 4,943 6,406
+Goodwill, net 34,590 34,087
+Deferred ta','[2016.06.22][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1046,669,'(23,339 )
+Proceeds from maturities and sales of marketable securities and other investments 18,845 15,042
+Acquisitions, net of cash acquired (313 ) (6,232 )
+Capital expenditures (1,009 ) (794 )
+Net cash used for investing activities (4,026 ) (15,323 )
+Cash flows f','[2016.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1047,714,'ardware products 604 712 1,746 2,007
+Hardware support 531 587 1,639 1,791
+Total hardware revenues 1,135 1,299 3,385 3,798
+Total services revenues 793 858 2,517 2,647
+Total revenues 9,012 9,327 26,453 27,520
+Operating expenses:
+Sales and marketing(1) 1,903 1,839 5,578','[2016.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1048,772,'vely 3,844 5,618
+Inventories 212 314
+Prepaid expenses and other current assets 2,246 2,220
+Total current assets 57,069 62,520
+Non-current assets:
+Property, plant and equipment, net 4,011 3,686
+Intangible assets, net 5,249 6,406
+Goodwill, net 34,284 34,087
+Deferred ta','[2016.03.18][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1049,668,'(17,514 )
+Proceeds from maturities and sales of marketable securities and other investments 15,088 10,153
+Acquisitions, net of cash acquired (147 ) (5,122 )
+Capital expenditures (641 ) (426 )
+Net cash used for investing activities (3,338 ) (12,909 )
+Cash flows f','[2015.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1050,713,'ardware products 573 717 1,142 1,295
+Hardware support 550 617 1,108 1,204
+Total hardware revenues 1,123 1,334 2,250 2,499
+Total services revenues 861 935 1,724 1,790
+Total revenues 8,993 9,598 17,441 18,194
+Operating expenses:
+Sales and marketing(1) 1,945 1,897 3,675','[2015.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1051,771,'vely 3,956 5,618
+Inventories 238 314
+Prepaid expenses and other current assets 2,089 2,220
+Total current assets 58,618 62,520
+Non-current assets:
+Property, plant and equipment, net 3,855 3,686
+Intangible assets, net 5,599 6,406
+Goodwill, net 34,171 34,087
+Deferred ta','[2015.12.18][ORCL][Q2][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1052,667,'(11,669 ) (10,340 )
+Proceeds from maturities and sales of marketable securities and other investments 4,644 3,878
+Acquisitions, net of cash acquired — (37 )
+Capital expenditures (446 ) (201 )
+Net cash used for investing activities (7,471 ) (6,700 )
+Cash flows fr','[2015.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1053,712,'d and on-premise software revenues 6,458 6,576
+Hardware products 570 578
+Hardware support 558 587
+Total hardware revenues 1,128 1,165
+Total services revenues 862 855
+Total revenues 8,448 8,596
+Operating expenses:
+Sales and marketing(1) 1,731 1,706
+Cloud software as a','[2015.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1054,770,'251 314
+Deferred tax assets 671 663
+Prepaid expenses and other current assets 1,795 2,220
+Total current assets 62,122 63,183
+Non-current assets:
+Property, plant and equipment, net 3,896 3,686
+Intangible assets, net 5,955 6,406
+Goodwill, net 34,133 34,087
+Deferred ta','[2015.09.18][ORCL][Q1][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1055,666,'[TABLE]
+Year Ended May 31,
+(Dollars in millions) 2015 Change 2014 Change 2013
+Net cash provided by operating activities $ 14,336 -4% $ 14,921 5% $ 14,224
+Capital expenditures(1) (1,391 ) 140% (580 ) -11% (650 )
+Free cash flow $ 12,945 -10% $ 14,341 6% $ 13,574
+Net','[2015.06.25][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1056,711,'[TABLE]
+As of and for the Year Ended May 31,
+(in millions, except per share amounts) 2015(1) 2014 2013 2012 2011
+Consolidated Statements of Operations Data:
+Total revenues $ 38,226 $ 38,275 $ 37,180 $ 37,121 $ 35,622
+Operating income $ 13,871 $ 14,759 $ 14,684','[2015.06.25][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1057,769,'314 189
+Deferred tax assets 663 914
+Prepaid expenses and other current assets 2,220 2,119
+Total current assets 63,183 48,128
+Non-current assets:
+Property, plant and equipment, net 3,686 3,061
+Intangible assets, net 6,406 6,137
+Goodwill, net 34,087 29,652
+Deferred ta','[2015.06.25][ORCL][AR][10-K].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1058,665,'25,550 )
+Proceeds from maturities and sales of marketable securities and other investments 15,042 23,110
+Acquisitions, net of cash acquired (6,232 ) (3,066 )
+Capital expenditures (794 ) (426 )
+Net cash used for investing activities (15,323 ) (5,932 )
+Cash flows f','[2015.03.19][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1059,710,'ems products 712 725 2,007 2,108
+Hardware systems support 587 598 1,791 1,800
+Hardware systems revenues 1,299 1,323 3,798 3,908
+Services revenues 858 884 2,647 2,762
+Total revenues 9,327 9,307 27,520 26,955
+Operating expenses:
+Sales and marketing(1) 1,839 1,829 5,443','[2015.03.19][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
+INSERT INTO "extraction_evidence" VALUES(1060,768,'285 189
+Deferred tax assets 931 914
+Prepaid expenses and other current assets 2,123 2,129
+Total current assets 51,294 48,138
+Non-current assets:
+Property, plant and equipment, net 3,335 3,061
+Intangible assets, net 6,842 6,137
+Goodwill 34,328 29,652
+Deferred tax ass','[2015.03.19][ORCL][Q3][10-Q].htm','primary_value','2026-04-19T18:51:23+00:00');
 CREATE TABLE "extractions" (
     id                   INTEGER PRIMARY KEY AUTOINCREMENT,
     source_document_id   INTEGER NOT NULL REFERENCES source_documents(id),
@@ -6336,352 +13665,6 @@ INSERT INTO "extractions" VALUES(4281,5,'revenue','H1',6,NULL,27366.0,'$27,366M 
 INSERT INTO "extractions" VALUES(4282,5,'revenue','Q4',3,NULL,15903.0,'$15,903M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:44+00:00',15903.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4283,254,'revenue','9M',9,NULL,48174.0,'$48,174M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:44+00:00',48174.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4284,254,'revenue','H1',6,NULL,30984.0,'$30,984M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:44+00:00',30984.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4285,72,'capital_expenditures','9M',9,NULL,3279.0,'$3,279M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3279.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4286,72,'capital_expenditures','H1',6,NULL,2084.0,'$2,084M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2084.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4287,72,'capital_expenditures','Q4',3,NULL,1310.0,'$1,310M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1310.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4288,76,'capital_expenditures','9M',9,NULL,4731.0,'$4,731M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4731.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4289,76,'capital_expenditures','H1',6,NULL,2890.0,'$2,890M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2890.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4290,76,'capital_expenditures','Q4',3,NULL,2006.0,'$2,006M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2006.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4291,89,'capital_expenditures','9M',9,NULL,9693.0,'$9,693M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9693.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4292,89,'capital_expenditures','H1',6,NULL,6341.0,'$6,341M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6341.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4293,89,'capital_expenditures','Q4',3,NULL,3734.0,'$3,734M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3734.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4294,96,'capital_expenditures','9M',9,NULL,11549.0,'$11,549M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',11549.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4295,96,'capital_expenditures','H1',6,NULL,6852.0,'$6,852M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6852.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4296,96,'capital_expenditures','Q4',3,NULL,5312.0,'$5,312M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5312.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4297,103,'capital_expenditures','9M',9,NULL,25317.0,'$25,317M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',25317.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4298,103,'capital_expenditures','H1',6,NULL,14254.0,'$14,254M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',14254.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4299,103,'capital_expenditures','Q4',3,NULL,14823.0,'$14,823M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',14823.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4300,107,'capital_expenditures','9M',9,NULL,42118.0,'$42,118M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',42118.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4301,107,'capital_expenditures','H1',6,NULL,26370.0,'$26,370M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',26370.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4302,107,'capital_expenditures','Q4',3,NULL,18935.0,'$18,935M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',18935.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4303,111,'capital_expenditures','9M',9,NULL,47053.0,'$47,053M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',47053.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4304,111,'capital_expenditures','H1',6,NULL,30675.0,'$30,675M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',30675.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4305,111,'capital_expenditures','Q4',3,NULL,16592.0,'$16,592M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',16592.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4306,115,'capital_expenditures','9M',9,NULL,38141.0,'$38,141M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',38141.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4307,115,'capital_expenditures','H1',6,NULL,25662.0,'$25,662M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',25662.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4308,115,'capital_expenditures','Q4',3,NULL,14588.0,'$14,588M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',14588.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4309,119,'capital_expenditures','9M',9,NULL,55165.0,'$55,165M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',55165.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4310,119,'capital_expenditures','H1',6,NULL,32545.0,'$32,545M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',32545.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4311,119,'capital_expenditures','Q4',3,NULL,27834.0,'$27,834M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',27834.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4312,2,'capital_expenditures','9M',9,NULL,92297.0,'$92,297M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',92297.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4313,2,'capital_expenditures','H1',6,NULL,57202.0,'$57,202M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',57202.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4314,2,'capital_expenditures','Q4',3,NULL,39522.0,'$39,522M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',39522.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4315,299,'capital_expenditures','Q2',3,NULL,9.32,'$9M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9.32,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4316,299,'capital_expenditures','Q3',3,NULL,21.15,'$21M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',21.15,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4317,299,'capital_expenditures','Q4',3,NULL,26.79,'$27M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',26.79,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4318,305,'capital_expenditures','Q2',3,NULL,38.64,'$39M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',38.64,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4319,305,'capital_expenditures','Q3',3,NULL,2.5899999999999991473e+01,'$26M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2.5899999999999991473e+01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4320,305,'capital_expenditures','Q4',3,NULL,3.25100000000000051154e+01,'$33M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3.25100000000000051154e+01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4321,308,'capital_expenditures','Q3',3,NULL,41.17,'$41M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',41.17,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4322,308,'capital_expenditures','Q4',3,NULL,54.81,'$55M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',54.81,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4323,10,'capital_expenditures','Q2',3,NULL,171.05,'$171M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',171.05,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4324,10,'capital_expenditures','Q3',3,NULL,257.49,'$257M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',257.49,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4325,10,'capital_expenditures','Q4',3,NULL,1.98260000000000047746e+02,'$198M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1.98260000000000047746e+02,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4326,313,'capital_expenditures','Q2',3,NULL,552.07,'$552M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',552.07,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4327,314,'capital_expenditures','Q3',3,NULL,775.21,'$775M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',775.21,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4328,291,'capital_expenditures','Q2',3,NULL,2247.17,'$2,247M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2247.17,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4329,291,'capital_expenditures','Q3',3,NULL,1215.15,'$1,215M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1215.15,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4330,291,'capital_expenditures','Q4',3,NULL,3497.75,'$3,498M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3497.75,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4331,9,'capital_expenditures','Q2',3,NULL,2452.99,'$2,453M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2452.99,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4332,9,'capital_expenditures','Q3',3,NULL,2388.89,'$2,389M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2388.89,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4333,9,'capital_expenditures','Q4',3,NULL,4059.76,'$4,060M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4059.76,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4334,127,'capital_expenditures','9M',9,NULL,7825.0,'$7,825M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7825.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4335,127,'capital_expenditures','H1',6,NULL,5442.0,'$5,442M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5442.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4336,127,'capital_expenditures','Q4',3,NULL,2090.0,'$2,090M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2090.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4337,131,'capital_expenditures','9M',9,NULL,7105.0,'$7,105M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7105.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4338,131,'capital_expenditures','H1',6,NULL,4551.0,'$4,551M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4551.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4339,131,'capital_expenditures','Q4',3,NULL,3107.0,'$3,107M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3107.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4340,135,'capital_expenditures','9M',9,NULL,8877.0,'$8,877M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',8877.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4341,135,'capital_expenditures','H1',6,NULL,5339.0,'$5,339M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5339.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4342,135,'capital_expenditures','Q4',3,NULL,4307.0,'$4,307M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4307.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4343,139,'capital_expenditures','9M',9,NULL,18058.0,'$18,058M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',18058.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4344,139,'capital_expenditures','H1',6,NULL,12776.0,'$12,776M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',12776.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4345,139,'capital_expenditures','Q4',3,NULL,7081.0,'$7,081M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7081.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4346,143,'capital_expenditures','9M',9,NULL,17496.0,'$17,496M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',17496.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4347,143,'capital_expenditures','H1',6,NULL,10764.0,'$10,764M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',10764.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4348,143,'capital_expenditures','Q4',3,NULL,6052.0,'$6,052M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6052.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4349,147,'capital_expenditures','9M',9,NULL,16802.0,'$16,802M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',16802.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4350,147,'capital_expenditures','H1',6,NULL,11396.0,'$11,396M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',11396.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4351,147,'capital_expenditures','Q4',3,NULL,5479.0,'$5,479M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5479.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4352,151,'capital_expenditures','Q2',3,NULL,5496.0,'$5,496M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5496.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4353,151,'capital_expenditures','Q3',3,NULL,6819.0,'$6,819M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6819.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4354,151,'capital_expenditures','Q4',3,NULL,6383.0,'$6,383M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6383.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4355,155,'capital_expenditures','Q2',3,NULL,6828.0,'$6,828M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6828.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4356,155,'capital_expenditures','Q3',3,NULL,7276.0,'$7,276M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7276.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4357,155,'capital_expenditures','Q4',3,NULL,7595.0,'$7,595M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7595.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4358,159,'capital_expenditures','Q2',3,NULL,6888.0,'$6,888M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6888.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4359,159,'capital_expenditures','Q3',3,NULL,8055.0,'$8,055M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',8055.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4360,159,'capital_expenditures','Q4',3,NULL,11019.0,'$11,019M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',11019.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4361,163,'capital_expenditures','Q2',3,NULL,13186.0,'$13,186M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',13186.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4362,163,'capital_expenditures','Q3',3,NULL,13061.0,'$13,061M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',13061.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4363,163,'capital_expenditures','Q4',3,NULL,14276.0,'$14,276M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',14276.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4364,3,'capital_expenditures','Q2',3,NULL,22446.0,'$22,446M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',22446.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4365,3,'capital_expenditures','Q3',3,NULL,23953.0,'$23,953M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',23953.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4366,3,'capital_expenditures','Q4',3,NULL,27851.0,'$27,851M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',27851.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4367,321,'capital_expenditures','Q2',3,NULL,139.06,'$139M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',139.06,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4368,323,'capital_expenditures','Q2',3,NULL,539.69,'$540M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',539.69,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4369,170,'capital_expenditures','Q2',3,NULL,549.0,'$549M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',549.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4370,170,'capital_expenditures','Q3',3,NULL,780.0,'$780M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',780.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4371,170,'capital_expenditures','Q4',3,NULL,692.0,'$692M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',692.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4372,174,'capital_expenditures','Q2',3,NULL,995.0,'$995M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',995.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4373,174,'capital_expenditures','Q3',3,NULL,1095.0,'$1,095M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1095.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4374,174,'capital_expenditures','Q4',3,NULL,1269.0,'$1,269M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1269.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4375,178,'capital_expenditures','Q2',3,NULL,1444.0,'$1,444M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1444.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4376,178,'capital_expenditures','Q3',3,NULL,1755.0,'$1,755M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1755.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4377,178,'capital_expenditures','Q4',3,NULL,2263.0,'$2,263M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2263.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4378,182,'capital_expenditures','Q2',3,NULL,3460.0,'$3,460M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3460.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4379,182,'capital_expenditures','Q3',3,NULL,3342.0,'$3,342M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3342.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4380,182,'capital_expenditures','Q4',3,NULL,4301.0,'$4,301M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4301.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4381,186,'capital_expenditures','Q2',3,NULL,3633.0,'$3,633M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3633.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4382,186,'capital_expenditures','Q3',3,NULL,3532.0,'$3,532M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3532.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4383,186,'capital_expenditures','Q4',3,NULL,4100.0,'$4,100M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4100.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4384,190,'capital_expenditures','Q2',3,NULL,3255.0,'$3,255M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3255.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4385,190,'capital_expenditures','Q3',3,NULL,3689.0,'$3,689M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3689.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4386,190,'capital_expenditures','Q4',3,NULL,4613.0,'$4,613M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4613.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4387,194,'capital_expenditures','Q2',3,NULL,4612.0,'$4,612M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4612.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4388,194,'capital_expenditures','Q3',3,NULL,4314.0,'$4,314M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4314.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4389,194,'capital_expenditures','Q4',3,NULL,5369.0,'$5,369M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5369.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4390,198,'capital_expenditures','Q2',3,NULL,7572.0,'$7,572M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7572.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4391,198,'capital_expenditures','Q3',3,NULL,9375.0,'$9,375M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9375.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4392,198,'capital_expenditures','Q4',3,NULL,9043.0,'$9,043M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9043.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4393,202,'capital_expenditures','Q2',3,NULL,6216.0,'$6,216M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6216.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4394,202,'capital_expenditures','Q3',3,NULL,6543.0,'$6,543M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6543.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4395,202,'capital_expenditures','Q4',3,NULL,7665.0,'$7,665M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7665.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4396,206,'capital_expenditures','Q2',3,NULL,8173.0,'$8,173M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',8173.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4397,206,'capital_expenditures','Q3',3,NULL,8258.0,'$8,258M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',8258.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4398,206,'capital_expenditures','Q4',3,NULL,14425.0,'$14,425M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',14425.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4399,4,'capital_expenditures','Q2',3,NULL,16538.0,'$16,538M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',16538.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4400,4,'capital_expenditures','Q3',3,NULL,18829.0,'$18,829M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',18829.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4401,4,'capital_expenditures','Q4',3,NULL,21383.0,'$21,383M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',21383.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4402,19,'capital_expenditures','9M',9,NULL,5688.0,'$5,688M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5688.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4403,19,'capital_expenditures','H1',6,NULL,3380.0,'$3,380M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3380.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4404,19,'capital_expenditures','Q4',3,NULL,2655.0,'$2,655M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2655.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4405,23,'capital_expenditures','9M',9,NULL,5846.0,'$5,846M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5846.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4406,23,'capital_expenditures','H1',6,NULL,4151.0,'$4,151M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4151.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4407,23,'capital_expenditures','Q4',3,NULL,2283.0,'$2,283M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2283.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4408,27,'capital_expenditures','9M',9,NULL,7652.0,'$7,652M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7652.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4409,27,'capital_expenditures','H1',6,NULL,4718.0,'$4,718M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4718.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4410,27,'capital_expenditures','Q4',3,NULL,3980.0,'$3,980M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3980.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4411,31,'capital_expenditures','9M',9,NULL,9874.0,'$9,874M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9874.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4412,31,'capital_expenditures','H1',6,NULL,7309.0,'$7,309M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',7309.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4413,31,'capital_expenditures','Q4',3,NULL,4051.0,'$4,051M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4051.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4414,35,'capital_expenditures','9M',9,NULL,10697.0,'$10,697M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',10697.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4415,35,'capital_expenditures','H1',6,NULL,6930.0,'$6,930M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6930.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4416,35,'capital_expenditures','Q4',3,NULL,4744.0,'$4,744M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',4744.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4417,39,'capital_expenditures','9M',9,NULL,14170.0,'$14,170M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',14170.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4418,39,'capital_expenditures','H1',6,NULL,9081.0,'$9,081M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9081.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4419,39,'capital_expenditures','Q4',3,NULL,6452.0,'$6,452M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6452.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4420,43,'capital_expenditures','9M',9,NULL,17015.0,'$17,015M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',17015.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4421,43,'capital_expenditures','H1',6,NULL,11675.0,'$11,675M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',11675.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4422,43,'capital_expenditures','Q4',3,NULL,6871.0,'$6,871M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',6871.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4423,47,'capital_expenditures','9M',9,NULL,19164.0,'$19,164M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',19164.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4424,47,'capital_expenditures','H1',6,NULL,12557.0,'$12,557M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',12557.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4425,47,'capital_expenditures','Q4',3,NULL,8943.0,'$8,943M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',8943.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4426,51,'capital_expenditures','9M',9,NULL,30604.0,'$30,604M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',30604.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4427,51,'capital_expenditures','H1',6,NULL,19652.0,'$19,652M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',19652.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4428,51,'capital_expenditures','Q4',3,NULL,13873.0,'$13,873M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',13873.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4429,1,'capital_expenditures','9M',9,NULL,47472.0,'$47,472M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',47472.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4430,1,'capital_expenditures','H1',6,NULL,30727.0,'$30,727M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',30727.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4431,1,'capital_expenditures','Q4',3,NULL,17079.0,'$17,079M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',17079.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4432,55,'capital_expenditures','H1',6,NULL,49270.0,'$49,270M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',49270.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4433,214,'capital_expenditures','Q4',3,NULL,597.0,'$597M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',597.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4434,218,'capital_expenditures','Q2',3,NULL,195.0,'$195M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',195.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4435,218,'capital_expenditures','Q3',3,NULL,368.0,'$368M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',368.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4436,218,'capital_expenditures','Q4',3,NULL,180.0,'$180M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',180.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4437,222,'capital_expenditures','Q2',3,NULL,757.0,'$757M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',757.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4438,222,'capital_expenditures','Q3',3,NULL,440.0,'$440M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',440.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4439,222,'capital_expenditures','Q4',3,NULL,525.0,'$525M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',525.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4440,226,'capital_expenditures','Q2',3,NULL,599.0,'$599M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',599.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4441,226,'capital_expenditures','Q3',3,NULL,286.0,'$286M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',286.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4442,226,'capital_expenditures','Q4',3,NULL,378.0,'$378M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',378.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4443,230,'capital_expenditures','Q2',3,NULL,421.0,'$421M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',421.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4444,230,'capital_expenditures','Q3',3,NULL,443.0,'$443M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',443.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4445,230,'capital_expenditures','Q4',3,NULL,413.0,'$413M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',413.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4446,234,'capital_expenditures','Q2',3,NULL,349.0,'$349M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',349.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4447,234,'capital_expenditures','Q3',3,NULL,396.0,'$396M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',396.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4448,234,'capital_expenditures','Q4',3,NULL,433.0,'$433M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',433.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4449,238,'capital_expenditures','Q2',3,NULL,568.0,'$568M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',568.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4450,238,'capital_expenditures','Q3',3,NULL,414.0,'$414M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',414.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4451,238,'capital_expenditures','Q4',3,NULL,717.0,'$717M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',717.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4452,242,'capital_expenditures','Q2',3,NULL,925.0,'$925M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',925.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4453,242,'capital_expenditures','Q3',3,NULL,1101.0,'$1,101M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1101.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4454,242,'capital_expenditures','Q4',3,NULL,1423.0,'$1,423M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1423.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4455,246,'capital_expenditures','Q2',3,NULL,2435.0,'$2,435M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2435.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4456,246,'capital_expenditures','Q3',3,NULL,2628.0,'$2,628M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2628.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4457,246,'capital_expenditures','Q4',3,NULL,1913.0,'$1,913M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1913.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4458,250,'capital_expenditures','Q2',3,NULL,1080.0,'$1,080M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1080.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4459,250,'capital_expenditures','Q3',3,NULL,1674.0,'$1,674M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',1674.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4460,250,'capital_expenditures','Q4',3,NULL,2798.0,'$2,798M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',2798.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4461,5,'capital_expenditures','Q2',3,NULL,3970.0,'$3,970M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',3970.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4462,5,'capital_expenditures','Q3',3,NULL,5862.0,'$5,862M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',5862.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4463,5,'capital_expenditures','Q4',3,NULL,9080.0,'$9,080M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',9080.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4464,255,'capital_expenditures','Q2',3,NULL,12033.0,'$12,033M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',12033.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4465,256,'capital_expenditures','Q3',3,NULL,18635.0,'$18,635M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:45+00:00',18635.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4466,72,'operating_cash_flow','9M',9,NULL,6106.0,'$6,106M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6106.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4467,72,'operating_cash_flow','H1',6,NULL,3496.0,'$3,496M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3496.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4468,72,'operating_cash_flow','Q4',3,NULL,5814.0,'$5,814M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5814.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4469,76,'operating_cash_flow','9M',9,NULL,10111.0,'$10,111M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',10111.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4470,76,'operating_cash_flow','H1',6,NULL,5625.0,'$5,625M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5625.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4471,76,'operating_cash_flow','Q4',3,NULL,6332.0,'$6,332M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6332.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4472,82,'operating_cash_flow','9M',9,NULL,9270.0,'$9,270M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9270.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4473,82,'operating_cash_flow','H1',6,NULL,5419.0,'$5,419M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5419.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4474,82,'operating_cash_flow','Q4',3,NULL,9164.0,'$9,164M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9164.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4475,89,'operating_cash_flow','9M',9,NULL,17828.0,'$17,828M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',17828.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4476,89,'operating_cash_flow','H1',6,NULL,9240.0,'$9,240M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9240.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4477,89,'operating_cash_flow','Q4',3,NULL,12895.0,'$12,895M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',12895.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4478,96,'operating_cash_flow','9M',9,NULL,18856.0,'$18,856M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',18856.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4479,96,'operating_cash_flow','H1',6,NULL,10964.0,'$10,964M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',10964.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4480,96,'operating_cash_flow','Q4',3,NULL,19658.0,'$19,658M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',19658.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4481,103,'operating_cash_flow','9M',9,NULL,35634.0,'$35,634M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',35634.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4482,103,'operating_cash_flow','H1',6,NULL,23670.0,'$23,670M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',23670.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4483,103,'operating_cash_flow','Q4',3,NULL,30430.0,'$30,430M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',30430.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4484,107,'operating_cash_flow','9M',9,NULL,24241.0,'$24,241M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',24241.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4485,107,'operating_cash_flow','H1',6,NULL,16928.0,'$16,928M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',16928.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4486,107,'operating_cash_flow','Q4',3,NULL,22086.0,'$22,086M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',22086.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4487,111,'operating_cash_flow','9M',9,NULL,23159.0,'$23,159M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',23159.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4488,111,'operating_cash_flow','H1',6,NULL,11755.0,'$11,755M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',11755.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4489,111,'operating_cash_flow','Q4',3,NULL,23593.0,'$23,593M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',23593.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4490,115,'operating_cash_flow','9M',9,NULL,42481.0,'$42,481M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',42481.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4491,115,'operating_cash_flow','H1',6,NULL,21264.0,'$21,264M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',21264.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4492,115,'operating_cash_flow','Q4',3,NULL,42465.0,'$42,465M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',42465.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4493,119,'operating_cash_flow','9M',9,NULL,70241.0,'$70,241M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',70241.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4494,119,'operating_cash_flow','H1',6,NULL,44270.0,'$44,270M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',44270.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4495,119,'operating_cash_flow','Q4',3,NULL,45636.0,'$45,636M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',45636.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4496,2,'operating_cash_flow','9M',9,NULL,85055.0,'$85,055M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',85055.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4497,2,'operating_cash_flow','H1',6,NULL,49530.0,'$49,530M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',49530.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4498,2,'operating_cash_flow','Q4',3,NULL,54459.0,'$54,459M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',54459.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4499,295,'operating_cash_flow','Q4',3,NULL,0.08,'$0M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',0.08,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4500,299,'operating_cash_flow','Q2',3,NULL,8.90000000000000124344e-01,'$1M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',8.90000000000000124344e-01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4501,299,'operating_cash_flow','Q3',3,NULL,1.78000000000000024868e+00,'$2M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1.78000000000000024868e+00,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4502,305,'operating_cash_flow','Q2',3,NULL,1.06900000000000012785e+01,'$11M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1.06900000000000012785e+01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4503,305,'operating_cash_flow','Q3',3,NULL,26.16,'$26M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',26.16,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4504,305,'operating_cash_flow','Q4',3,NULL,4.58999999999999630517e+00,'$5M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',4.58999999999999630517e+00,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4505,308,'operating_cash_flow','Q2',3,NULL,4.5400000000000009237e+00,'$5M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',4.5400000000000009237e+00,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4506,308,'operating_cash_flow','Q3',3,NULL,3.88399999999999963051e+01,'$39M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3.88399999999999963051e+01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4507,10,'operating_cash_flow','Q2',3,NULL,5.22600000000000051167e+01,'$52M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5.22600000000000051167e+01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4508,313,'operating_cash_flow','Q2',3,NULL,1.58500000000000085265e+01,'$16M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1.58500000000000085265e+01,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4509,291,'operating_cash_flow','Q3',3,NULL,641.23,'$641M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',641.23,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4510,291,'operating_cash_flow','Q4',3,NULL,1.86559999999999945423e+02,'$187M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1.86559999999999945423e+02,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4511,9,'operating_cash_flow','Q2',3,NULL,1.28910000000000025011e+02,'$129M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1.28910000000000025011e+02,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4512,9,'operating_cash_flow','Q3',3,NULL,1308.97,'$1,309M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1308.97,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4513,9,'operating_cash_flow','Q4',3,NULL,1558.95,'$1,559M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1558.95,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4514,127,'operating_cash_flow','Q2',3,NULL,7096.0,'$7,096M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',7096.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4515,127,'operating_cash_flow','Q3',3,NULL,5791.0,'$5,791M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5791.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4516,127,'operating_cash_flow','Q4',3,NULL,6415.0,'$6,415M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6415.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4517,131,'operating_cash_flow','Q2',3,NULL,9120.0,'$9,120M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9120.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4518,131,'operating_cash_flow','Q3',3,NULL,9845.0,'$9,845M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9845.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4519,131,'operating_cash_flow','Q4',3,NULL,9413.0,'$9,413M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9413.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4520,135,'operating_cash_flow','Q2',3,NULL,7403.0,'$7,403M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',7403.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4521,135,'operating_cash_flow','Q3',3,NULL,9872.0,'$9,872M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9872.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4522,135,'operating_cash_flow','Q4',3,NULL,10268.0,'$10,268M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',10268.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4523,139,'operating_cash_flow','Q2',3,NULL,10132.0,'$10,132M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',10132.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4524,139,'operating_cash_flow','Q3',3,NULL,13210.0,'$13,210M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',13210.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4525,139,'operating_cash_flow','Q4',3,NULL,12987.0,'$12,987M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',12987.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4526,143,'operating_cash_flow','Q2',3,NULL,12627.0,'$12,627M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',12627.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4527,143,'operating_cash_flow','Q3',3,NULL,15466.0,'$15,466M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',15466.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4528,143,'operating_cash_flow','Q4',3,NULL,14427.0,'$14,427M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',14427.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4529,147,'operating_cash_flow','Q2',3,NULL,13993.0,'$13,993M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',13993.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4530,147,'operating_cash_flow','Q3',3,NULL,17003.0,'$17,003M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',17003.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4531,147,'operating_cash_flow','Q4',3,NULL,22677.0,'$22,677M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',22677.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4532,151,'operating_cash_flow','Q2',3,NULL,21890.0,'$21,890M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',21890.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4533,151,'operating_cash_flow','Q3',3,NULL,25539.0,'$25,539M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',25539.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4534,151,'operating_cash_flow','Q4',3,NULL,24934.0,'$24,934M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',24934.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4535,155,'operating_cash_flow','Q2',3,NULL,19422.0,'$19,422M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',19422.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4536,155,'operating_cash_flow','Q3',3,NULL,23353.0,'$23,353M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',23353.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4537,155,'operating_cash_flow','Q4',3,NULL,23614.0,'$23,614M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',23614.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4538,159,'operating_cash_flow','Q2',3,NULL,28666.0,'$28,666M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',28666.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4539,159,'operating_cash_flow','Q3',3,NULL,30656.0,'$30,656M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',30656.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4540,159,'operating_cash_flow','Q4',3,NULL,18915.0,'$18,915M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',18915.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4541,163,'operating_cash_flow','Q2',3,NULL,26640.0,'$26,640M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',26640.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4542,163,'operating_cash_flow','Q3',3,NULL,30698.0,'$30,698M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',30698.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4543,163,'operating_cash_flow','Q4',3,NULL,39113.0,'$39,113M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',39113.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4544,3,'operating_cash_flow','Q2',3,NULL,27747.0,'$27,747M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',27747.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4545,3,'operating_cash_flow','Q3',3,NULL,48414.0,'$48,414M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',48414.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4546,3,'operating_cash_flow','Q4',3,NULL,52402.0,'$52,402M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',52402.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4547,321,'operating_cash_flow','Q2',3,NULL,45.72,'$46M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',45.72,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4548,323,'operating_cash_flow','Q2',3,NULL,71.65,'$72M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',71.65,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4549,170,'operating_cash_flow','Q2',3,NULL,1880.0,'$1,880M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1880.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4550,170,'operating_cash_flow','Q3',3,NULL,2192.0,'$2,192M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',2192.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4551,170,'operating_cash_flow','Q4',3,NULL,2827.0,'$2,827M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',2827.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4552,174,'operating_cash_flow','Q2',3,NULL,3198.0,'$3,198M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3198.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4553,174,'operating_cash_flow','Q3',3,NULL,3577.0,'$3,577M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3577.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4554,178,'operating_cash_flow','Q2',3,NULL,5360.0,'$5,360M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5360.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4555,178,'operating_cash_flow','Q3',3,NULL,6127.0,'$6,127M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6127.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4556,178,'operating_cash_flow','Q4',3,NULL,7671.0,'$7,671M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',7671.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4557,182,'operating_cash_flow','Q2',3,NULL,6298.0,'$6,298M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6298.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4558,182,'operating_cash_flow','Q3',3,NULL,7498.0,'$7,498M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',7498.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4559,182,'operating_cash_flow','Q4',3,NULL,7618.0,'$7,618M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',7618.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4560,186,'operating_cash_flow','Q2',3,NULL,8616.0,'$8,616M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',8616.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4561,186,'operating_cash_flow','Q3',3,NULL,9307.0,'$9,307M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9307.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4562,186,'operating_cash_flow','Q4',3,NULL,9083.0,'$9,083M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9083.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4563,190,'operating_cash_flow','Q2',3,NULL,3877.0,'$3,877M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3877.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4564,190,'operating_cash_flow','Q3',3,NULL,9829.0,'$9,829M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9829.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4565,190,'operating_cash_flow','Q4',3,NULL,14040.0,'$14,040M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',14040.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4566,194,'operating_cash_flow','Q2',3,NULL,13247.0,'$13,247M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',13247.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4567,194,'operating_cash_flow','Q3',3,NULL,14090.0,'$14,090M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',14090.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4568,194,'operating_cash_flow','Q4',3,NULL,18104.0,'$18,104M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',18104.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4569,198,'operating_cash_flow','Q2',3,NULL,12196.0,'$12,196M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',12196.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4570,198,'operating_cash_flow','Q3',3,NULL,9692.0,'$9,692M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',9692.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4571,198,'operating_cash_flow','Q4',3,NULL,14511.0,'$14,511M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',14511.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4572,202,'operating_cash_flow','Q2',3,NULL,17309.0,'$17,309M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',17309.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4573,202,'operating_cash_flow','Q3',3,NULL,20402.0,'$20,402M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',20402.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4574,202,'operating_cash_flow','Q4',3,NULL,19404.0,'$19,404M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',19404.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4575,206,'operating_cash_flow','Q2',3,NULL,19370.0,'$19,370M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',19370.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4576,206,'operating_cash_flow','Q3',3,NULL,24724.0,'$24,724M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',24724.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4577,206,'operating_cash_flow','Q4',3,NULL,27988.0,'$27,988M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',27988.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4578,4,'operating_cash_flow','Q2',3,NULL,25561.0,'$25,561M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',25561.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4579,4,'operating_cash_flow','Q3',3,NULL,29999.0,'$29,999M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',29999.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4580,4,'operating_cash_flow','Q4',3,NULL,36214.0,'$36,214M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',36214.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4581,27,'operating_cash_flow','9M',9,NULL,32466.0,'$32,466M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',32466.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4582,27,'operating_cash_flow','H1',6,NULL,20315.0,'$20,315M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',20315.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4583,27,'operating_cash_flow','Q4',3,NULL,11418.0,'$11,418M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',11418.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4584,31,'operating_cash_flow','9M',9,NULL,36077.0,'$36,077M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',36077.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4585,31,'operating_cash_flow','H1',6,NULL,22557.0,'$22,557M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',22557.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4586,31,'operating_cash_flow','Q4',3,NULL,16108.0,'$16,108M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',16108.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4587,35,'operating_cash_flow','9M',9,NULL,42002.0,'$42,002M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',42002.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4588,35,'operating_cash_flow','H1',6,NULL,24498.0,'$24,498M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',24498.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4589,35,'operating_cash_flow','Q4',3,NULL,18673.0,'$18,673M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',18673.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4590,39,'operating_cash_flow','9M',9,NULL,54030.0,'$54,030M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',54030.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4591,39,'operating_cash_flow','H1',6,NULL,31851.0,'$31,851M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',31851.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4592,39,'operating_cash_flow','Q4',3,NULL,22710.0,'$22,710M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',22710.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4593,43,'operating_cash_flow','9M',9,NULL,64406.0,'$64,406M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',64406.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4594,43,'operating_cash_flow','H1',6,NULL,39020.0,'$39,020M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',39020.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4595,43,'operating_cash_flow','Q4',3,NULL,24629.0,'$24,629M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',24629.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4596,47,'operating_cash_flow','9M',9,NULL,58812.0,'$58,812M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',58812.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4597,47,'operating_cash_flow','H1',6,NULL,34371.0,'$34,371M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',34371.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4598,47,'operating_cash_flow','Q4',3,NULL,28770.0,'$28,770M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',28770.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4599,51,'operating_cash_flow','9M',9,NULL,81353.0,'$81,353M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',81353.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4600,51,'operating_cash_flow','H1',6,NULL,49436.0,'$49,436M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',49436.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4601,51,'operating_cash_flow','Q4',3,NULL,37195.0,'$37,195M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',37195.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4602,1,'operating_cash_flow','9M',9,NULL,93515.0,'$93,515M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',93515.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4603,1,'operating_cash_flow','H1',6,NULL,56471.0,'$56,471M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',56471.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4604,1,'operating_cash_flow','Q4',3,NULL,42647.0,'$42,647M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',42647.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4605,55,'operating_cash_flow','H1',6,NULL,80815.0,'$80,815M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',80815.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4606,226,'operating_cash_flow','Q2',3,NULL,850.0,'$850M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',850.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4607,226,'operating_cash_flow','Q3',3,NULL,3310.0,'$3,310M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3310.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4608,226,'operating_cash_flow','Q4',3,NULL,4660.0,'$4,660M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',4660.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4609,230,'operating_cash_flow','Q2',3,NULL,546.0,'$546M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',546.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4610,230,'operating_cash_flow','Q3',3,NULL,2861.0,'$2,861M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',2861.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4611,230,'operating_cash_flow','Q4',3,NULL,4422.0,'$4,422M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',4422.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4612,234,'operating_cash_flow','Q2',3,NULL,513.0,'$513M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',513.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4613,234,'operating_cash_flow','Q3',3,NULL,3012.0,'$3,012M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3012.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4614,234,'operating_cash_flow','Q4',3,NULL,3614.0,'$3,614M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3614.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4615,238,'operating_cash_flow','Q2',3,NULL,1388.0,'$1,388M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1388.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4616,238,'operating_cash_flow','Q3',3,NULL,3704.0,'$3,704M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3704.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4617,238,'operating_cash_flow','Q4',3,NULL,4842.0,'$4,842M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',4842.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4618,242,'operating_cash_flow','Q3',3,NULL,3845.0,'$3,845M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3845.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4619,242,'operating_cash_flow','Q4',3,NULL,3985.0,'$3,985M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',3985.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4620,246,'operating_cash_flow','Q2',3,NULL,849.0,'$849M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',849.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4621,246,'operating_cash_flow','Q3',3,NULL,4275.0,'$4,275M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',4275.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4622,246,'operating_cash_flow','Q4',3,NULL,5647.0,'$5,647M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5647.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4623,250,'operating_cash_flow','Q2',3,NULL,143.0,'$143M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',143.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4624,250,'operating_cash_flow','Q3',3,NULL,5475.0,'$5,475M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5475.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4625,250,'operating_cash_flow','Q4',3,NULL,6081.0,'$6,081M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6081.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4626,5,'operating_cash_flow','Q2',3,NULL,1304.0,'$1,304M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',1304.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4627,5,'operating_cash_flow','Q3',3,NULL,5933.0,'$5,933M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',5933.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4628,5,'operating_cash_flow','Q4',3,NULL,6157.0,'$6,157M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',6157.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4629,255,'operating_cash_flow','Q2',3,NULL,2066.0,'$2,066M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',2066.0,NULL,NULL,'USD');
-INSERT INTO "extractions" VALUES(4630,256,'operating_cash_flow','Q3',3,NULL,7151.0,'$7,151M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:47+00:00',7151.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4631,82,'depreciation_amortization','9M',9,NULL,7980.0,'$7,980M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:48+00:00',7980.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4632,82,'depreciation_amortization','H1',6,NULL,5068.0,'$5,068M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:48+00:00',5068.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4633,82,'depreciation_amortization','Q4',3,NULL,3498.0,'$3,498M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:48+00:00',3498.0,NULL,NULL,'USD');
@@ -6762,6 +13745,356 @@ INSERT INTO "extractions" VALUES(4707,206,'depreciation_amortization','Q4',3,NUL
 INSERT INTO "extractions" VALUES(4708,4,'depreciation_amortization','Q2',3,NULL,4342.0,'$4,342M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:48+00:00',4342.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4709,4,'depreciation_amortization','Q3',3,NULL,4963.0,'$4,963M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:48+00:00',4963.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(4710,4,'depreciation_amortization','Q4',3,NULL,5411.0,'$5,411M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T16:01:48+00:00',5411.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4711,72,'capital_expenditures','9M',9,NULL,3279.0,'$3,279M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3279.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4712,72,'capital_expenditures','H1',6,NULL,2084.0,'$2,084M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2084.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4713,72,'capital_expenditures','Q4',3,NULL,1310.0,'$1,310M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1310.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4714,76,'capital_expenditures','9M',9,NULL,4731.0,'$4,731M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4731.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4715,76,'capital_expenditures','H1',6,NULL,2890.0,'$2,890M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2890.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4716,76,'capital_expenditures','Q4',3,NULL,2006.0,'$2,006M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2006.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4717,89,'capital_expenditures','9M',9,NULL,9693.0,'$9,693M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9693.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4718,89,'capital_expenditures','H1',6,NULL,6341.0,'$6,341M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6341.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4719,89,'capital_expenditures','Q4',3,NULL,3734.0,'$3,734M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3734.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4720,96,'capital_expenditures','9M',9,NULL,11549.0,'$11,549M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',11549.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4721,96,'capital_expenditures','H1',6,NULL,6852.0,'$6,852M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6852.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4722,96,'capital_expenditures','Q4',3,NULL,5312.0,'$5,312M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5312.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4723,103,'capital_expenditures','9M',9,NULL,25317.0,'$25,317M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',25317.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4724,103,'capital_expenditures','H1',6,NULL,14254.0,'$14,254M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',14254.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4725,103,'capital_expenditures','Q4',3,NULL,14823.0,'$14,823M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',14823.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4726,107,'capital_expenditures','9M',9,NULL,42118.0,'$42,118M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',42118.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4727,107,'capital_expenditures','H1',6,NULL,26370.0,'$26,370M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',26370.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4728,107,'capital_expenditures','Q4',3,NULL,18935.0,'$18,935M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',18935.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4729,111,'capital_expenditures','9M',9,NULL,47053.0,'$47,053M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',47053.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4730,111,'capital_expenditures','H1',6,NULL,30675.0,'$30,675M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',30675.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4731,111,'capital_expenditures','Q4',3,NULL,16592.0,'$16,592M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',16592.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4732,115,'capital_expenditures','9M',9,NULL,38141.0,'$38,141M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',38141.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4733,115,'capital_expenditures','H1',6,NULL,25662.0,'$25,662M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',25662.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4734,115,'capital_expenditures','Q4',3,NULL,14588.0,'$14,588M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',14588.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4735,119,'capital_expenditures','9M',9,NULL,55165.0,'$55,165M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',55165.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4736,119,'capital_expenditures','H1',6,NULL,32545.0,'$32,545M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',32545.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4737,119,'capital_expenditures','Q4',3,NULL,27834.0,'$27,834M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',27834.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4738,2,'capital_expenditures','9M',9,NULL,92297.0,'$92,297M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',92297.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4739,2,'capital_expenditures','H1',6,NULL,57202.0,'$57,202M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',57202.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4740,2,'capital_expenditures','Q4',3,NULL,39522.0,'$39,522M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',39522.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4741,299,'capital_expenditures','Q2',3,NULL,9.32,'$9M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9.32,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4742,299,'capital_expenditures','Q3',3,NULL,21.15,'$21M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',21.15,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4743,299,'capital_expenditures','Q4',3,NULL,26.79,'$27M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',26.79,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4744,305,'capital_expenditures','Q2',3,NULL,38.64,'$39M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',38.64,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4745,305,'capital_expenditures','Q3',3,NULL,2.5899999999999991473e+01,'$26M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2.5899999999999991473e+01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4746,305,'capital_expenditures','Q4',3,NULL,3.25100000000000051154e+01,'$33M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3.25100000000000051154e+01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4747,308,'capital_expenditures','Q3',3,NULL,41.17,'$41M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',41.17,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4748,308,'capital_expenditures','Q4',3,NULL,54.81,'$55M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',54.81,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4749,10,'capital_expenditures','Q2',3,NULL,171.05,'$171M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',171.05,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4750,10,'capital_expenditures','Q3',3,NULL,257.49,'$257M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',257.49,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4751,10,'capital_expenditures','Q4',3,NULL,1.98260000000000047746e+02,'$198M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1.98260000000000047746e+02,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4752,313,'capital_expenditures','Q2',3,NULL,552.07,'$552M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',552.07,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4753,314,'capital_expenditures','Q3',3,NULL,775.21,'$775M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',775.21,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4754,291,'capital_expenditures','Q2',3,NULL,2247.17,'$2,247M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2247.17,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4755,291,'capital_expenditures','Q3',3,NULL,1215.15,'$1,215M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1215.15,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4756,291,'capital_expenditures','Q4',3,NULL,3497.75,'$3,498M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3497.75,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4757,9,'capital_expenditures','Q2',3,NULL,2452.99,'$2,453M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2452.99,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4758,9,'capital_expenditures','Q3',3,NULL,2388.89,'$2,389M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2388.89,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4759,9,'capital_expenditures','Q4',3,NULL,4059.76,'$4,060M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4059.76,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4760,127,'capital_expenditures','9M',9,NULL,7825.0,'$7,825M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7825.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4761,127,'capital_expenditures','H1',6,NULL,5442.0,'$5,442M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5442.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4762,127,'capital_expenditures','Q4',3,NULL,2090.0,'$2,090M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2090.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4763,131,'capital_expenditures','9M',9,NULL,7105.0,'$7,105M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7105.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4764,131,'capital_expenditures','H1',6,NULL,4551.0,'$4,551M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4551.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4765,131,'capital_expenditures','Q4',3,NULL,3107.0,'$3,107M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3107.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4766,135,'capital_expenditures','9M',9,NULL,8877.0,'$8,877M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',8877.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4767,135,'capital_expenditures','H1',6,NULL,5339.0,'$5,339M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5339.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4768,135,'capital_expenditures','Q4',3,NULL,4307.0,'$4,307M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4307.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4769,139,'capital_expenditures','9M',9,NULL,18058.0,'$18,058M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',18058.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4770,139,'capital_expenditures','H1',6,NULL,12776.0,'$12,776M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',12776.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4771,139,'capital_expenditures','Q4',3,NULL,7081.0,'$7,081M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7081.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4772,143,'capital_expenditures','9M',9,NULL,17496.0,'$17,496M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',17496.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4773,143,'capital_expenditures','H1',6,NULL,10764.0,'$10,764M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',10764.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4774,143,'capital_expenditures','Q4',3,NULL,6052.0,'$6,052M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6052.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4775,147,'capital_expenditures','9M',9,NULL,16802.0,'$16,802M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',16802.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4776,147,'capital_expenditures','H1',6,NULL,11396.0,'$11,396M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',11396.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4777,147,'capital_expenditures','Q4',3,NULL,5479.0,'$5,479M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5479.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4778,151,'capital_expenditures','Q2',3,NULL,5496.0,'$5,496M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5496.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4779,151,'capital_expenditures','Q3',3,NULL,6819.0,'$6,819M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6819.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4780,151,'capital_expenditures','Q4',3,NULL,6383.0,'$6,383M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6383.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4781,155,'capital_expenditures','Q2',3,NULL,6828.0,'$6,828M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6828.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4782,155,'capital_expenditures','Q3',3,NULL,7276.0,'$7,276M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7276.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4783,155,'capital_expenditures','Q4',3,NULL,7595.0,'$7,595M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7595.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4784,159,'capital_expenditures','Q2',3,NULL,6888.0,'$6,888M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6888.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4785,159,'capital_expenditures','Q3',3,NULL,8055.0,'$8,055M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',8055.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4786,159,'capital_expenditures','Q4',3,NULL,11019.0,'$11,019M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',11019.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4787,163,'capital_expenditures','Q2',3,NULL,13186.0,'$13,186M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',13186.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4788,163,'capital_expenditures','Q3',3,NULL,13061.0,'$13,061M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',13061.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4789,163,'capital_expenditures','Q4',3,NULL,14276.0,'$14,276M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',14276.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4790,3,'capital_expenditures','Q2',3,NULL,22446.0,'$22,446M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',22446.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4791,3,'capital_expenditures','Q3',3,NULL,23953.0,'$23,953M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',23953.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4792,3,'capital_expenditures','Q4',3,NULL,27851.0,'$27,851M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',27851.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4793,321,'capital_expenditures','Q2',3,NULL,139.06,'$139M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',139.06,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4794,323,'capital_expenditures','Q2',3,NULL,539.69,'$540M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',539.69,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4795,170,'capital_expenditures','Q2',3,NULL,549.0,'$549M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',549.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4796,170,'capital_expenditures','Q3',3,NULL,780.0,'$780M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',780.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4797,170,'capital_expenditures','Q4',3,NULL,692.0,'$692M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',692.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4798,174,'capital_expenditures','Q2',3,NULL,995.0,'$995M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',995.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4799,174,'capital_expenditures','Q3',3,NULL,1095.0,'$1,095M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1095.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4800,174,'capital_expenditures','Q4',3,NULL,1269.0,'$1,269M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1269.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4801,178,'capital_expenditures','Q2',3,NULL,1444.0,'$1,444M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1444.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4802,178,'capital_expenditures','Q3',3,NULL,1755.0,'$1,755M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1755.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4803,178,'capital_expenditures','Q4',3,NULL,2263.0,'$2,263M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2263.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4804,182,'capital_expenditures','Q2',3,NULL,3460.0,'$3,460M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3460.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4805,182,'capital_expenditures','Q3',3,NULL,3342.0,'$3,342M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3342.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4806,182,'capital_expenditures','Q4',3,NULL,4301.0,'$4,301M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4301.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4807,186,'capital_expenditures','Q2',3,NULL,3633.0,'$3,633M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3633.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4808,186,'capital_expenditures','Q3',3,NULL,3532.0,'$3,532M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3532.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4809,186,'capital_expenditures','Q4',3,NULL,4100.0,'$4,100M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4100.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4810,190,'capital_expenditures','Q2',3,NULL,3255.0,'$3,255M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3255.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4811,190,'capital_expenditures','Q3',3,NULL,3689.0,'$3,689M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3689.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4812,190,'capital_expenditures','Q4',3,NULL,4613.0,'$4,613M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4613.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4813,194,'capital_expenditures','Q2',3,NULL,4612.0,'$4,612M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4612.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4814,194,'capital_expenditures','Q3',3,NULL,4314.0,'$4,314M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4314.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4815,194,'capital_expenditures','Q4',3,NULL,5369.0,'$5,369M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5369.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4816,198,'capital_expenditures','Q2',3,NULL,7572.0,'$7,572M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7572.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4817,198,'capital_expenditures','Q3',3,NULL,9375.0,'$9,375M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9375.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4818,198,'capital_expenditures','Q4',3,NULL,9043.0,'$9,043M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9043.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4819,202,'capital_expenditures','Q2',3,NULL,6216.0,'$6,216M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6216.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4820,202,'capital_expenditures','Q3',3,NULL,6543.0,'$6,543M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6543.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4821,202,'capital_expenditures','Q4',3,NULL,7665.0,'$7,665M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7665.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4822,206,'capital_expenditures','Q2',3,NULL,8173.0,'$8,173M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',8173.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4823,206,'capital_expenditures','Q3',3,NULL,8258.0,'$8,258M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',8258.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4824,206,'capital_expenditures','Q4',3,NULL,14425.0,'$14,425M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',14425.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4825,4,'capital_expenditures','Q2',3,NULL,16538.0,'$16,538M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',16538.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4826,4,'capital_expenditures','Q3',3,NULL,18829.0,'$18,829M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',18829.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4827,4,'capital_expenditures','Q4',3,NULL,21383.0,'$21,383M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',21383.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4828,19,'capital_expenditures','9M',9,NULL,5688.0,'$5,688M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5688.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4829,19,'capital_expenditures','H1',6,NULL,3380.0,'$3,380M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3380.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4830,19,'capital_expenditures','Q4',3,NULL,2655.0,'$2,655M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2655.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4831,23,'capital_expenditures','9M',9,NULL,5846.0,'$5,846M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5846.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4832,23,'capital_expenditures','H1',6,NULL,4151.0,'$4,151M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4151.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4833,23,'capital_expenditures','Q4',3,NULL,2283.0,'$2,283M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2283.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4834,27,'capital_expenditures','9M',9,NULL,7652.0,'$7,652M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7652.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4835,27,'capital_expenditures','H1',6,NULL,4718.0,'$4,718M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4718.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4836,27,'capital_expenditures','Q4',3,NULL,3980.0,'$3,980M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3980.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4837,31,'capital_expenditures','9M',9,NULL,9874.0,'$9,874M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9874.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4838,31,'capital_expenditures','H1',6,NULL,7309.0,'$7,309M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',7309.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4839,31,'capital_expenditures','Q4',3,NULL,4051.0,'$4,051M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4051.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4840,35,'capital_expenditures','9M',9,NULL,10697.0,'$10,697M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',10697.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4841,35,'capital_expenditures','H1',6,NULL,6930.0,'$6,930M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6930.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4842,35,'capital_expenditures','Q4',3,NULL,4744.0,'$4,744M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',4744.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4843,39,'capital_expenditures','9M',9,NULL,14170.0,'$14,170M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',14170.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4844,39,'capital_expenditures','H1',6,NULL,9081.0,'$9,081M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9081.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4845,39,'capital_expenditures','Q4',3,NULL,6452.0,'$6,452M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6452.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4846,43,'capital_expenditures','9M',9,NULL,17015.0,'$17,015M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',17015.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4847,43,'capital_expenditures','H1',6,NULL,11675.0,'$11,675M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',11675.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4848,43,'capital_expenditures','Q4',3,NULL,6871.0,'$6,871M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',6871.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4849,47,'capital_expenditures','9M',9,NULL,19164.0,'$19,164M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',19164.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4850,47,'capital_expenditures','H1',6,NULL,12557.0,'$12,557M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',12557.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4851,47,'capital_expenditures','Q4',3,NULL,8943.0,'$8,943M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',8943.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4852,51,'capital_expenditures','9M',9,NULL,30604.0,'$30,604M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',30604.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4853,51,'capital_expenditures','H1',6,NULL,19652.0,'$19,652M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',19652.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4854,51,'capital_expenditures','Q4',3,NULL,13873.0,'$13,873M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',13873.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4855,1,'capital_expenditures','9M',9,NULL,47472.0,'$47,472M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',47472.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4856,1,'capital_expenditures','H1',6,NULL,30727.0,'$30,727M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',30727.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4857,1,'capital_expenditures','Q4',3,NULL,17079.0,'$17,079M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',17079.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4858,55,'capital_expenditures','H1',6,NULL,49270.0,'$49,270M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',49270.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4859,214,'capital_expenditures','Q4',3,NULL,597.0,'$597M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',597.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4860,218,'capital_expenditures','Q2',3,NULL,195.0,'$195M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',195.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4861,218,'capital_expenditures','Q3',3,NULL,368.0,'$368M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',368.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4862,218,'capital_expenditures','Q4',3,NULL,180.0,'$180M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',180.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4863,222,'capital_expenditures','Q2',3,NULL,757.0,'$757M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',757.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4864,222,'capital_expenditures','Q3',3,NULL,440.0,'$440M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',440.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4865,222,'capital_expenditures','Q4',3,NULL,525.0,'$525M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',525.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4866,226,'capital_expenditures','Q2',3,NULL,599.0,'$599M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',599.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4867,226,'capital_expenditures','Q3',3,NULL,286.0,'$286M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',286.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4868,226,'capital_expenditures','Q4',3,NULL,378.0,'$378M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',378.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4869,230,'capital_expenditures','Q2',3,NULL,421.0,'$421M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',421.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4870,230,'capital_expenditures','Q3',3,NULL,443.0,'$443M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',443.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4871,230,'capital_expenditures','Q4',3,NULL,413.0,'$413M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',413.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4872,234,'capital_expenditures','Q2',3,NULL,349.0,'$349M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',349.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4873,234,'capital_expenditures','Q3',3,NULL,396.0,'$396M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',396.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4874,234,'capital_expenditures','Q4',3,NULL,433.0,'$433M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',433.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4875,238,'capital_expenditures','Q2',3,NULL,568.0,'$568M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',568.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4876,238,'capital_expenditures','Q3',3,NULL,414.0,'$414M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',414.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4877,238,'capital_expenditures','Q4',3,NULL,717.0,'$717M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',717.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4878,242,'capital_expenditures','Q2',3,NULL,925.0,'$925M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',925.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4879,242,'capital_expenditures','Q3',3,NULL,1101.0,'$1,101M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1101.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4880,242,'capital_expenditures','Q4',3,NULL,1423.0,'$1,423M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1423.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4881,246,'capital_expenditures','Q2',3,NULL,2435.0,'$2,435M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2435.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4882,246,'capital_expenditures','Q3',3,NULL,2628.0,'$2,628M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2628.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4883,246,'capital_expenditures','Q4',3,NULL,1913.0,'$1,913M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1913.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4884,250,'capital_expenditures','Q2',3,NULL,1080.0,'$1,080M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1080.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4885,250,'capital_expenditures','Q3',3,NULL,1674.0,'$1,674M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',1674.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4886,250,'capital_expenditures','Q4',3,NULL,2798.0,'$2,798M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',2798.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4887,5,'capital_expenditures','Q2',3,NULL,3970.0,'$3,970M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',3970.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4888,5,'capital_expenditures','Q3',3,NULL,5862.0,'$5,862M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',5862.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4889,5,'capital_expenditures','Q4',3,NULL,9080.0,'$9,080M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',9080.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4890,255,'capital_expenditures','Q2',3,NULL,12033.0,'$12,033M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',12033.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4891,256,'capital_expenditures','Q3',3,NULL,18635.0,'$18,635M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:00+00:00',18635.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4892,72,'operating_cash_flow','9M',9,NULL,6106.0,'$6,106M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6106.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4893,72,'operating_cash_flow','H1',6,NULL,3496.0,'$3,496M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3496.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4894,72,'operating_cash_flow','Q4',3,NULL,5814.0,'$5,814M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5814.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4895,76,'operating_cash_flow','9M',9,NULL,10111.0,'$10,111M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',10111.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4896,76,'operating_cash_flow','H1',6,NULL,5625.0,'$5,625M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5625.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4897,76,'operating_cash_flow','Q4',3,NULL,6332.0,'$6,332M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6332.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4898,82,'operating_cash_flow','9M',9,NULL,9270.0,'$9,270M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9270.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4899,82,'operating_cash_flow','H1',6,NULL,5419.0,'$5,419M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5419.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4900,82,'operating_cash_flow','Q4',3,NULL,9164.0,'$9,164M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9164.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4901,89,'operating_cash_flow','9M',9,NULL,17828.0,'$17,828M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',17828.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4902,89,'operating_cash_flow','H1',6,NULL,9240.0,'$9,240M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9240.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4903,89,'operating_cash_flow','Q4',3,NULL,12895.0,'$12,895M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',12895.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4904,96,'operating_cash_flow','9M',9,NULL,18856.0,'$18,856M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',18856.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4905,96,'operating_cash_flow','H1',6,NULL,10964.0,'$10,964M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',10964.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4906,96,'operating_cash_flow','Q4',3,NULL,19658.0,'$19,658M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',19658.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4907,103,'operating_cash_flow','9M',9,NULL,35634.0,'$35,634M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',35634.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4908,103,'operating_cash_flow','H1',6,NULL,23670.0,'$23,670M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',23670.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4909,103,'operating_cash_flow','Q4',3,NULL,30430.0,'$30,430M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',30430.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4910,107,'operating_cash_flow','9M',9,NULL,24241.0,'$24,241M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',24241.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4911,107,'operating_cash_flow','H1',6,NULL,16928.0,'$16,928M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',16928.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4912,107,'operating_cash_flow','Q4',3,NULL,22086.0,'$22,086M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',22086.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4913,111,'operating_cash_flow','9M',9,NULL,23159.0,'$23,159M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',23159.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4914,111,'operating_cash_flow','H1',6,NULL,11755.0,'$11,755M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',11755.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4915,111,'operating_cash_flow','Q4',3,NULL,23593.0,'$23,593M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',23593.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4916,115,'operating_cash_flow','9M',9,NULL,42481.0,'$42,481M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',42481.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4917,115,'operating_cash_flow','H1',6,NULL,21264.0,'$21,264M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',21264.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4918,115,'operating_cash_flow','Q4',3,NULL,42465.0,'$42,465M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',42465.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4919,119,'operating_cash_flow','9M',9,NULL,70241.0,'$70,241M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',70241.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4920,119,'operating_cash_flow','H1',6,NULL,44270.0,'$44,270M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',44270.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4921,119,'operating_cash_flow','Q4',3,NULL,45636.0,'$45,636M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',45636.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4922,2,'operating_cash_flow','9M',9,NULL,85055.0,'$85,055M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',85055.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4923,2,'operating_cash_flow','H1',6,NULL,49530.0,'$49,530M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',49530.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4924,2,'operating_cash_flow','Q4',3,NULL,54459.0,'$54,459M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',54459.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4925,295,'operating_cash_flow','Q4',3,NULL,0.08,'$0M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',0.08,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4926,299,'operating_cash_flow','Q2',3,NULL,8.90000000000000124344e-01,'$1M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',8.90000000000000124344e-01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4927,299,'operating_cash_flow','Q3',3,NULL,1.78000000000000024868e+00,'$2M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1.78000000000000024868e+00,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4928,305,'operating_cash_flow','Q2',3,NULL,1.06900000000000012785e+01,'$11M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1.06900000000000012785e+01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4929,305,'operating_cash_flow','Q3',3,NULL,26.16,'$26M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',26.16,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4930,305,'operating_cash_flow','Q4',3,NULL,4.58999999999999630517e+00,'$5M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',4.58999999999999630517e+00,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4931,308,'operating_cash_flow','Q2',3,NULL,4.5400000000000009237e+00,'$5M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',4.5400000000000009237e+00,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4932,308,'operating_cash_flow','Q3',3,NULL,3.88399999999999963051e+01,'$39M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3.88399999999999963051e+01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4933,10,'operating_cash_flow','Q2',3,NULL,5.22600000000000051167e+01,'$52M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5.22600000000000051167e+01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4934,313,'operating_cash_flow','Q2',3,NULL,1.58500000000000085265e+01,'$16M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1.58500000000000085265e+01,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4935,291,'operating_cash_flow','Q3',3,NULL,641.23,'$641M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',641.23,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4936,291,'operating_cash_flow','Q4',3,NULL,1.86559999999999945423e+02,'$187M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1.86559999999999945423e+02,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4937,9,'operating_cash_flow','Q2',3,NULL,1.28910000000000025011e+02,'$129M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1.28910000000000025011e+02,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4938,9,'operating_cash_flow','Q3',3,NULL,1308.97,'$1,309M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1308.97,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4939,9,'operating_cash_flow','Q4',3,NULL,1558.95,'$1,559M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1558.95,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4940,127,'operating_cash_flow','Q2',3,NULL,7096.0,'$7,096M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',7096.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4941,127,'operating_cash_flow','Q3',3,NULL,5791.0,'$5,791M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5791.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4942,127,'operating_cash_flow','Q4',3,NULL,6415.0,'$6,415M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6415.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4943,131,'operating_cash_flow','Q2',3,NULL,9120.0,'$9,120M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9120.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4944,131,'operating_cash_flow','Q3',3,NULL,9845.0,'$9,845M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9845.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4945,131,'operating_cash_flow','Q4',3,NULL,9413.0,'$9,413M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9413.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4946,135,'operating_cash_flow','Q2',3,NULL,7403.0,'$7,403M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',7403.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4947,135,'operating_cash_flow','Q3',3,NULL,9872.0,'$9,872M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9872.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4948,135,'operating_cash_flow','Q4',3,NULL,10268.0,'$10,268M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',10268.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4949,139,'operating_cash_flow','Q2',3,NULL,10132.0,'$10,132M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',10132.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4950,139,'operating_cash_flow','Q3',3,NULL,13210.0,'$13,210M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',13210.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4951,139,'operating_cash_flow','Q4',3,NULL,12987.0,'$12,987M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',12987.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4952,143,'operating_cash_flow','Q2',3,NULL,12627.0,'$12,627M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',12627.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4953,143,'operating_cash_flow','Q3',3,NULL,15466.0,'$15,466M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',15466.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4954,143,'operating_cash_flow','Q4',3,NULL,14427.0,'$14,427M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',14427.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4955,147,'operating_cash_flow','Q2',3,NULL,13993.0,'$13,993M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',13993.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4956,147,'operating_cash_flow','Q3',3,NULL,17003.0,'$17,003M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',17003.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4957,147,'operating_cash_flow','Q4',3,NULL,22677.0,'$22,677M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',22677.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4958,151,'operating_cash_flow','Q2',3,NULL,21890.0,'$21,890M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',21890.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4959,151,'operating_cash_flow','Q3',3,NULL,25539.0,'$25,539M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',25539.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4960,151,'operating_cash_flow','Q4',3,NULL,24934.0,'$24,934M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',24934.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4961,155,'operating_cash_flow','Q2',3,NULL,19422.0,'$19,422M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',19422.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4962,155,'operating_cash_flow','Q3',3,NULL,23353.0,'$23,353M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',23353.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4963,155,'operating_cash_flow','Q4',3,NULL,23614.0,'$23,614M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',23614.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4964,159,'operating_cash_flow','Q2',3,NULL,28666.0,'$28,666M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',28666.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4965,159,'operating_cash_flow','Q3',3,NULL,30656.0,'$30,656M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',30656.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4966,159,'operating_cash_flow','Q4',3,NULL,18915.0,'$18,915M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',18915.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4967,163,'operating_cash_flow','Q2',3,NULL,26640.0,'$26,640M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',26640.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4968,163,'operating_cash_flow','Q3',3,NULL,30698.0,'$30,698M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',30698.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4969,163,'operating_cash_flow','Q4',3,NULL,39113.0,'$39,113M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',39113.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4970,3,'operating_cash_flow','Q2',3,NULL,27747.0,'$27,747M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',27747.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4971,3,'operating_cash_flow','Q3',3,NULL,48414.0,'$48,414M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',48414.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4972,3,'operating_cash_flow','Q4',3,NULL,52402.0,'$52,402M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',52402.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4973,321,'operating_cash_flow','Q2',3,NULL,45.72,'$46M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',45.72,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4974,323,'operating_cash_flow','Q2',3,NULL,71.65,'$72M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',71.65,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4975,170,'operating_cash_flow','Q2',3,NULL,1880.0,'$1,880M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1880.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4976,170,'operating_cash_flow','Q3',3,NULL,2192.0,'$2,192M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',2192.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4977,170,'operating_cash_flow','Q4',3,NULL,2827.0,'$2,827M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',2827.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4978,174,'operating_cash_flow','Q2',3,NULL,3198.0,'$3,198M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3198.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4979,174,'operating_cash_flow','Q3',3,NULL,3577.0,'$3,577M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3577.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4980,178,'operating_cash_flow','Q2',3,NULL,5360.0,'$5,360M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5360.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4981,178,'operating_cash_flow','Q3',3,NULL,6127.0,'$6,127M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6127.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4982,178,'operating_cash_flow','Q4',3,NULL,7671.0,'$7,671M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',7671.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4983,182,'operating_cash_flow','Q2',3,NULL,6298.0,'$6,298M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6298.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4984,182,'operating_cash_flow','Q3',3,NULL,7498.0,'$7,498M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',7498.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4985,182,'operating_cash_flow','Q4',3,NULL,7618.0,'$7,618M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',7618.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4986,186,'operating_cash_flow','Q2',3,NULL,8616.0,'$8,616M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',8616.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4987,186,'operating_cash_flow','Q3',3,NULL,9307.0,'$9,307M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9307.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4988,186,'operating_cash_flow','Q4',3,NULL,9083.0,'$9,083M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9083.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4989,190,'operating_cash_flow','Q2',3,NULL,3877.0,'$3,877M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3877.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4990,190,'operating_cash_flow','Q3',3,NULL,9829.0,'$9,829M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9829.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4991,190,'operating_cash_flow','Q4',3,NULL,14040.0,'$14,040M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',14040.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4992,194,'operating_cash_flow','Q2',3,NULL,13247.0,'$13,247M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',13247.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4993,194,'operating_cash_flow','Q3',3,NULL,14090.0,'$14,090M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',14090.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4994,194,'operating_cash_flow','Q4',3,NULL,18104.0,'$18,104M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',18104.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4995,198,'operating_cash_flow','Q2',3,NULL,12196.0,'$12,196M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',12196.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4996,198,'operating_cash_flow','Q3',3,NULL,9692.0,'$9,692M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',9692.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4997,198,'operating_cash_flow','Q4',3,NULL,14511.0,'$14,511M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',14511.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4998,202,'operating_cash_flow','Q2',3,NULL,17309.0,'$17,309M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',17309.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(4999,202,'operating_cash_flow','Q3',3,NULL,20402.0,'$20,402M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',20402.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5000,202,'operating_cash_flow','Q4',3,NULL,19404.0,'$19,404M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',19404.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5001,206,'operating_cash_flow','Q2',3,NULL,19370.0,'$19,370M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',19370.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5002,206,'operating_cash_flow','Q3',3,NULL,24724.0,'$24,724M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',24724.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5003,206,'operating_cash_flow','Q4',3,NULL,27988.0,'$27,988M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',27988.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5004,4,'operating_cash_flow','Q2',3,NULL,25561.0,'$25,561M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',25561.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5005,4,'operating_cash_flow','Q3',3,NULL,29999.0,'$29,999M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',29999.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5006,4,'operating_cash_flow','Q4',3,NULL,36214.0,'$36,214M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',36214.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5007,27,'operating_cash_flow','9M',9,NULL,32466.0,'$32,466M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',32466.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5008,27,'operating_cash_flow','H1',6,NULL,20315.0,'$20,315M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',20315.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5009,27,'operating_cash_flow','Q4',3,NULL,11418.0,'$11,418M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',11418.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5010,31,'operating_cash_flow','9M',9,NULL,36077.0,'$36,077M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',36077.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5011,31,'operating_cash_flow','H1',6,NULL,22557.0,'$22,557M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',22557.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5012,31,'operating_cash_flow','Q4',3,NULL,16108.0,'$16,108M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',16108.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5013,35,'operating_cash_flow','9M',9,NULL,42002.0,'$42,002M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',42002.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5014,35,'operating_cash_flow','H1',6,NULL,24498.0,'$24,498M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',24498.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5015,35,'operating_cash_flow','Q4',3,NULL,18673.0,'$18,673M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',18673.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5016,39,'operating_cash_flow','9M',9,NULL,54030.0,'$54,030M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',54030.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5017,39,'operating_cash_flow','H1',6,NULL,31851.0,'$31,851M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',31851.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5018,39,'operating_cash_flow','Q4',3,NULL,22710.0,'$22,710M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',22710.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5019,43,'operating_cash_flow','9M',9,NULL,64406.0,'$64,406M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',64406.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5020,43,'operating_cash_flow','H1',6,NULL,39020.0,'$39,020M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',39020.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5021,43,'operating_cash_flow','Q4',3,NULL,24629.0,'$24,629M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',24629.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5022,47,'operating_cash_flow','9M',9,NULL,58812.0,'$58,812M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',58812.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5023,47,'operating_cash_flow','H1',6,NULL,34371.0,'$34,371M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',34371.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5024,47,'operating_cash_flow','Q4',3,NULL,28770.0,'$28,770M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',28770.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5025,51,'operating_cash_flow','9M',9,NULL,81353.0,'$81,353M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',81353.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5026,51,'operating_cash_flow','H1',6,NULL,49436.0,'$49,436M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',49436.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5027,51,'operating_cash_flow','Q4',3,NULL,37195.0,'$37,195M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',37195.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5028,1,'operating_cash_flow','9M',9,NULL,93515.0,'$93,515M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',93515.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5029,1,'operating_cash_flow','H1',6,NULL,56471.0,'$56,471M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',56471.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5030,1,'operating_cash_flow','Q4',3,NULL,42647.0,'$42,647M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',42647.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5031,55,'operating_cash_flow','H1',6,NULL,80815.0,'$80,815M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',80815.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5032,226,'operating_cash_flow','Q2',3,NULL,850.0,'$850M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',850.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5033,226,'operating_cash_flow','Q3',3,NULL,3310.0,'$3,310M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3310.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5034,226,'operating_cash_flow','Q4',3,NULL,4660.0,'$4,660M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',4660.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5035,230,'operating_cash_flow','Q2',3,NULL,546.0,'$546M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',546.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5036,230,'operating_cash_flow','Q3',3,NULL,2861.0,'$2,861M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',2861.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5037,230,'operating_cash_flow','Q4',3,NULL,4422.0,'$4,422M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',4422.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5038,234,'operating_cash_flow','Q2',3,NULL,513.0,'$513M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',513.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5039,234,'operating_cash_flow','Q3',3,NULL,3012.0,'$3,012M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3012.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5040,234,'operating_cash_flow','Q4',3,NULL,3614.0,'$3,614M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3614.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5041,238,'operating_cash_flow','Q2',3,NULL,1388.0,'$1,388M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1388.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5042,238,'operating_cash_flow','Q3',3,NULL,3704.0,'$3,704M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3704.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5043,238,'operating_cash_flow','Q4',3,NULL,4842.0,'$4,842M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',4842.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5044,242,'operating_cash_flow','Q3',3,NULL,3845.0,'$3,845M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3845.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5045,242,'operating_cash_flow','Q4',3,NULL,3985.0,'$3,985M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',3985.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5046,246,'operating_cash_flow','Q2',3,NULL,849.0,'$849M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',849.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5047,246,'operating_cash_flow','Q3',3,NULL,4275.0,'$4,275M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',4275.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5048,246,'operating_cash_flow','Q4',3,NULL,5647.0,'$5,647M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5647.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5049,250,'operating_cash_flow','Q2',3,NULL,143.0,'$143M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',143.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5050,250,'operating_cash_flow','Q3',3,NULL,5475.0,'$5,475M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5475.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5051,250,'operating_cash_flow','Q4',3,NULL,6081.0,'$6,081M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6081.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5052,5,'operating_cash_flow','Q2',3,NULL,1304.0,'$1,304M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',1304.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5053,5,'operating_cash_flow','Q3',3,NULL,5933.0,'$5,933M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',5933.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5054,5,'operating_cash_flow','Q4',3,NULL,6157.0,'$6,157M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',6157.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5055,255,'operating_cash_flow','Q2',3,NULL,2066.0,'$2,066M (derived)','USD_millions','Derived: Q2 = H1 - Q1',NULL,'Derived from Q2 = H1 - Q1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',2066.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5056,256,'operating_cash_flow','Q3',3,NULL,7151.0,'$7,151M (derived)','USD_millions','Derived: Q3 = 9M - H1',NULL,'Derived from Q3 = 9M - H1','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-19T18:47:01+00:00',7151.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5057,263,'capital_expenditures','FY',12,'ytd_cumulative',36160.0,'CNY 36,160M','USD_millions','Purchase of property and equipment (excluding land use rights and construction in progress relating to office campuses): CNY 36,160M (FY2021)',NULL,'Item 18 - Consolidated Statements of Cash Flows — Purchase of property and equipment','direct',0.95,'baba-capex-20f@0.1.0','0.1.0-draft','2026-04-19T18:49:15+00:00',5519.82,0.15265,'2021-03-31','CNY');
+INSERT INTO "extractions" VALUES(5058,264,'capital_expenditures','FY',12,'ytd_cumulative',42028.0,'CNY 42,028M','USD_millions','Purchase of property and equipment (excluding land use rights and construction in progress relating to office campuses): CNY 42,028M (FY2022)',NULL,'Item 18 - Consolidated Statements of Cash Flows — Purchase of property and equipment','direct',0.95,'baba-capex-20f@0.1.0','0.1.0-draft','2026-04-19T18:49:15+00:00',6626.98,0.15768,'2022-03-31','CNY');
+INSERT INTO "extractions" VALUES(5059,265,'capital_expenditures','FY',12,'ytd_cumulative',30373.0,'CNY 30,373M','USD_millions','Purchase of property and equipment (excluding land use rights and construction in progress relating to office campuses): CNY 30,373M (FY2023)',NULL,'Item 18 - Consolidated Statements of Cash Flows — Purchase of property and equipment','direct',0.95,'baba-capex-20f@0.1.0','0.1.0-draft','2026-04-19T18:49:15+00:00',4418.06,0.14546,'2023-03-31','CNY');
+INSERT INTO "extractions" VALUES(5060,266,'capital_expenditures','FY',12,'ytd_cumulative',27579.0,'CNY 27,579M','USD_millions','Purchase of property and equipment (excluding land use rights and construction in progress relating to office campuses): CNY 27,579M (FY2024)',NULL,'Item 18 - Consolidated Statements of Cash Flows — Purchase of property and equipment','direct',0.95,'baba-capex-20f@0.1.0','0.1.0-draft','2026-04-19T18:49:15+00:00',3815.55,0.13835,'2024-03-31','CNY');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -7464,10 +14797,10 @@ CREATE INDEX idx_extractions_doc_metric_period
 CREATE INDEX idx_source_documents_ticker_period
     ON source_documents(ticker, period_of_report);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',3994);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4344);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
-INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',93);
+INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1060);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
-INSERT INTO "sqlite_sequence" VALUES('extractions',4710);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5060);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',494);
 COMMIT;

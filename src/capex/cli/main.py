@@ -160,11 +160,16 @@ def _chart_command(argv: list[str]) -> int:
     print(f"static chart saved to {path}")
 
     if interactive:
+        from capex.exporters.earnings_calendar_html import (
+            generate_earnings_calendar_html,
+        )
         from capex.exporters.interactive_chart import generate_all_interactive
 
         ipaths = generate_all_interactive()
         for p in ipaths:
             print(f"interactive chart saved to {p}")
+        cal_path = generate_earnings_calendar_html()
+        print(f"earnings calendar saved to {cal_path}")
 
     return 0
 
@@ -453,28 +458,156 @@ def _calendar_command(argv: list[str]) -> int:
         return 0
 
     if subcmd == "show":
-        from capex.monitor.calendar import get_upcoming_earnings
-        days = 90
-        if "--week" in argv:
-            days = 7
-        upcoming = get_upcoming_earnings(days=days)
-        if not upcoming:
-            print("No upcoming earnings.")
-            return 0
-        print(f"Upcoming earnings (next {days} days):")
-        for u in upcoming:
-            status = u["status"]
-            mark = "  " if status == "upcoming" else f" [{status}]"
-            print(f"  {u['report_date']}  {u['ticker']:8s}  "
-                  f"{u['form_type'] or '?':6s}  "
-                  f"Q ending {u['fiscal_date_ending']}{mark}")
-        return 0
+        return _calendar_show(argv[1:])
 
     print(f"unknown calendar subcommand: {subcmd}", file=sys.stderr)
     print("  capex calendar sync         sync from Alpha Vantage")
-    print("  capex calendar show         show upcoming dates")
-    print("  capex calendar show --week   this week only")
+    print("  capex calendar show         show upcoming + recent dates")
+    print("  capex calendar show --week         next 7 days only")
+    print("  capex calendar show --days N       custom upcoming window")
+    print("  capex calendar show --ticker T     filter to one ticker")
+    print("  capex calendar show --no-past      skip recent-filings section")
+    print("  capex calendar show --format json  emit JSON instead of table")
     return 2
+
+
+def _calendar_show(flags: list[str]) -> int:
+    """Render the boxed-table view of the earnings calendar."""
+    import json
+    import sqlite3
+    from pathlib import Path
+
+    from capex.monitor.calendar import query_for_viewer
+
+    days = 90
+    ticker: str | None = None
+    include_past = True
+    fmt = "table"
+    i = 0
+    while i < len(flags):
+        a = flags[i]
+        if a == "--week":
+            days = 7
+        elif a == "--days" and i + 1 < len(flags):
+            days = int(flags[i + 1])
+            i += 1
+        elif a == "--ticker" and i + 1 < len(flags):
+            ticker = flags[i + 1].upper()
+            i += 1
+        elif a == "--no-past":
+            include_past = False
+        elif a == "--include-past":
+            include_past = True
+        elif a == "--format" and i + 1 < len(flags):
+            fmt = flags[i + 1]
+            i += 1
+        else:
+            print(f"unknown flag: {a}", file=sys.stderr)
+            return 2
+        i += 1
+
+    repo_root = Path(__file__).resolve().parents[3]
+    db_path = repo_root / "data" / "db" / "capex.db"
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    past = 30 if include_past else 0
+    events = query_for_viewer(
+        conn, upcoming_days=days, past_days=past, ticker_filter=ticker,
+    )
+    conn.close()
+
+    if fmt == "json":
+        payload = [
+            {
+                "ticker": e.ticker,
+                "company_name": e.company_name,
+                "report_date": e.report_date,
+                "fiscal_date_ending": e.fiscal_date_ending,
+                "fiscal_year": e.fiscal_year,
+                "period_label": e.period_label,
+                "form_type": e.form_type,
+                "status": e.status,
+                "source_url": e.source_url,
+                "days_from_today": e.days_from_today,
+                "updated_at": e.updated_at,
+            }
+            for e in events
+        ]
+        print(json.dumps(payload, indent=2))
+        return 0
+
+    if not events:
+        print("No earnings events in window. Run `capex calendar sync` to populate.")
+        return 0
+
+    _print_calendar_table(events)
+    return 0
+
+
+def _print_calendar_table(events: list) -> None:
+    """Print a box-drawing table of CalendarEvent rows."""
+    headers = ["Ticker", "Report date", "Period end", "Form", "Period",
+               "Status", "Offset"]
+    rows: list[list[str]] = []
+    for e in events:
+        period = f"FY{e.fiscal_year % 100:02d} {e.period_label}"
+        if e.days_from_today > 0:
+            offset = f"in {e.days_from_today}d"
+        elif e.days_from_today < 0:
+            offset = f"{abs(e.days_from_today)}d ago"
+        else:
+            offset = "today"
+        rows.append([
+            e.ticker,
+            e.report_date,
+            e.fiscal_date_ending,
+            e.form_type or "?",
+            period,
+            e.status,
+            offset,
+        ])
+
+    widths = [len(h) for h in headers]
+    for r in rows:
+        for i, cell in enumerate(r):
+            if len(cell) > widths[i]:
+                widths[i] = len(cell)
+
+    def fmt_row(cells: list[str], sep_l: str, sep_m: str, sep_r: str) -> str:
+        parts = [f" {cells[i]:<{widths[i]}} " for i in range(len(cells))]
+        return sep_l + sep_m.join(parts) + sep_r
+
+    top = "┌" + "┬".join("─" * (w + 2) for w in widths) + "┐"
+    mid = "├" + "┼".join("─" * (w + 2) for w in widths) + "┤"
+    bot = "└" + "┴".join("─" * (w + 2) for w in widths) + "┘"
+
+    print(top)
+    print(fmt_row(headers, "│", "│", "│"))
+    print(mid)
+    for r in rows:
+        print(fmt_row(r, "│", "│", "│"))
+    print(bot)
+
+    # Summary line
+    from collections import Counter
+    upcoming = [e for e in events if e.days_from_today >= 0]
+    past = [e for e in events if e.days_from_today < 0]
+    up_counts = Counter(e.status for e in upcoming)
+    past_counts = Counter(e.status for e in past)
+    parts = []
+    for s in ("upcoming", "detected", "fetched", "extracted", "failed"):
+        if up_counts.get(s):
+            parts.append(f"{up_counts[s]} {s}")
+    past_parts = []
+    for s in ("extracted", "fetched", "detected", "failed"):
+        if past_counts.get(s):
+            past_parts.append(f"{past_counts[s]} {s}")
+    pieces = []
+    if parts:
+        pieces.append(", ".join(parts))
+    if past_parts:
+        pieces.append(f"last 30d: {', '.join(past_parts)}")
+    print("  |  ".join(pieces))
 
 
 def _monitor_command(argv: list[str]) -> int:

@@ -18,6 +18,7 @@ import csv
 import io
 import os
 import urllib.request
+from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
@@ -183,6 +184,194 @@ def update_status(
             """,
             (status, now, ticker, fiscal_date_ending),
         )
+
+
+def get_recent_earnings(
+    days: int = 30,
+    *,
+    db: Database | None = None,
+) -> list[dict[str, Any]]:
+    """Return fiscal_calendar entries whose report_date is in the past N days."""
+    db = db or Database()
+    today = date.today()
+    start = (today - timedelta(days=days)).isoformat()
+    with db.connect() as conn:
+        rows = conn.execute(
+            """
+            SELECT ticker, report_date, fiscal_date_ending, form_type,
+                   status, updated_at
+            FROM fiscal_calendar
+            WHERE report_date >= ? AND report_date < ?
+            ORDER BY report_date DESC, ticker
+            """,
+            (start, today.isoformat()),
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+@dataclass
+class CalendarEvent:
+    ticker: str
+    company_name: str
+    report_date: str            # YYYY-MM-DD
+    fiscal_date_ending: str     # YYYY-MM-DD
+    form_type: str | None
+    status: str                 # upcoming|detected|fetched|extracted|failed
+    source_url: str | None      # from source_documents if filing landed
+    days_from_today: int        # negative = past, 0 = today, positive = upcoming
+    fiscal_year: int            # derived from fiscal_date_ending + FYE month
+    period_label: str           # "Q1"/"Q2"/"Q3"/"Q4"/"FY"
+    updated_at: str             # from fiscal_calendar or source_documents.fetched_at
+
+
+def _derive_fy_and_period(fiscal_date_ending: str, fye_month: int) -> tuple[int, str]:
+    """Compute (fiscal_year, period_label) from a period-end date + FYE month.
+
+    FY convention: if the period-end month is <= FYE month, period belongs
+    to the fiscal year labelled by the calendar year of the end date
+    (e.g. MSFT FYE=6, 2026-03-31 → FY2026 Q3). Otherwise period belongs to
+    fy+1 (e.g. MSFT 2025-09-30 → FY2026 Q1).
+    """
+    fy = date.fromisoformat(fiscal_date_ending)
+    if fy.month <= fye_month:
+        fiscal_year = fy.year
+    else:
+        fiscal_year = fy.year + 1
+    if fy.month == fye_month:
+        return fiscal_year, "FY"
+    # Quarter within fiscal year (1..4)
+    q = (((fy.month - fye_month - 1) % 12) // 3) + 1
+    return fiscal_year, f"Q{q}"
+
+
+def query_for_viewer(
+    conn,
+    upcoming_days: int = 90,
+    past_days: int = 30,
+    ticker_filter: str | None = None,
+) -> list[CalendarEvent]:
+    """Return unified list of earnings events for the viewer.
+
+    Combines:
+    - Upcoming events from fiscal_calendar (report_date in [today, today+upcoming_days])
+    - Past events from source_documents (filing_date in [today-past_days, today))
+      — merged with any matching fiscal_calendar row for status.
+
+    Events are deduped by (ticker, fiscal_date_ending) — the upcoming
+    calendar row wins if both exist (keeps announced dates visible until
+    filing lands). Results sorted by report_date ascending.
+    """
+    today = date.today()
+    today_iso = today.isoformat()
+    upcoming_end = (today + timedelta(days=upcoming_days)).isoformat()
+    past_start = (today - timedelta(days=past_days)).isoformat()
+
+    # Company lookup: ticker → (name, fye_month)
+    companies = {
+        r["ticker"]: (r["name"], r["fiscal_year_end_month"])
+        for r in conn.execute(
+            "SELECT ticker, name, fiscal_year_end_month FROM companies"
+        ).fetchall()
+    }
+
+    # Source-doc lookup: (ticker, period_of_report) → (form_type, source_url, filing_date)
+    src_rows = conn.execute(
+        """
+        SELECT ticker, form_type, period_of_report, source_url, filing_date,
+               fetched_at
+        FROM source_documents
+        """
+    ).fetchall()
+    src_by_key: dict[tuple[str, str], dict[str, Any]] = {}
+    for r in src_rows:
+        key = (r["ticker"], r["period_of_report"])
+        # Keep earliest filing per period (first canonical filing)
+        existing = src_by_key.get(key)
+        if existing is None or r["filing_date"] < existing["filing_date"]:
+            src_by_key[key] = dict(r)
+
+    events: dict[tuple[str, str], CalendarEvent] = {}
+
+    # --- Upcoming: from fiscal_calendar ---
+    cal_rows = conn.execute(
+        """
+        SELECT ticker, report_date, fiscal_date_ending, form_type, status,
+               updated_at
+        FROM fiscal_calendar
+        WHERE report_date >= ? AND report_date <= ?
+        ORDER BY report_date, ticker
+        """,
+        (today_iso, upcoming_end),
+    ).fetchall()
+    for r in cal_rows:
+        tk = r["ticker"]
+        if ticker_filter and tk != ticker_filter:
+            continue
+        cname, fye = companies.get(tk, (tk, 12))
+        fy, period = _derive_fy_and_period(r["fiscal_date_ending"], fye)
+        src = src_by_key.get((tk, r["fiscal_date_ending"]))
+        dt = (date.fromisoformat(r["report_date"]) - today).days
+        events[(tk, r["fiscal_date_ending"])] = CalendarEvent(
+            ticker=tk,
+            company_name=cname,
+            report_date=r["report_date"],
+            fiscal_date_ending=r["fiscal_date_ending"],
+            form_type=r["form_type"],
+            status=r["status"],
+            source_url=src["source_url"] if src else None,
+            days_from_today=dt,
+            fiscal_year=fy,
+            period_label=period,
+            updated_at=r["updated_at"],
+        )
+
+    # --- Past: from source_documents in the window ---
+    past_src_rows = conn.execute(
+        """
+        SELECT ticker, form_type, period_of_report, source_url, filing_date,
+               fetched_at
+        FROM source_documents
+        WHERE filing_date >= ? AND filing_date < ?
+        ORDER BY filing_date DESC
+        """,
+        (past_start, today_iso),
+    ).fetchall()
+    # Status merge: prefer fiscal_calendar row if exists
+    cal_status_rows = conn.execute(
+        "SELECT ticker, fiscal_date_ending, status, updated_at FROM fiscal_calendar"
+    ).fetchall()
+    cal_status: dict[tuple[str, str], tuple[str, str]] = {
+        (r["ticker"], r["fiscal_date_ending"]): (r["status"], r["updated_at"])
+        for r in cal_status_rows
+    }
+    for r in past_src_rows:
+        tk = r["ticker"]
+        if ticker_filter and tk != ticker_filter:
+            continue
+        fde = r["period_of_report"]
+        key = (tk, fde)
+        if key in events:
+            # Already has an upcoming entry (shouldn't happen — upcoming is future)
+            continue
+        cname, fye = companies.get(tk, (tk, 12))
+        fy, period = _derive_fy_and_period(fde, fye)
+        status, upd = cal_status.get(key, ("extracted", r["fetched_at"]))
+        dt = (date.fromisoformat(r["filing_date"]) - today).days
+        events[key] = CalendarEvent(
+            ticker=tk,
+            company_name=cname,
+            report_date=r["filing_date"],
+            fiscal_date_ending=fde,
+            form_type=r["form_type"],
+            status=status,
+            source_url=r["source_url"],
+            days_from_today=dt,
+            fiscal_year=fy,
+            period_label=period,
+            updated_at=upd,
+        )
+
+    return sorted(events.values(), key=lambda e: (e.report_date, e.ticker))
 
 
 def add_manual_entry(

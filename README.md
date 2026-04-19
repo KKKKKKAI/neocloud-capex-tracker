@@ -67,12 +67,14 @@ flowchart TD
         EXCEL["excel.py\n8-sheet workbook"]
         CHART["charts.py\nstatic PNG"]
         ICHART["interactive_chart.py\nPlotly HTML"]
+        CALHTML["earnings_calendar_html.py\nearnings viewer"]
     end
 
     subgraph Out["Outputs"]
         XLSX["Excel workbook\nShift+F2 citations"]
         PNG["Chart PNG"]
         GHPAGES["GitHub Pages\ninteractive chart"]
+        CALPAGE["docs/calendar.html\nearnings calendar"]
     end
 
     SEC --> SECF --> DISP
@@ -98,6 +100,7 @@ flowchart TD
     DB --> EXCEL --> XLSX
     DB --> CHART --> PNG
     DB --> ICHART --> GHPAGES
+    DB --> CALHTML --> CALPAGE
 
     classDef source fill:#e1f5fe,stroke:#0288d1
     classDef store fill:#fff3e0,stroke:#f57c00
@@ -106,8 +109,8 @@ flowchart TD
 
     class SEC,HKEX,XBRL,ECB source
     class RAW,DB,DUMP store
-    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART process
-    class XLSX,PNG,GHPAGES output
+    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML process
+    class XLSX,PNG,GHPAGES,CALPAGE output
 ```
 <!-- ARCHITECTURE_END -->
 
@@ -247,6 +250,7 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 4o | BABA annual capex FY21-FY24 backfilled | ✅ | BABA does not tag capex in XBRL. `scripts/backfill_baba_capex_20f.py` reads the Consolidated Statements of Cash Flows in each 20-F and inserts the canonical CNY value (FY21 = ¥36.2B → $5.5B, FY22 = $6.6B, FY23 = $4.4B, FY24 = $3.8B), FX-converted to USD at period-end. |
 | 4p | XBRL extractions now carry filing-text quotes | ✅ | `scripts/backfill_xbrl_quotes.py` opens each locally-archived 10-K/10-Q, locates the numeric value in the filing text, grabs the surrounding sentence/table row, and writes it to `extraction_evidence` as a `primary_value` excerpt. The Excel cell comments now show a `Quote: "..."` line for 967 XBRL-sourced values. |
 | 4q | Data-quality audit framework (`capex audit`) | ✅ | New `src/capex/audit/` package with 9 mechanical checks (gap, identity, range, continuity, cross_source, sign, currency, segment_def, period_type), bounds YAML, markdown report generator, fix orchestrator, and an LLM re-verifier scaffold. 28 unit tests. Produces `output/data_quality_report.md` summarizing 4,171-cell universe coverage with flagged / gap-fixable / gap-unfixable breakdown. Dry-run by default; `--apply` commits fixes; `--with-llm` asks an LLM to re-verify flagged items. |
+| 4r | Earnings calendar viewer (HTML + rich CLI) | ✅ | `docs/calendar.html` is a 5th nav pill alongside the 4 chart pages — upcoming 90 days + recent 30 days grouped by date, per-row status badges (upcoming / detected / fetched / extracted / failed), `in N days` countdown, and direct SEC EDGAR / HKEXnews links once filings have landed. `capex calendar show` now prints a box-drawing table with `--days`, `--ticker`, `--format json`, `--include-past/--no-past` flags. Data sourced from the existing `fiscal_calendar` table + joined `source_documents`. Shared `query_for_viewer` in `monitor/calendar.py` is the single source of truth consumed by both the HTML and CLI. 13 unit tests cover fiscal-year/period derivation (Dec / Jun / May FYE), table formatting, nav pill presence, and empty-DB safety. |
 | 5a | Citation URL fixes | 🚧 | Direct filing URLs replacing SEC directory links |
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
 | 6 | Quarterly cloud segment extraction | 📋 | LLM-extract AWS/Azure/GCP quarterly segment revenue from 10-Qs so `cloud_segment_revenue` Q4 2019/2020 can be reconciled |

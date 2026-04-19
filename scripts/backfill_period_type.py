@@ -20,7 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from capex.db import Database
-from capex.extract.reconcile import _infer_period_type, _basis_months_for
+from capex.extract.reconcile import _basis_months_for, _infer_period_type
 
 
 def main() -> int:

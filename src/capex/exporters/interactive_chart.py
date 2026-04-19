@@ -324,15 +324,36 @@ def _build_html(
     )
 
 
-def _build_nav_html(current_metric: str) -> str:
-    """Build the cross-navigation bar linking the 4 metric pages."""
+# Non-metric pages that appear in the nav bar after the metric pills.
+NAV_EXTRAS: list[dict[str, str]] = [
+    {"key": "calendar", "page_name": "calendar.html", "nav_label": "Calendar"},
+]
+
+
+def _build_nav_html(current_key: str) -> str:
+    """Build the cross-navigation bar linking the metric pages + extras.
+
+    `current_key` is either a metric_key from METRIC_CONFIGS or the key of
+    a NAV_EXTRAS entry (e.g. "calendar"). Unknown keys simply render no
+    pill as active.
+    """
     pills = []
     for mk, c in METRIC_CONFIGS.items():
-        cls = "nav-pill active" if mk == current_metric else "nav-pill"
+        cls = "nav-pill active" if mk == current_key else "nav-pill"
         pills.append(
             f'<a class="{cls}" href="{c["page_name"]}">{c["nav_label"]}</a>'
         )
+    for extra in NAV_EXTRAS:
+        cls = "nav-pill active" if extra["key"] == current_key else "nav-pill"
+        pills.append(
+            f'<a class="{cls}" href="{extra["page_name"]}">{extra["nav_label"]}</a>'
+        )
     return '<div class="nav">' + "".join(pills) + "</div>"
+
+
+def build_nav_html(current_key: str) -> str:
+    """Public re-export of the nav helper for use by other exporters."""
+    return _build_nav_html(current_key)
 
 
 _HTML_TEMPLATE = """<!DOCTYPE html>

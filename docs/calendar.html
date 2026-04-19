@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earnings calendar — AI Infrastructure Ecosystem</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         margin: 0; padding: 20px; background: #fafafa; color: #222; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { text-align: center; margin: 0 0 6px; font-size: 22px; }
+  .subtitle { text-align: center; color: #666; margin: 0 0 20px; font-size: 13px; }
+  .nav { text-align: center; margin: 0 auto 18px; max-width: 1400px; }
+  .nav-pill { display: inline-block; padding: 6px 14px; margin: 0 4px;
+    border: 1px solid #888; border-radius: 18px; color: #555; font-size: 13px;
+    text-decoration: none; background: #fff; }
+  .nav-pill:hover { border-color: #2E75B6; color: #2E75B6; }
+  .nav-pill.active { background: #2E75B6; color: #fff; border-color: #2E75B6;
+    font-weight: bold; }
+  h2 { font-size: 16px; margin: 24px 0 10px; color: #333;
+    border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3.date-heading { font-size: 14px; margin: 12px 0 6px; color: #444;
+    font-weight: 600; }
+  .countdown { color: #888; font-weight: normal; font-size: 13px; }
+  .next-card { background: #fff; border: 1px solid #d1d9e0;
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; }
+  .next-label { font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #888; margin-bottom: 6px; }
+  .next-chips .chip { margin-right: 6px; }
+  .next-meta { margin-top: 6px; color: #555; font-size: 13px; }
+  .day-group { margin-bottom: 10px; }
+  ul.ev-list { list-style: none; padding: 0; margin: 0; }
+  li.ev-row { display: flex; align-items: center; gap: 10px;
+    padding: 6px 10px; margin: 3px 0; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px; }
+  .chip { display: inline-block; min-width: 48px; padding: 2px 8px;
+    border-radius: 10px; color: #fff; font-size: 11px; font-weight: bold;
+    text-align: center; }
+  .ev-period { min-width: 80px; font-weight: 600; color: #333; }
+  .ev-form { min-width: 48px; color: #666; }
+  .ev-end { flex: 1; color: #888; font-size: 12px; }
+  .badge { padding: 2px 8px; border-radius: 10px; font-size: 11px;
+    font-weight: 600; text-transform: lowercase; }
+  .filing-link { color: #2E75B6; text-decoration: none; font-size: 12px; }
+  .filing-link:hover { text-decoration: underline; }
+  .empty, .empty-state { color: #888; font-style: italic; text-align: center;
+    margin: 20px 0; }
+  .sync-caption { text-align: center; color: #aaa; font-size: 11px;
+    margin-top: 30px; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="nav"><a class="nav-pill" href="index.html">Cloud / DC Revenue</a><a class="nav-pill" href="revenue.html">Total Revenue</a><a class="nav-pill" href="capex.html">CapEx</a><a class="nav-pill" href="operating_cash_flow.html">Operating Cash Flow</a><a class="nav-pill active" href="calendar.html">Calendar</a></div>
+<div class="container">
+  <h1>Earnings calendar</h1>
+  <p class="subtitle">Upcoming 90 days · recent 30 days · 13 tracked companies</p>
+  <div class="next-card"><div class="next-label">Next up</div><div class="next-chips"><span class="chip" style="background:#4285F4;">GOOGL</span><span class="chip" style="background:#1877F2;">META</span><span class="chip" style="background:#00A4EF;">MSFT</span></div><div class="next-meta">in 10 days · 2026-04-29</div></div>
+  <h2>Upcoming</h2>
+  <section class="day-group">
+<h3 class="date-heading">Wed 2026-04-29 <span class="countdown">— in 10 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#4285F4;">GOOGL</span><span class="ev-period" title="Alphabet Inc.">FY26 Q1</span><span class="ev-form">10-Q</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+<li class="ev-row"><span class="chip" style="background:#1877F2;">META</span><span class="ev-period" title="Meta Platforms, Inc.">FY26 Q1</span><span class="ev-form">10-Q</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+<li class="ev-row"><span class="chip" style="background:#00A4EF;">MSFT</span><span class="ev-period" title="Microsoft Corporation">FY26 Q3</span><span class="ev-form">10-Q</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Thu 2026-05-07 <span class="countdown">— in 18 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#FF9900;">AMZN</span><span class="ev-period" title="Amazon.com, Inc.">FY26 Q1</span><span class="ev-form">10-Q</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Wed 2026-05-13 <span class="countdown">— in 24 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#7D3C98;">CRWV</span><span class="ev-period" title="CoreWeave, Inc.">FY26 Q1</span><span class="ev-form">10-Q</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+<li class="ev-row"><span class="chip" style="background:#27AE60;">IREN</span><span class="ev-period" title="IREN Limited">FY26 Q3</span><span class="ev-form">20-F</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Mon 2026-05-18 <span class="countdown">— in 29 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#F39C12;">NBIS</span><span class="ev-period" title="Nebius Group N.V.">FY26 Q1</span><span class="ev-form">20-F</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Tue 2026-05-19 <span class="countdown">— in 30 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#1A5276;">GDS</span><span class="ev-period" title="GDS Holdings Limited">FY26 Q1</span><span class="ev-form">20-F</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Wed 2026-05-20 <span class="countdown">— in 31 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#2932E1;">BIDU</span><span class="ev-period" title="Baidu, Inc.">FY26 Q1</span><span class="ev-form">20-F</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Thu 2026-05-21 <span class="countdown">— in 32 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#FF6A00;">BABA</span><span class="ev-period" title="Alibaba Group Holding Limited">FY26 FY</span><span class="ev-form">20-F</span><span class="ev-end">period-end 2026-03-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Tue 2026-06-16 <span class="countdown">— in 58 days</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#F80000;">ORCL</span><span class="ev-period" title="Oracle Corporation">FY26 FY</span><span class="ev-form">10-K</span><span class="ev-end">period-end 2026-05-31</span><span class="badge" style="color:#2E75B6;background:#E8F0F8;">upcoming</span></li>
+</ul>
+</section>
+  <h2>Recently filed</h2>
+  <section class="day-group">
+<h3 class="date-heading">Wed 2026-04-08 <span class="countdown">— 11 days ago</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#2E86C1;">APLD</span><span class="ev-period" title="Applied Digital Corporation">FY26 Q3</span><span class="ev-form">10-Q</span><span class="ev-end">period-end 2026-02-28</span><span class="badge" style="color:#2F855A;background:#D1FAE5;">extracted</span> <a class="filing-link" href="https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm" target="_blank" rel="noopener">view filing →</a></li>
+</ul>
+</section>
+<section class="day-group">
+<h3 class="date-heading">Thu 2026-04-09 <span class="countdown">— 10 days ago</span></h3>
+<ul class="ev-list">
+<li class="ev-row"><span class="chip" style="background:#00B140;">0700</span><span class="ev-period" title="Tencent Holdings Limited">FY25 FY</span><span class="ev-form">HK-AR</span><span class="ev-end">period-end 2025-12-31</span><span class="badge" style="color:#2F855A;background:#D1FAE5;">extracted</span> <a class="filing-link" href="https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0409/2026040901232_c.pdf" target="_blank" rel="noopener">view filing →</a></li>
+<li class="ev-row"><span class="chip" style="background:#00B140;">0700</span><span class="ev-period" title="Tencent Holdings Limited">FY24 FY</span><span class="ev-form">HK-AR</span><span class="ev-end">period-end 2024-12-31</span><span class="badge" style="color:#2F855A;background:#D1FAE5;">extracted</span> <a class="filing-link" href="https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042301779.pdf" target="_blank" rel="noopener">view filing →</a></li>
+<li class="ev-row"><span class="chip" style="background:#00B140;">0700</span><span class="ev-period" title="Tencent Holdings Limited">FY21 FY</span><span class="ev-form">HK-AR</span><span class="ev-end">period-end 2021-12-31</span><span class="badge" style="color:#2F855A;background:#D1FAE5;">extracted</span> <a class="filing-link" href="https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0407/2022040701694.pdf" target="_blank" rel="noopener">view filing →</a></li>
+<li class="ev-row"><span class="chip" style="background:#00B140;">0700</span><span class="ev-period" title="Tencent Holdings Limited">FY22 FY</span><span class="ev-form">HK-AR</span><span class="ev-end">period-end 2022-12-31</span><span class="badge" style="color:#2F855A;background:#D1FAE5;">extracted</span> <a class="filing-link" href="https://www1.hkexnews.hk/listedco/listconews/sehk/2023/0418/2023041801103.pdf" target="_blank" rel="noopener">view filing →</a></li>
+<li class="ev-row"><span class="chip" style="background:#00B140;">0700</span><span class="ev-period" title="Tencent Holdings Limited">FY23 FY</span><span class="ev-form">HK-AR</span><span class="ev-end">period-end 2023-12-31</span><span class="badge" style="color:#2F855A;background:#D1FAE5;">extracted</span> <a class="filing-link" href="https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0408/2024040801822.pdf" target="_blank" rel="noopener">view filing →</a></li>
+</ul>
+</section>
+  <p class="sync-caption">Last calendar sync: <code>2026-04-15T19:05:48+00:00</code></p>
+</div>
+</body>
+</html>

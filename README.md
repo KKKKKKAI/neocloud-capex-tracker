@@ -5,7 +5,7 @@ disclosures across major hyperscalers and neocloud providers.
 
 ![Cloud Revenue](charts/cloud_revenue_annual.png)
 
-**[Interactive Chart](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)**
+**[Interactive Chart](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)**
 
 ---
 

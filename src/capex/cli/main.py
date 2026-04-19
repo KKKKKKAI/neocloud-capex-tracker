@@ -158,10 +158,11 @@ def _chart_command(argv: list[str]) -> int:
     print(f"static chart saved to {path}")
 
     if interactive:
-        from capex.exporters.interactive_chart import generate_interactive
+        from capex.exporters.interactive_chart import generate_all_interactive
 
-        ipath = generate_interactive(output=output)
-        print(f"interactive chart saved to {ipath}")
+        ipaths = generate_all_interactive()
+        for p in ipaths:
+            print(f"interactive chart saved to {p}")
 
     return 0
 

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Total Revenue — AI Infrastructure Ecosystem</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         margin: 0; padding: 20px; background: #fafafa; }
+  #chart { width: 100%; max-width: 1400px; margin: 0 auto; }
+  .nav { text-align: center; margin: 0 auto 14px; max-width: 1400px; }
+  .nav-pill { display: inline-block; padding: 6px 14px; margin: 0 4px;
+    border: 1px solid #888; border-radius: 18px; color: #555; font-size: 13px;
+    text-decoration: none; background: #fff; }
+  .nav-pill:hover { border-color: #2E75B6; color: #2E75B6; }
+  .nav-pill.active { background: #2E75B6; color: #fff; border-color: #2E75B6;
+    font-weight: bold; }
+  .controls { text-align: center; margin: 10px 0; }
+  .controls .group { display: inline-block; margin: 0 12px; }
+  .controls button { padding: 8px 20px; margin: 0 5px; border: 2px solid #2E75B6;
+    background: white; color: #2E75B6; cursor: pointer; border-radius: 4px;
+    font-size: 14px; font-weight: bold; }
+  .controls button.active { background: #2E75B6; color: white; }
+  .controls button:hover { background: #2E75B6; color: white; }
+  .note { text-align: center; font-size: 11px; color: #888; margin-top: 5px; }
+</style>
+</head>
+<body>
+<div class="nav"><a class="nav-pill" href="index.html">Cloud / DC Revenue</a><a class="nav-pill active" href="revenue.html">Total Revenue</a><a class="nav-pill" href="capex.html">CapEx</a><a class="nav-pill" href="operating_cash_flow.html">Operating Cash Flow</a></div>
+<div id="chart">
+  <div class="controls">
+    <span class="group">
+      <button id="btn-annual" class="active" onclick="setView('annual')">Annual</button>
+      <button id="btn-quarterly" onclick="setView('quarterly')">Quarterly</button>
+    </span>
+    <span class="group">
+      <button onclick="selectAll()">Select All</button>
+      <button onclick="deselectAll()">Deselect All</button>
+    </span>
+  </div>
+  <div id="plotDiv" style="width:100%;height:700px;"></div>
+  <div class="note">
+    Click legend entries to toggle any series — companies, the aggregate
+    <b>YoY %</b> line, or the aggregate <b>QoQ %</b> line.
+    Aggregate lines recompute from the currently-visible companies.
+    QoQ is only shown in Quarterly view (in Annual view it would equal YoY).
+    *Tencent: FinTech &amp; Business Services proxy (includes WeChat Pay).
+    <br>Quarterly view: SEC 10-Q filers and BABA 6-K; other 20-F / HKEX filers annual only.
+    <br>Source:
+    <a href="https://github.com/KKKKKKAI/neocloud-capex-tracker">
+    neocloud-capex-tracker</a>
+  </div>
+</div>
+
+<script>
+/*
+ * Single chart layout: stacked bars + up to two aggregate growth
+ * overlay lines on yaxis2 (YoY visible by default, QoQ hidden-in-legend
+ * by default; both toggleable via legend click). QoQ is omitted in
+ * Annual view where it would equal YoY.
+ *
+ * Growth math mirrors src/capex/exporters/_growth.py — keep in lock-step.
+ */
+var CFG_YOY_MIN = -10;
+var CFG_YOY_MAX = 100;
+var CFG_LABEL_YSHIFT = 15;
+
+// ---- DATA ----
+var annualTraces = [{"name": "AMZN", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 135.987, 177.866, 103.928, 123.104, 164.364, 137.412, 149.204, 169.961, 187.792, 213.386], "type": "bar", "marker": {"color": "#FF9900"}}, {"name": "MSFT", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 91.154, 96.571, 53.456, 61.555, 69.961, 46.152, 51.865, 56.189, 64.727, 76.441], "type": "bar", "marker": {"color": "#00A4EF"}}, {"name": "GOOGL", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [21.329, 26.064, 32.323, 39.276, 46.075, 56.898, 75.325, 76.048, 86.31, 96.469, 113.828], "type": "bar", "marker": {"color": "#4285F4"}}, {"name": "META", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [5.842, 8.809, 12.972, 16.914, 21.082, 28.071, 33.671, 32.165, 40.112, 48.386, 59.894], "type": "bar", "marker": {"color": "#1877F2"}}, {"name": "ORCL", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [38.226, 10.594, 10.893, 11.252, 11.137, 10.44, 11.227, 11.839, 13.836, 14.287, 15.903], "type": "bar", "marker": {"color": "#F80000"}}, {"name": "Tencent*", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 88.17378, 80.38231, 85.71886, 90.45521000000001, 107.38225999999999], "type": "bar", "marker": {"color": "#00B140"}}, {"name": "CRWV", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.229, 0.7470099999999997, 1.5718999999999999], "type": "bar", "marker": {"color": "#7D3C98"}}, {"name": "GDS", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.15206, 0.08417000000000004, 0.10936999999999998, 0.16663, 0.28948, 0.3628599999999999, 0.3205699999999999, 0.3659000000000001, 0.2879599999999999, 0.0], "type": "bar", "marker": {"color": "#1A5276"}}, {"name": "BABA", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [12.293, 15.686, 5.346120000000002, 11.451969999999998, 14.503509999999999, 15.403469999999993, 31.158330000000003, 33.47242, 30.797579999999993, 30.705939999999995, 31.768769999999982], "type": "bar", "marker": {"color": "#FF6A00"}}, {"name": "BIDU", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 5.199479999999999, 5.53053, 3.97207, 4.07176, 5.408480000000002, 5.4483, 4.45526, 5.024850000000002, 4.4209900000000015, 5.03939], "type": "bar", "marker": {"color": "#2932E1"}}, {"name": "APLD", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.007520000000000001, 0.022039999999999997, 0.043699999999999996, 0.12456999999999999], "type": "bar", "marker": {"color": "#2E86C1"}}, {"name": "IREN", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07551000000000001, 0.18719, 0.11615], "type": "bar", "marker": {"color": "#27AE60"}}, {"name": "NBIS", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1175, 0.0], "type": "bar", "marker": {"color": "#F39C12"}}];
+var quarterlyTraces = [{"name": "AMZN", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [59.7, 63.404, 69.981, 0.0, 75.452, 88.912, 96.145, 0.0, 108.518, 113.08, 110.812, 137.412, 116.444, 121.234, 127.101, 149.204, 127.358, 134.383, 143.083, 169.961, 143.313, 147.977, 158.877, 187.792, 155.667, 167.702, 180.169, 213.386, 0.0], "type": "bar", "marker": {"color": "#FF9900"}}, {"name": "MSFT", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [30.571, 0.0, 33.055, 36.906, 35.021, 0.0, 37.154, 43.076, 41.706, 46.152, 45.317, 51.728, 49.36, 51.865, 50.122, 52.747, 52.857, 56.189, 56.517, 62.02, 61.858, 64.727, 65.585, 69.632, 70.066, 76.441, 77.673, 81.273, 0.0], "type": "bar", "marker": {"color": "#00A4EF"}}, {"name": "GOOGL", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [36.339, 38.944, 40.499, 46.075, 41.159, 38.297, 46.173, 56.898, 55.314, 61.88, 65.118, 75.325, 68.011, 69.685, 69.092, 76.048, 69.787, 74.604, 76.693, 86.31, 80.539, 84.742, 88.268, 96.469, 90.234, 96.428, 102.346, 113.828, 0.0], "type": "bar", "marker": {"color": "#4285F4"}}, {"name": "META", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [15.077, 16.886, 17.652, 21.082, 17.737, 18.687, 21.47, 28.071, 26.171, 29.077, 29.01, 33.671, 27.908, 28.822, 27.714, 32.165, 28.645, 31.999, 34.146, 40.112, 36.455, 39.071, 40.589, 48.386, 42.314, 47.516, 51.242, 59.894, 0.0], "type": "bar", "marker": {"color": "#1877F2"}}, {"name": "ORCL", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [9.614, 11.137, 9.218, 9.614, 9.796, 10.44, 9.367, 9.8, 10.085, 11.227, 9.728, 10.36, 10.513, 11.839, 11.445, 12.275, 12.398, 13.836, 12.453, 12.941, 13.28, 14.287, 13.307, 14.059, 14.13, 15.903, 14.926, 16.058, 17.19], "type": "bar", "marker": {"color": "#F80000"}}, {"name": "CRWV", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18868000000000001, 0.39537, 0.58394, 0.7470099999999997, 0.98163, 1.21279, 1.3646800000000001, 1.5718999999999999, 0.0], "type": "bar", "marker": {"color": "#7D3C98"}}, {"name": "GDS", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.13288999999999998, 0.1434, 0.14926, 0.16663, 0.17471, 0.18972, 0.22391999999999998, 0.28948, 0.26042000000000004, 0.28864, 0.31889999999999996, 0.3628599999999999, 0.35377, 0.34469, 0.33272, 0.3205699999999999, 0.35041, 0.34007, 0.345, 0.3659000000000001, 0.3635, 0.38911, 0.37355, 0.2879599999999999, 0.37545, 0.40475, 0.40552, 0.0, 0.0], "type": "bar", "marker": {"color": "#1A5276"}}, {"name": "BABA", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [14.503509999999999, 16.72719, 16.661189999999998, 23.193150000000003, 15.403469999999993, 21.7327, 22.77196, 33.81701, 31.158330000000003, 31.8609, 31.046740000000003, 38.18694, 33.47242, 30.66675, 29.11444, 35.91223, 30.797579999999993, 32.21284, 30.78724, 36.643980000000006, 30.705939999999995, 33.49116, 33.72533, 38.381099999999996, 31.768769999999982, 34.56479, 34.80529, 40.68697, 0.0], "type": "bar", "marker": {"color": "#FF6A00"}}, {"name": "BIDU", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [3.59457, 3.83175, 3.93092, 4.07176, 3.17546, 3.67991, 4.14615, 5.408480000000002, 4.2946599999999995, 4.8548599999999995, 4.93818, 5.4483, 4.479850000000001, 4.42304, 4.572850000000001, 4.45526, 4.53021, 4.68508, 4.71786, 5.024850000000002, 4.35982, 4.67196, 4.785229999999999, 4.4209900000000015, 4.4741599999999995, 4.56575, 4.3787, 5.03939, 0.0], "type": "bar", "marker": {"color": "#2932E1"}}, {"name": "APLD", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00103, 0.007520000000000001, 0.00692, 0.01234, 0.01409, 0.022039999999999997, 0.03632, 0.0422, 0.04335, 0.043699999999999996, 0.060700000000000004, 0.06387, 0.05292, 0.0, 0.06422, 0.12659, 0.12664], "type": "bar", "marker": {"color": "#2E86C1"}}, {"name": "IREN", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05276, 0.11615, 0.0, 0.0, 0.24029, 0.18470000000000003, 0.0], "type": "bar", "marker": {"color": "#27AE60"}}, {"name": "NBIS", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.055299999999999995, 0.0, 0.0, 0.0, 0.0], "type": "bar", "marker": {"color": "#F39C12"}}];
+var xAnnual = ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"];
+var xQuarterly = ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"];
+var hasQuarterly = true;
+var currentView = 'annual';
+
+// ---- RUNTIME STATE ----
+var plotDiv = document.getElementById('plotDiv');
+var allTraces = [];
+var yoyOverlayIdx = -1;
+var qoqOverlayIdx = -1;
+
+// ---- GROWTH HELPERS (mirror of _growth.py) ----
+function priorIndexFor(i, xLabels, mode, period) {
+    if (mode === 'qoq') return i - 1;
+    if (period === 'annual') return i - 1;
+    // quarterly yoy: same-quarter one year prior
+    var cur = xLabels[i];
+    if (!cur || cur.length < 6 || cur[4] !== 'Q') return -1;
+    var year = parseInt(cur.slice(0, 4), 10);
+    if (isNaN(year)) return -1;
+    var target = (year - 1) + cur.slice(4);
+    return xLabels.indexOf(target);
+}
+
+function computeGrowth(series, xLabels, mode, period) {
+    var out = [];
+    for (var i = 0; i < xLabels.length; i++) {
+        var pi = priorIndexFor(i, xLabels, mode, period);
+        if (pi < 0 || pi >= series.length) { out.push(null); continue; }
+        var cur = series[i], prev = series[pi];
+        if (cur === null || prev === null || !prev || !cur) {
+            out.push(null);
+        } else {
+            out.push((cur / prev - 1) * 100);
+        }
+    }
+    return out;
+}
+
+function calcTotals(xLabels) {
+    // Sum all visible BAR traces.
+    var n = xLabels.length;
+    var totals = new Array(n).fill(0);
+    for (var i = 0; i < allTraces.length; i++) {
+        var t = allTraces[i];
+        if (t.type !== 'bar' || t.visible === 'legendonly') continue;
+        for (var j = 0; j < t.y.length; j++) {
+            totals[j] += (t.y[j] || 0);
+        }
+    }
+    return totals;
+}
+
+function makeAnnotations(totals, xLabels) {
+    var anns = [];
+    for (var i = 0; i < totals.length; i++) {
+        if (totals[i] > 0) {
+            anns.push({
+                x: xLabels[i],
+                y: totals[i],
+                text: '<b>$' + Math.round(totals[i]) + 'B</b>',
+                showarrow: false,
+                yshift: CFG_LABEL_YSHIFT,
+                font: { size: 11 }
+            });
+        }
+    }
+    return anns;
+}
+
+function growthSeriesForPlot(totals, xLabels, mode, period) {
+    // Pack (x,y,text) triples for non-null growth values.
+    var vals = computeGrowth(totals, xLabels, mode, period);
+    var oX = [], oY = [], oText = [];
+    for (var i = 0; i < vals.length; i++) {
+        if (vals[i] !== null) {
+            oX.push(xLabels[i]);
+            oY.push(vals[i]);
+            oText.push(vals[i].toFixed(0) + '%');
+        }
+    }
+    return { x: oX, y: oY, text: oText };
+}
+
+// ---- TRACE BUILDERS ----
+function buildBarsAndOverlays(dataTraces, xLabels, period) {
+    allTraces = [];
+    yoyOverlayIdx = -1;
+    qoqOverlayIdx = -1;
+
+    dataTraces.forEach(function(t) {
+        allTraces.push({
+            name: t.name,
+            x: t.x,
+            y: t.y,
+            type: 'bar',
+            marker: t.marker,
+            hovertemplate: '<b>' + t.name + '</b><br>$%{y:.1f}B<extra></extra>'
+        });
+    });
+
+    var totals = calcTotals(xLabels);
+
+    // Aggregate YoY line — visible by default.
+    var yoy = growthSeriesForPlot(totals, xLabels, 'yoy', period);
+    yoyOverlayIdx = allTraces.length;
+    allTraces.push({
+        name: 'Aggregate YoY %',
+        x: yoy.x, y: yoy.y,
+        type: 'scatter',
+        mode: 'lines+markers+text',
+        line: { color: '#2C3E50', width: 3, dash: 'dash' },
+        marker: { size: 8 },
+        text: yoy.text,
+        textposition: 'top center',
+        textfont: { size: 10, color: '#2C3E50' },
+        yaxis: 'y2',
+        hovertemplate: '%{x}: %{y:.1f}% YoY<extra></extra>'
+    });
+
+    // Aggregate QoQ line — Quarterly view only, legendonly by default.
+    if (period === 'quarterly') {
+        var qoq = growthSeriesForPlot(totals, xLabels, 'qoq', period);
+        qoqOverlayIdx = allTraces.length;
+        allTraces.push({
+            name: 'Aggregate QoQ %',
+            x: qoq.x, y: qoq.y,
+            type: 'scatter',
+            mode: 'lines+markers+text',
+            visible: 'legendonly',
+            line: { color: '#C65A1A', width: 2, dash: 'dot' },
+            marker: { size: 7, color: '#C65A1A' },
+            text: qoq.text,
+            textposition: 'bottom center',
+            textfont: { size: 10, color: '#C65A1A' },
+            yaxis: 'y2',
+            hovertemplate: '%{x}: %{y:.1f}% QoQ<extra></extra>'
+        });
+    }
+
+    return totals;
+}
+
+// ---- MAIN RENDER ----
+function renderChart() {
+    var xLabels = (currentView === 'annual') ? xAnnual : xQuarterly;
+    var period = currentView;
+    var dataTraces = (currentView === 'annual') ? annualTraces : quarterlyTraces;
+
+    if (currentView === 'quarterly' && (!dataTraces || dataTraces.length === 0)) {
+        plotDiv.innerHTML = '<p style="text-align:center;padding:200px 0;color:#888;">' +
+            'Quarterly revenue data not yet available.</p>';
+        return;
+    }
+
+    var totals = buildBarsAndOverlays(dataTraces, xLabels, period);
+
+    var subtitle = (currentView === 'annual')
+        ? 'Aggregated annual, USD-normalized. ' +
+          'Dashed = aggregate YoY %.'
+        : 'Quarterly. Dashed = aggregate YoY %; ' +
+          'dotted = aggregate QoQ % (click legend to show).';
+
+    var layout = {
+        barmode: 'stack',
+        title: {
+            text: 'Total Revenue — AI Infrastructure Ecosystem<br>' +
+                  '<sub>' + subtitle + '</sub>',
+            font: { size: 18 }, x: 0.5
+        },
+        xaxis: { title: 'Period', tickfont: { size: 11 } },
+        yaxis: { title: 'Total Revenue ($B USD)', gridcolor: '#E5E5E5' },
+        yaxis2: {
+            title: 'Aggregate Growth (%)',
+            overlaying: 'y', side: 'right',
+            showgrid: false,
+            ticksuffix: '%',
+            range: [CFG_YOY_MIN, CFG_YOY_MAX],
+            fixedrange: true
+        },
+        legend: {
+            orientation: 'v', x: 1.02, y: 1.0,
+            xanchor: 'left', yanchor: 'top',
+            font: { size: 11 }, tracegroupgap: 2
+        },
+        hovermode: 'x unified',
+        plot_bgcolor: 'white',
+        annotations: makeAnnotations(totals, xLabels),
+        margin: { t: 80, b: 60, r: 150 }
+    };
+
+    Plotly.newPlot(plotDiv, allTraces, layout, {
+        displayModeBar: true,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d']
+    });
+
+    plotDiv.on('plotly_legendclick', function() {
+        setTimeout(recalcOverlays, 100);
+    });
+    plotDiv.on('plotly_legenddoubleclick', function() {
+        setTimeout(recalcOverlays, 100);
+    });
+}
+
+function recalcOverlays() {
+    var xLabels = (currentView === 'annual') ? xAnnual : xQuarterly;
+    var data = plotDiv.data;
+    var n = xLabels.length;
+
+    var totals = new Array(n).fill(0);
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].type === 'bar' && data[i].visible !== 'legendonly') {
+            for (var j = 0; j < data[i].y.length; j++) {
+                totals[j] += (data[i].y[j] || 0);
+            }
+        }
+    }
+
+    if (yoyOverlayIdx >= 0) {
+        var yoy = growthSeriesForPlot(totals, xLabels, 'yoy', currentView);
+        Plotly.restyle(plotDiv, {
+            x: [yoy.x], y: [yoy.y], text: [yoy.text]
+        }, [yoyOverlayIdx]);
+    }
+    if (qoqOverlayIdx >= 0 && currentView === 'quarterly') {
+        var qoq = growthSeriesForPlot(totals, xLabels, 'qoq', currentView);
+        Plotly.restyle(plotDiv, {
+            x: [qoq.x], y: [qoq.y], text: [qoq.text]
+        }, [qoqOverlayIdx]);
+    }
+
+    Plotly.relayout(plotDiv, {
+        annotations: makeAnnotations(totals, xLabels)
+    });
+}
+
+// ---- SELECT / DESELECT ALL ----
+function selectAll() {
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) indices.push(i);
+    Plotly.restyle(plotDiv, { visible: true }, indices);
+    setTimeout(recalcOverlays, 100);
+}
+
+function deselectAll() {
+    // Hide all BAR traces; leave the aggregate overlay lines intact so
+    // the user keeps context after a deselect-all click.
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) {
+        if (plotDiv.data[i].type === 'bar') indices.push(i);
+    }
+    Plotly.restyle(plotDiv, { visible: 'legendonly' }, indices);
+    setTimeout(recalcOverlays, 100);
+}
+
+// ---- VIEW TOGGLE ----
+function setView(view) {
+    currentView = view;
+    document.getElementById('btn-annual').classList.toggle('active', view === 'annual');
+    document.getElementById('btn-quarterly').classList.toggle('active', view === 'quarterly');
+    renderChart();
+}
+
+// ---- INIT ----
+renderChart();
+</script>
+</body>
+</html>

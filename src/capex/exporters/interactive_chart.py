@@ -1,17 +1,13 @@
 """Interactive Plotly chart for GitHub Pages.
 
-Features:
-- Stacked bar chart (cloud/DC revenue by company)
-- Click legend to toggle companies — YoY growth line RECALCULATES
-  dynamically based on visible companies only
-- Hover tooltips with exact values + % of total
-- Annual ↔ Quarterly toggle button
-- Total $B annotations update when companies are toggled
-- Fully self-contained HTML — no server needed
+Generates one self-contained HTML per metric (cloud_segment_revenue,
+revenue, capital_expenditures, operating_cash_flow). Each page has:
 
-NOTE: Quarterly data uses cloud_segment_revenue where available,
-falling back to total group revenue for companies without quarterly
-segment breakdowns. Annual data uses cloud_segment_revenue only.
+- Stacked bar chart (company breakdown)
+- Aggregate YoY %  (dashed line, visible by default)
+- Aggregate QoQ %  (dotted line, legendonly by default, quarterly view only)
+- Annual ↔ Quarterly toggle
+- Cross-navigation bar linking the four metric pages
 """
 from __future__ import annotations
 
@@ -25,55 +21,118 @@ DB_PATH = REPO_ROOT / "data" / "db" / "capex.db"
 DOCS_DIR = REPO_ROOT / "docs"
 
 STACK_ORDER = [
-    "AMZN", "MSFT", "GOOGL", "ORCL", "0700", "CRWV",
+    "AMZN", "MSFT", "GOOGL", "META", "ORCL", "0700", "CRWV",
     "GDS", "BABA", "BIDU", "APLD", "IREN", "NBIS",
 ]
 COLORS = {
     "AMZN": "#FF9900", "MSFT": "#00A4EF", "GOOGL": "#4285F4",
-    "ORCL": "#F80000", "0700": "#00B140", "CRWV": "#7D3C98",
-    "GDS": "#1A5276", "BABA": "#FF6A00", "BIDU": "#2932E1",
-    "APLD": "#2E86C1", "IREN": "#27AE60", "NBIS": "#F39C12",
+    "META": "#1877F2", "ORCL": "#F80000", "0700": "#00B140",
+    "CRWV": "#7D3C98", "GDS": "#1A5276", "BABA": "#FF6A00",
+    "BIDU": "#2932E1", "APLD": "#2E86C1", "IREN": "#27AE60",
+    "NBIS": "#F39C12",
 }
 LABELS = {"0700": "Tencent*"}
 NBIS_START = 2024
-FLOW_METRICS = {"cloud_segment_revenue", "revenue"}
+
+# Configuration for every chart page we emit.
+METRIC_CONFIGS: dict[str, dict[str, Any]] = {
+    "cloud_segment_revenue": {
+        "page_name": "index.html",
+        "nav_label": "Cloud / DC Revenue",
+        "chart_title": "Cloud / Datacenter Revenue — AI Infrastructure Ecosystem",
+        "yaxis_title": "Cloud / DC Revenue ($B USD)",
+        "metric_suffix": "$B",
+        "exclude_tickers": {"META"},  # infrastructure buyer, no cloud segment
+    },
+    "revenue": {
+        "page_name": "revenue.html",
+        "nav_label": "Total Revenue",
+        "chart_title": "Total Revenue — AI Infrastructure Ecosystem",
+        "yaxis_title": "Total Revenue ($B USD)",
+        "metric_suffix": "$B",
+        "exclude_tickers": set(),
+    },
+    "capital_expenditures": {
+        "page_name": "capex.html",
+        "nav_label": "CapEx",
+        "chart_title": "Capital Expenditures — AI Infrastructure Ecosystem",
+        "yaxis_title": "CapEx ($B USD)",
+        "metric_suffix": "$B",
+        "exclude_tickers": {"0700"},  # only HKEX annual, fragmentary
+    },
+    "operating_cash_flow": {
+        "page_name": "operating_cash_flow.html",
+        "nav_label": "Operating Cash Flow",
+        "chart_title": "Operating Cash Flow — AI Infrastructure Ecosystem",
+        "yaxis_title": "Operating Cash Flow ($B USD)",
+        "metric_suffix": "$B",
+        "exclude_tickers": {"0700"},
+    },
+}
 
 
 def generate_interactive(
     output: str | Path | None = None,
     db_path: str | Path | None = None,
+    metric_key: str = "cloud_segment_revenue",
 ) -> Path:
-    """Generate interactive Plotly HTML chart with dynamic YoY."""
-    output = Path(output or DOCS_DIR / "index.html")
+    """Generate one interactive HTML chart for the given metric."""
+    cfg = METRIC_CONFIGS.get(metric_key)
+    if cfg is None:
+        raise ValueError(f"unknown metric_key: {metric_key!r}")
+
+    output = Path(output or DOCS_DIR / cfg["page_name"])
     output.parent.mkdir(parents=True, exist_ok=True)
     db_path = db_path or DB_PATH
 
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
 
-    annual = _load_annual(conn)
-    quarterly = _load_quarterly(conn)
+    annual = _load_annual(conn, metric_key, cfg["exclude_tickers"])
+    quarterly = _load_quarterly(conn, metric_key, cfg["exclude_tickers"])
     conn.close()
 
-    html = _build_html(annual, quarterly)
+    html = _build_html(annual, quarterly, metric_key, cfg)
     output.write_text(html, encoding="utf-8")
     return output
 
 
-def _load_annual(conn) -> dict[str, Any]:
-    """Load annual cloud segment revenue data."""
+def generate_all_interactive(
+    db_path: str | Path | None = None,
+    out_dir: str | Path | None = None,
+) -> list[Path]:
+    """Emit all 4 metric chart pages. Returns the list of written paths."""
+    out_dir = Path(out_dir or DOCS_DIR)
+    paths: list[Path] = []
+    for metric_key, cfg in METRIC_CONFIGS.items():
+        paths.append(generate_interactive(
+            output=out_dir / cfg["page_name"],
+            db_path=db_path,
+            metric_key=metric_key,
+        ))
+    return paths
+
+
+def _load_annual(
+    conn, metric_key: str, exclude_tickers: set[str] | None = None,
+) -> dict[str, Any]:
+    """Load annual values for the given metric."""
+    exclude = exclude_tickers or set()
     rows = conn.execute(
         "SELECT sd.ticker, sd.fiscal_year, "
         "COALESCE(e.value_usd, e.value) as val "
         "FROM extractions e "
         "JOIN source_documents sd ON e.source_document_id = sd.id "
-        "WHERE e.metric_key = 'cloud_segment_revenue' "
-        "AND sd.period_token = 'AR'"
+        "WHERE e.metric_key = ? "
+        "AND sd.period_token = 'AR'",
+        (metric_key,),
     ).fetchall()
 
     by_year: dict[int, dict[str, float]] = {}
     for r in rows:
         fy, t, v = r["fiscal_year"], r["ticker"], r["val"]
+        if t in exclude:
+            continue
         if not v or v <= 0 or (t == "NBIS" and fy < NBIS_START):
             continue
         by_year.setdefault(fy, {})[t] = v
@@ -82,16 +141,43 @@ def _load_annual(conn) -> dict[str, Any]:
     return {"years": years, "by_year": by_year}
 
 
-def _load_quarterly(conn) -> dict[str, Any]:
-    """Load quarterly cloud segment revenue strictly from period_type rows.
+def _calendar_qtr_from_fy(fye_month: int, fy: int, ptype: str) -> str | None:
+    """Calendar-quarter label for a fiscal (fy, period_type).
 
-    Reads only `cloud_segment_revenue` with period_type in
-    ('Q1','Q2','Q3','Q4'). Values are already standalone (either stored
-    directly or derived by the reconcile engine). If a company-quarter
-    has no cloud_segment_revenue row, the chart simply has no bar for
-    that cell — we never substitute total revenue, which would
-    mislabel non-cloud data as cloud.
+    fye_month: company's fiscal year-end month (e.g. 12 for Dec-FYE).
+    fy: fiscal year label per the filer (e.g. MSFT FY2025 ends 2025-06-30).
+    ptype: 'Q1','Q2','Q3','Q4' — fiscal quarter position.
     """
+    pos = {"Q1": 1, "Q2": 2, "Q3": 3, "Q4": 4}.get(ptype)
+    if pos is None:
+        return None
+    # FY Q4 ends on FYE month of fy. FY Q1 ends 9 months before FY Q4.
+    # Derive the *end* month of each fiscal quarter:
+    end_month_q4 = fye_month
+    end_month_q4_year = fy
+    # Compute end-month for the target quarter (subtract 3 months per step back)
+    offset_months = 3 * (4 - pos)  # Q4→0, Q3→3, Q2→6, Q1→9
+    end_month = end_month_q4 - offset_months
+    end_year = end_month_q4_year
+    while end_month <= 0:
+        end_month += 12
+        end_year -= 1
+    # Calendar quarter of that end-month
+    cal_q = (end_month - 1) // 3 + 1
+    return f"{end_year}Q{cal_q}"
+
+
+def _load_quarterly(
+    conn, metric_key: str, exclude_tickers: set[str] | None = None,
+) -> dict[str, Any]:
+    """Load quarterly values strictly from period_type rows."""
+    exclude = exclude_tickers or set()
+    fye = {
+        r["ticker"]: r["fiscal_year_end_month"]
+        for r in conn.execute(
+            "SELECT ticker, fiscal_year_end_month FROM companies"
+        )
+    }
     rows = conn.execute(
         """
         SELECT sd.ticker, sd.period_of_report, sd.fiscal_year,
@@ -99,7 +185,7 @@ def _load_quarterly(conn) -> dict[str, Any]:
                COALESCE(e.value_usd, e.value) as val
         FROM extractions e
         JOIN source_documents sd ON e.source_document_id = sd.id
-        WHERE e.metric_key = 'cloud_segment_revenue'
+        WHERE e.metric_key = ?
           AND e.period_type IN ('Q1','Q2','Q3','Q4')
           AND e.value_usd IS NOT NULL
           AND e.id = (
@@ -107,7 +193,7 @@ def _load_quarterly(conn) -> dict[str, Any]:
             JOIN source_documents sd2 ON e2.source_document_id = sd2.id
             WHERE sd2.ticker = sd.ticker
               AND sd2.fiscal_year = sd.fiscal_year
-              AND e2.metric_key = 'cloud_segment_revenue'
+              AND e2.metric_key = ?
               AND e2.period_type = e.period_type
               AND e2.value_usd IS NOT NULL
             ORDER BY
@@ -118,25 +204,35 @@ def _load_quarterly(conn) -> dict[str, Any]:
             LIMIT 1
           )
         ORDER BY sd.ticker, sd.fiscal_year
-        """
+        """,
+        (metric_key, metric_key),
     ).fetchall()
 
     by_quarter: dict[str, dict[str, float]] = {}
     for r in rows:
         t = r["ticker"]
+        if t in exclude:
+            continue
         if t == "NBIS" and r["fiscal_year"] < NBIS_START:
             continue
         v = abs(r["val"]) if r["val"] else 0
         if v <= 0:
             continue
-        # Label each bar by the CALENDAR quarter of the value's period.
-        # For period_type='Q4' (derived, anchored to the annual filing),
-        # we use the annual period_of_report's calendar quarter. For
-        # standalone Q1/Q2/Q3 (anchored to the 10-Q), the 10-Q's own
-        # period_of_report is correct.
+        # Label by calendar quarter. For *derived* Q1/Q2/Q3/Q4 rows
+        # (anchored to the 10-K period_of_report), compute the label
+        # from fiscal_year + period_type + company FYE month. For
+        # standalone rows anchored to the matching 10-Q, the
+        # period_of_report IS the quarter end, so _qlabel() works.
         period = r["period_of_report"]
-        if r["period_type"] == "Q4":
-            label = _q4_label_for(period, r["fiscal_year"])
+        ptype = r["period_type"]
+        period_month = int(period[5:7])
+        fye_month = fye.get(t, 12)
+        # If the row's period_of_report falls on the fiscal year-end
+        # and the period_type is a quarter (derived case), derive label
+        # from (fy, ptype, fye_month) instead.
+        if ptype in ("Q1", "Q2", "Q3", "Q4") and period_month == fye_month:
+            derived_label = _calendar_qtr_from_fy(fye_month, r["fiscal_year"], ptype)
+            label = derived_label or _qlabel(period)
         else:
             label = _qlabel(period)
         by_quarter.setdefault(t, {})[label] = v
@@ -174,15 +270,16 @@ def _qsort_key(label: str) -> tuple[int, int]:
     return (int(label[:4]), int(label[5:]))
 
 
-def _build_html(annual: dict, quarterly: dict) -> str:
-    """Build the complete HTML with Plotly + custom JS."""
+def _build_html(
+    annual: dict, quarterly: dict, metric_key: str, cfg: dict[str, Any],
+) -> str:
+    """Build the complete HTML for the given metric."""
     years = annual["years"]
     by_year = annual["by_year"]
     x_annual = [f"FY{y}" for y in years]
     quarters = quarterly["quarters"]
     by_quarter = quarterly["by_quarter"]
 
-    # Build trace data for JS
     annual_traces = []
     for co in STACK_ORDER:
         vals = [by_year[y].get(co, 0) / 1000 for y in years]
@@ -212,13 +309,30 @@ def _build_html(annual: dict, quarterly: dict) -> str:
             "marker": {"color": COLORS.get(co, "#888")},
         })
 
+    nav_html = _build_nav_html(metric_key)
+
     return _HTML_TEMPLATE.format(
         annual_traces_json=json.dumps(annual_traces),
         quarterly_traces_json=json.dumps(quarterly_traces),
         x_annual_json=json.dumps(x_annual),
         x_quarterly_json=json.dumps(quarters),
         has_quarterly="true" if quarterly_traces else "false",
+        page_title=cfg["chart_title"],
+        chart_title=cfg["chart_title"],
+        yaxis_title=cfg["yaxis_title"],
+        nav_html=nav_html,
     )
+
+
+def _build_nav_html(current_metric: str) -> str:
+    """Build the cross-navigation bar linking the 4 metric pages."""
+    pills = []
+    for mk, c in METRIC_CONFIGS.items():
+        cls = "nav-pill active" if mk == current_metric else "nav-pill"
+        pills.append(
+            f'<a class="{cls}" href="{c["page_name"]}">{c["nav_label"]}</a>'
+        )
+    return '<div class="nav">' + "".join(pills) + "</div>"
 
 
 _HTML_TEMPLATE = """<!DOCTYPE html>
@@ -226,12 +340,19 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloud/Datacenter Revenue — AI Infrastructure Ecosystem</title>
+<title>{page_title}</title>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <style>
   body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
          margin: 0; padding: 20px; background: #fafafa; }}
   #chart {{ width: 100%; max-width: 1400px; margin: 0 auto; }}
+  .nav {{ text-align: center; margin: 0 auto 14px; max-width: 1400px; }}
+  .nav-pill {{ display: inline-block; padding: 6px 14px; margin: 0 4px;
+    border: 1px solid #888; border-radius: 18px; color: #555; font-size: 13px;
+    text-decoration: none; background: #fff; }}
+  .nav-pill:hover {{ border-color: #2E75B6; color: #2E75B6; }}
+  .nav-pill.active {{ background: #2E75B6; color: #fff; border-color: #2E75B6;
+    font-weight: bold; }}
   .controls {{ text-align: center; margin: 10px 0; }}
   .controls .group {{ display: inline-block; margin: 0 12px; }}
   .controls button {{ padding: 8px 20px; margin: 0 5px; border: 2px solid #2E75B6;
@@ -243,6 +364,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 </style>
 </head>
 <body>
+{nav_html}
 <div id="chart">
   <div class="controls">
     <span class="group">
@@ -442,20 +564,20 @@ function renderChart() {{
     var totals = buildBarsAndOverlays(dataTraces, xLabels, period);
 
     var subtitle = (currentView === 'annual')
-        ? '12 companies, aggregated annual, USD-normalized. ' +
+        ? 'Aggregated annual, USD-normalized. ' +
           'Dashed = aggregate YoY %.'
-        : 'Quarterly cloud/DC revenue. Dashed = aggregate YoY %; ' +
+        : 'Quarterly. Dashed = aggregate YoY %; ' +
           'dotted = aggregate QoQ % (click legend to show).';
 
     var layout = {{
         barmode: 'stack',
         title: {{
-            text: 'Cloud/Datacenter Revenue — AI Infrastructure Ecosystem<br>' +
+            text: '{chart_title}<br>' +
                   '<sub>' + subtitle + '</sub>',
             font: {{ size: 18 }}, x: 0.5
         }},
         xaxis: {{ title: 'Period', tickfont: {{ size: 11 }} }},
-        yaxis: {{ title: 'Cloud/DC Revenue ($B USD)', gridcolor: '#E5E5E5' }},
+        yaxis: {{ title: '{yaxis_title}', gridcolor: '#E5E5E5' }},
         yaxis2: {{
             title: 'Aggregate Growth (%)',
             overlaying: 'y', side: 'right',

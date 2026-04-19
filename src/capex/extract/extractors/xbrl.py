@@ -16,6 +16,8 @@ from ..coverage import DatasetTreatment
 CONCEPT_MAP: dict[str, list[str]] = {
     "capital_expenditures": [
         "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment",
+        # AMZN switched to this concept in 2017 and still uses it.
+        "us-gaap:PaymentsToAcquireProductiveAssets",
     ],
     "revenue": [
         "us-gaap:Revenues",
@@ -23,6 +25,8 @@ CONCEPT_MAP: dict[str, list[str]] = {
         "us-gaap:SalesRevenueNet",
     ],
     "operating_cash_flow": [
+        # AMZN / most filers use the "UsedIn" variant.
+        "us-gaap:NetCashProvidedByUsedInOperatingActivities",
         "us-gaap:NetCashProvidedByOperatingActivities",
     ],
     "depreciation_amortization": [

@@ -99,9 +99,34 @@ def fetch_concept_timeseries(
         first_unit = next(iter(units))
         entries = units[first_unit]
 
-    # Filter and deduplicate
-    result = []
-    seen = set()
+    # Filter + choose one entry per (end_date, form). SEC XBRL data
+    # can contain multiple contexts for the same end_date — e.g. at a
+    # Q1 10-Q end date AMZN ships both a 90-day 'start=2017-01-01' entry
+    # (correct: standalone Q1 of $1,861M) AND a 364-day trailing-twelve-
+    # months 'start=2016-04-01' entry ($7,417M). We want the SHORTER
+    # duration (3M for 10-Q, 12M for 10-K/20-F) to avoid TTM contamination.
+    from datetime import date as _date
+
+    def _duration_days(e: dict) -> int | None:
+        s, t = e.get("start"), e.get("end")
+        if not s or not t:
+            return None
+        try:
+            return (_date.fromisoformat(t) - _date.fromisoformat(s)).days
+        except ValueError:
+            return None
+
+    def _preferred_days_for_form(form: str) -> int:
+        f = form.rstrip("/A")
+        if f in ("10-K", "20-F"):
+            return 365
+        # 10-Q, 6-K, HK-IR → 3-month standalone preferred
+        return 90
+
+    # Group by (end_date, form) and pick the entry closest to the
+    # preferred duration for that form type. For 10-K/20-F we also
+    # prefer fp=FY to break ties.
+    grouped: dict[tuple[str, str], list[dict]] = {}
     for entry in entries:
         end_date_val = entry.get("end")
         form = entry.get("form", "")
@@ -116,20 +141,35 @@ def fetch_concept_timeseries(
         if end_date and end_date_val > end_date:
             continue
 
-        # Deduplicate: for the same end date + form, keep the latest filing
-        dedup_key = (end_date_val, form.rstrip("/A"))  # treat amended as same
-        if dedup_key in seen:
-            continue
-        seen.add(dedup_key)
+        key = (end_date_val, form.rstrip("/A"))
+        grouped.setdefault(key, []).append(entry)
 
+    def _score(e: dict, preferred: int) -> tuple[int, int]:
+        dur = _duration_days(e)
+        if dur is None:
+            return (10_000, 0)
+        penalty = 0
+        fp = e.get("fp", "")
+        if preferred == 90 and fp not in ("Q1", "Q2", "Q3"):
+            penalty += 50
+        if preferred == 365 and fp not in ("FY",):
+            penalty += 50
+        return (abs(dur - preferred) + penalty, 0)
+
+    result = []
+    for (_end_date_val, form_no_amend), bucket in grouped.items():
+        preferred = _preferred_days_for_form(form_no_amend)
+        best = min(bucket, key=lambda e: _score(e, preferred))
+        # Keep the ORIGINAL form (with /A if any) from the picked entry
         result.append({
-            "end": end_date_val,
-            "val": val,
-            "form": form,
-            "filed": entry.get("filed", ""),
-            "fy": entry.get("fy"),
-            "fp": entry.get("fp", ""),
-            "accn": entry.get("accn", ""),
+            "end": best["end"],
+            "val": best["val"],
+            "form": best.get("form", ""),
+            "filed": best.get("filed", ""),
+            "fy": best.get("fy"),
+            "fp": best.get("fp", ""),
+            "accn": best.get("accn", ""),
+            "start": best.get("start", ""),
         })
 
     result.sort(key=lambda x: x["end"])

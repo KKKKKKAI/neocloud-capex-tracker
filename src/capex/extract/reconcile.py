@@ -73,8 +73,11 @@ def _load_existing(
 ) -> list[dict[str, Any]]:
     sql = (
         "SELECT e.id, e.metric_key, e.value_usd, e.value, e.period_type, "
-        "e.extraction_type, sd.ticker, sd.fiscal_year, sd.period_of_report, "
-        "sd.period_token, sd.form_type, c.fiscal_year_end_month "
+        "e.extraction_type, e.extracting_model, e.extracted_at, "
+        "sd.id AS source_document_id, "
+        "sd.ticker, sd.fiscal_year, sd.period_of_report, "
+        "sd.period_token, sd.form_type, sd.filing_date, "
+        "c.fiscal_year_end_month "
         "FROM extractions e "
         "JOIN source_documents sd ON e.source_document_id = sd.id "
         "JOIN companies c ON sd.ticker = c.ticker "
@@ -90,7 +93,10 @@ def _load_existing(
     if fiscal_year is not None:
         sql += " AND sd.fiscal_year = ?"
         args.append(fiscal_year)
-    sql += " ORDER BY sd.ticker, sd.fiscal_year, sd.period_of_report"
+    # Order so the *newest* filing_date sorts LAST within each group.
+    # _group_rows then uses "last write wins" semantics where a later
+    # filing's restated comparative supersedes the original row.
+    sql += " ORDER BY sd.ticker, sd.fiscal_year, sd.period_of_report, sd.filing_date"
     return [dict(r) for r in conn.execute(sql, args)]
 
 
@@ -139,7 +145,15 @@ def _infer_period_type(row: dict[str, Any]) -> str:
 def _group_rows(
     rows: list[dict[str, Any]],
 ) -> dict[tuple[str, int, str], dict[str, dict]]:
-    """Group rows by (ticker, fiscal_year, metric_key) then by period_type."""
+    """Group rows by (ticker, fiscal_year, metric_key) then by period_type.
+
+    When the same period_type has multiple stored rows (e.g. an
+    original extraction plus a restated comparative from a later
+    filing), the row with the newest `source_documents.filing_date`
+    wins. Rows arrive pre-sorted by filing_date ASC (see
+    `_load_existing`); we overwrite on each iteration so the last-
+    seen row (newest filing) is retained.
+    """
     grouped: dict[tuple[str, int, str], dict[str, dict]] = defaultdict(dict)
     for r in rows:
         metric = r["metric_key"]
@@ -152,15 +166,13 @@ def _group_rows(
         value = r.get("value_usd") if r.get("value_usd") is not None else r.get("value")
         if value is None:
             continue
-        # Prefer existing derived rows over synthetic guesses; otherwise
-        # keep the first one encountered.
-        if ptype in grouped[key] and grouped[key][ptype]["source"] == "stored":
-            continue
         grouped[key][ptype] = {
             "value": abs(float(value)),
             "extraction_id": r["id"],
+            "source_document_id": r.get("source_document_id"),
             "period_of_report": r["period_of_report"],
             "form_type": r["form_type"],
+            "filing_date": r.get("filing_date"),
             "source": "stored",
         }
     return grouped

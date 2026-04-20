@@ -4460,6 +4460,8 @@ INSERT INTO "audit_log" VALUES(4445,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1
 INSERT INTO "audit_log" VALUES(4446,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5103,'{"metric_key": "cloud_segment_revenue", "period_type": "Q4", "source_document_id": 495, "value_cny": 2921.7, "value_usd": 417.8}');
 INSERT INTO "audit_log" VALUES(4447,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5104,'{"metric_key": "revenue", "period_type": "FY", "source_document_id": 495, "value_cny": 11432.3, "value_usd": 1634.8}');
 INSERT INTO "audit_log" VALUES(4448,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5105,'{"metric_key": "cloud_segment_revenue", "period_type": "FY", "source_document_id": 495, "value_cny": 11432.3, "value_usd": 1634.8}');
+INSERT INTO "audit_log" VALUES(4449,'2026-04-20T21:52:24+00:00','restatement-applier@0.1.0','extraction_restated','extractions',5106,'{"cell_key": "MSFT:cloud_segment_revenue:2024FY", "delta_pct": 0.16987149067026064, "existing_extraction_id": 1238, "existing_value_usd": 105362.0, "restated_value_usd": 87464.0, "restating_source_document_id": 1, "source_filing_date": "2025-07-30", "virtual_source_document_id": 496}');
+INSERT INTO "audit_log" VALUES(4450,'2026-04-20T21:52:24+00:00','restatement-applier@0.1.0','extraction_restated','extractions',5107,'{"cell_key": "ORCL:cloud_segment_revenue:2024FY", "delta_pct": 0.12901505725820786, "existing_extraction_id": 1247, "existing_value_usd": 39383.0, "restated_value_usd": 44464.0, "restating_source_document_id": 5, "source_filing_date": "2025-06-18", "virtual_source_document_id": 497}');
 CREATE TABLE audit_review_feedback (
     id                    INTEGER PRIMARY KEY AUTOINCREMENT,
     audit_run_id          TEXT NOT NULL,
@@ -14238,6 +14240,8 @@ INSERT INTO "extractions" VALUES(5102,495,'revenue','Q4',3,NULL,2921.7,'RMB 2,92
 INSERT INTO "extractions" VALUES(5103,495,'cloud_segment_revenue','Q4',3,NULL,2921.7,'RMB 2,921.7 million (US$ 417.8 million)','CNY_millions','Net revenue increased by 8.6% year-over-year ("Y-o-Y") to RMB2,921.7 million (US$417.8 million) in the fourth quarter of 2025 (4Q2024: RMB2,690.7 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'whole-company-copy@0.1.0','0.1.0-draft','2026-04-20T21:01:55+00:00',417.8,6.993059,NULL,'CNY');
 INSERT INTO "extractions" VALUES(5104,495,'revenue','FY',12,NULL,11432.3,'RMB 11,432.3 million (US$ 1,634.8 million)','CNY_millions','Net revenue increased by 10.8% year-over-year ("Y-o-Y") to RMB11,432.3 million (US$1,634.8 million) in 2025 (2024: RMB10,322.1 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-20T21:01:55+00:00',1634.8,6.993088,NULL,'CNY');
 INSERT INTO "extractions" VALUES(5105,495,'cloud_segment_revenue','FY',12,NULL,11432.3,'RMB 11,432.3 million (US$ 1,634.8 million)','CNY_millions','Net revenue increased by 10.8% year-over-year ("Y-o-Y") to RMB11,432.3 million (US$1,634.8 million) in 2025 (2024: RMB10,322.1 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'whole-company-copy@0.1.0','0.1.0-draft','2026-04-20T21:01:55+00:00',1634.8,6.993088,NULL,'CNY');
+INSERT INTO "extractions" VALUES(5106,496,'cloud_segment_revenue','FY',12,NULL,87464.0,'$87,464M (restated)','USD_millions','Restated in filing 1 — delta vs original: 16.99%',NULL,'Segment table: Intelligent Cloud','direct',NULL,'restated-segment@0.1.0','0.1.0-draft','2026-04-20T21:52:24+00:00',87464.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5107,497,'cloud_segment_revenue','FY',12,NULL,44464.0,'$44,464M (restated)','USD_millions','Restated in filing 5 — delta vs original: 12.90%',NULL,'Segment table: Cloud','direct',NULL,'restated-segment@0.1.0','0.1.0-draft','2026-04-20T21:52:24+00:00',44464.0,NULL,NULL,'USD');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -14825,6 +14829,8 @@ INSERT INTO "source_documents" VALUES(492,'BIDU','6-K','2025-02-18','2024-12-31'
 INSERT INTO "source_documents" VALUES(493,'BIDU','6-K','2024-02-28','2023-12-31',2023,'Q4','bidu-v2-0001193125-24-050652-2023-12-31','6k://bidu-v2/2023-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1329099/000119312524050652/d789091dex991.htm','0001193125-24-050652','2026-04-19T15:41:10+00:00','bidu-cloud-v2@0.3.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(494,'BIDU','6-K','2023-02-22','2022-12-31',2022,'Q4','bidu-v2-0001193125-23-044848-2022-12-31','6k://bidu-v2/2022-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1329099/000119312523044848/d474352dex991.htm','0001193125-23-044848','2026-04-19T15:41:10+00:00','bidu-cloud-v2@0.3.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(495,'GDS','6-K','2026-03-17','2025-12-31',2025,'Q4','6k-press-GDS-2025-12-31','6k://press-release/GDS/2025-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1526125/000110465926029094/tm269058d1_ex99-1.htm','0001104659-26-029094','2026-04-20T21:01:31+00:00','manual-ingest@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(496,'MSFT','6-K','2025-07-30','2024-06-30',2024,'AR','restated-MSFT-2024-0000950170-25-100235','restated-virtual://MSFT/2024',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm','0000950170-25-100235','2026-04-20T21:52:24+00:00','restatement-applier@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(497,'ORCL','6-K','2025-06-18','2024-05-31',2024,'AR','restated-ORCL-2024-0000950170-25-087926','restated-virtual://ORCL/2024',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm','0000950170-25-087926','2026-04-20T21:52:24+00:00','restatement-applier@0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id INTEGER NOT NULL REFERENCES extractions(id),
@@ -14949,10 +14955,10 @@ CREATE INDEX idx_audit_verdicts_run
 CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
 CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4448);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4450);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1060);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5105);
-INSERT INTO "sqlite_sequence" VALUES('source_documents',495);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5107);
+INSERT INTO "sqlite_sequence" VALUES('source_documents',497);
 COMMIT;

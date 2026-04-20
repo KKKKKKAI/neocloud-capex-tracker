@@ -244,6 +244,33 @@ def _render_company_card(v: CompanyTreatmentView) -> str:
         hn_html = "".join(_render_human_note(n) for n in v.human_notes)
     else:
         hn_html = '<p class="muted">— no human notes yet —</p>'
+
+    # Restatement policy (optional)
+    rp = v.restatement_policy or {}
+    rp_html = ""
+    if rp:
+        prefer = rp.get("prefer_restated")
+        badge = (
+            '<span class="badge" style="color:#2F855A;background:#D1FAE5;">'
+            "prefer restated</span>"
+            if prefer
+            else '<span class="muted">as-reported</span>'
+        )
+        kn_items = "".join(
+            f"<li>{html.escape(str(k))}</li>"
+            for k in (rp.get("known_restatements") or [])
+        )
+        kn_html = f"<ul class='notes-list'>{kn_items}</ul>" if kn_items else ""
+        note_html = (
+            f'<p>{html.escape(rp["note"]).replace(chr(10), "<br>")}</p>'
+            if rp.get("note") else ""
+        )
+        rp_html = (
+            "<section>"
+            f"<h3>Restatement policy {badge}</h3>"
+            f"{kn_html}{note_html}"
+            "</section>"
+        )
     filter_meta = " ".join(
         [v.ticker, v.full_name, v.category, v.reporting_currency] +
         [r.dataset for r in v.dataset_rules] +
@@ -259,6 +286,7 @@ def _render_company_card(v: CompanyTreatmentView) -> str:
         f'data-filter="{html.escape(filter_meta.lower())}">'
         f'{header}'
         f'{qc_html}'
+        f'{rp_html}'
         f'<section><h3>Company notes</h3>{notes_html}</section>'
         f'<section><h3>Dataset rules</h3>{rules_html}</section>'
         f'<section><h3>Human notes '

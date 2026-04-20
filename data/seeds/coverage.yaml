@@ -19,6 +19,25 @@
 # permanent archive. Each new metric or dataset is extracted by
 # traversing the existing archive — no re-downloading needed. This
 # makes the archive design load-bearing: get it right before pulling.
+#
+# ===================================================================
+# RESTATEMENT POLICY (applies to every company)
+# ===================================================================
+# When a company re-segments or restates a historical period in a
+# later filing, the later filing's value supersedes the original.
+# See docs/RESTATEMENT_POLICY.md for the full spec. Implementation:
+#
+#   1. Chart / Excel selectors pick the row backed by the newest
+#      `source_documents.filing_date` (tiebreaker on `extracted_at`).
+#   2. `capex audit` auto-runs the restatement detector; `--apply`
+#      writes restated extractions with source_document_id pointing at
+#      the later filing so citations auto-rewire.
+#   3. `capex extract --restated [--ticker T]` refreshes on demand.
+#   4. Reconcile cascades — derived identities (Q4 = FY − 9M, etc.)
+#      re-run using the restated quarterly inputs automatically.
+#
+# Companies with known restatement patterns carry a `restatement_policy`
+# block below (MSFT, ORCL, BABA, BIDU, GDS).
 
 # ===================================================================
 # COMPANY TREATMENTS
@@ -51,6 +70,20 @@ companies:
       Segment reporting changed in FY2018 — "Commercial Cloud" became
       "Intelligent Cloud". Prior to FY2016, cloud revenue was not
       separately reported as a segment.
+    restatement_policy:
+      prefer_restated: true
+      known_restatements:
+        - "FY2018 segment_reorg (Commercial Cloud → Intelligent Cloud)"
+        - "FY2024 segment_reorg (Intelligent Cloud scope narrowed;"
+        - "  Office365 / Dynamics moved to Productivity & Business Processes)"
+      note: |
+        Intelligent Cloud revenue is restated every time MSFT changes
+        its segment lines. The most recent 10-K's retrospective segment
+        table is authoritative — prior-year values in the current 10-K
+        supersede the originals. `capex audit --apply` reads the
+        latest 10-K's comparative columns and writes restated rows;
+        the selector's `filing_date DESC` tiebreaker auto-promotes
+        them over older extractions.
 
   AMZN:
     full_name: Amazon.com, Inc.
@@ -140,6 +173,15 @@ companies:
       to correctly identify across different reporting periods.
       Oracle acquired Cerner in 2022, which significantly affected
       revenue composition.
+    restatement_policy:
+      prefer_restated: true
+      known_restatements:
+        - "FY2018 segment rename (Cloud SaaS/PaaS → Cloud services & license support)"
+        - "FY2025 segment rename (→ 'Cloud')"
+      note: |
+        ORCL has renamed and rescoped its cloud segment multiple times,
+        and each rename's retrospective comparatives differ from the
+        originals. Prefer the latest 10-K's segment-table comparatives.
 
   BABA:
     full_name: Alibaba Group Holding Limited
@@ -213,6 +255,13 @@ companies:
       early years. FX conversion required.
       IMPORTANT: 6-K quarterly values are STANDALONE (not cumulative
       YTD like 10-Q). Do NOT apply de-cumulation to 6-K data.
+    restatement_policy:
+      prefer_restated: true
+      known_restatements:
+        - "Q1 2023 iQIYI deconsolidation (cloud = Total − Online − iQIYI formula changes)"
+      note: |
+        Cloud revenue is derived (`Total − Online marketing − iQIYI`);
+        iQIYI deconsolidation in 2023 reshapes historical comparatives.
 
   GDS:
     full_name: GDS Holdings Limited

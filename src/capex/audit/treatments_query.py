@@ -74,6 +74,7 @@ class CompanyTreatmentView:
     extraction_approach: str
     quarterly_convention: dict
     company_notes: str
+    restatement_policy: dict = field(default_factory=dict)
     dataset_rules: list[DatasetRule] = field(default_factory=list)
     human_notes: list[HumanNoteView] = field(default_factory=list)
 
@@ -204,6 +205,7 @@ def query_treatments(
                 extraction_approach=co.extraction_approach,
                 quarterly_convention=raw_co.get("quarterly_convention") or {},
                 company_notes=co.notes or "",
+                restatement_policy=raw_co.get("restatement_policy") or {},
                 dataset_rules=dataset_rules,
                 human_notes=human_notes_list,
             ))

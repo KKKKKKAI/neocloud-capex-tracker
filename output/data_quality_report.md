@@ -1,11 +1,11 @@
-# Data Quality Audit — 2026-04-19 23:36 UTC
+# Data Quality Audit — 2026-04-20 21:49 UTC
 
-**Run ID**: `audit-20260419-233632`
+**Run ID**: `audit-20260420-214827`
 
 **Scope**: 13 tickers × 6 metrics × 2015–2025.  
-**Total cells in universe**: 77
+**Total cells in universe**: 4171
 
-**Status**: ✓ 36 verified · * 26 derived · ⚠ 1 flagged · ⊘ 4 gap fixable · ✗ 10 gap unfixable
+**Status**: ✓ 1380 verified · * 703 derived · ⚠ 236 flagged · ⊘ 1514 gap fixable · ✗ 338 gap unfixable
 
 ---
 
@@ -15,31 +15,2363 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 
 | Ticker | Revenue | CapEx | OCF | D&A | PP&E | Cloud Seg |
 |---|---|---|---|---|---|---|
-| BABA | — | — | — | — | — | 81% ⚠ |
+| 0700 | 15% ✓ | 0% ✓ | 0% ✓ | — | — | 21% ✓ |
+| AMZN | 71% ⚠ | 95% ✓ | 73% ⚠ | 87% ✓ | 32% ✓ | 100% ✓ |
+| APLD | 50% ⚠ | 71% ⚠ | 39% ⚠ | 54% ⚠ | 25% ⚠ | 82% ✓ |
+| BABA | 81% ⚠ | 9% ✓ | 10% ✓ | 14% ✓ | 14% ✓ | 82% ✓ |
+| BIDU | 51% ⚠ | 8% ⚠ | 9% ⚠ | 8% ✓ | 14% ✓ | 22% ⚠ |
+| CRWV | 100% ✓ | 57% ⚠ | 43% ⚠ | 86% ⚠ | 43% ⚠ | 100% ✓ |
+| GDS | 49% ⚠ | 13% ✓ | 7% ⚠ | 3% ⚠ | 1% ⚠ | 81% ⚠ |
+| GOOGL | 100% ✓ | 100% ✓ | 100% ✓ | 0% ✓ | 35% ✓ | 58% ✓ |
+| IREN | 21% ✓ | 21% ✓ | 18% ⚠ | 18% ⚠ | 7% ✓ | 21% ✓ |
+| META | 99% ⚠ | 84% ⚠ | 94% ⚠ | 100% ✓ | 29% ✓ | — |
+| MSFT | 66% ⚠ | 90% ⚠ | 78% ✓ | 1% ✓ | 55% ✓ | 92% ✓ |
+| NBIS | 7% ⚠ | 7% ✓ | 7% ✓ | 7% ✓ | 7% ✓ | 7% ⚠ |
+| ORCL | 94% ✓ | 94% ⚠ | 56% ⚠ | 0% ✓ | 55% ✓ | 88% ⚠ |
 
-## Flagged items (1)
+## Flagged items (236)
 
-### BABA — Cloud Seg
-- **2018Q1** $771M: failed `continuity`
-  - continuity jump factor 3.035x (2017Q4 → 2018Q1)
+### AMZN — OCF
+- **2015Q1** $-1,499M: failed `range`, `sign`
+  - out-of-range (below 1000–80000)
+- **2015Q2** $1,997M: failed `continuity`
+  - continuity jump factor -1.332x (2015Q1 → 2015Q2)
+- **2016Q1** $-2,160M: failed `range`, `continuity`, `sign`
+  - out-of-range (below 1000–80000)
+  - continuity jump factor -0.372x (2015Q4 → 2016Q1)
+- **2016Q2** $3,465M: failed `continuity`
+  - continuity jump factor -1.604x (2016Q1 → 2016Q2)
+- **2017Q1** $-1,590M: failed `range`, `continuity`, `sign`
+  - out-of-range (below 1000–80000)
+  - continuity jump factor -0.251x (2016Q4 → 2017Q1)
+- **2017Q2** $3,829M: failed `continuity`
+  - continuity jump factor -2.408x (2017Q1 → 2017Q2)
+- **2018Q1** $-1,791M: failed `range`, `continuity`, `sign`
+  - out-of-range (below 1000–80000)
+  - continuity jump factor -0.195x (2017Q4 → 2018Q1)
+- **2018Q2** $7,449M: failed `continuity`
+  - continuity jump factor -4.159x (2018Q1 → 2018Q2)
+- **2019Q1** $1,846M: failed `continuity`
+  - continuity jump factor 0.143x (2018Q4 → 2019Q1)
+- **2019Q2** $9,118M: failed `continuity`
+  - continuity jump factor 4.939x (2019Q1 → 2019Q2)
+- **2020Q1** $3,064M: failed `continuity`
+  - continuity jump factor 0.156x (2019Q4 → 2020Q1)
+- **2020Q2** $20,606M: failed `continuity`
+  - continuity jump factor 6.725x (2020Q1 → 2020Q2)
+- **2020Q4** $30,430M: failed `continuity`
+  - continuity jump factor 2.543x (2020Q3 → 2020Q4)
+- **2021Q1** $4,213M: failed `continuity`
+  - continuity jump factor 0.138x (2020Q4 → 2021Q1)
+- **2021Q2** $12,715M: failed `continuity`
+  - continuity jump factor 3.018x (2021Q1 → 2021Q2)
+- **2021Q4** $22,086M: failed `continuity`
+  - continuity jump factor 3.02x (2021Q3 → 2021Q4)
+- **2022Q1** $-2,790M: failed `range`, `continuity`, `sign`
+  - out-of-range (below 1000–80000)
+  - continuity jump factor -0.126x (2021Q4 → 2022Q1)
+- **2022Q2** $8,965M: failed `continuity`
+  - continuity jump factor -3.213x (2022Q1 → 2022Q2)
+- **2023Q1** $4,788M: failed `continuity`
+  - continuity jump factor 0.203x (2022Q4 → 2023Q1)
+- **2023Q2** $16,476M: failed `continuity`
+  - continuity jump factor 3.441x (2023Q1 → 2023Q2)
+- **2025Q1** $17,015M: failed `continuity`
+  - continuity jump factor 0.373x (2024Q4 → 2025Q1)
 
-## Fixed in this run (5)
+### AMZN — Revenue
+- **FY2017** $43,744M: failed `range`
+  - out-of-range (below 80000–800000)
+
+### APLD — CapEx
+- **20229M** $31M: failed `cross_source`
+  - quote has no match for $31M; numbers in quote: [966.0, 4113.0, 31457.0, 3277.0]
+- **FY2022** $58M: failed `cross_source`
+  - quote has no match for $58M; numbers in quote: [10147.0, 872.0, 58251.0, 3277.0, 3282.0]
+- **2022Q2** $9M: failed `continuity`
+  - continuity jump factor 9.414x (2022Q1 → 2022Q2)
+- **20239M** $96M: failed `cross_source`
+  - quote has no match for $96M; numbers in quote: [966.0, 54144.0, 4228.0, 96214.0, 28180.0]
+- **2023H1** $70M: failed `cross_source`
+  - quote has no match for $70M; numbers in quote: [600.0, 27979.0, 2334.0, 70305.0, 10314.0]
+- **20259M** $483M: failed `cross_source`
+  - quote has no match for $483M; numbers in quote: [757.0, 3921.0, 122257.0, 45338.0, 483340.0]
+- **2025Q2** $171M: failed `continuity`
+  - continuity jump factor 3.121x (2025Q1 → 2025Q2)
+
+### APLD — D&A
+- **FY2022** $1M: failed `cross_source`
+  - quote has no match for $1M; numbers in quote: [957.0, 7555.0, 332.0, 12337.0, 19941.0]
+- **2022Q4** $1M: failed `continuity`
+  - continuity jump factor 5.556x (2022Q2 → 2022Q4)
+- **2023Q1** $1M: failed `cross_source`
+  - quote has no match for $1M; numbers in quote: [2022.0, 2021.0, 6924.0, 6093.0, 831.0]
+- **2023Q2** $2M: failed `cross_source`
+  - quote has no match for $2M; numbers in quote: [12340.0, 19264.0, 11812.0, 17905.0, 528.0]
+- **2023Q3** $2M: failed `cross_source`
+  - quote has no match for $2M; numbers in quote: [4631.0, 245.0, 405.0, 1342.0, 26878.0]
+- **FY2024** $79M: failed `cross_source`
+  - quote has no match for $79M; numbers in quote: [149274.0, 44646.0, 26832.0, 1980.0, 523.0]
+- **2024Q1** $8M: failed `continuity`, `cross_source`
+  - continuity jump factor 2.989x (2023Q4 → 2024Q1)
+  - quote has no match for $8M; numbers in quote: [2023.0, 2022.0, 4508.0, 3199.0, 1115.0]
+- **2024Q2** $13M: failed `cross_source`
+  - quote has no match for $13M; numbers in quote: [2023.0, 2022.0, 2023.0, 2022.0, 4365.0]
+- **2024Q3** $26M: failed `cross_source`
+  - quote has no match for $26M; numbers in quote: [85221.0, 38750.0, 12899.0, 2580.0, 13634.0]
+- **2025Q1** $34M: failed `cross_source`
+  - quote has no match for $34M; numbers in quote: [4247.0, 11854.0, 34316.0, 7860.0, 2919.0]
+- **2025Q2** $26M: failed `cross_source`
+  - quote has no match for $26M; numbers in quote: [4365.0, 6657.0, 7564.0, 21733.0, 8782.0]
+
+### APLD — OCF
+- **20229M** $4M: failed `cross_source`
+  - quote has no match for $4M; numbers in quote: [274.0, 1038.0, 2091.0, 10654.0, 223.0]
+- **FY2022** $-1M: failed `cross_source`
+  - quote has no match for $-1M; numbers in quote: [10147.0, 872.0, 58251.0, 3277.0, 3282.0]
+- **2022Q1** $-1M: failed `continuity`
+  - continuity jump factor -18.0x (2021Q4 → 2022Q1)
+- **2022Q2** $1M: failed `continuity`
+  - continuity jump factor -0.618x (2022Q1 → 2022Q2)
+- **20239M** $54M: failed `cross_source`
+  - quote has no match for $54M; numbers in quote: [479.0, 1563.0, 104.0, 796.0, 233.0]
+- **2023Q1** $17M: failed `continuity`, `cross_source`
+  - continuity jump factor 9.713x (2022Q3 → 2023Q1)
+  - quote has no match for $17M; numbers in quote: [4587.0, 15316.0, 196.0, 368.0, 17294.0]
+- **2023Q4** $5M: failed `continuity`
+  - continuity jump factor 0.175x (2023Q3 → 2023Q4)
+- **FY2024** $14M: failed `cross_source`
+  - quote has no match for $14M; numbers in quote: [149671.0, 45606.0, 79360.0, 7614.0, 17362.0]
+- **2024H1** $9M: failed `cross_source`
+  - quote has no match for $9M; numbers in quote: [2023.0, 2022.0, 22383.0, 31409.0]
+- **2024Q1** $5M: failed `cross_source`
+  - quote has no match for $5M; numbers in quote: [11854.0, 4659.0, 7860.0, 1136.0, 5641.0]
+- **2024Q3** $39M: failed `continuity`
+  - continuity jump factor 8.555x (2024Q2 → 2024Q3)
+- **2025Q1** $-76M: failed `continuity`
+  - continuity jump factor -1.954x (2024Q3 → 2025Q1)
+- **2025Q2** $52M: failed `continuity`
+  - continuity jump factor -0.689x (2025Q1 → 2025Q2)
+
+### APLD — PP&E
+- **FY2022** $64M: failed `cross_source`
+  - quote has no match for $64M; numbers in quote: [450.0, 1336.0, 49312.0, 11755.0, 6408.0]
+- **20239M** $167M: failed `cross_source`
+  - quote has no match for $167M; numbers in quote: [22921.0, 46299.0, 227.0, 1387.0, 1336.0]
+- **2023Q1** $95M: failed `cross_source`
+  - quote has no match for $95M; numbers in quote: [40830.0, 46299.0, 227.0, 1500.0, 1336.0]
+- **20249M** $211M: failed `cross_source`
+  - quote has no match for $211M; numbers in quote: [225.0, 6127.0, 2012.0, 65369.0, 105701.0]
+- **FY2024** $340M: failed `cross_source`
+  - quote has no match for $340M; numbers in quote: [3847.0, 1343.0, 2012.0, 384.0, 30262.0]
+- **20259M** $1,002M: failed `cross_source`
+  - quote has no match for $1,002M; numbers in quote: [14619.0, 3847.0, 5416.0, 1343.0, 384.0]
+- **2025Q1** $478M: failed `cross_source`
+  - quote has no match for $478M; numbers in quote: [2298.0, 3847.0, 2063.0, 1343.0, 192.0]
+
+### APLD — Revenue
+- **FY2022** $9M: failed `cross_source`
+  - quote has no match for $9M; numbers in quote: [2022.0, 2022.0, 2021.0, 2022.0, 2021.0]
+- **2022Q3** $1M: failed `cross_source`
+  - quote has no match for $1M; numbers in quote: [80001144879.0, 2021.0, 310001144879.0, 2021.0, 12022.0]
+- **2022Q4** $8M: failed `continuity`
+  - continuity jump factor 7.301x (2022Q3 → 2022Q4)
+- **FY2023** $55M: failed `cross_source`
+  - quote has no match for $55M; numbers in quote: [2023.0, 2022.0, 2023.0, 2022.0, 22038.0]
+- **2023Q1** $7M: failed `cross_source`
+  - quote has no match for $7M; numbers in quote: [6924.0, 6093.0, 831.0, 4131.0, 698.0]
+- **2023Q2** $12M: failed `cross_source`
+  - quote has no match for $12M; numbers in quote: [2022.0, 12022.0, 300001144879.0, 2021.0, 12021.0]
+- **2023Q3** $14M: failed `cross_source`
+  - quote has no match for $14M; numbers in quote: [2023.0, 2022.0, 2023.0, 2022.0, 14090.0]
+- **2024Q1** $36M: failed `cross_source`
+  - quote has no match for $36M; numbers in quote: [2023.0, 2022.0, 29987.0, 4338.0, 2152.0]
+- **2024Q2** $42M: failed `cross_source`
+  - quote has no match for $42M; numbers in quote: [34119.0, 8747.0, 64106.0, 13086.0, 4450.0]
+- **2024Q3** $43M: failed `cross_source`
+  - quote has no match for $43M; numbers in quote: [2024.0, 2023.0, 2024.0, 2023.0, 40284.0]
+- **2025Q1** $61M: failed `cross_source`
+  - quote has no match for $61M; numbers in quote: [2024.0, 2023.0, 58778.0, 32139.0, 1926.0]
+- **2025Q2** $64M: failed `cross_source`
+  - quote has no match for $64M; numbers in quote: [104798.0, 5536.0, 67376.0, 4224.0, 164.0]
+
+### BABA — Revenue
+- **FY2015** $12,293M: failed `range`
+  - out-of-range (below 20000–200000)
+- **FY2016** $15,686M: failed `range`
+  - out-of-range (below 20000–200000)
+- **2017Q1** $4,840M: failed `range`
+  - out-of-range (below 5000–60000)
+
+### BIDU — CapEx
+- **FY2018** $1,276M: failed `cross_source`
+  - quote has no match for $1,276M; numbers in quote: [2016.0, 2017.0, 2018.0]
+- **FY2021** $1,710M: failed `cross_source`
+  - quote has no match for $1,710M; numbers in quote: [2019.0, 2020.0, 2021.0]
+- **FY2022** $1,201M: failed `cross_source`
+  - quote has no match for $1,201M; numbers in quote: [2020.0, 2021.0, 2022.0]
+- **FY2023** $1,576M: failed `cross_source`
+  - quote has no match for $1,576M; numbers in quote: [2021.0, 2022.0, 2023.0]
+- **FY2024** $1,114M: failed `cross_source`
+  - quote has no match for $1,114M; numbers in quote: [2022.0, 2023.0, 2024.0]
+
+### BIDU — Cloud Seg
+- **20229M** $2,602M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+- **FY2022** $2,569M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+- **2022H1** $1,717M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+- **2022Q1** $851M: failed `identity`, `continuity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+  - continuity jump factor 2.779x (2021Q4 → 2022Q1)
+- **2022Q2** $865M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+- **2022Q3** $885M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+- **2022Q4** $1,073M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 30.1% (sum=3674.7400000000002, rhs=2568.66)
+- **20239M** $2,741M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **FY2023** $3,029M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **2023H1** $1,824M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **2023Q1** $902M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **2023Q2** $922M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **2023Q3** $918M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **2023Q4** $1,140M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 21.953% (sum=3881.2700000000004, rhs=3029.22)
+- **20249M** $3,002M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+- **FY2024** $3,471M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+- **2024H1** $1,918M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+- **2024Q1** $913M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+- **2024Q2** $1,005M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+- **2024Q3** $1,084M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+- **2024Q4** $1,315M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 19.597% (sum=4317.21, rhs=3471.17)
+
+### BIDU — OCF
+- **FY2025** $-431M: failed `sign`
+
+### BIDU — Revenue
+- **2016Q1** $2,450M: failed `cross_source`
+  - quote has no match for $2,450M; numbers in quote: [2016.0, 821.0]
+- **2016Q2** $2,749M: failed `cross_source`
+  - quote has no match for $2,749M; numbers in quote: [2016.0, 264.0]
+- **2016Q3** $2,736M: failed `cross_source`
+  - quote has no match for $2,736M; numbers in quote: [2016.0, 253.0]
+- **2017Q1** $2,452M: failed `cross_source`
+  - quote has no match for $2,452M; numbers in quote: [2017.0, 891.0]
+- **2017Q2** $3,078M: failed `cross_source`
+  - quote has no match for $3,078M; numbers in quote: [2017.0, 874.0]
+- **2017Q3** $3,533M: failed `cross_source`
+  - quote has no match for $3,533M; numbers in quote: [2017.0]
+- **2019Q1** $3,595M: failed `cross_source`
+  - quote has no match for $3,595M; numbers in quote: [24123.0]
+- **2019Q2** $3,832M: failed `cross_source`
+  - quote has no match for $3,832M; numbers in quote: [26326.0]
+- **2019Q3** $3,931M: failed `cross_source`
+  - quote has no match for $3,931M; numbers in quote: [28080.0]
+- **2020Q1** $3,175M: failed `cross_source`
+  - quote has no match for $3,175M; numbers in quote: [22545.0]
+- **2020Q2** $3,680M: failed `cross_source`
+  - quote has no match for $3,680M; numbers in quote: [26034.0]
+- **2020Q3** $4,146M: failed `cross_source`
+  - quote has no match for $4,146M; numbers in quote: [28232.0]
+- **2021Q1** $4,295M: failed `cross_source`
+  - quote has no match for $4,295M; numbers in quote: [28134.0]
+- **2021Q2** $4,855M: failed `cross_source`
+  - quote has no match for $4,855M; numbers in quote: [31350.0]
+- **2021Q3** $4,938M: failed `cross_source`
+  - quote has no match for $4,938M; numbers in quote: [31921.0]
+- **2022Q1** $4,480M: failed `cross_source`
+  - quote has no match for $4,480M; numbers in quote: [28411.0]
+- **2022Q2** $4,423M: failed `cross_source`
+  - quote has no match for $4,423M; numbers in quote: [29647.0]
+- **2022Q3** $4,573M: failed `cross_source`
+  - quote has no match for $4,573M; numbers in quote: [32540.0]
+- **2023Q1** $4,530M: failed `cross_source`
+  - quote has no match for $4,530M; numbers in quote: [31144.0]
+- **2023Q2** $4,685M: failed `cross_source`
+  - quote has no match for $4,685M; numbers in quote: [34056.0]
+- **2023Q3** $4,718M: failed `cross_source`
+  - quote has no match for $4,718M; numbers in quote: [34447.0]
+- **2024Q1** $4,360M: failed `cross_source`
+  - quote has no match for $4,360M; numbers in quote: [31513.0]
+- **2024Q2** $4,672M: failed `cross_source`
+  - quote has no match for $4,672M; numbers in quote: [33931.0]
+- **2024Q3** $4,785M: failed `cross_source`
+  - quote has no match for $4,785M; numbers in quote: [33557.0]
+- **2025Q1** $4,474M: failed `cross_source`
+  - quote has no match for $4,474M; numbers in quote: [32452.0]
+- **2025Q2** $4,566M: failed `cross_source`
+  - quote has no match for $4,566M; numbers in quote: [32713.0]
+- **2025Q3** $4,379M: failed `cross_source`
+  - quote has no match for $4,379M; numbers in quote: [31174.0]
+
+### CRWV — CapEx
+- **20259M** $6,249M: failed `cross_source`
+  - quote has no match for $6,249M; numbers in quote: [1499051.0, 2562436.0, 6249239.0, 5204251.0, 1270.0]
+- **2025H1** $3,860M: failed `cross_source`
+  - quote has no match for $3,860M; numbers in quote: [190083.0, 1921214.0, 3860351.0, 3989096.0, 840.0]
+- **2025Q1** $1,407M: failed `cross_source`
+  - quote has no match for $1,407M; numbers in quote: [61168.0, 2039038.0, 1407359.0, 1741935.0, 29308.0]
+
+### CRWV — D&A
+- **20259M** $1,633M: failed `cross_source`
+  - quote has no match for $1,633M; numbers in quote: [715274.0, 812076.0, 1633457.0, 497994.0, 233836.0]
+
+### CRWV — OCF
+- **20259M** $1,499M: failed `cross_source`
+  - quote has no match for $1,499M; numbers in quote: [1402164.0, 2417010.0, 181061.0, 45119.0, 344822.0]
+- **2025H1** $-190M: failed `cross_source`
+  - quote has no match for $-190M; numbers in quote: [697848.0, 742892.0, 1524487.0, 110451.0, 20708.0]
+- **2025Q1** $61M: failed `continuity`, `cross_source`
+  - continuity jump factor 0.328x (2024Q4 → 2025Q1)
+  - quote has no match for $61M; numbers in quote: [62327.0, 515295.0, 15904.0, 1439571.0, 51109.0]
+- **2025Q3** $1,309M: failed `continuity`
+  - continuity jump factor 10.154x (2025Q2 → 2025Q3)
+
+### CRWV — PP&E
+- **20259M** $20,659M: failed `cross_source`
+  - quote has no match for $20,659M; numbers in quote: [4731283.0, 1916249.0, 477515.0, 637356.0, 29308.0]
+
+### GDS — Cloud Seg
+- **20259M** $1,186M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **FY2025** $1,635M: failed `identity`, `currency`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025H1** $780M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q1** $375M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q2** $405M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q3** $406M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q4** $418M: failed `identity`, `currency`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+
+### GDS — D&A
+- **FY2016** $33M: failed `cross_source`
+  - quote has no match for $33M; numbers in quote: [8315.0, 1198.0, 82753.0, 145406.0, 227355.0]
+- **FY2017** $58M: failed `cross_source`
+  - quote has no match for $58M; numbers in quote: [124973.0, 125546.0, 263164.0, 406403.0, 62463.0]
+- **FY2019** $164M: failed `cross_source`
+  - quote has no match for $164M; numbers in quote: [403.0, 636973.0, 915676.0, 131529.0, 11983.0]
+- **FY2020** $251M: failed `cross_source`
+  - quote has no match for $251M; numbers in quote: [915676.0, 1287495.0, 197317.0, 8315.0, 6076.0]
+- **FY2021** $412M: failed `cross_source`
+  - quote has no match for $412M; numbers in quote: [15650.0, 120778.0, 242461.0, 38047.0, 1142032.0]
+- **FY2022** $462M: failed `cross_source`
+  - quote has no match for $462M; numbers in quote: [1287495.0, 1604292.0, 1845427.0, 267562.0, 120778.0]
+- **FY2023** $495M: failed `cross_source`
+  - quote has no match for $495M; numbers in quote: [1604292.0, 1845427.0, 1939433.0, 273163.0, 242461.0]
+
+### GDS — OCF
+- **FY2016** $-22M: failed `cross_source`, `sign`
+  - quote has no match for $-22M; numbers in quote: [3086.0, 2668.0, 2668.0, 10675.0, 3207.0]
+- **FY2017** $-27M: failed `cross_source`, `sign`
+  - quote has no match for $-27M; numbers in quote: [2015.0, 2016.0, 2017.0, 2015.0, 2016.0]
+- **FY2018** $-2M: failed `cross_source`, `sign`, `currency`
+  - quote has no match for $-2M; numbers in quote: [2016.0, 2017.0, 2018.0, 2016.0, 2017.0]
+- **FY2022** $414M: failed `cross_source`
+  - quote has no match for $414M; numbers in quote: [2020.0, 2021.0, 2022.0, 320887.0, 1201363.0]
+
+### GDS — PP&E
+- **FY2016** $622M: failed `cross_source`
+  - quote has no match for $622M; numbers in quote: [260884.0, 73366.0, 111013.0, 198851.0, 28640.0]
+- **FY2017** $1,255M: failed `cross_source`
+  - quote has no match for $1,255M; numbers in quote: [73366.0, 111013.0, 198851.0, 364654.0, 56046.0]
+- **FY2018** $2,035M: failed `cross_source`
+  - quote has no match for $2,035M; numbers in quote: [364654.0, 536842.0, 78080.0, 745831.0, 1186699.0]
+
+### GDS — Revenue
+- **2017Q1** $51M: failed `cross_source`
+  - quote has no match for $51M; numbers in quote: [350.0]
+- **2017Q2** $50M: failed `cross_source`
+  - quote has no match for $50M; numbers in quote: [336.2]
+- **2017Q3** $64M: failed `cross_source`
+  - quote has no match for $64M; numbers in quote: [424.4]
+- **2018Q1** $89M: failed `cross_source`
+  - quote has no match for $89M; numbers in quote: [562.2]
+- **2018Q2** $96M: failed `cross_source`
+  - quote has no match for $96M; numbers in quote: [637.5]
+- **2018Q3** $111M: failed `cross_source`
+  - quote has no match for $111M; numbers in quote: [762.8]
+- **2019Q1** $133M: failed `cross_source`
+  - quote has no match for $133M; numbers in quote: [891.8]
+- **2019Q2** $143M: failed `cross_source`
+  - quote has no match for $143M; numbers in quote: [985.2]
+- **2019Q3** $149M: failed `cross_source`
+  - quote has no match for $149M; numbers in quote: [1066.2]
+- **2020Q1** $175M: failed `cross_source`
+  - quote has no match for $175M; numbers in quote: [1240.4]
+- **2020Q2** $190M: failed `cross_source`
+  - quote has no match for $190M; numbers in quote: [1342.2]
+- **2020Q3** $224M: failed `cross_source`
+  - quote has no match for $224M; numbers in quote: [1524.7]
+- **2021Q1** $260M: failed `cross_source`
+  - quote has no match for $260M; numbers in quote: [1706.0]
+- **2021Q2** $289M: failed `cross_source`
+  - quote has no match for $289M; numbers in quote: [1863.9]
+- **2021Q3** $319M: failed `cross_source`
+  - quote has no match for $319M; numbers in quote: [2061.4]
+- **2022Q1** $354M: failed `cross_source`
+  - quote has no match for $354M; numbers in quote: [2243.6]
+- **2022Q2** $345M: failed `cross_source`
+  - quote has no match for $345M; numbers in quote: [2310.4]
+- **2022Q3** $333M: failed `cross_source`
+  - quote has no match for $333M; numbers in quote: [2367.6]
+- **2023Q1** $350M: failed `cross_source`
+  - quote has no match for $350M; numbers in quote: [2409.0]
+- **2023Q2** $340M: failed `cross_source`
+  - quote has no match for $340M; numbers in quote: [2472.0]
+- **2023Q3** $345M: failed `cross_source`
+  - quote has no match for $345M; numbers in quote: [2519.0]
+- **2024Q1** $364M: failed `cross_source`
+  - quote has no match for $364M; numbers in quote: [2627.4]
+- **2024Q3** $374M: failed `cross_source`
+  - quote has no match for $374M; numbers in quote: [2619.6]
+- **20259M** $1,186M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **FY2025** $1,635M: failed `identity`, `currency`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025H1** $780M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q1** $375M: failed `identity`, `cross_source`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+  - quote has no match for $375M; numbers in quote: [2723.2]
+- **2025Q2** $405M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q3** $406M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+- **2025Q4** $418M: failed `identity`, `currency`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 1.913% (sum=1603.52, rhs=1634.8)
+
+### IREN — D&A
+- **FY2025** $181M: failed `cross_source`
+  - quote has no match for $181M; numbers in quote: [158992.0, 87067.0, 39419.0, 136458.0, 70424.0]
+
+### IREN — OCF
+- **2025Q2** $46M: failed `continuity`
+  - continuity jump factor -11.663x (2025Q1 → 2025Q2)
+
+### META — CapEx
+- **FY2015** $2,523M: failed `range`
+  - out-of-range (below 5000–150000)
+- **2015Q1** $502M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2015Q2** $549M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2015Q3** $780M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2015Q4** $692M: failed `range`
+  - out-of-range (below 1500–50000)
+- **FY2016** $4,491M: failed `range`
+  - out-of-range (below 5000–150000)
+- **2016Q1** $1,132M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2016Q2** $995M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2016Q3** $1,095M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2016Q4** $1,269M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2017Q1** $1,271M: failed `range`
+  - out-of-range (below 1500–50000)
+- **2017Q2** $1,444M: failed `range`
+  - out-of-range (below 1500–50000)
+
+### META — OCF
+- **FY2015** $8,599M: failed `range`
+  - out-of-range (below 10000–200000)
+- **FY2016** $9,758M: failed `range`
+  - out-of-range (below 10000–200000)
+- **2020Q2** $3,877M: failed `continuity`
+  - continuity jump factor 0.352x (2020Q1 → 2020Q2)
+- **2020Q3** $9,829M: failed `continuity`
+  - continuity jump factor 2.535x (2020Q2 → 2020Q3)
+
+### META — Revenue
+- **2015Q1** $3,543M: failed `range`
+  - out-of-range (below 4000–90000)
+
+### MSFT — CapEx
+- **2015Q3** $1,391M: failed `range`
+  - out-of-range (below 1500–40000)
+- **2016Q1** $1,356M: failed `range`
+  - out-of-range (below 1500–40000)
+- **FY2025** $64,551M: failed `cross_source`
+  - quote has no match for $64,551M; numbers in quote: [39824.0]
+
+### MSFT — Revenue
+- **FY2017** $23,212M: failed `range`
+  - out-of-range (below 60000–400000)
+- **FY2018** $26,819M: failed `range`
+  - out-of-range (below 60000–400000)
+- **FY2019** $30,571M: failed `range`
+  - out-of-range (below 60000–400000)
+- **FY2020** $35,021M: failed `range`
+  - out-of-range (below 60000–400000)
+
+### NBIS — Cloud Seg
+- **2025Q1** $55M: failed `continuity`
+  - continuity jump factor 0.038x (2021Q4 → 2025Q1)
+
+### NBIS — Revenue
+- **2025Q1** $55M: failed `continuity`
+  - continuity jump factor 0.038x (2021Q4 → 2025Q1)
+
+### ORCL — CapEx
+- **2017Q2** $757M: failed `continuity`
+  - continuity jump factor 2.532x (2017Q1 → 2017Q2)
+
+### ORCL — Cloud Seg
+- **2017Q4** $21,072M: failed `continuity`
+  - continuity jump factor 20.843x (2017Q3 → 2017Q4)
+- **2018Q1** $1,067M: failed `continuity`
+  - continuity jump factor 0.051x (2017Q4 → 2018Q1)
+- **2018Q4** $22,882M: failed `continuity`
+  - continuity jump factor 19.88x (2018Q3 → 2018Q4)
+- **2019Q1** $6,609M: failed `continuity`
+  - continuity jump factor 0.289x (2018Q4 → 2019Q1)
+
+### ORCL — OCF
+- **2018Q2** $850M: failed `continuity`
+  - continuity jump factor 0.129x (2018Q1 → 2018Q2)
+- **2018Q3** $3,310M: failed `continuity`
+  - continuity jump factor 3.894x (2018Q2 → 2018Q3)
+- **2019Q2** $546M: failed `continuity`
+  - continuity jump factor 0.081x (2019Q1 → 2019Q2)
+- **2019Q3** $2,861M: failed `continuity`
+  - continuity jump factor 5.24x (2019Q2 → 2019Q3)
+- **2020Q2** $513M: failed `continuity`
+  - continuity jump factor 0.086x (2020Q1 → 2020Q2)
+- **2020Q3** $3,012M: failed `continuity`
+  - continuity jump factor 5.871x (2020Q2 → 2020Q3)
+- **2021Q2** $1,388M: failed `continuity`
+  - continuity jump factor 0.233x (2021Q1 → 2021Q2)
+- **2021Q3** $3,704M: failed `continuity`
+  - continuity jump factor 2.669x (2021Q2 → 2021Q3)
+- **2023Q2** $849M: failed `continuity`
+  - continuity jump factor 0.133x (2023Q1 → 2023Q2)
+- **2023Q3** $4,275M: failed `continuity`
+  - continuity jump factor 5.035x (2023Q2 → 2023Q3)
+- **2024Q2** $143M: failed `continuity`
+  - continuity jump factor 0.021x (2024Q1 → 2024Q2)
+- **2024Q3** $5,475M: failed `continuity`
+  - continuity jump factor 38.287x (2024Q2 → 2024Q3)
+- **2025Q2** $1,304M: failed `continuity`
+  - continuity jump factor 0.176x (2025Q1 → 2025Q2)
+- **2025Q3** $5,933M: failed `continuity`
+  - continuity jump factor 4.55x (2025Q2 → 2025Q3)
+
+## Fixed in this run (1744)
+
+### 0700
+- **2019H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2019FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2020H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2020FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2021H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2022H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2023H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2024H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025H2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2019H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025H2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025FY** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025H2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2020H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2021H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2022H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2023H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2024H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025H2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+
+### AMZN
+- **2017FY** Revenue: xbrl_refetch
+- **2015Q1** OCF: xbrl_refetch
+- **2015Q2** OCF: xbrl_refetch
+- **2016Q1** OCF: xbrl_refetch
+- **2016Q2** OCF: xbrl_refetch
+- **2017Q1** OCF: xbrl_refetch
+- **2017Q2** OCF: xbrl_refetch
+- **2018Q1** OCF: xbrl_refetch
+- **2018Q2** OCF: xbrl_refetch
+- **2019Q1** OCF: xbrl_refetch
+- **2019Q2** OCF: xbrl_refetch
+- **2020Q1** OCF: xbrl_refetch
+- **2020Q2** OCF: xbrl_refetch
+- **2020Q4** OCF: xbrl_refetch
+- **2021Q1** OCF: xbrl_refetch
+- **2021Q2** OCF: xbrl_refetch
+- **2021Q4** OCF: xbrl_refetch
+- **2022Q1** OCF: xbrl_refetch
+- **2022Q2** OCF: xbrl_refetch
+- **2023Q1** OCF: xbrl_refetch
+- **2023Q2** OCF: xbrl_refetch
+- **2025Q1** OCF: xbrl_refetch
+- **2015Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20159M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20169M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20179M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20179M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20159M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20169M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20219M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20229M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20239M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20249M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+
+### APLD
+- **2022Q3** Revenue: xbrl_refetch
+- **2022Q4** Revenue: xbrl_refetch
+- **2022FY** Revenue: xbrl_refetch
+- **2023Q1** Revenue: xbrl_refetch
+- **2023Q2** Revenue: xbrl_refetch
+- **2023Q3** Revenue: xbrl_refetch
+- **2023FY** Revenue: xbrl_refetch
+- **2024Q1** Revenue: xbrl_refetch
+- **2024Q2** Revenue: xbrl_refetch
+- **2024Q3** Revenue: xbrl_refetch
+- **2025Q1** Revenue: xbrl_refetch
+- **2025Q2** Revenue: xbrl_refetch
+- **2022Q2** CapEx: xbrl_refetch
+- **20229M** CapEx: xbrl_refetch
+- **2022FY** CapEx: xbrl_refetch
+- **2023H1** CapEx: xbrl_refetch
+- **20239M** CapEx: xbrl_refetch
+- **2025Q2** CapEx: xbrl_refetch
+- **20259M** CapEx: xbrl_refetch
+- **2022Q1** OCF: xbrl_refetch
+- **2022Q2** OCF: xbrl_refetch
+- **20229M** OCF: xbrl_refetch
+- **2022FY** OCF: xbrl_refetch
+- **2023Q1** OCF: xbrl_refetch
+- **2023Q4** OCF: xbrl_refetch
+- **20239M** OCF: xbrl_refetch
+- **2024Q1** OCF: xbrl_refetch
+- **2024Q3** OCF: xbrl_refetch
+- **2024H1** OCF: xbrl_refetch
+- **2024FY** OCF: xbrl_refetch
+- **2025Q1** OCF: xbrl_refetch
+- **2025Q2** OCF: xbrl_refetch
+- **2022Q4** D&A: xbrl_refetch
+- **2022FY** D&A: xbrl_refetch
+- **2023Q1** D&A: xbrl_refetch
+- **2023Q2** D&A: xbrl_refetch
+- **2023Q3** D&A: xbrl_refetch
+- **2024Q1** D&A: xbrl_refetch
+- **2024Q2** D&A: xbrl_refetch
+- **2024Q3** D&A: xbrl_refetch
+- **2024FY** D&A: xbrl_refetch
+- **2025Q1** D&A: xbrl_refetch
+- **2025Q2** D&A: xbrl_refetch
+- **2022FY** PP&E: xbrl_refetch
+- **2023Q1** PP&E: xbrl_refetch
+- **20239M** PP&E: xbrl_refetch
+- **20249M** PP&E: xbrl_refetch
+- **2024FY** PP&E: xbrl_refetch
+- **2025Q1** PP&E: xbrl_refetch
+- **20259M** PP&E: xbrl_refetch
+- **2022H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2022H1** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
 
 ### BABA
-- **2018Q1** Cloud Seg: xbrl_refetch (dry-run)
+- **2015FY** Revenue: xbrl_refetch
+- **2016FY** Revenue: xbrl_refetch
+- **2017Q1** Revenue: xbrl_refetch
+- **2015Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2015FY** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2016Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2016FY** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2017Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2017Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2017Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2017Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2017H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20179M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2017FY** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2018Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2018Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2018Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2018Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2018H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20189M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2018FY** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2019Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2019Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2019Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2019Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2019H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20199M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2020Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2020Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2020Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2020Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2020H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20209M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2021Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2021Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2021Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2021Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2021H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20219M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2022Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2022Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2022Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2022Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2022H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20229M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2023Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2023Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2023Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2023Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2023H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20239M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2024Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2024Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2024Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2024Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2024H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20249M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2025Q1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2025Q2** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2025Q3** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2025Q4** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2025H1** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **20259M** CapEx: gap_extract (manual: scripts/backfill_baba_capex_20f.py)
+- **2015Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20179M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20189M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20199M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20209M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20219M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20229M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20239M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20249M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20259M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20179M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20189M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20199M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20209M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20219M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20229M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20239M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20249M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20179M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20189M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20199M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20209M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20219M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20229M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20239M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20249M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
 - **2015Q4** Cloud Seg: gap_extract (manual: scripts/extract_baba_cloud_6k.py)
 - **2015FY** Cloud Seg: gap_extract (manual: scripts/extract_baba_cloud_6k.py)
 - **2016Q4** Cloud Seg: gap_extract (manual: scripts/extract_baba_cloud_6k.py)
 - **2016FY** Cloud Seg: gap_extract (manual: scripts/extract_baba_cloud_6k.py)
 
-## Known unfixable gaps (10)
+### BIDU
+- **2016Q1** Revenue: xbrl_refetch
+- **2016Q2** Revenue: xbrl_refetch
+- **2016Q3** Revenue: xbrl_refetch
+- **2017Q1** Revenue: xbrl_refetch
+- **2017Q2** Revenue: xbrl_refetch
+- **2017Q3** Revenue: xbrl_refetch
+- **2019Q1** Revenue: xbrl_refetch
+- **2019Q2** Revenue: xbrl_refetch
+- **2019Q3** Revenue: xbrl_refetch
+- **2020Q1** Revenue: xbrl_refetch
+- **2020Q2** Revenue: xbrl_refetch
+- **2020Q3** Revenue: xbrl_refetch
+- **2021Q1** Revenue: xbrl_refetch
+- **2021Q2** Revenue: xbrl_refetch
+- **2021Q3** Revenue: xbrl_refetch
+- **2022Q1** Revenue: xbrl_refetch
+- **2022Q2** Revenue: xbrl_refetch
+- **2022Q3** Revenue: xbrl_refetch
+- **2023Q1** Revenue: xbrl_refetch
+- **2023Q2** Revenue: xbrl_refetch
+- **2023Q3** Revenue: xbrl_refetch
+- **2024Q1** Revenue: xbrl_refetch
+- **2024Q2** Revenue: xbrl_refetch
+- **2024Q3** Revenue: xbrl_refetch
+- **2025Q1** Revenue: xbrl_refetch
+- **2025Q2** Revenue: xbrl_refetch
+- **2025Q3** Revenue: xbrl_refetch
+- **2018FY** CapEx: xbrl_refetch
+- **2021FY** CapEx: xbrl_refetch
+- **2022FY** CapEx: xbrl_refetch
+- **2023FY** CapEx: xbrl_refetch
+- **2024FY** CapEx: xbrl_refetch
+- **2022Q1** Cloud Seg: xbrl_refetch
+- **2022Q2** Cloud Seg: reconcile
+- **2022Q3** Cloud Seg: reconcile
+- **2022Q4** Cloud Seg: reconcile
+- **2022H1** Cloud Seg: reconcile
+- **20229M** Cloud Seg: reconcile
+- **2022FY** Cloud Seg: reconcile
+- **2023Q1** Cloud Seg: reconcile
+- **2023Q2** Cloud Seg: reconcile
+- **2023Q3** Cloud Seg: reconcile
+- **2023Q4** Cloud Seg: reconcile
+- **2023H1** Cloud Seg: reconcile
+- **20239M** Cloud Seg: reconcile
+- **2023FY** Cloud Seg: reconcile
+- **2024Q1** Cloud Seg: reconcile
+- **2024Q2** Cloud Seg: reconcile
+- **2024Q3** Cloud Seg: reconcile
+- **2024Q4** Cloud Seg: reconcile
+- **2024H1** Cloud Seg: reconcile
+- **20249M** Cloud Seg: reconcile
+- **2024FY** Cloud Seg: reconcile
+- **2015Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2016H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20169M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20179M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20189M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20199M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20209M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20219M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20229M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20239M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20249M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20259M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20169M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20179M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20189M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20199M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20209M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20219M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20229M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20239M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20249M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20259M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20169M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20179M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20189M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20199M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20209M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20219M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20229M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20239M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20249M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20169M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20179M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20189M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20199M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20209M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20219M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20229M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20239M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20249M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2015FY** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2016Q1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2016Q2** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2016Q3** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2016Q4** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2016H1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **20169M** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2016FY** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2017Q1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2017Q2** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2017Q3** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2017Q4** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2017H1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **20179M** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2017FY** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2018Q1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2018Q2** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2018Q3** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2018Q4** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2018H1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **20189M** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2019Q1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2019Q2** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2019Q3** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2019Q4** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2019H1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **20199M** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2020Q1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2020Q2** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2020Q3** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2020Q4** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **2020H1** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
+- **20209M** Cloud Seg: gap_extract (manual: scripts/extract_bidu_cloud_v2.py)
 
-- **BABA**: 10 cells (metrics: Cloud Seg; years: 2015-2016)
+### CRWV
+- **2025Q1** CapEx: xbrl_refetch
+- **2025H1** CapEx: xbrl_refetch
+- **20259M** CapEx: xbrl_refetch
+- **2025Q1** OCF: xbrl_refetch
+- **2025Q3** OCF: xbrl_refetch
+- **2025H1** OCF: xbrl_refetch
+- **20259M** OCF: xbrl_refetch
+- **20259M** D&A: xbrl_refetch
+- **20259M** PP&E: xbrl_refetch
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+
+### GDS
+- **2017Q1** Revenue: xbrl_refetch
+- **2017Q2** Revenue: xbrl_refetch
+- **2017Q3** Revenue: xbrl_refetch
+- **2018Q1** Revenue: xbrl_refetch
+- **2018Q2** Revenue: xbrl_refetch
+- **2018Q3** Revenue: xbrl_refetch
+- **2019Q1** Revenue: xbrl_refetch
+- **2019Q2** Revenue: xbrl_refetch
+- **2019Q3** Revenue: xbrl_refetch
+- **2020Q1** Revenue: xbrl_refetch
+- **2020Q2** Revenue: xbrl_refetch
+- **2020Q3** Revenue: xbrl_refetch
+- **2021Q1** Revenue: xbrl_refetch
+- **2021Q2** Revenue: xbrl_refetch
+- **2021Q3** Revenue: xbrl_refetch
+- **2022Q1** Revenue: xbrl_refetch
+- **2022Q2** Revenue: xbrl_refetch
+- **2022Q3** Revenue: xbrl_refetch
+- **2023Q1** Revenue: xbrl_refetch
+- **2023Q2** Revenue: xbrl_refetch
+- **2023Q3** Revenue: xbrl_refetch
+- **2024Q1** Revenue: xbrl_refetch
+- **2024Q3** Revenue: xbrl_refetch
+- **2016FY** OCF: xbrl_refetch
+- **2017FY** OCF: xbrl_refetch
+- **2018FY** OCF: xbrl_refetch
+- **2022FY** OCF: xbrl_refetch
+- **2016FY** D&A: xbrl_refetch
+- **2017FY** D&A: xbrl_refetch
+- **2019FY** D&A: xbrl_refetch
+- **2020FY** D&A: xbrl_refetch
+- **2021FY** D&A: xbrl_refetch
+- **2022FY** D&A: xbrl_refetch
+- **2023FY** D&A: xbrl_refetch
+- **2016FY** PP&E: xbrl_refetch
+- **2017FY** PP&E: xbrl_refetch
+- **2018FY** PP&E: xbrl_refetch
+- **2025Q2** Revenue: reconcile
+- **2025Q3** Revenue: reconcile
+- **2025H1** Revenue: reconcile
+- **20259M** Revenue: reconcile
+- **2025Q1** Cloud Seg: reconcile
+- **2025Q2** Cloud Seg: reconcile
+- **2025Q3** Cloud Seg: reconcile
+- **2025H1** Cloud Seg: reconcile
+- **20259M** Cloud Seg: reconcile
+- **2016Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2017H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20179M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2018H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20189M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2019H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20199M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2020H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20209M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2021H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20219M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2022H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20229M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20239M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20249M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20259M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20179M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2018H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20189M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2019H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20199M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2020H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20209M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2021H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20219M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20229M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20239M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20249M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20259M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20179M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20189M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20199M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20209M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20219M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20229M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20239M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20249M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20179M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20189M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20199M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20209M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20219M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20229M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20239M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20249M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+
+### GOOGL
+- **2015Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20159M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20169M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20179M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20189M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20199M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20209M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20219M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20229M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20239M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20249M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20209M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20219M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20229M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20239M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q3** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **20159M** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015FY** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2016Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2016Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2016Q3** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2016Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2016H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **20169M** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2016FY** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2017Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2017Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2017Q3** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2017Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2017H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **20179M** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2018Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2018Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2018Q3** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2018Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2018H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **20189M** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2019Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2019Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2019Q3** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2019Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2019H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **20199M** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+
+### IREN
+- **2025Q2** OCF: xbrl_refetch
+- **2025FY** D&A: xbrl_refetch
+- **2023Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20259M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20259M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **20259M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **20259M** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+
+### META
+- **2015Q1** Revenue: xbrl_refetch
+- **2015Q1** CapEx: xbrl_refetch
+- **2015Q2** CapEx: xbrl_refetch
+- **2015Q3** CapEx: xbrl_refetch
+- **2015Q4** CapEx: xbrl_refetch
+- **2015FY** CapEx: xbrl_refetch
+- **2016Q1** CapEx: xbrl_refetch
+- **2016Q2** CapEx: xbrl_refetch
+- **2016Q3** CapEx: xbrl_refetch
+- **2016Q4** CapEx: xbrl_refetch
+- **2016FY** CapEx: xbrl_refetch
+- **2017Q1** CapEx: xbrl_refetch
+- **2017Q2** CapEx: xbrl_refetch
+- **2015FY** OCF: xbrl_refetch
+- **2016FY** OCF: xbrl_refetch
+- **2020Q2** OCF: xbrl_refetch
+- **2020Q3** OCF: xbrl_refetch
+- **2016Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20219M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20229M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20239M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20249M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024FY** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025FY** PP&E: gap_extract (manual: manual (no extractor wired))
+
+### MSFT
+- **2017FY** Revenue: xbrl_refetch
+- **2018FY** Revenue: xbrl_refetch
+- **2019FY** Revenue: xbrl_refetch
+- **2020FY** Revenue: xbrl_refetch
+- **2015Q3** CapEx: xbrl_refetch
+- **2016Q1** CapEx: xbrl_refetch
+- **2025FY** CapEx: xbrl_refetch
+- **2015Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20159M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015FY** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2016H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20169M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2017H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20179M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20159M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20159M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20169M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20179M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20159M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20169M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20179M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20189M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20199M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20209M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20219M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20229M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20239M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20249M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q3** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **20159M** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+
+### NBIS
+- **2025Q1** Revenue: xbrl_refetch
+- **2025Q1** Cloud Seg: xbrl_refetch
+- **2024Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2025H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20259M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2025H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **20259M** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2025H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20259M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **20259M** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **2025H1** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+- **20259M** Cloud Seg: gap_extract (manual: manual (no extractor wired))
+
+### ORCL
+- **2017Q2** CapEx: xbrl_refetch
+- **2018Q2** OCF: xbrl_refetch
+- **2018Q3** OCF: xbrl_refetch
+- **2019Q2** OCF: xbrl_refetch
+- **2019Q3** OCF: xbrl_refetch
+- **2020Q2** OCF: xbrl_refetch
+- **2020Q3** OCF: xbrl_refetch
+- **2021Q2** OCF: xbrl_refetch
+- **2021Q3** OCF: xbrl_refetch
+- **2023Q2** OCF: xbrl_refetch
+- **2023Q3** OCF: xbrl_refetch
+- **2024Q2** OCF: xbrl_refetch
+- **2024Q3** OCF: xbrl_refetch
+- **2025Q2** OCF: xbrl_refetch
+- **2025Q3** OCF: xbrl_refetch
+- **2017Q4** Cloud Seg: xbrl_refetch
+- **2018Q1** Cloud Seg: xbrl_refetch
+- **2018Q4** Cloud Seg: xbrl_refetch
+- **2019Q1** Cloud Seg: xbrl_refetch
+- **2015Q1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015H1** Revenue: gap_extract (manual: manual (no extractor wired))
+- **20159M** Revenue: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015H1** CapEx: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20159M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015FY** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2016H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20169M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** OCF: gap_extract (manual: manual (no extractor wired))
+- **2017H1** OCF: gap_extract (manual: manual (no extractor wired))
+- **20179M** OCF: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** OCF: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20159M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20169M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2016FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20179M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2017FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20189M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2018FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20199M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2019FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20209M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2020FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20219M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2021FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20229M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2022FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20239M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2023FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20249M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2024FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q1** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025H1** D&A: gap_extract (manual: manual (no extractor wired))
+- **20259M** D&A: gap_extract (manual: manual (no extractor wired))
+- **2025FY** D&A: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015H1** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2016Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2017Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2018Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2019Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2020Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2021Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2022Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2023Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2024Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q2** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q3** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2025Q4** PP&E: gap_extract (manual: manual (no extractor wired))
+- **2015Q1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q2** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015Q4** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+- **2015FY** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
+
+## Restatements (2)
+
+Scanned 13 tickers × 1 metrics from the latest 10-K/20-F for each. A finding indicates the latest filing's segment table reports a materially-different value for an earlier period than what's in the DB; the newer filing's value wins by the `filing_date DESC` selector rule once written back. Applied 0 of 2 findings.
+
+| Cell | Existing | Restated | Δ | Filing |
+|---|---|---|---|---|
+| MSFT:cloud_segment_revenue:2024FY | $105,362M | $87,464M | 17.0% | [filed 2025-07-30](https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm)  |
+| ORCL:cloud_segment_revenue:2024FY | $39,383M | $44,464M | 12.9% | [filed 2025-06-18](https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm)  |
+
+
+## Known unfixable gaps (338)
+
+- **0700**: 76 cells (metrics: CapEx, Cloud Seg, OCF, Revenue; years: 2015-2025)
+- **BABA**: 60 cells (metrics: CapEx, Cloud Seg, D&A, OCF, PP&E, Revenue; years: 2015-2016)
+- **BIDU**: 30 cells (metrics: CapEx, Cloud Seg, D&A, OCF, PP&E, Revenue; years: 2015-2015)
+- **GDS**: 34 cells (metrics: CapEx, Cloud Seg, D&A, OCF, PP&E, Revenue; years: 2016-2025)
+- **IREN**: 102 cells (metrics: CapEx, Cloud Seg, D&A, OCF, PP&E, Revenue; years: 2022-2024)
+- **NBIS**: 36 cells (metrics: CapEx, Cloud Seg, D&A, OCF, PP&E, Revenue; years: 2024-2025)
 
 ## Run metadata
 
 - Database: `data/db/capex.db`
 - Metrics: revenue, capital_expenditures, operating_cash_flow, depreciation_amortization, property_plant_equipment_net, cloud_segment_revenue
 - Checks: gap, identity, range, continuity, cross_source, sign, currency, segment_def, period_type
-- Total cells audited: 77
+- Total cells audited: 4171
 

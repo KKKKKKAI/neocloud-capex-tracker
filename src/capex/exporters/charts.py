@@ -61,6 +61,8 @@ def generate_cloud_revenue_chart(
     # --- STEP 1: Load data from DB ---
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
+    # ORDER BY filing_date ASC — later rows overwrite the dict so
+    # restated values (from a newer 10-K) win over original as-reported.
     rows = conn.execute(
         "SELECT sd.ticker, sd.fiscal_year, "
         "COALESCE(e.value_usd, e.value) as val "
@@ -68,7 +70,8 @@ def generate_cloud_revenue_chart(
         "JOIN source_documents sd ON e.source_document_id = sd.id "
         "WHERE e.metric_key = 'cloud_segment_revenue' "
         "AND sd.period_token = 'AR' "
-        "AND e.period_type = 'FY'"
+        "AND e.period_type = 'FY' "
+        "ORDER BY sd.filing_date ASC, e.extracted_at ASC"
     ).fetchall()
     conn.close()
 

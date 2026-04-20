@@ -19,7 +19,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from capex.audit import fixes, orchestrator, report
+from capex.audit import fixes, orchestrator, report, restatement
 from capex.db import Database
 
 
@@ -80,8 +80,21 @@ def main() -> int:
         except Exception as exc:
             print(f"LLM re-verify unavailable: {exc}", file=sys.stderr)
 
+    # Restatement detection — always on. Reads each ticker's latest
+    # annual filing and surfaces any period value that differs from
+    # what's in the DB. With --apply, writes back the restated values
+    # so the filing_date DESC selector promotes them on next read.
+    print("Running restatement detection...")
+    tickers_arg = [args.ticker] if args.ticker else None
+    rsum = restatement.detect(db=db, tickers=tickers_arg)
+    print(f"  Restatement findings: {rsum.total}")
+    if args.apply and rsum.findings:
+        rsum = restatement.apply(rsum, db=db)
+        print(f"  Applied: {rsum.applied_count}")
+
     output = Path(args.output)
-    report.write_report(cells, applied, run_id, output)
+    report.write_report(cells, applied, run_id, output,
+                       restatement_summary=rsum)
     print(f"report: {output}")
     return 0
 

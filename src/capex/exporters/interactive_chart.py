@@ -116,16 +116,25 @@ def generate_all_interactive(
 def _load_annual(
     conn, metric_key: str, exclude_tickers: set[str] | None = None,
 ) -> dict[str, Any]:
-    """Load annual values for the given metric."""
+    """Load annual values for the given metric.
+
+    When a cell has multiple extractions (e.g. original + restated),
+    the ORDER BY prefers the row backed by the newest
+    `source_documents.filing_date` — so a restated comparative from
+    a later 10-K / 20-F wins over the original as-reported value.
+    See docs/RESTATEMENT_POLICY.md.
+    """
     exclude = exclude_tickers or set()
     rows = conn.execute(
         "SELECT sd.ticker, sd.fiscal_year, "
-        "COALESCE(e.value_usd, e.value) as val "
+        "COALESCE(e.value_usd, e.value) as val, "
+        "sd.filing_date "
         "FROM extractions e "
         "JOIN source_documents sd ON e.source_document_id = sd.id "
         "WHERE e.metric_key = ? "
         "AND sd.period_token = 'AR' "
-        "AND e.period_type = 'FY'",
+        "AND e.period_type = 'FY' "
+        "ORDER BY sd.filing_date ASC, e.extracted_at ASC",
         (metric_key,),
     ).fetchall()
 
@@ -136,6 +145,8 @@ def _load_annual(
             continue
         if not v or v <= 0 or (t == "NBIS" and fy < NBIS_START):
             continue
+        # ORDER BY filing_date ASC means later rows overwrite earlier;
+        # this yields "newest filing wins" after the full scan.
         by_year.setdefault(fy, {})[t] = v
 
     years = sorted(y for y in by_year if y >= 2015)
@@ -201,6 +212,7 @@ def _load_quarterly(
               CASE WHEN e2.extraction_type = 'direct' THEN 0
                    WHEN e2.extraction_type = 'inferred' THEN 1
                    ELSE 2 END,
+              sd2.filing_date DESC,
               e2.extracted_at DESC
             LIMIT 1
           )

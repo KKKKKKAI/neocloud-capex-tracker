@@ -59,12 +59,19 @@ def write_report(
     fixes_applied: list[dict],
     run_id: str,
     output: Path,
+    *,
+    restatement_summary=None,
 ) -> Path:
     """Write the full markdown report to `output` and return the path.
 
     Also writes a companion JSON file with the same stem (e.g.
     `data_quality_report.md` → `data_quality_report.json`) containing
     the full set of cells in a stable machine-readable schema.
+
+    `restatement_summary` is an optional
+    `capex.audit.restatement.RestatementSummary` — when supplied, a
+    dedicated "Restatements" section is rendered and the findings are
+    included in the JSON sidecar.
     """
     output.parent.mkdir(parents=True, exist_ok=True)
     lines: list[str] = []
@@ -72,11 +79,23 @@ def write_report(
     _coverage_matrix(lines, cells)
     _flagged_section(lines, cells)
     _fixed_section(lines, fixes_applied)
+    _restatement_section(lines, restatement_summary)
     _unfixable_section(lines, cells)
     _metadata(lines, cells)
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    _write_json_sidecar(cells, fixes_applied, run_id, output)
+    _write_json_sidecar(cells, fixes_applied, run_id, output,
+                       restatement_summary=restatement_summary)
     return output
+
+
+def _restatement_section(lines, summary) -> None:
+    if summary is None:
+        return
+    # Lazy import to avoid a circular dep between report and restatement.
+    from . import restatement as _r
+    block = _r.render_markdown(summary)
+    lines.extend(block.splitlines())
+    lines.append("")
 
 
 def _write_json_sidecar(
@@ -84,6 +103,8 @@ def _write_json_sidecar(
     fixes_applied: list[dict],
     run_id: str,
     md_output: Path,
+    *,
+    restatement_summary=None,
 ) -> Path:
     """Emit a machine-readable snapshot alongside the markdown report."""
     json_output = md_output.with_suffix(".json")
@@ -95,6 +116,9 @@ def _write_json_sidecar(
         "cells": [_cell_to_json(c) for c in cells],
         "fixes_applied": list(fixes_applied),
     }
+    if restatement_summary is not None:
+        from . import restatement as _r
+        payload["restatements"] = _r.render_json(restatement_summary)
     json_output.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False),
         encoding="utf-8",

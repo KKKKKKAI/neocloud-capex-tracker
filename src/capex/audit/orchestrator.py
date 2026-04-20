@@ -77,9 +77,14 @@ def load_cells(
     universe: list[tuple[str, int, str, str]],
 ) -> dict[tuple[str, int, str, str], dict[str, Any]]:
     """Load extraction details for every cell in the universe.
-    Returns {cell_key: row_dict_or_None}."""
+    Returns {cell_key: row_dict_or_None}.
+
+    Precedence: (a) non-derived beats reconcile-derived; (b) for
+    otherwise-equal rows, newest `source_documents.filing_date` wins
+    so a restated comparative from a later filing supersedes the
+    original as-reported value. See docs/RESTATEMENT_POLICY.md.
+    """
     out: dict[tuple[str, int, str, str], dict[str, Any]] = {}
-    # Fetch every candidate row in one pass
     rows = conn.execute(
         """
         SELECT e.id AS extraction_id, e.value, e.value_usd,
@@ -87,7 +92,8 @@ def load_cells(
                e.period_type, e.extracting_model, e.extraction_type,
                e.locator_section, e.quote, e.basis_period_months,
                sd.ticker, sd.fiscal_year, sd.period_of_report,
-               sd.form_type,
+               sd.form_type, sd.filing_date, sd.source_url,
+               sd.id AS source_document_id,
                (SELECT ev.excerpt_text FROM extraction_evidence ev
                 WHERE ev.extraction_id = e.id
                   AND ev.excerpt_role = 'primary_value'
@@ -98,19 +104,29 @@ def load_cells(
         WHERE e.period_type != ''
         """
     ).fetchall()
-    # For duplicate cells, prefer non-derived
+
+    def _is_derived(row) -> bool:
+        return (row.get("extracting_model") or "").startswith("reconcile-derived")
+
+    def _newer(a: dict, b: dict) -> bool:
+        """True iff `a` should beat `b` in the selector."""
+        a_derived = _is_derived(a)
+        b_derived = _is_derived(b)
+        if a_derived != b_derived:
+            return b_derived   # non-derived > derived
+        # tie on type → newer filing wins; fallback: newer source_document id
+        af = a.get("filing_date") or ""
+        bf = b.get("filing_date") or ""
+        if af != bf:
+            return af > bf
+        return (a.get("source_document_id") or 0) > (b.get("source_document_id") or 0)
+
     for r in rows:
         key = (r["ticker"], r["fiscal_year"], r["metric_key"], r["period_type"])
-        if key not in out:
-            out[key] = dict(r)
-        else:
-            existing = out[key]
-            if (existing.get("extracting_model") or "").startswith(
-                "reconcile-derived"
-            ) and not (r["extracting_model"] or "").startswith(
-                "reconcile-derived"
-            ):
-                out[key] = dict(r)
+        row = dict(r)
+        existing = out.get(key)
+        if existing is None or _newer(row, existing):
+            out[key] = row
     return out
 
 

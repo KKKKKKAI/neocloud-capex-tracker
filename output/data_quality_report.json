@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "run_id": "audit-20260420-214827",
-  "generated_at": "2026-04-20T21:49:52+00:00",
+  "run_id": "audit-20260420-221228",
+  "generated_at": "2026-04-20T22:14:15+00:00",
   "counts": {
     "gap_fixable": 1514,
-    "verified": 1380,
-    "flagged": 236,
-    "derived": 703,
+    "verified": 1368,
+    "flagged": 250,
+    "derived": 701,
     "gap_unfixable": 338
   },
   "cells": [
@@ -24711,7 +24711,7 @@
       "value_usd": 24259.0,
       "extraction_id": 2986,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -24723,9 +24723,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -24786,7 +24795,7 @@
       "value_usd": 25880.0,
       "extraction_id": 2987,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -24798,9 +24807,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -24861,7 +24879,7 @@
       "value_usd": 26708.0,
       "extraction_id": 2989,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -24873,9 +24891,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -24936,7 +24963,7 @@
       "value_usd": 28515.0,
       "extraction_id": 3156,
       "extracting_model": "reconcile-derived",
-      "classification": "derived",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -24948,9 +24975,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -25011,7 +25047,7 @@
       "value_usd": 50139.0,
       "extraction_id": 2988,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -25023,9 +25059,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -25080,7 +25125,7 @@
       "value_usd": 76847.0,
       "extraction_id": 2990,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -25092,9 +25137,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -25146,10 +25200,10 @@
       "metric_key": "cloud_segment_revenue",
       "fiscal_year": 2024,
       "period_type": "FY",
-      "value_usd": 105362.0,
-      "extraction_id": 1238,
-      "extracting_model": "msft-original-10k-restatement-fix",
-      "classification": "verified",
+      "value_usd": 87464.0,
+      "extraction_id": 5106,
+      "extracting_model": "restated-segment@0.1.0",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -25161,9 +25215,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 87464.0,
+                "lhs_sum": 105362.0,
+                "delta_pct": 16.987
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132006,7 +132069,7 @@
       "value_usd": 9547.0,
       "extraction_id": 3071,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132018,9 +132081,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132081,7 +132153,7 @@
       "value_usd": 9639.0,
       "extraction_id": 3072,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132093,9 +132165,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132156,7 +132237,7 @@
       "value_usd": 9963.0,
       "extraction_id": 3074,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132168,9 +132249,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132231,7 +132321,7 @@
       "value_usd": 10234.0,
       "extraction_id": 3172,
       "extracting_model": "reconcile-derived",
-      "classification": "derived",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132243,9 +132333,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132306,7 +132405,7 @@
       "value_usd": 19186.0,
       "extraction_id": 3073,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132318,9 +132417,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132375,7 +132483,7 @@
       "value_usd": 29149.0,
       "extraction_id": 3075,
       "extracting_model": "segment-quarterly@0.1.0",
-      "classification": "verified",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132387,9 +132495,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -132441,10 +132558,10 @@
       "metric_key": "cloud_segment_revenue",
       "fiscal_year": 2024,
       "period_type": "FY",
-      "value_usd": 39383.0,
-      "extraction_id": 1247,
-      "extracting_model": "orcl-cs-ls-10k-backfill",
-      "classification": "verified",
+      "value_usd": 44464.0,
+      "extraction_id": 5107,
+      "extracting_model": "restated-segment@0.1.0",
+      "classification": "flagged",
       "check_results": [
         {
           "check": "gap",
@@ -132456,9 +132573,18 @@
         },
         {
           "check": "identity",
-          "passed": true,
-          "severity": "info",
-          "details": {}
+          "passed": false,
+          "severity": "warn",
+          "details": {
+            "violations": [
+              {
+                "identity": "Q1+Q2+Q3+Q4 = FY",
+                "rhs": 44464.0,
+                "lhs_sum": 39383.0,
+                "delta_pct": 11.427
+              }
+            ]
+          }
         },
         {
           "check": "range",
@@ -215780,6 +215906,132 @@
       "new_usd": null
     },
     {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q1",
+      "fix_class": "reconcile",
+      "old_usd": 24259.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q2",
+      "fix_class": "reconcile",
+      "old_usd": 25880.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q3",
+      "fix_class": "reconcile",
+      "old_usd": 26708.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q4",
+      "fix_class": "reconcile",
+      "old_usd": 28515.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "H1",
+      "fix_class": "reconcile",
+      "old_usd": 50139.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "9M",
+      "fix_class": "reconcile",
+      "old_usd": 76847.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "FY",
+      "fix_class": "reconcile",
+      "old_usd": 87464.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q1",
+      "fix_class": "reconcile",
+      "old_usd": 9547.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q2",
+      "fix_class": "reconcile",
+      "old_usd": 9639.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q3",
+      "fix_class": "reconcile",
+      "old_usd": 9963.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "Q4",
+      "fix_class": "reconcile",
+      "old_usd": 10234.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "H1",
+      "fix_class": "reconcile",
+      "old_usd": 19186.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "9M",
+      "fix_class": "reconcile",
+      "old_usd": 29149.0,
+      "new_usd": null
+    },
+    {
+      "ticker": "ORCL",
+      "fiscal_year": 2024,
+      "metric_key": "cloud_segment_revenue",
+      "period_type": "FY",
+      "fix_class": "reconcile",
+      "old_usd": 44464.0,
+      "new_usd": null
+    },
+    {
       "ticker": "BIDU",
       "fiscal_year": 2022,
       "metric_key": "cloud_segment_revenue",
@@ -229669,38 +229921,157 @@
   ],
   "restatements": [
     {
-      "cell_key": "MSFT:cloud_segment_revenue:2024FY",
-      "ticker": "MSFT",
+      "cell_key": "ORCL:cloud_segment_revenue:2016FY",
+      "ticker": "ORCL",
       "metric_key": "cloud_segment_revenue",
-      "fiscal_year": 2024,
+      "fiscal_year": 2016,
       "period_type": "FY",
-      "existing_value_usd": 105362.0,
-      "restated_value_usd": 87464.0,
-      "delta_pct": 0.16987149067026064,
-      "existing_extraction_id": 1238,
-      "source_document_id": 1,
-      "source_filing_date": "2025-07-30",
-      "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
-      "segment_name": "Intelligent Cloud",
+      "existing_value_usd": 2545.0,
+      "restated_value_usd": 28990.0,
+      "delta_pct": 10.390962671905697,
+      "existing_extraction_id": 1304,
+      "source_document_id": 222,
+      "source_filing_date": "2017-06-27",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312517214833/d385998d10k.htm",
+      "segment_name": "Cloud",
       "applied": false,
       "new_extraction_id": null
     },
     {
-      "cell_key": "ORCL:cloud_segment_revenue:2024FY",
+      "cell_key": "ORCL:cloud_segment_revenue:2017FY",
       "ticker": "ORCL",
       "metric_key": "cloud_segment_revenue",
-      "fiscal_year": 2024,
+      "fiscal_year": 2017,
       "period_type": "FY",
-      "existing_value_usd": 39383.0,
-      "restated_value_usd": 44464.0,
-      "delta_pct": 0.12901505725820786,
-      "existing_extraction_id": 1247,
-      "source_document_id": 5,
-      "source_filing_date": "2025-06-18",
-      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm",
+      "existing_value_usd": 23758.0,
+      "restated_value_usd": 30218.0,
+      "delta_pct": 0.2719084097988046,
+      "existing_extraction_id": 1303,
+      "source_document_id": 226,
+      "source_filing_date": "2018-06-22",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312518201034/d568983d10k.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5116
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2016FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2016,
+      "period_type": "FY",
+      "existing_value_usd": 2545.0,
+      "restated_value_usd": 28990.0,
+      "delta_pct": 10.390962671905697,
+      "existing_extraction_id": 1304,
+      "source_document_id": 226,
+      "source_filing_date": "2018-06-22",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312518201034/d568983d10k.htm",
       "segment_name": "Cloud",
       "applied": false,
       "new_extraction_id": null
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2018FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2018,
+      "period_type": "FY",
+      "existing_value_usd": 26222.0,
+      "restated_value_usd": 31994.0,
+      "delta_pct": 0.2201205094958432,
+      "existing_extraction_id": 1302,
+      "source_document_id": 230,
+      "source_filing_date": "2019-06-21",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000156459019023119/orcl-10k_20190531.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5117
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2019FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2019,
+      "period_type": "FY",
+      "existing_value_usd": 26707.0,
+      "restated_value_usd": 32562.0,
+      "delta_pct": 0.21923091324371888,
+      "existing_extraction_id": 1301,
+      "source_document_id": 234,
+      "source_filing_date": "2020-06-22",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000156459020030125/orcl-10k_20200531.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5118
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2020FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2020,
+      "period_type": "FY",
+      "existing_value_usd": 27392.0,
+      "restated_value_usd": 32519.0,
+      "delta_pct": 0.18717143691588786,
+      "existing_extraction_id": 1300,
+      "source_document_id": 238,
+      "source_filing_date": "2021-06-21",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000156459021033616/orcl-10k_20210531.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5119
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2021FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2021,
+      "period_type": "FY",
+      "existing_value_usd": 28700.0,
+      "restated_value_usd": 34099.0,
+      "delta_pct": 0.1881184668989547,
+      "existing_extraction_id": 1299,
+      "source_document_id": 242,
+      "source_filing_date": "2022-06-21",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000156459022023675/orcl-10k_20220531.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5120
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2022FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2022,
+      "period_type": "FY",
+      "existing_value_usd": 30174.0,
+      "restated_value_usd": 36052.0,
+      "delta_pct": 0.19480347318883806,
+      "existing_extraction_id": 1298,
+      "source_document_id": 246,
+      "source_filing_date": "2023-06-20",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017023028914/orcl-20230531.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5121
+    },
+    {
+      "cell_key": "ORCL:cloud_segment_revenue:2023FY",
+      "ticker": "ORCL",
+      "metric_key": "cloud_segment_revenue",
+      "fiscal_year": 2023,
+      "period_type": "FY",
+      "existing_value_usd": 35307.0,
+      "restated_value_usd": 41086.0,
+      "delta_pct": 0.1636785906477469,
+      "existing_extraction_id": 1246,
+      "source_document_id": 250,
+      "source_filing_date": "2024-06-20",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017024075605/orcl-20240531.htm",
+      "segment_name": "Cloud",
+      "applied": true,
+      "new_extraction_id": 5122
     }
   ]
 }

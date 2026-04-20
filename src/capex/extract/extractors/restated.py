@@ -75,6 +75,26 @@ def _latest_annual_source_doc(
     return dict(row) if row else None
 
 
+def _all_annual_source_docs(
+    conn: sqlite3.Connection, ticker: str,
+) -> list[dict[str, Any]]:
+    """Return every 10-K / 20-F source doc for a ticker, sorted by
+    filing_date ascending. Used by the historical restatement sweep."""
+    rows = conn.execute(
+        """
+        SELECT id, raw_path, form_type, filing_date, period_of_report,
+               fiscal_year, source_url
+        FROM source_documents
+        WHERE ticker = ?
+          AND form_type IN ('10-K', '20-F', 'HK-AR')
+          AND raw_path LIKE 'data/_sources/%'
+        ORDER BY filing_date ASC
+        """,
+        (ticker,),
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
 def _existing_annual_value_usd(
     conn: sqlite3.Connection,
     ticker: str, metric_key: str, fiscal_year: int,
@@ -97,44 +117,18 @@ def _existing_annual_value_usd(
     return (row["value_usd"], row["id"])
 
 
-def detect_annual_restatements(
+def _scan_one_filing(
     conn: sqlite3.Connection,
     ticker: str,
-    metric_key: str = "cloud_segment_revenue",
-    *,
-    tolerance: float = 0.005,
+    metric_key: str,
+    segment_names: list[str],
+    sd: dict[str, Any],
+    tolerance: float,
 ) -> list[RestatedCandidate]:
-    """Read the latest 10-K / 20-F / HK-AR and emit restatement candidates.
-
-    Parses the segment table in the most recent annual filing, which
-    typically lists 2–3 fiscal years of comparative values. For each
-    prior-year value whose delta vs the currently-stored value exceeds
-    `tolerance`, emits a `RestatedCandidate`.
-
-    MVP caveat: only USD-reporting companies are scanned here. For
-    CNY/HKD filers (BABA, BIDU, GDS, 0700) the segment-table values
-    are in local currency, but the stored comparison value is in USD —
-    without FX-at-period-end conversion we'd produce false positives.
-    XBRL-path restatements still flow automatically for those filers
-    via `xbrl/timeseries.py`; see docs/RESTATEMENT_POLICY.md (Known
-    gaps section).
-    """
-    # Scope: USD-reporting companies only (FX-aware segment-table
-    # restatement detection is a follow-up).
-    co_row = conn.execute(
-        "SELECT reporting_currency FROM companies WHERE ticker = ?",
-        (ticker,),
-    ).fetchone()
-    if not co_row or (co_row["reporting_currency"] or "").upper() != "USD":
-        return []
-
-    treatment = get_dataset_treatment(ticker, metric_key)
-    if not treatment or not treatment.segment_names:
-        return []
-    sd = _latest_annual_source_doc(conn, ticker)
-    if not sd:
-        return []
-    raw_path = sd["raw_path"]
+    """Run the segment extractor on a single source_doc and emit any
+    prior-year comparatives whose value differs from the DB by more
+    than `tolerance`."""
+    raw_path = sd.get("raw_path")
     if not raw_path:
         return []
     filepath = REPO_ROOT / raw_path
@@ -142,15 +136,12 @@ def detect_annual_restatements(
         return []
     try:
         results = extract_segment_revenue(
-            str(filepath), ticker, treatment.segment_names, form_type=sd["form_type"],
+            str(filepath), ticker, segment_names, form_type=sd["form_type"],
         )
     except Exception:
         return []
-
-    candidates: list[RestatedCandidate] = []
-    # The source_doc's fiscal_year is the annual we're reading. Prior
-    # fiscal years in the same segment table are restated comparatives.
     source_fy = sd["fiscal_year"]
+    candidates: list[RestatedCandidate] = []
     for r in results:
         fy = r.get("period_year")
         if not isinstance(fy, int):
@@ -158,13 +149,10 @@ def detect_annual_restatements(
         if fy >= source_fy:
             continue  # current year or future — not a restatement
         restated_val = float(r["value"])
-        # Compare to what we currently have in the DB for this (fy, FY).
         existing_val_usd, existing_eid = _existing_annual_value_usd(
             conn, ticker, metric_key, fy,
         )
         if existing_val_usd is None:
-            # No existing value — write this as a fresh extraction, not
-            # a restatement. Let the regular extractor path handle it.
             continue
         denom = max(abs(existing_val_usd), 1.0)
         delta_pct = abs(restated_val - existing_val_usd) / denom
@@ -186,3 +174,58 @@ def detect_annual_restatements(
             table_context=(r.get("table_context") or "")[:400],
         ))
     return candidates
+
+
+def detect_annual_restatements(
+    conn: sqlite3.Connection,
+    ticker: str,
+    metric_key: str = "cloud_segment_revenue",
+    *,
+    tolerance: float = 0.005,
+    historical: bool = False,
+) -> list[RestatedCandidate]:
+    """Parse segment-table comparatives and emit restatement candidates.
+
+    Default (`historical=False`): reads only the most recent 10-K /
+    20-F / HK-AR per ticker. Cheap, catches the common case where
+    the latest filing's prior-year comparative differs from the DB.
+
+    `historical=True`: walks **every** annual filing for the ticker
+    in chronological order and emits candidates from each one's
+    segment-table comparatives. Duplicates across filings are fine —
+    each one records a distinct restatement with its own
+    `source_document_id`, and the `filing_date DESC` selector picks
+    the newest restatement as authoritative while older ones remain
+    as an audit trail.
+
+    MVP caveat: only USD-reporting companies are scanned here. For
+    CNY/HKD filers (BABA, BIDU, GDS, 0700) the segment-table values
+    are in local currency, but the stored comparison value is in USD
+    — without FX-at-period-end conversion we'd produce false
+    positives. XBRL-path restatements still flow automatically for
+    those filers via `xbrl/timeseries.py`; see
+    `docs/RESTATEMENT_POLICY.md` (Known gaps section).
+    """
+    co_row = conn.execute(
+        "SELECT reporting_currency FROM companies WHERE ticker = ?",
+        (ticker,),
+    ).fetchone()
+    if not co_row or (co_row["reporting_currency"] or "").upper() != "USD":
+        return []
+
+    treatment = get_dataset_treatment(ticker, metric_key)
+    if not treatment or not treatment.segment_names:
+        return []
+
+    if historical:
+        docs = _all_annual_source_docs(conn, ticker)
+    else:
+        latest = _latest_annual_source_doc(conn, ticker)
+        docs = [latest] if latest else []
+
+    out: list[RestatedCandidate] = []
+    for sd in docs:
+        out.extend(_scan_one_filing(
+            conn, ticker, metric_key, treatment.segment_names, sd, tolerance,
+        ))
+    return out

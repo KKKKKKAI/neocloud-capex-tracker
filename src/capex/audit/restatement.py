@@ -31,6 +31,11 @@ from ..extract.extractors.restated import (
 )
 
 DEFAULT_TOLERANCE = 0.005  # 0.5%
+# Deltas larger than this are flagged but NOT auto-applied — they
+# usually indicate a segment-scope change (segment rename broadens
+# or narrows coverage), not a genuine restatement of the same metric.
+# Operator can still apply manually by inspecting `output/data_quality_report.json`.
+MAX_AUTO_APPLY_DELTA_PCT = 0.50  # 50%
 METRICS_TO_SCAN = (
     "cloud_segment_revenue",
     # Headline metrics are XBRL-native; restatements flow through the
@@ -122,8 +127,16 @@ def detect(
     tolerance: float = DEFAULT_TOLERANCE,
     tickers: list[str] | None = None,
     metrics: tuple[str, ...] = METRICS_TO_SCAN,
+    historical: bool = False,
 ) -> RestatementSummary:
-    """Scan all tracked tickers × metrics for restatements."""
+    """Scan tracked tickers × metrics for restatements.
+
+    `historical=True` walks every annual filing per ticker; default
+    just reads the latest one. The `filing_date DESC` selector keeps
+    the authoritative row consistent either way, so the historical
+    mode is purely additive — it backfills older restatements that
+    the latest-filing-only scan would miss.
+    """
     db = db or Database()
     summary = RestatementSummary()
     if tickers is None:
@@ -134,7 +147,8 @@ def detect(
         for ticker in tickers:
             for metric in metrics:
                 candidates = detect_annual_restatements(
-                    conn, ticker, metric, tolerance=tolerance,
+                    conn, ticker, metric,
+                    tolerance=tolerance, historical=historical,
                 )
                 for c in candidates:
                     summary.findings.append(_candidate_to_finding(c))
@@ -242,6 +256,18 @@ def apply(
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     summary.apply = True
     for f in summary.findings:
+        if f.delta_pct > MAX_AUTO_APPLY_DELTA_PCT:
+            # Suspected segment-scope change, not a restatement-in-place.
+            # Flag but don't apply; the finding appears in the report for
+            # manual review.
+            f.applied = False
+            f.table_context = (
+                (f.table_context or "") +
+                f"\n[SKIPPED: delta {f.delta_pct * 100:.1f}% > "
+                f"auto-apply cap {MAX_AUTO_APPLY_DELTA_PCT * 100:.0f}% — "
+                f"likely segment-scope change; inspect manually]"
+            )
+            continue
         try:
             with db.mutating() as conn:
                 virt_sd_id = _ensure_restated_source_doc(

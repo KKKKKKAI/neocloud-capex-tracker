@@ -1,11 +1,11 @@
-# Data Quality Audit — 2026-04-20 21:49 UTC
+# Data Quality Audit — 2026-04-20 22:14 UTC
 
-**Run ID**: `audit-20260420-214827`
+**Run ID**: `audit-20260420-221228`
 
 **Scope**: 13 tickers × 6 metrics × 2015–2025.  
 **Total cells in universe**: 4171
 
-**Status**: ✓ 1380 verified · * 703 derived · ⚠ 236 flagged · ⊘ 1514 gap fixable · ✗ 338 gap unfixable
+**Status**: ✓ 1368 verified · * 701 derived · ⚠ 250 flagged · ⊘ 1514 gap fixable · ✗ 338 gap unfixable
 
 ---
 
@@ -25,11 +25,11 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 | GOOGL | 100% ✓ | 100% ✓ | 100% ✓ | 0% ✓ | 35% ✓ | 58% ✓ |
 | IREN | 21% ✓ | 21% ✓ | 18% ⚠ | 18% ⚠ | 7% ✓ | 21% ✓ |
 | META | 99% ⚠ | 84% ⚠ | 94% ⚠ | 100% ✓ | 29% ✓ | — |
-| MSFT | 66% ⚠ | 90% ⚠ | 78% ✓ | 1% ✓ | 55% ✓ | 92% ✓ |
+| MSFT | 66% ⚠ | 90% ⚠ | 78% ✓ | 1% ✓ | 55% ✓ | 83% ⚠ |
 | NBIS | 7% ⚠ | 7% ✓ | 7% ✓ | 7% ✓ | 7% ✓ | 7% ⚠ |
-| ORCL | 94% ✓ | 94% ⚠ | 56% ⚠ | 0% ✓ | 55% ✓ | 88% ⚠ |
+| ORCL | 94% ✓ | 94% ⚠ | 56% ⚠ | 0% ✓ | 55% ✓ | 79% ⚠ |
 
-## Flagged items (236)
+## Flagged items (250)
 
 ### AMZN — OCF
 - **2015Q1** $-1,499M: failed `range`, `sign`
@@ -515,6 +515,22 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 - **FY2025** $64,551M: failed `cross_source`
   - quote has no match for $64,551M; numbers in quote: [39824.0]
 
+### MSFT — Cloud Seg
+- **20249M** $76,847M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+- **FY2024** $87,464M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+- **2024H1** $50,139M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+- **2024Q1** $24,259M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+- **2024Q2** $25,880M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+- **2024Q3** $26,708M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+- **2024Q4** $28,515M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 16.987% (sum=105362.0, rhs=87464.0)
+
 ### MSFT — Revenue
 - **FY2017** $23,212M: failed `range`
   - out-of-range (below 60000–400000)
@@ -546,6 +562,20 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
   - continuity jump factor 19.88x (2018Q3 → 2018Q4)
 - **2019Q1** $6,609M: failed `continuity`
   - continuity jump factor 0.289x (2018Q4 → 2019Q1)
+- **20249M** $29,149M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
+- **FY2024** $44,464M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
+- **2024H1** $19,186M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
+- **2024Q1** $9,547M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
+- **2024Q2** $9,639M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
+- **2024Q3** $9,963M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
+- **2024Q4** $10,234M: failed `identity`
+  - identity `Q1+Q2+Q3+Q4 = FY` off by 11.427% (sum=39383.0, rhs=44464.0)
 
 ### ORCL — OCF
 - **2018Q2** $850M: failed `continuity`
@@ -577,7 +607,7 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 - **2025Q3** $5,933M: failed `continuity`
   - continuity jump factor 4.55x (2025Q2 → 2025Q3)
 
-## Fixed in this run (1744)
+## Fixed in this run (1758)
 
 ### 0700
 - **2019H2** Revenue: gap_extract (manual: manual (no extractor wired))
@@ -1976,6 +2006,13 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 - **2015Q3** CapEx: xbrl_refetch
 - **2016Q1** CapEx: xbrl_refetch
 - **2025FY** CapEx: xbrl_refetch
+- **2024Q1** Cloud Seg: reconcile
+- **2024Q2** Cloud Seg: reconcile
+- **2024Q3** Cloud Seg: reconcile
+- **2024Q4** Cloud Seg: reconcile
+- **2024H1** Cloud Seg: reconcile
+- **20249M** Cloud Seg: reconcile
+- **2024FY** Cloud Seg: reconcile
 - **2015Q1** Revenue: gap_extract (manual: manual (no extractor wired))
 - **2015Q2** Revenue: gap_extract (manual: manual (no extractor wired))
 - **2015Q3** Revenue: gap_extract (manual: manual (no extractor wired))
@@ -2202,6 +2239,13 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 - **2018Q1** Cloud Seg: xbrl_refetch
 - **2018Q4** Cloud Seg: xbrl_refetch
 - **2019Q1** Cloud Seg: xbrl_refetch
+- **2024Q1** Cloud Seg: reconcile
+- **2024Q2** Cloud Seg: reconcile
+- **2024Q3** Cloud Seg: reconcile
+- **2024Q4** Cloud Seg: reconcile
+- **2024H1** Cloud Seg: reconcile
+- **20249M** Cloud Seg: reconcile
+- **2024FY** Cloud Seg: reconcile
 - **2015Q1** Revenue: gap_extract (manual: manual (no extractor wired))
 - **2015Q2** Revenue: gap_extract (manual: manual (no extractor wired))
 - **2015Q4** Revenue: gap_extract (manual: manual (no extractor wired))
@@ -2349,14 +2393,21 @@ Percentages are `(verified + derived) / total` for each ticker × metric bucket.
 - **2015H1** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
 - **2015FY** Cloud Seg: gap_extract (manual: scripts/extract_hyperscaler_cloud_quarterly.py)
 
-## Restatements (2)
+## Restatements (9)
 
-Scanned 13 tickers × 1 metrics from the latest 10-K/20-F for each. A finding indicates the latest filing's segment table reports a materially-different value for an earlier period than what's in the DB; the newer filing's value wins by the `filing_date DESC` selector rule once written back. Applied 0 of 2 findings.
+Scanned 13 tickers × 1 metrics from the latest 10-K/20-F for each. A finding indicates the latest filing's segment table reports a materially-different value for an earlier period than what's in the DB; the newer filing's value wins by the `filing_date DESC` selector rule once written back. Applied 7 of 9 findings.
 
 | Cell | Existing | Restated | Δ | Filing |
 |---|---|---|---|---|
-| MSFT:cloud_segment_revenue:2024FY | $105,362M | $87,464M | 17.0% | [filed 2025-07-30](https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm)  |
-| ORCL:cloud_segment_revenue:2024FY | $39,383M | $44,464M | 12.9% | [filed 2025-06-18](https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm)  |
+| ORCL:cloud_segment_revenue:2016FY | $2,545M | $28,990M | 1039.1% | [filed 2017-06-27](https://www.sec.gov/Archives/edgar/data/1341439/000119312517214833/d385998d10k.htm)  |
+| ORCL:cloud_segment_revenue:2016FY | $2,545M | $28,990M | 1039.1% | [filed 2018-06-22](https://www.sec.gov/Archives/edgar/data/1341439/000119312518201034/d568983d10k.htm)  |
+| ORCL:cloud_segment_revenue:2017FY | $23,758M | $30,218M | 27.2% | [filed 2018-06-22](https://www.sec.gov/Archives/edgar/data/1341439/000119312518201034/d568983d10k.htm) ✓ |
+| ORCL:cloud_segment_revenue:2018FY | $26,222M | $31,994M | 22.0% | [filed 2019-06-21](https://www.sec.gov/Archives/edgar/data/1341439/000156459019023119/orcl-10k_20190531.htm) ✓ |
+| ORCL:cloud_segment_revenue:2019FY | $26,707M | $32,562M | 21.9% | [filed 2020-06-22](https://www.sec.gov/Archives/edgar/data/1341439/000156459020030125/orcl-10k_20200531.htm) ✓ |
+| ORCL:cloud_segment_revenue:2020FY | $27,392M | $32,519M | 18.7% | [filed 2021-06-21](https://www.sec.gov/Archives/edgar/data/1341439/000156459021033616/orcl-10k_20210531.htm) ✓ |
+| ORCL:cloud_segment_revenue:2021FY | $28,700M | $34,099M | 18.8% | [filed 2022-06-21](https://www.sec.gov/Archives/edgar/data/1341439/000156459022023675/orcl-10k_20220531.htm) ✓ |
+| ORCL:cloud_segment_revenue:2022FY | $30,174M | $36,052M | 19.5% | [filed 2023-06-20](https://www.sec.gov/Archives/edgar/data/1341439/000095017023028914/orcl-20230531.htm) ✓ |
+| ORCL:cloud_segment_revenue:2023FY | $35,307M | $41,086M | 16.4% | [filed 2024-06-20](https://www.sec.gov/Archives/edgar/data/1341439/000095017024075605/orcl-20240531.htm) ✓ |
 
 
 ## Known unfixable gaps (338)

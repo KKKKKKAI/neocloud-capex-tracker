@@ -4455,6 +4455,11 @@ INSERT INTO "audit_log" VALUES(4440,'2026-04-20T16:02:10+00:00','reconcile@0.1.0
 INSERT INTO "audit_log" VALUES(4441,'2026-04-20T16:02:10+00:00','reconcile@0.1.0','extraction_derived','extractions',5099,'{"components": [3251, 3250, 3249], "fiscal_year": 2025, "formula": "9M = Q1+Q2+Q3", "metric_key": "cloud_segment_revenue", "period_type": "9M", "ticker": "BIDU", "value": 3956.1600000000003}');
 INSERT INTO "audit_log" VALUES(4442,'2026-04-20T16:02:10+00:00','reconcile@0.1.0','extraction_derived','extractions',5100,'{"components": [3251, 3250], "fiscal_year": 2025, "formula": "H1 = Q1+Q2", "metric_key": "cloud_segment_revenue", "period_type": "H1", "ticker": "BIDU", "value": 2663.9300000000003}');
 INSERT INTO "audit_log" VALUES(4443,'2026-04-20T16:02:10+00:00','reconcile@0.1.0','extraction_derived','extractions',5101,'{"components": [1307, 3251, 3250, 3249], "fiscal_year": 2025, "formula": "Q4 = FY - (Q1+Q2+Q3)", "metric_key": "cloud_segment_revenue", "period_type": "Q4", "ticker": "BIDU", "value": 893.5399999999995}');
+INSERT INTO "audit_log" VALUES(4444,'2026-04-20T21:01:31+00:00','gds-q4-ingest@1.0','source_document_inserted','source_documents',495,'{"reason": "GDS 2025Q4 6-K earnings press release", "filing_date": "2026-03-17", "period_of_report": "2025-12-31"}');
+INSERT INTO "audit_log" VALUES(4445,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5102,'{"metric_key": "revenue", "period_type": "Q4", "source_document_id": 495, "value_cny": 2921.7, "value_usd": 417.8}');
+INSERT INTO "audit_log" VALUES(4446,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5103,'{"metric_key": "cloud_segment_revenue", "period_type": "Q4", "source_document_id": 495, "value_cny": 2921.7, "value_usd": 417.8}');
+INSERT INTO "audit_log" VALUES(4447,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5104,'{"metric_key": "revenue", "period_type": "FY", "source_document_id": 495, "value_cny": 11432.3, "value_usd": 1634.8}');
+INSERT INTO "audit_log" VALUES(4448,'2026-04-20T21:01:55+00:00','gds-q4-ingest@1.0','extraction_inserted','extractions',5105,'{"metric_key": "cloud_segment_revenue", "period_type": "FY", "source_document_id": 495, "value_cny": 11432.3, "value_usd": 1634.8}');
 CREATE TABLE audit_review_feedback (
     id                    INTEGER PRIMARY KEY AUTOINCREMENT,
     audit_run_id          TEXT NOT NULL,
@@ -14229,6 +14234,10 @@ INSERT INTO "extractions" VALUES(5098,276,'cloud_segment_revenue','H1',6,NULL,19
 INSERT INTO "extractions" VALUES(5099,7,'cloud_segment_revenue','9M',9,NULL,3.95616000000000030915e+03,'$3,956M (derived)','USD_millions','Derived: 9M = Q1+Q2+Q3',NULL,'Derived from 9M = Q1+Q2+Q3','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-20T16:02:10+00:00',3.95616000000000030915e+03,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5100,7,'cloud_segment_revenue','H1',6,NULL,2.66393000000000029097e+03,'$2,664M (derived)','USD_millions','Derived: H1 = Q1+Q2',NULL,'Derived from H1 = Q1+Q2','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-20T16:02:10+00:00',2.66393000000000029097e+03,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5101,7,'cloud_segment_revenue','Q4',3,NULL,8.93539999999999508869e+02,'$894M (derived)','USD_millions','Derived: Q4 = FY - (Q1+Q2+Q3)',NULL,'Derived from Q4 = FY - (Q1+Q2+Q3)','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-20T16:02:10+00:00',8.93539999999999508869e+02,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5102,495,'revenue','Q4',3,NULL,2921.7,'RMB 2,921.7 million (US$ 417.8 million)','CNY_millions','Net revenue increased by 8.6% year-over-year ("Y-o-Y") to RMB2,921.7 million (US$417.8 million) in the fourth quarter of 2025 (4Q2024: RMB2,690.7 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-20T21:01:55+00:00',417.8,6.993059,NULL,'CNY');
+INSERT INTO "extractions" VALUES(5103,495,'cloud_segment_revenue','Q4',3,NULL,2921.7,'RMB 2,921.7 million (US$ 417.8 million)','CNY_millions','Net revenue increased by 8.6% year-over-year ("Y-o-Y") to RMB2,921.7 million (US$417.8 million) in the fourth quarter of 2025 (4Q2024: RMB2,690.7 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'whole-company-copy@0.1.0','0.1.0-draft','2026-04-20T21:01:55+00:00',417.8,6.993059,NULL,'CNY');
+INSERT INTO "extractions" VALUES(5104,495,'revenue','FY',12,NULL,11432.3,'RMB 11,432.3 million (US$ 1,634.8 million)','CNY_millions','Net revenue increased by 10.8% year-over-year ("Y-o-Y") to RMB11,432.3 million (US$1,634.8 million) in 2025 (2024: RMB10,322.1 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'6k-press-release','0.1.0-draft','2026-04-20T21:01:55+00:00',1634.8,6.993088,NULL,'CNY');
+INSERT INTO "extractions" VALUES(5105,495,'cloud_segment_revenue','FY',12,NULL,11432.3,'RMB 11,432.3 million (US$ 1,634.8 million)','CNY_millions','Net revenue increased by 10.8% year-over-year ("Y-o-Y") to RMB11,432.3 million (US$1,634.8 million) in 2025 (2024: RMB10,322.1 million).',NULL,'6-K press release, Financial Highlights','direct',NULL,'whole-company-copy@0.1.0','0.1.0-draft','2026-04-20T21:01:55+00:00',1634.8,6.993088,NULL,'CNY');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -14815,6 +14824,7 @@ INSERT INTO "source_documents" VALUES(491,'GDS','6-K','2025-08-20','2025-06-30',
 INSERT INTO "source_documents" VALUES(492,'BIDU','6-K','2025-02-18','2024-12-31',2024,'Q4','bidu-v2-0001193125-25-028182-2024-12-31','6k://bidu-v2/2024-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1329099/000119312525028182/d896079dex991.htm','0001193125-25-028182','2026-04-19T15:41:10+00:00','bidu-cloud-v2@0.3.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(493,'BIDU','6-K','2024-02-28','2023-12-31',2023,'Q4','bidu-v2-0001193125-24-050652-2023-12-31','6k://bidu-v2/2023-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1329099/000119312524050652/d789091dex991.htm','0001193125-24-050652','2026-04-19T15:41:10+00:00','bidu-cloud-v2@0.3.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(494,'BIDU','6-K','2023-02-22','2022-12-31',2022,'Q4','bidu-v2-0001193125-23-044848-2022-12-31','6k://bidu-v2/2022-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1329099/000119312523044848/d474352dex991.htm','0001193125-23-044848','2026-04-19T15:41:10+00:00','bidu-cloud-v2@0.3.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(495,'GDS','6-K','2026-03-17','2025-12-31',2025,'Q4','6k-press-GDS-2025-12-31','6k://press-release/GDS/2025-12-31',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1526125/000110465926029094/tm269058d1_ex99-1.htm','0001104659-26-029094','2026-04-20T21:01:31+00:00','manual-ingest@0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id INTEGER NOT NULL REFERENCES extractions(id),
@@ -14939,10 +14949,10 @@ CREATE INDEX idx_audit_verdicts_run
 CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
 CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4443);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4448);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1060);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5101);
-INSERT INTO "sqlite_sequence" VALUES('source_documents',494);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5105);
+INSERT INTO "sqlite_sequence" VALUES('source_documents',495);
 COMMIT;

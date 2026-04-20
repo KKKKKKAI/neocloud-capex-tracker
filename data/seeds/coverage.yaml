@@ -169,6 +169,26 @@ companies:
       IMPORTANT: 6-K quarterly values are STANDALONE (not cumulative
       YTD like 10-Q). Do NOT apply de-cumulation to 6-K data.
 
+      FISCAL-QUARTER CONVENTION (all BABA metrics):
+        period_type=Q1  ==  6-K period_of_report = Jun 30  (fiscal Apr-Jun)
+        period_type=Q2  ==  6-K period_of_report = Sep 30  (fiscal Jul-Sep)
+        period_type=Q3  ==  6-K period_of_report = Dec 31  (fiscal Oct-Dec)
+        period_type=Q4  ==  reconcile-derived, anchored to 20-F period_of_report = Mar 31
+                            (fiscal Jan-Mar = calendar Q1 of the next calendar year)
+
+      BABA does NOT file a standalone 6-K for fiscal Q4; that value is
+      always derived from the 20-F annual via the identity
+        Q4 = FY - Q1 - Q2 - Q3     (equivalent: Q4 = FY - 9M)
+      i.e. BABA's calendar-Q1 standalone revenue equals the full-year
+      20-F value minus the three 6-K quarterly press releases filed in
+      the preceding calendar year. The reconcile engine (`capex
+      reconcile`) fires this rule automatically for revenue and
+      cloud_segment_revenue. Before 2026-04-20 the cloud extractor
+      emitted CALENDAR-quarter labels; a data migration relabeled the
+      existing rows to the fiscal convention — see
+      `scripts/relabel_baba_cloud_quarters.py` and the `audit_log`
+      `period_type_relabeled` entries for the trail.
+
   BIDU:
     full_name: Baidu, Inc.
     category: chinese_hyperscaler
@@ -436,7 +456,15 @@ datasets:
         treatment: named_segment
         segment_names: ["Cloud Intelligence Group", "Cloud Computing"]
         segment_start: "2016-04-01"
-        notes: "Renamed ~FY2024. CNY reporting. Annual data only (20-F)."
+        notes: |
+          Renamed "Cloud Computing" → "Cloud Intelligence Group" in FY2024.
+          CNY reporting. Quarterly values come from 6-K press releases
+          (standalone, Apr-Jun / Jul-Sep / Oct-Dec); fiscal Q4 (=
+          calendar Q1 of the next calendar year) is not disclosed
+          quarterly and is reconcile-derived from the 20-F:
+             Q4 = FY − Q1 − Q2 − Q3
+          See top-level BABA company notes for the full fiscal-quarter
+          convention.
 
       - ticker: BIDU
         treatment: derived_subtraction

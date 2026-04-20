@@ -53,26 +53,32 @@ REVENUE_CONTEXT_RE = re.compile(
 
 
 def _q_token_from_period(period_of_report: str) -> str:
-    """Infer period_type from period_of_report month. BABA FYE = March.
+    """Return the **fiscal**-quarter period_type for a BABA 6-K period_of_report.
 
-    BABA fiscal quarters:
-      Q1 fiscal = Apr-Jun (period 06-30) — we store as calendar Q2 value
-      Q2 fiscal = Jul-Sep (period 09-30)
-      Q3 fiscal = Oct-Dec (period 12-31)
-      Q4 fiscal = Jan-Mar (period 03-31)
+    BABA's fiscal year ends March 31. Fiscal quarters:
+      Q1 fiscal = Apr-Jun  (period_of_report 06-30)
+      Q2 fiscal = Jul-Sep  (period_of_report 09-30)
+      Q3 fiscal = Oct-Dec  (period_of_report 12-31)
+      Q4 fiscal = Jan-Mar  (period_of_report 03-31) — no 6-K; derived from FY
 
-    BABA 6-K press releases are standalone 3-month values (per coverage.yaml
-    quarterly_convention.default = standalone_quarterly). We map to the
-    period_type that equals the CALENDAR quarter of period_of_report so
-    the chart labels correctly.
+    This matches the fiscal-quarter convention used by the rest of BABA's
+    data (revenue, XBRL, segment extractions) and by the interactive
+    chart's fiscal→calendar label translation (`_calendar_qtr_from_fy`).
+
+    Earlier versions of this script emitted CALENDAR-quarter labels
+    (Q1 for March, etc.) which collided with the chart's expectation and
+    silently mislabeled BABA cloud bars. Fixed 2026-04-20 together with
+    a data migration (`scripts/relabel_baba_cloud_quarters.py`).
     """
     month = int(period_of_report[5:7])
-    if month in (1, 2, 3):
-        return "Q1"
     if month in (4, 5, 6):
-        return "Q2"
+        return "Q1"
     if month in (7, 8, 9):
+        return "Q2"
+    if month in (10, 11, 12):
         return "Q3"
+    # Jan-Mar — fiscal Q4 (but BABA doesn't file a standalone 6-K for
+    # fiscal Q4; that value is derived from the 20-F via reconcile).
     return "Q4"
 
 

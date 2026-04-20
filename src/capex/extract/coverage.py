@@ -133,6 +133,84 @@ def get_all_tickers() -> list[str]:
     return list(raw.get("companies", {}).keys())
 
 
+def iter_dataset_rules(ticker: str) -> list[dict]:
+    """Yield every dataset treatment entry that mentions `ticker`.
+
+    Walks `datasets.*.companies_included` + `.companies_excluded` and
+    returns a list of normalized dicts:
+
+        {
+            "dataset": "cloud_segment_revenue",
+            "metric_keys": [...],
+            "excluded": bool,
+            "treatment": str,               # "xbrl_default" for plain strings
+            "segment_names": [...],
+            "segment_start": str | None,
+            "adjustment": dict | None,
+            "extraction_method": str | None,
+            "notes": str,
+            "exclusion_reason": str | None,
+        }
+
+    Unlike `get_dataset_treatment()` which resolves a single cell, this
+    helper enumerates every rule across every dataset so the treatments
+    viewer can render the full per-company picture in one pass.
+    """
+    raw = _load_raw()
+    datasets = raw.get("datasets") or {}
+    out: list[dict] = []
+    for dataset_name, ds in datasets.items():
+        metric_keys = ds.get("metric_keys") or []
+        included = ds.get("companies_included") or []
+        excluded = ds.get("companies_excluded") or []
+        for entry in included:
+            if isinstance(entry, str):
+                if entry != ticker:
+                    continue
+                out.append({
+                    "dataset": dataset_name,
+                    "metric_keys": list(metric_keys),
+                    "excluded": False,
+                    "treatment": "xbrl_default",
+                    "segment_names": [],
+                    "segment_start": None,
+                    "adjustment": None,
+                    "extraction_method": ds.get("extraction_method"),
+                    "notes": "",
+                    "exclusion_reason": None,
+                })
+                continue
+            if isinstance(entry, dict) and entry.get("ticker") == ticker:
+                out.append({
+                    "dataset": dataset_name,
+                    "metric_keys": list(metric_keys),
+                    "excluded": False,
+                    "treatment": entry.get("treatment", "xbrl_default"),
+                    "segment_names": list(entry.get("segment_names") or []),
+                    "segment_start": entry.get("segment_start"),
+                    "adjustment": entry.get("adjustment"),
+                    "extraction_method": entry.get(
+                        "extraction_method") or ds.get("extraction_method"),
+                    "notes": entry.get("notes", ""),
+                    "exclusion_reason": None,
+                })
+        for exc in excluded:
+            if isinstance(exc, dict) and exc.get("ticker") == ticker:
+                out.append({
+                    "dataset": dataset_name,
+                    "metric_keys": list(metric_keys),
+                    "excluded": True,
+                    "treatment": "excluded",
+                    "segment_names": [],
+                    "segment_start": None,
+                    "adjustment": None,
+                    "extraction_method": None,
+                    "notes": "",
+                    "exclusion_reason": exc.get("reason", ""),
+                })
+    return out
+
+
 def get_extraction_chain(ticker: str, metric_key: str) -> list[str]:
     """Return the ordered list of extractors to try for this (ticker, metric).
 

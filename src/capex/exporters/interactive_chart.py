@@ -328,6 +328,8 @@ def _build_html(
 # Non-metric pages that appear in the nav bar after the metric pills.
 NAV_EXTRAS: list[dict[str, str]] = [
     {"key": "calendar", "page_name": "calendar.html", "nav_label": "Calendar"},
+    {"key": "treatments", "page_name": "treatments.html",
+     "nav_label": "Treatments"},
 ]
 
 

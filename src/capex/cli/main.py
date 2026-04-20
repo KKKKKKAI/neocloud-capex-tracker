@@ -55,6 +55,8 @@ def main(argv: list[str] | None = None) -> int:
         return _reconcile_command(rest)
     if cmd == "audit":
         return _audit_command(rest)
+    if cmd == "treatments":
+        return _treatments_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -164,12 +166,15 @@ def _chart_command(argv: list[str]) -> int:
             generate_earnings_calendar_html,
         )
         from capex.exporters.interactive_chart import generate_all_interactive
+        from capex.exporters.treatments_html import generate_treatments_html
 
         ipaths = generate_all_interactive()
         for p in ipaths:
             print(f"interactive chart saved to {p}")
         cal_path = generate_earnings_calendar_html()
         print(f"earnings calendar saved to {cal_path}")
+        treat_path = generate_treatments_html()
+        print(f"treatments viewer saved to {treat_path}")
 
     return 0
 
@@ -688,6 +693,126 @@ def _print_calendar_table(events: list) -> None:
     print("  |  ".join(pieces))
 
 
+def _treatments_command(argv: list[str]) -> int:
+    """Browse human-authored special treatments per company."""
+    if not argv:
+        argv = ["show"]
+    sub = argv[0]
+    if sub == "show":
+        return _treatments_show(argv[1:])
+    print(f"unknown treatments subcommand: {sub}", file=sys.stderr)
+    print("  capex treatments show                       dump all companies")
+    print("  capex treatments show --ticker T            filter to ticker T")
+    print("  capex treatments show --metric KEY          filter to metric KEY")
+    print("  capex treatments show --format json         emit JSON")
+    return 2
+
+
+def _treatments_show(flags: list[str]) -> int:
+    """Render per-company treatments as a table (default) or JSON."""
+    import json
+    from dataclasses import asdict
+
+    from capex.audit.treatments_query import query_treatments
+
+    ticker = None
+    metric = None
+    fmt = "table"
+    i = 0
+    while i < len(flags):
+        a = flags[i]
+        if a == "--ticker" and i + 1 < len(flags):
+            ticker = flags[i + 1].upper()
+            i += 1
+        elif a == "--metric" and i + 1 < len(flags):
+            metric = flags[i + 1]
+            i += 1
+        elif a == "--format" and i + 1 < len(flags):
+            fmt = flags[i + 1]
+            i += 1
+        else:
+            print(f"unknown flag: {a}", file=sys.stderr)
+            return 2
+        i += 1
+
+    views = query_treatments(ticker_filter=ticker, metric_filter=metric)
+    if fmt == "json":
+        print(json.dumps([asdict(v) for v in views], indent=2,
+                         ensure_ascii=False))
+        return 0
+
+    if not views:
+        print("No companies match the filter.")
+        return 0
+    _print_treatments_table(views)
+    return 0
+
+
+def _print_treatments_table(views: list) -> None:
+    """Compact per-company summary table."""
+    headers = ["Ticker", "FYE", "Cur", "Approach", "Rules", "Human"]
+    rows: list[list[str]] = []
+    fye_short = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun",
+                 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}
+    for v in views:
+        rows.append([
+            v.ticker,
+            fye_short.get(v.fiscal_year_end_month, str(v.fiscal_year_end_month)),
+            v.reporting_currency,
+            v.extraction_approach,
+            str(len(v.dataset_rules)),
+            str(len(v.human_notes)),
+        ])
+    widths = [len(h) for h in headers]
+    for r in rows:
+        for i, cell in enumerate(r):
+            if len(cell) > widths[i]:
+                widths[i] = len(cell)
+
+    def fmt_row(cells: list[str], sep: str) -> str:
+        parts = [f" {cells[i]:<{widths[i]}} " for i in range(len(cells))]
+        return sep + sep.join(parts) + sep
+
+    top = "┌" + "┬".join("─" * (w + 2) for w in widths) + "┐"
+    mid = "├" + "┼".join("─" * (w + 2) for w in widths) + "┤"
+    bot = "└" + "┴".join("─" * (w + 2) for w in widths) + "┘"
+    print(top)
+    print(fmt_row(headers, "│"))
+    print(mid)
+    for r in rows:
+        print(fmt_row(r, "│"))
+    print(bot)
+
+    # Detail block for each company
+    for v in views:
+        print()
+        print(f"=== {v.ticker} — {v.full_name} ===")
+        if v.company_notes:
+            first = v.company_notes.strip().splitlines()[0]
+            print(f"  notes: {first[:120]}"
+                  f"{'…' if len(first) > 120 else ''}")
+        for r in v.dataset_rules:
+            metrics = ", ".join(r.metric_keys) or r.dataset
+            tag = " [EXCLUDED]" if r.excluded else ""
+            print(f"  • {metrics}: {r.treatment}{tag}")
+            if r.segment_names:
+                segs = ", ".join(f'"{s}"' for s in r.segment_names)
+                print(f"      segments: {segs}")
+            if r.adjustment and r.adjustment.get("formula"):
+                print(f"      formula:  {r.adjustment['formula']}")
+        for h in v.human_notes:
+            scope_parts = []
+            scope = h.scope or {}
+            if scope.get("metric_keys"):
+                scope_parts.append("/".join(scope["metric_keys"]))
+            if scope.get("period_range"):
+                scope_parts.append(scope["period_range"])
+            scope_line = " · ".join(scope_parts) or "—"
+            print(f"  ✎ {h.id} [{h.state}] {scope_line}")
+            print(f"      {h.guidance[:120]}"
+                  f"{'…' if len(h.guidance) > 120 else ''}")
+
+
 def _monitor_command(argv: list[str]) -> int:
     """Run the filing monitor for a company or all today's earnings."""
     from capex.monitor.run import main as monitor_main
@@ -725,6 +850,10 @@ def _print_help() -> None:
         "    audit review        open human-in-the-loop review of flagged items\n"
         "                        --cluster T[:M]  filter to one cluster\n"
         "                        --limit N        review at most N clusters\n"
+        "    treatments show     browse per-company human-authored rules\n"
+        "                        --ticker T       filter to ticker T\n"
+        "                        --metric KEY     filter to metric KEY\n"
+        "                        --format json    emit JSON instead of table\n"
     )
 
 

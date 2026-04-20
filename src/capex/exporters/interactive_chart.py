@@ -246,6 +246,85 @@ def _load_quarterly(
     return {"quarters": all_qs, "by_quarter": by_quarter}
 
 
+PLACEHOLDER_GREY = "#C8CCD1"
+
+# A ticker is considered a "pending regular quarterly reporter" only if
+# their most-recent reported quarter is within this many quarters of the
+# chart's trailing quarter. This prevents mostly-annual or newly-started
+# reporters (e.g. NBIS with 1 quarter of history) from rippling grey
+# placeholders back through an entire year.
+MAX_PLACEHOLDER_GAP = 2
+
+
+def _quarter_gap(q_earlier: str, q_later: str) -> int:
+    y1, qn1 = _qsort_key(q_earlier)
+    y2, qn2 = _qsort_key(q_later)
+    return (y2 - y1) * 4 + (qn2 - qn1)
+
+
+def _apply_pending_placeholders(
+    by_quarter: dict[str, dict[str, float]],
+    quarters: list[str],
+    exclude_tickers: set[str] | None = None,
+    max_gap: int = MAX_PLACEHOLDER_GAP,
+) -> tuple[dict[tuple[str, str], str], set[str]]:
+    """Carry-forward placeholders for trailing incomplete quarters.
+
+    During each earnings cycle, some tickers report 3-4 weeks earlier
+    than others. The quarterly chart would show the latest bars
+    looking artificially short (and the aggregate YoY/QoQ line would
+    plunge) until every tracker files.
+
+    This function walks `quarters` right-to-left. For each trailing
+    quarter where at least one "expected" ticker has no value but has
+    reported earlier, it fills that ticker's missing slot with the
+    most-recent prior value and records the (ticker, quarter) in the
+    returned placeholder map. The walk stops at the first fully-
+    covered quarter — earlier quarters are left alone.
+
+    "Expected" means: the ticker is in STACK_ORDER, not in the page's
+    exclude set, AND has at least one quarterly value in this metric.
+
+    Mutates `by_quarter` in place (filling missing slots) and returns
+    `(placeholder_map, incomplete_quarters)` where `placeholder_map`
+    is `{(ticker, quarter): prior_quarter}` and `incomplete_quarters`
+    is the set of quarters that got at least one placeholder.
+    """
+    exclude = exclude_tickers or set()
+    if not quarters:
+        return {}, set()
+    expected = {
+        t for t in STACK_ORDER
+        if t not in exclude and by_quarter.get(t)
+    }
+    chart_latest = quarters[-1]
+    placeholder_map: dict[tuple[str, str], str] = {}
+    incomplete: set[str] = set()
+    # Walk each expected ticker once. A ticker is eligible for
+    # placeholder fill only if their most-recent reported quarter is
+    # within `max_gap` quarters of the chart's latest quarter (i.e.
+    # they're an active-cadence reporter). If eligible, fill every
+    # quarter strictly after their latest up to the chart's latest
+    # with their latest value. Historical mid-series gaps are left as
+    # genuine holes and never back-filled.
+    for t in expected:
+        t_quarters = by_quarter.get(t) or {}
+        if not t_quarters:
+            continue
+        latest = max(t_quarters.keys(), key=_qsort_key)
+        if _quarter_gap(latest, chart_latest) > max_gap:
+            continue
+        for q in quarters:
+            if _qsort_key(q) <= _qsort_key(latest):
+                continue
+            if q in t_quarters:
+                continue
+            by_quarter.setdefault(t, {})[q] = t_quarters[latest]
+            placeholder_map[(t, q)] = latest
+            incomplete.add(q)
+    return placeholder_map, incomplete
+
+
 def _q4_label_for(period: str, fiscal_year: int) -> str:
     """Calendar-quarter label for a derived Q4 value.
 
@@ -295,6 +374,14 @@ def _build_html(
             "marker": {"color": COLORS.get(co, "#888")},
         })
 
+    # Fill trailing-incomplete quarters with prior-quarter placeholders so
+    # the stacked bar stays visually continuous while some tickers are
+    # still pending their earnings release. Only the placeholder bars are
+    # rendered in grey; tickers that already reported keep their colour.
+    placeholder_map, incomplete_quarters = _apply_pending_placeholders(
+        by_quarter, quarters, exclude_tickers=cfg.get("exclude_tickers"),
+    )
+
     quarterly_traces = []
     for co in STACK_ORDER:
         qdata = by_quarter.get(co, {})
@@ -302,26 +389,55 @@ def _build_html(
         if sum(vals) == 0:
             continue
         label = LABELS.get(co, co)
+        base_colour = COLORS.get(co, "#888")
+        bar_colours = [
+            PLACEHOLDER_GREY if (co, q) in placeholder_map else base_colour
+            for q in quarters
+        ]
+        customdata = [
+            [
+                bool((co, q) in placeholder_map),
+                placeholder_map.get((co, q), ""),
+            ]
+            for q in quarters
+        ]
         quarterly_traces.append({
             "name": label,
             "x": quarters,
             "y": vals,
             "type": "bar",
-            "marker": {"color": COLORS.get(co, "#888")},
+            "marker": {"color": bar_colours},
+            "customdata": customdata,
+            "hovertemplate": (
+                "<b>%{fullData.name}</b><br>"
+                "%{x}: $%{y:.2f}B"
+                "%{customdata[0] ? ' <i>(carried forward from ' "
+                "+ customdata[1] + ')</i>' : ''}<extra></extra>"
+            ),
         })
 
     nav_html = _build_nav_html(metric_key)
+    incomplete_sorted = sorted(incomplete_quarters, key=_qsort_key)
+    pending_note = (
+        '<p class="note pending-note">Grey bars are carry-forwards from '
+        "the prior quarter for companies whose latest report has not yet "
+        "filed; aggregate YoY/QoQ % is suppressed for those quarters "
+        "until all trackers publish.</p>"
+        if incomplete_quarters else ""
+    )
 
     return _HTML_TEMPLATE.format(
         annual_traces_json=json.dumps(annual_traces),
         quarterly_traces_json=json.dumps(quarterly_traces),
         x_annual_json=json.dumps(x_annual),
         x_quarterly_json=json.dumps(quarters),
+        incomplete_quarters_json=json.dumps(incomplete_sorted),
         has_quarterly="true" if quarterly_traces else "false",
         page_title=cfg["chart_title"],
         chart_title=cfg["chart_title"],
         yaxis_title=cfg["yaxis_title"],
         nav_html=nav_html,
+        pending_note=pending_note,
     )
 
 
@@ -385,6 +501,9 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
   .controls button.active {{ background: #2E75B6; color: white; }}
   .controls button:hover {{ background: #2E75B6; color: white; }}
   .note {{ text-align: center; font-size: 11px; color: #888; margin-top: 5px; }}
+  .pending-note {{ color: #555; background: #F3F4F6; border-left: 3px solid #9CA3AF;
+    padding: 6px 10px; max-width: 900px; margin: 10px auto 0; text-align: left;
+    font-size: 12px; }}
 </style>
 </head>
 <body>
@@ -401,6 +520,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
     </span>
   </div>
   <div id="plotDiv" style="width:100%;height:700px;"></div>
+  {pending_note}
   <div class="note">
     Click legend entries to toggle any series — companies, the aggregate
     <b>YoY %</b> line, or the aggregate <b>QoQ %</b> line.
@@ -434,6 +554,11 @@ var xAnnual = {x_annual_json};
 var xQuarterly = {x_quarterly_json};
 var hasQuarterly = {has_quarterly};
 var currentView = 'annual';
+
+// Pending-release quarters: trailing quarters where at least one tracked
+// company hasn't filed their latest earnings. Aggregate YoY/QoQ is
+// suppressed for these quarters to avoid misleading drops.
+window.__INCOMPLETE_QUARTERS = {incomplete_quarters_json};
 
 // ---- RUNTIME STATE ----
 var plotDiv = document.getElementById('plotDiv');
@@ -502,10 +627,12 @@ function makeAnnotations(totals, xLabels) {{
 
 function growthSeriesForPlot(totals, xLabels, mode, period) {{
     // Pack (x,y,text) triples for non-null growth values.
+    // Skip quarters flagged as pending-release (see __INCOMPLETE_QUARTERS).
     var vals = computeGrowth(totals, xLabels, mode, period);
+    var pending = new Set(window.__INCOMPLETE_QUARTERS || []);
     var oX = [], oY = [], oText = [];
     for (var i = 0; i < vals.length; i++) {{
-        if (vals[i] !== null) {{
+        if (vals[i] !== null && !pending.has(xLabels[i])) {{
             oX.push(xLabels[i]);
             oY.push(vals[i]);
             oText.push(vals[i].toFixed(0) + '%');

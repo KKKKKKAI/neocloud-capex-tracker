@@ -67,7 +67,8 @@ def generate_cloud_revenue_chart(
         "FROM extractions e "
         "JOIN source_documents sd ON e.source_document_id = sd.id "
         "WHERE e.metric_key = 'cloud_segment_revenue' "
-        "AND sd.period_token = 'AR'"
+        "AND sd.period_token = 'AR' "
+        "AND e.period_type = 'FY'"
     ).fetchall()
     conn.close()
 

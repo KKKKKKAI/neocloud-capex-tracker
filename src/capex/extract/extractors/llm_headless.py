@@ -12,6 +12,7 @@ Flow:
 """
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -28,10 +29,11 @@ from ...verification.dual_agent import (
     get_metric_description,
     parse_agent_a_response,
     parse_agent_b_response,
-    verify,
+    verify_period,
 )
 from ..base import ExtractionCandidate
 from ..coverage import DatasetTreatment, get_company_treatment, get_dataset_treatment
+from ..virtual_source_docs import ensure_restated_source_doc
 
 
 class LLMHeadlessExtractor:
@@ -159,59 +161,98 @@ class LLMHeadlessExtractor:
             if not result_a.get("found"):
                 return None  # metric not found in filing
 
-            # Agent B: blind verification (only sees excerpts)
-            prompt_b = build_agent_b_prompt(
-                company_name=company_name,
-                form_type=row["form_type"],
-                period=row["period_of_report"],
-                metric_description=metric_desc,
-                excerpts=result_a.get("excerpts", []),
-                unit=unit,
-                derivation_rules=deriv_rules,
-            )
+            periods = result_a.get("periods") or []
+            if not periods:
+                return None
 
-            response_b = backend.extract(system="", user=prompt_b)
-            result_b = parse_agent_b_response(response_b)
+            # Run Agent B once per period — each gets its own excerpts
+            # so the verifier can blind-check the specific value.
+            candidates: list[ExtractionCandidate] = []
+            any_primary_ok = False
+            now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            for period in periods:
+                prompt_b = build_agent_b_prompt(
+                    company_name=company_name,
+                    form_type=row["form_type"],
+                    period=period.get("period_of_report") or row["period_of_report"],
+                    metric_description=metric_desc,
+                    excerpts=period.get("excerpts", []),
+                    unit=unit,
+                    derivation_rules=deriv_rules,
+                )
+                response_b = backend.extract(system="", user=prompt_b)
+                result_b = parse_agent_b_response(response_b)
+                verification = verify_period(period, result_b)
+                verification.attempts = attempt
+                if not verification.verified:
+                    continue  # skip unverified periods
 
-            # Compare
-            verification = verify(result_a, result_b)
-            verification.attempts = attempt
-
-            if verification.verified:
-                # Build candidate
+                role = (period.get("role") or "primary").lower()
                 value = verification.value_a
                 value_usd, fx_rate, fx_date = normalize_to_usd(
-                    value, currency, row["period_of_report"], db=db,
+                    value, currency,
+                    period.get("period_of_report") or row["period_of_report"],
+                    db=db,
                 )
+                if role == "primary":
+                    source_doc_id = row["id"]
+                    extracting_model = "llm-dual-agent"
+                    any_primary_ok = True
+                else:
+                    # Comparative — write against a virtual source_doc
+                    # whose fiscal_year matches the comparative period
+                    # but whose citation fields come from this filing.
+                    comp_period = period.get("period_of_report") or ""
+                    try:
+                        comp_fy = int(comp_period[:4]) if comp_period else None
+                    except ValueError:
+                        comp_fy = None
+                    if comp_fy is None:
+                        continue
+                    with db.mutating() as conn:
+                        source_doc_id = ensure_restated_source_doc(
+                            conn, ticker, comp_fy, row["id"], now,
+                        )
+                    extracting_model = "llm-dual-agent-restated@0.1.0"
 
-                return [ExtractionCandidate(
-                    source_document_id=row["id"],
+                candidates.append(ExtractionCandidate(
+                    source_document_id=source_doc_id,
                     metric_key=metric_key,
                     value=value,
-                    value_text=f"{currency} {value:,.0f} million" if value else "",
+                    value_text=(
+                        f"{currency} {value:,.0f} million "
+                        f"({'restated' if role == 'comparative' else 'primary'})"
+                    ) if value else "",
                     unit="USD_millions",
                     quote=verification.best_quote[:250],
-                    locator_section=result_a.get("excerpts", [{}])[0].get("location", ""),
-                    extraction_type=result_a.get("extraction_type", "direct"),
-                    extracting_model="llm-dual-agent",
+                    locator_section=(
+                        (period.get("excerpts") or [{}])[0].get("location", "")
+                    ),
+                    extraction_type="direct",
+                    extracting_model=extracting_model,
                     reporting_currency=currency,
-                    excerpts=result_a.get("excerpts", []),
-                    reasoning=result_a.get("reasoning", ""),
-                )]
+                    excerpts=period.get("excerpts", []),
+                    reasoning=period.get("reasoning", ""),
+                ))
 
-            elif verification.match_type == "mismatch":
-                # A and B disagree — no retry, queue immediately
-                break
+            if not any_primary_ok:
+                # Primary verification failed — queue for human review.
+                # (Comparatives without a verified primary are still
+                # returned if they verified, but we also need to surface
+                # that the primary step missed so the router can flag.)
+                if not candidates:
+                    # Nothing verified at all — retry with broader ctx
+                    if attempt < MAX_RETRIES:
+                        deriv_rules += (
+                            f"\n\nRETRY {attempt}: primary period did not "
+                            f"verify. Ensure you've quoted column headers "
+                            f"AND row values and that the primary period's "
+                            f"column header matches '{row['period_of_report']}'."
+                        )
+                        continue
+                    return None
+                # Comparatives verified but primary didn't; skip this
+                # filing's primary write but keep verified comparatives.
+            return candidates or None
 
-            # B said not determinable — retry with broader context instruction
-            if attempt < MAX_RETRIES:
-                # Broaden context for next attempt
-                deriv_rules += (
-                    f"\n\nRETRY {attempt}: Previous context was insufficient. "
-                    f"Include MORE surrounding text — the full table, "
-                    f"all column headers, and any footnotes."
-                )
-
-        # All attempts failed or mismatch — queue for human review
-        # Return None so the router knows extraction didn't succeed
         return None

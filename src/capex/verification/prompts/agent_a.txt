@@ -6,49 +6,83 @@ TASK: Find and extract: {metric_description}
 
 {human_notes_block}
 RULES:
-1. Search the filing text for the exact data point.
-2. If FOUND: extract the VALUE and the CONTEXT — verbatim text passages (including surrounding table rows, footnote references, and qualifying language) that PROVE this value is correct.
-3. If the value must be DERIVED (computed from other values): extract ALL component values with their individual context passages, plus show the complete derivation formula.
-4. If NOT FOUND: set "found" to false. Do NOT fabricate or estimate.
-5. Each excerpt must be 100-500 words of VERBATIM text from the filing. Do not paraphrase.
-6. Include at least one "primary_value" excerpt containing the actual number.
+1. Search the filing text for the target data point AND every prior-period comparative value visible in the same table or statement.
+2. The table / income statement usually shows 2–3 historical periods for comparison:
+   - 10-K / 20-F annual: current FY + 1-2 prior FYs.
+   - 10-Q: current 3M + same 3M prior year + current YTD + same YTD prior year.
+   - 6-K press release: current 3M + same 3M prior year.
+3. For EACH period visible (current AND every prior-period comparative), emit one entry in the `periods` array:
+   - role="primary" for the period whose end date matches this filing's period_of_report ({period}).
+   - role="comparative" for every other period visible in the same statement/table.
+4. Each period entry must carry its own `excerpts` — the column header identifying the period + the row/cell with the value. Two to three short excerpts per period is typical.
+5. Every excerpt is 50-400 words of VERBATIM text from the filing. No paraphrasing.
+6. Each period needs a primary_value excerpt (containing the actual number).
+7. DERIVED values (e.g. BIDU cloud = Total − Online marketing − iQIYI) must show all component values per period with their individual excerpts and the formula.
+8. If the metric is NOT FOUND anywhere, set "found" to false and return periods: [].
+9. Do NOT fabricate or estimate values. If a comparative column is illegible or missing, omit that period's entry rather than guessing.
 
 OUTPUT FORMAT (JSON only, no markdown):
 {{
   "found": true,
-  "value": 39824,
-  "unit": "{unit}",
-  "excerpts": [
+  "periods": [
     {{
-      "text": "<verbatim 100-500 word passage from the filing>",
-      "location": "<section name, table caption, page number>",
-      "role": "primary_value"
+      "role": "primary",
+      "label": "FY2025",
+      "period_of_report": "2025-06-30",
+      "basis_period_months": 12,
+      "value": 106265,
+      "unit": "{unit}",
+      "excerpts": [
+        {{
+          "text": "<verbatim 50-400 word passage containing the value + column header>",
+          "location": "<section name, table caption>",
+          "role": "primary_value"
+        }}
+      ],
+      "derivation": null,
+      "reasoning": "<1-2 sentences>"
     }},
     {{
-      "text": "<optional supporting passage>",
-      "location": "<location>",
-      "role": "supporting"
+      "role": "comparative",
+      "label": "FY2024 (restated)",
+      "period_of_report": "2024-06-30",
+      "basis_period_months": 12,
+      "value": 87464,
+      "unit": "{unit}",
+      "excerpts": [
+        {{
+          "text": "<verbatim passage — usually the prior-year comparative column in the same table>",
+          "location": "<same table caption>",
+          "role": "primary_value"
+        }}
+      ],
+      "derivation": null,
+      "reasoning": "<1-2 sentences on why this is the right prior-period value>"
     }}
   ],
-  "derivation": null,
-  "reasoning": "<1-2 sentences: why you believe this is the correct value>"
+  "reasoning": "<overall note: which table/statement you read, any segment-scope caveats>"
 }}
 
-If not found:
+If not found anywhere in the filing:
 {{
   "found": false,
-  "value": null,
-  "unit": "{unit}",
-  "excerpts": [],
-  "derivation": null,
+  "periods": [],
   "reasoning": "<explain what you searched for and why it was not found>"
 }}
 
+basis_period_months mapping:
+- 3 → 3-month quarterly (Q1 / Q2 / Q3 / Q4 standalone)
+- 6 → first-half (H1, YTD 6M)
+- 9 → 9M YTD
+- 12 → full fiscal year (FY)
+
 Excerpt roles:
-- "primary_value" — text containing the actual number (MANDATORY if found)
-- "supporting" — corroborating data (growth rates, comparatives)
-- "derivation_input" — for derived metrics, each component's source text
+- "primary_value" — text containing the actual number for this period (MANDATORY for every period entry)
+- "supporting" — corroborating data (growth rates, segment subtotals)
+- "derivation_input" — for derived metrics, each component's source text for this period
 - "footnote" — qualifying footnotes referenced by the data
+
+IMPORTANT: prior-year comparative columns in a 10-K or 10-Q are the filing's *restated* view of the prior period. Capture them faithfully — downstream code will use the restated values to supersede the original filing's value for that period.
 
 FILING TEXT:
 {sections_text}

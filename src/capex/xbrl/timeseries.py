@@ -159,12 +159,12 @@ def fetch_concept_timeseries(
     result = []
     for (_end_date_val, form_no_amend), bucket in grouped.items():
         preferred = _preferred_days_for_form(form_no_amend)
-        # Best = entry with duration closest to preferred (as before).
         best = min(bucket, key=lambda e: _score(e, preferred))
-        best_key = (
-            best.get("start", ""), best.get("end", ""),
-            _duration_days(best),
-        )
+        # Keep the ORIGINAL form (with /A if any) from the picked entry.
+        # Restatement capture is NOT done here — the LLM dual-agent
+        # extractor handles restatements when it reads a filing, pulling
+        # current + comparative columns with Agent B verification and
+        # filing-text excerpt quotes. See docs/RESTATEMENT_POLICY.md.
         result.append({
             "end": best["end"],
             "val": best["val"],
@@ -174,46 +174,9 @@ def fetch_concept_timeseries(
             "fp": best.get("fp", ""),
             "accn": best.get("accn", ""),
             "start": best.get("start", ""),
-            "is_restatement": False,
-            "restated_from_accn": None,
         })
-        # Restatement siblings: entries in the same bucket that match
-        # the best entry's (start, end, duration) signature but have a
-        # LATER `filed` date AND a different `val`. These are genuine
-        # restatements of the same period reported in a later filing
-        # (e.g. MSFT segment reorg restated prior-year comparatives).
-        for sibling in bucket:
-            if sibling is best:
-                continue
-            sib_key = (
-                sibling.get("start", ""), sibling.get("end", ""),
-                _duration_days(sibling),
-            )
-            if sib_key != best_key:
-                continue
-            # More recent filing AND different value → restatement
-            if not sibling.get("filed") or not best.get("filed"):
-                continue
-            if sibling["filed"] <= best["filed"]:
-                continue
-            if sibling.get("val") == best.get("val"):
-                continue
-            result.append({
-                "end": sibling["end"],
-                "val": sibling["val"],
-                "form": sibling.get("form", ""),
-                "filed": sibling.get("filed", ""),
-                "fy": sibling.get("fy"),
-                "fp": sibling.get("fp", ""),
-                "accn": sibling.get("accn", ""),
-                "start": sibling.get("start", ""),
-                "is_restatement": True,
-                "restated_from_accn": best.get("accn", ""),
-            })
 
-    # Stable sort: by end_date, then filed (so original comes first, any
-    # restatements follow in filing order).
-    result.sort(key=lambda x: (x["end"], x.get("filed") or ""))
+    result.sort(key=lambda x: x["end"])
     return result
 
 
@@ -274,21 +237,16 @@ def write_timeseries_to_db(
 
     summary = {"inserted": 0, "skipped": 0, "errors": []}
 
-    summary["restated"] = 0
     for point in series:
         end_date = point["end"]
         val = point["val"]
         form = point["form"].rstrip("/A")  # normalize amended forms
-        is_restatement = bool(point.get("is_restatement"))
 
         # Convert value to millions
         val_millions = round(val / 1e6, 2) if val else None
 
         try:
-            # Find or create a source_documents row for this period.
-            # For restated entries the source doc is the LATER filing
-            # — `_ensure_source_doc` keys off (ticker, form, period,
-            # accession) so a restating accession creates a distinct row.
+            # Find or create a source_documents row for this period
             doc_id = _ensure_source_doc(
                 db, ticker, form, end_date, point.get("filed", ""),
                 point.get("accn", ""), now,
@@ -299,32 +257,19 @@ def write_timeseries_to_db(
                 val_millions, reporting_currency, end_date, db=db,
             )
 
-            model = "restated-xbrl" if is_restatement else "xbrl-companyfacts"
             # Insert extraction (idempotent on unique constraint)
             with db.mutating() as conn:
                 existing = conn.execute(
                     "SELECT id FROM extractions "
                     "WHERE source_document_id = ? AND metric_key = ? "
                     "AND extracting_model = ?",
-                    (doc_id, metric_key, model),
+                    (doc_id, metric_key, "xbrl-companyfacts"),
                 ).fetchone()
 
                 if existing:
                     summary["skipped"] += 1
                     continue
 
-                quote = (
-                    f"XBRL restated: {metric_key} = {val}"
-                    f" (restated in filing {point.get('accn', '')}"
-                    f" from earlier {point.get('restated_from_accn', '')})"
-                    if is_restatement
-                    else f"XBRL: {metric_key} = {val}"
-                )
-                locator = (
-                    "XBRL companyfacts API (restated)"
-                    if is_restatement
-                    else "XBRL companyfacts API"
-                )
                 conn.execute(
                     """
                     INSERT INTO extractions (
@@ -347,10 +292,10 @@ def write_timeseries_to_db(
                         if val_millions
                         else "n/a",
                         "USD_millions",
-                        quote,
-                        locator,
+                        f"XBRL: {metric_key} = {val}",
+                        "XBRL companyfacts API",
                         "direct",
-                        model,
+                        "xbrl-companyfacts",
                         "0.1.0-draft",
                         now,
                         value_usd,
@@ -359,10 +304,7 @@ def write_timeseries_to_db(
                         reporting_currency,
                     ),
                 )
-                if is_restatement:
-                    summary["restated"] += 1
-                else:
-                    summary["inserted"] += 1
+                summary["inserted"] += 1
 
         except Exception as e:
             summary["errors"].append(

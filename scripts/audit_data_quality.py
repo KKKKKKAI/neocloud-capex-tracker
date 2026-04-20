@@ -35,9 +35,6 @@ def main() -> int:
     ap.add_argument("--end-year", type=int, default=2025)
     ap.add_argument("--output", default=str(
         REPO_ROOT / "output" / "data_quality_report.md"))
-    ap.add_argument("--historical-restatements", action="store_true",
-                    help="Restatement scan walks every historical filing "
-                         "(not just the latest) to back-fill the full trail.")
     args = ap.parse_args()
 
     run_id = datetime.now(timezone.utc).strftime("audit-%Y%m%d-%H%M%S")
@@ -87,19 +84,9 @@ def main() -> int:
     # annual filing and surfaces any period value that differs from
     # what's in the DB. With --apply, writes back the restated values
     # so the filing_date DESC selector promotes them on next read.
-    print(
-        "Running restatement detection"
-        f"{' (historical sweep)' if args.historical_restatements else ''}..."
-    )
-    tickers_arg = [args.ticker] if args.ticker else None
-    rsum = restatement.detect(
-        db=db, tickers=tickers_arg,
-        historical=args.historical_restatements,
-    )
+    print("Running restatement reporter (observational only)...")
+    rsum = restatement.detect(db=db)
     print(f"  Restatement findings: {rsum.total}")
-    if args.apply and rsum.findings:
-        rsum = restatement.apply(rsum, db=db)
-        print(f"  Applied: {rsum.applied_count}")
 
     output = Path(args.output)
     report.write_report(cells, applied, run_id, output,

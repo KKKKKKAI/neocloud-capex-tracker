@@ -1,13 +1,10 @@
-"""Tests for restatement-aware extraction + audit.
+"""Tests for selector precedence + minimal restatement-report plumbing.
 
-Covers:
-- Selector preference: newest `source_documents.filing_date` wins.
-- XBRL restatement capture: `is_restatement=True` entries surface when
-  same (start, end, duration) signature has a later-filed variant.
-- Detector: finds prior-year values in the latest 10-K's segment table
-  that differ from the DB beyond tolerance.
-- Applier: writes `restated-segment@0.1.0` row sourced from the
-  restating filing; filing_date DESC selector promotes it on next read.
+Restatements themselves are now captured by the LLM dual-agent
+extractor (see `tests/unit/test_multi_period_extraction.py`). This
+file keeps the cross-cutting tests: selector precedence (newest
+`source_documents.filing_date` wins) and the shape of the audit
+report's "Restatements" section.
 """
 from __future__ import annotations
 
@@ -17,14 +14,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from capex.xbrl.timeseries import fetch_concept_timeseries  # noqa: F401
 
-# ---- XBRL restatement capture ------------------------------------
-
-def test_xbrl_fetch_marks_restatement_when_val_differs(monkeypatch):
-    """If two contexts share (start, end, duration) but differ in val+accn,
-    the later-filed entry appears as a restatement and the earlier one
-    is retained as the original."""
+def test_xbrl_fetch_returns_single_entry_per_period(monkeypatch):
+    """Post-rework, fetch_concept_timeseries returns one entry per
+    (end_date, form) group even when the API surfaces multiple
+    contexts — the later-filed variants are discarded here. LLM
+    dual-agent captures restatements instead."""
     from capex.xbrl import timeseries as ts
 
     fake_facts = {
@@ -33,12 +28,10 @@ def test_xbrl_fetch_marks_restatement_when_val_differs(monkeypatch):
                 "Revenue": {
                     "units": {
                         "USD": [
-                            # Original
                             {"end": "2024-06-30", "val": 105_362_000_000,
                              "form": "10-K", "filed": "2024-07-30",
                              "fy": 2024, "fp": "FY", "accn": "A",
                              "start": "2023-07-01"},
-                            # Restatement — same (start, end, ~365d), later filed
                             {"end": "2024-06-30", "val": 87_464_000_000,
                              "form": "10-K", "filed": "2025-07-30",
                              "fy": 2024, "fp": "FY", "accn": "B",
@@ -53,48 +46,10 @@ def test_xbrl_fetch_marks_restatement_when_val_differs(monkeypatch):
     series = ts.fetch_concept_timeseries(
         cik="0000000000", concept="us-gaap:Revenue",
     )
-    # Two entries for the same period: the best (earlier filed) +
-    # the restatement (later filed).
     ends = [e["end"] for e in series]
-    assert ends.count("2024-06-30") == 2
-    restated = [e for e in series if e.get("is_restatement")]
-    assert len(restated) == 1
-    assert restated[0]["accn"] == "B"
-    assert restated[0]["restated_from_accn"] == "A"
-    assert restated[0]["val"] == 87_464_000_000
-
-
-def test_xbrl_no_restatement_when_val_identical(monkeypatch):
-    """Two contexts with identical val but different accn are not
-    restatements — they're just duplicate submissions."""
-    from capex.xbrl import timeseries as ts
-
-    fake_facts = {
-        "facts": {
-            "us-gaap": {
-                "Revenue": {
-                    "units": {
-                        "USD": [
-                            {"end": "2024-06-30", "val": 100_000,
-                             "form": "10-K", "filed": "2024-07-30",
-                             "fy": 2024, "fp": "FY", "accn": "A",
-                             "start": "2023-07-01"},
-                            {"end": "2024-06-30", "val": 100_000,
-                             "form": "10-K", "filed": "2025-07-30",
-                             "fy": 2024, "fp": "FY", "accn": "B",
-                             "start": "2023-07-01"},
-                        ]
-                    }
-                }
-            }
-        }
-    }
-    monkeypatch.setattr(ts, "_fetch_companyfacts", lambda cik: fake_facts)
-    series = ts.fetch_concept_timeseries(
-        cik="0000000000", concept="us-gaap:Revenue",
-    )
-    restated = [e for e in series if e.get("is_restatement")]
-    assert restated == []
+    assert ends.count("2024-06-30") == 1
+    # No is_restatement field surfaces any more
+    assert all("is_restatement" not in e for e in series)
 
 
 # ---- Selector: newest filing wins --------------------------------
@@ -227,19 +182,14 @@ def test_render_markdown_has_row_per_finding():
         cell_key="MSFT:cloud_segment_revenue:2024FY",
         ticker="MSFT", metric_key="cloud_segment_revenue",
         fiscal_year=2024, period_type="FY",
-        existing_value_usd=105_362, restated_value_usd=87_464,
-        delta_pct=0.17, existing_extraction_id=10,
-        source_document_id=2, source_filing_date="2025-07-30",
-        source_url="https://sec.gov/x", segment_name="Intelligent Cloud",
+        original_value_usd=105_362, latest_value_usd=87_464,
+        delta_pct=0.17,
+        original_filing_date="2024-07-30",
+        latest_filing_date="2025-07-30",
+        latest_source_url="https://sec.gov/x",
     )
     md = render_markdown(RestatementSummary(findings=[f]))
     assert "MSFT:cloud_segment_revenue:2024FY" in md
     assert "$87,464M" in md
     assert "17.0%" in md
     assert "2025-07-30" in md
-
-
-def test_cell_key_format():
-    from capex.audit.restatement import _cell_key
-    assert _cell_key("MSFT", "cloud_segment_revenue", 2024, "FY") == \
-        "MSFT:cloud_segment_revenue:2024FY"

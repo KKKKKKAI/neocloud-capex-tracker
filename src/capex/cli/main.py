@@ -308,7 +308,6 @@ def _extract_command(argv: list[str]) -> int:
     period = None
     force = False
     batch = False
-    restated = False
     i = 0
     while i < len(argv):
         if argv[i] == "--batch":
@@ -326,18 +325,12 @@ def _extract_command(argv: list[str]) -> int:
         elif argv[i] == "--force":
             force = True
             i += 1
-        elif argv[i] == "--restated":
-            restated = True
-            i += 1
         elif not argv[i].startswith("-") and ticker is None:
             ticker = argv[i]
             i += 1
         else:
             print(f"unknown option: {argv[i]}", file=sys.stderr)
             return 2
-
-    if restated:
-        return _extract_restated(ticker=ticker, metric_key=metric_key)
 
     # Batch mode: use the router
     if batch:
@@ -469,42 +462,6 @@ def _extract_single(
     else:
         print(f"  ✗ no extractor succeeded (chain tried: {result.chain_tried})")
         return 1
-
-
-def _extract_restated(
-    ticker: str | None = None, metric_key: str | None = None,
-) -> int:
-    """Run the restatement detector + applier on one/all tickers.
-
-    Mirrors `capex audit --apply` but scoped to just the restatement
-    pipeline, for manual drive-by refresh.
-    """
-    from capex.audit import restatement
-    from capex.db import Database
-
-    tickers = [ticker] if ticker else None
-    metrics = (metric_key,) if metric_key else restatement.METRICS_TO_SCAN
-    db = Database()
-    print(
-        f"running restatement detection on "
-        f"{'one ticker' if ticker else 'all tickers'} × "
-        f"{len(metrics)} metric(s)..."
-    )
-    summary = restatement.detect(db=db, tickers=tickers, metrics=metrics)
-    print(f"  findings: {summary.total}")
-    if not summary.findings:
-        return 0
-    summary = restatement.apply(summary, db=db)
-    print(f"  applied:  {summary.applied_count}")
-    for f in summary.findings:
-        flag = "✓" if f.applied else "✗"
-        ex = (f"${f.existing_value_usd:,.0f}M"
-              if f.existing_value_usd is not None else "—")
-        print(
-            f"  {flag} {f.cell_key}: {ex} → ${f.restated_value_usd:,.0f}M "
-            f"(Δ {f.delta_pct * 100:.1f}%)  source={f.source_url[:60]}"
-        )
-    return 0
 
 
 def _extract_batch(

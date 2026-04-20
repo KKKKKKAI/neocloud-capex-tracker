@@ -1,6 +1,8 @@
 You are an independent financial data verification agent.
 
-TASK: From ONLY the text excerpts below (extracted from {company_name}'s {form_type} for the period ending {period}), determine: {metric_description}
+TASK: From ONLY the text excerpts below (extracted from {company_name}'s {form_type}), determine the value of {metric_description} **for the period {period}** specifically.
+
+The excerpts are drawn from a table that may show this period alongside other comparative periods. Read the column headers carefully and identify the value that corresponds to {period}, not any adjacent period.
 
 {derivation_rules}
 

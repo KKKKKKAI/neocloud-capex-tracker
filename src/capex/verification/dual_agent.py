@@ -113,6 +113,7 @@ def parse_agent_a_response(response_text: str) -> dict[str, Any]:
     """Parse Agent A's JSON response.
 
     Robust: strips markdown fences, handles common JSON issues.
+    Returns the multi-period schema — see agent_a.txt.
     """
     import json
     import re
@@ -123,65 +124,86 @@ def parse_agent_a_response(response_text: str) -> dict[str, Any]:
     text = re.sub(r'\s*```$', '', text)
 
     try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        match = re.search(r'\{[\s\S]*\}', text)
+        if match:
+            try:
+                parsed = json.loads(match.group())
+            except json.JSONDecodeError:
+                return {"found": False, "periods": [],
+                        "reasoning": "Failed to parse response"}
+        else:
+            return {"found": False, "periods": [],
+                    "reasoning": "Failed to parse response"}
+
+    # Backwards compat: older LLM outputs or hand-written results may
+    # still return a single {value, excerpts} shape. Normalize to the
+    # multi-period form.
+    if parsed.get("found") and "periods" not in parsed and "value" in parsed:
+        parsed = {
+            "found": True,
+            "periods": [{
+                "role": "primary",
+                "label": parsed.get("label") or "",
+                "period_of_report": parsed.get("period_of_report") or "",
+                "basis_period_months": parsed.get("basis_period_months") or 12,
+                "value": parsed.get("value"),
+                "unit": parsed.get("unit") or "",
+                "excerpts": parsed.get("excerpts") or [],
+                "derivation": parsed.get("derivation"),
+                "reasoning": parsed.get("reasoning") or "",
+            }],
+            "reasoning": parsed.get("reasoning") or "",
+        }
+    # Defensively default periods to []
+    parsed.setdefault("periods", [])
+    return parsed
+
+
+def parse_agent_b_response(response_text: str) -> dict[str, Any]:
+    """Parse Agent B's JSON response — unchanged shape (single value)."""
+    import json
+    import re
+    text = response_text.strip()
+    text = re.sub(r'^```(?:json)?\s*', '', text)
+    text = re.sub(r'\s*```$', '', text)
+    try:
         return json.loads(text)
     except json.JSONDecodeError:
-        # Try to find JSON object in the text
         match = re.search(r'\{[\s\S]*\}', text)
         if match:
             try:
                 return json.loads(match.group())
             except json.JSONDecodeError:
                 pass
-    return {"found": False, "value": None, "excerpts": [], "reasoning": "Failed to parse response"}
+    return {"determinable": False, "value": None,
+            "reasoning": "Failed to parse response"}
 
 
-def parse_agent_b_response(response_text: str) -> dict[str, Any]:
-    """Parse Agent B's JSON response."""
-    return parse_agent_a_response(response_text)  # Same parsing logic
-
-
-def verify(
-    agent_a_result: dict[str, Any],
+def verify_period(
+    period_a: dict[str, Any],
     agent_b_result: dict[str, Any],
 ) -> VerificationResult:
-    """Compare Agent A and B results, return verification verdict.
-
-    This is the pure comparison step — no LLM calls. The caller
-    is responsible for running Agent A and B (either interactively
-    in Claude Code or via API).
-    """
-    value_a = agent_a_result.get("value")
+    """Compare Agent A's single-period entry with Agent B's verdict
+    on the same period. Returns one `VerificationResult`."""
+    value_a = period_a.get("value")
     value_b = agent_b_result.get("value")
-    excerpts = agent_a_result.get("excerpts", [])
-    reasoning_a = agent_a_result.get("reasoning", "")
+    excerpts = period_a.get("excerpts", [])
+    reasoning_a = period_a.get("reasoning", "")
     reasoning_b = agent_b_result.get("reasoning", "")
 
-    # Handle "not found" cases
-    if not agent_a_result.get("found", False):
-        return VerificationResult(
-            value_a=None, value_b=None,
-            verified=False, match_type="not_found",
-            excerpts=excerpts, reasoning_a=reasoning_a,
-            reasoning_b=reasoning_b,
-            needs_review=False,  # not found is a valid outcome
-        )
-
-    # Handle B saying insufficient
     if not agent_b_result.get("determinable", False):
         return VerificationResult(
             value_a=value_a, value_b=None,
             verified=False, match_type="not_found",
             excerpts=excerpts, reasoning_a=reasoning_a,
             reasoning_b=reasoning_b,
-            needs_review=True,  # might succeed with broader context
+            needs_review=True,
         )
 
-    # Compare values
     match_type = compare_values(value_a, value_b)
-
-    # Extract best quote for citation
     best_quote = _extract_best_quote(excerpts)
-
     return VerificationResult(
         value_a=value_a,
         value_b=value_b,
@@ -193,6 +215,40 @@ def verify(
         needs_review=(match_type == "mismatch"),
         best_quote=best_quote,
     )
+
+
+def verify(
+    agent_a_result: dict[str, Any],
+    agent_b_result: dict[str, Any],
+) -> VerificationResult:
+    """Legacy single-period verify — kept for backwards compatibility.
+
+    For the new multi-period flow, callers should iterate
+    `agent_a_result["periods"]` and run Agent B + `verify_period`
+    per period.
+    """
+    if not agent_a_result.get("found", False):
+        return VerificationResult(
+            value_a=None, value_b=None,
+            verified=False, match_type="not_found",
+            excerpts=[], reasoning_a=agent_a_result.get("reasoning", ""),
+            reasoning_b=agent_b_result.get("reasoning", ""),
+            needs_review=False,
+        )
+    periods = agent_a_result.get("periods") or []
+    primary = next(
+        (p for p in periods if p.get("role") == "primary"), None,
+    )
+    if primary is None and periods:
+        primary = periods[0]
+    if primary is None:
+        # Fall back to pre-rework single-value shape if present.
+        primary = {
+            "value": agent_a_result.get("value"),
+            "excerpts": agent_a_result.get("excerpts", []),
+            "reasoning": agent_a_result.get("reasoning", ""),
+        }
+    return verify_period(primary, agent_b_result)
 
 
 def _extract_best_quote(excerpts: list[dict[str, str]]) -> str:

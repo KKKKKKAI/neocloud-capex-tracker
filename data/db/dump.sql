@@ -4604,6 +4604,11 @@ INSERT INTO "audit_log" VALUES(4589,'2026-04-21T01:26:44+00:00','read-and-extrac
 INSERT INTO "audit_log" VALUES(4590,'2026-04-21T01:28:49+00:00','msft-rerun@1.0','llm_rows_deleted_blank_period_type','extractions',NULL,'{"ids": [5743, 5732, 5735, 5737, 5739, 5741, 5744, 5733, 5734, 5736, 5738, 5740, 5742]}');
 INSERT INTO "audit_log" VALUES(4591,'2026-04-21T01:30:06+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5745,'{"extracting_model": "llm-dual-agent", "metric_key": "cloud_segment_revenue", "source_document_id": 1, "value": 106265}');
 INSERT INTO "audit_log" VALUES(4592,'2026-04-21T01:30:06+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5746,'{"extracting_model": "llm-dual-agent-restated@0.1.0", "metric_key": "cloud_segment_revenue", "source_document_id": 526, "value": 87464}');
+INSERT INTO "audit_log" VALUES(4593,'2026-04-21T01:38:22+00:00','virtual-sd-migration@1.0','virtual_raw_path_migrated','source_documents',NULL,'{"count": 1, "note": "old 2-part raw_path \u2192 new 3-part (period/accn)"}');
+INSERT INTO "audit_log" VALUES(4594,'2026-04-21T01:40:02+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5747,'{"extracting_model": "llm-dual-agent", "metric_key": "cloud_segment_revenue", "source_document_id": 56, "value": 32907}');
+INSERT INTO "audit_log" VALUES(4595,'2026-04-21T01:40:02+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5748,'{"extracting_model": "llm-dual-agent-restated@0.1.0", "metric_key": "cloud_segment_revenue", "source_document_id": 527, "value": 25544}');
+INSERT INTO "audit_log" VALUES(4596,'2026-04-21T01:40:02+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5749,'{"extracting_model": "llm-dual-agent", "metric_key": "cloud_segment_revenue", "source_document_id": 56, "value": 63804}');
+INSERT INTO "audit_log" VALUES(4597,'2026-04-21T01:40:02+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5750,'{"extracting_model": "llm-dual-agent-restated@0.1.0", "metric_key": "cloud_segment_revenue", "source_document_id": 527, "value": 49636}');
 CREATE TABLE audit_review_feedback (
     id                    INTEGER PRIMARY KEY AUTOINCREMENT,
     audit_run_id          TEXT NOT NULL,
@@ -15225,6 +15230,10 @@ INSERT INTO "extractions" VALUES(5730,23,'revenue','Q4',3,NULL,73359.0,'$73,359M
 INSERT INTO "extractions" VALUES(5731,23,'operating_cash_flow','Q4',3,NULL,28847.0,'$28,847M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-04-20T22:28:16+00:00',28847.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5745,1,'cloud_segment_revenue','FY',12,NULL,106265.0,'USD 106,265 million (primary)','USD_millions','SEGMENT RESULTS OF OPERATIONS (In millions, except percentages) 2025 2024 PercentageChange Productivity and Business Processes Revenue $ 120,810 $ 106,820 13% Cost of revenue 22,422 19,611 14% Operating expenses 28,615 27,548 4% Operating Income $ 69',NULL,'Item 7, MD&A — SEGMENT RESULTS OF OPERATIONS table','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-21T01:30:06+00:00',106265.0,1.0,'2025-06-30','USD');
 INSERT INTO "extractions" VALUES(5746,526,'cloud_segment_revenue','FY',12,NULL,87464.0,'USD 87,464 million (restated)','USD_millions','SEGMENT RESULTS OF OPERATIONS (In millions, except percentages) 2025 2024 PercentageChange ...',NULL,'Item 7, MD&A — SEGMENT RESULTS OF OPERATIONS table','direct',NULL,'llm-dual-agent-restated@0.1.0','0.1.0-draft','2026-04-21T01:30:06+00:00',87464.0,1.0,'2024-06-30','USD');
+INSERT INTO "extractions" VALUES(5747,56,'cloud_segment_revenue','Q2',3,NULL,32907.0,'USD 32,907 million (primary)','USD_millions','Segment revenue, cost of revenue, operating expenses, and operating income were as follows during the periods presented: (In millions) Three Months Ended December 31, Six Months Ended December 31, 2025 2024 2025 2024 Productivity and Business Process',NULL,'NOTE 16 — SEGMENT INFORMATION AND GEOGRAPHIC DATA, segment results table','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-21T01:40:02+00:00',32907.0,1.0,'2025-12-31','USD');
+INSERT INTO "extractions" VALUES(5748,527,'cloud_segment_revenue','Q2',3,NULL,25544.0,'USD 25,544 million (restated)','USD_millions','(In millions) Three Months Ended December 31, Six Months Ended December 31, 2025 2024 2025 2024 ...',NULL,'NOTE 16 — SEGMENT INFORMATION AND GEOGRAPHIC DATA, segment results table','direct',NULL,'llm-dual-agent-restated@0.1.0','0.1.0-draft','2026-04-21T01:40:02+00:00',25544.0,1.0,'2024-12-31','USD');
+INSERT INTO "extractions" VALUES(5749,56,'cloud_segment_revenue','H1',6,NULL,63804.0,'USD 63,804 million (primary)','USD_millions','(In millions) Three Months Ended December 31, Six Months Ended December 31, 2025 2024 2025 2024 ...',NULL,'NOTE 16 — SEGMENT INFORMATION AND GEOGRAPHIC DATA, segment results table','direct',NULL,'llm-dual-agent','0.1.0-draft','2026-04-21T01:40:02+00:00',63804.0,1.0,'2025-12-31','USD');
+INSERT INTO "extractions" VALUES(5750,527,'cloud_segment_revenue','H1',6,NULL,49636.0,'USD 49,636 million (restated)','USD_millions','(In millions) Three Months Ended December 31, Six Months Ended December 31, 2025 2024 2025 2024 ...',NULL,'NOTE 16 — SEGMENT INFORMATION AND GEOGRAPHIC DATA, segment results table','direct',NULL,'llm-dual-agent-restated@0.1.0','0.1.0-draft','2026-04-21T01:40:02+00:00',49636.0,1.0,'2024-12-31','USD');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -15822,7 +15831,8 @@ INSERT INTO "source_documents" VALUES(511,'AMZN','10-K','2016-01-29','2015-09-30
 INSERT INTO "source_documents" VALUES(512,'AMZN','10-K','2017-02-10','2016-03-31',2016,'AR','xbrl-synthetic-AMZN-10-K-2016-03-31','xbrl://companyfacts/AMZN/2016-03-31',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIKAMZN.json','0001018724-17-000011','2026-04-20T22:24:50+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(513,'AMZN','10-K','2017-02-10','2016-06-30',2016,'AR','xbrl-synthetic-AMZN-10-K-2016-06-30','xbrl://companyfacts/AMZN/2016-06-30',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIKAMZN.json','0001018724-17-000011','2026-04-20T22:24:50+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(514,'AMZN','10-K','2017-02-10','2016-09-30',2016,'AR','xbrl-synthetic-AMZN-10-K-2016-09-30','xbrl://companyfacts/AMZN/2016-09-30',NULL,'xbrl_api','https://data.sec.gov/api/xbrl/companyfacts/CIKAMZN.json','0001018724-17-000011','2026-04-20T22:24:50+00:00','xbrl-timeseries@0.1.0','0.1.0-draft');
-INSERT INTO "source_documents" VALUES(526,'MSFT','6-K','2025-07-30','2024-06-30',2024,'AR','restated-MSFT-2024-0000950170-25-100235','restated-virtual://MSFT/2024',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm','0000950170-25-100235','2026-04-21T01:30:05+00:00','llm-dual-agent@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(526,'MSFT','6-K','2025-07-30','2024-06-30',2024,'AR','restated-MSFT-2024-0000950170-25-100235','restated-virtual://MSFT/2024-06-30/0000950170-25-100235',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm','0000950170-25-100235','2026-04-21T01:30:05+00:00','llm-dual-agent@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(527,'MSFT','6-K','2026-01-28','2024-12-31',2024,'AR','restated-MSFT-2024-0001193125-26-027207','restated-virtual://MSFT/2024-12-31/0001193125-26-027207',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000119312526027207/msft-20251231.htm','0001193125-26-027207','2026-04-21T01:40:01+00:00','llm-dual-agent@0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id INTEGER NOT NULL REFERENCES extractions(id),
@@ -15947,11 +15957,11 @@ CREATE INDEX idx_audit_verdicts_run
 CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
 CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4592);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4597);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1060);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5746);
-INSERT INTO "sqlite_sequence" VALUES('source_documents',526);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5750);
+INSERT INTO "sqlite_sequence" VALUES('source_documents',527);
 INSERT INTO "sqlite_sequence" VALUES('audit_verdicts',250);
 COMMIT;

@@ -45,10 +45,17 @@ def ensure_restated_source_doc(
     fiscal_year: int,
     restating_sd_id: int,
     now: str,
+    *,
+    period_of_report: str | None = None,
 ) -> int:
     """Get/create a virtual source_documents row for a restated period.
 
     Idempotent — returns the existing row's id if already created.
+
+    `period_of_report` — optional ISO date (YYYY-MM-DD) for quarterly
+    restatements. When omitted, defaults to the company's fiscal-
+    year-end date derived from `fiscal_year` + `companies.fiscal_year_end_month`
+    (the standard annual comparative case).
     """
     restating = conn.execute(
         "SELECT ticker, form_type, filing_date, period_of_report, "
@@ -60,20 +67,26 @@ def ensure_restated_source_doc(
         raise ValueError(
             f"restating source_doc {restating_sd_id} not found"
         )
-    co = conn.execute(
-        "SELECT fiscal_year_end_month FROM companies WHERE ticker = ?",
-        (ticker,),
-    ).fetchone()
-    fye_month = (co["fiscal_year_end_month"] or 12) if co else 12
-    last_day = LAST_DAY_OF_MONTH[fye_month]
-    period_end = f"{fiscal_year:04d}-{fye_month:02d}-{last_day:02d}"
+    if period_of_report:
+        period_end = period_of_report
+    else:
+        co = conn.execute(
+            "SELECT fiscal_year_end_month FROM companies WHERE ticker = ?",
+            (ticker,),
+        ).fetchone()
+        fye_month = (co["fiscal_year_end_month"] or 12) if co else 12
+        last_day = LAST_DAY_OF_MONTH[fye_month]
+        period_end = f"{fiscal_year:04d}-{fye_month:02d}-{last_day:02d}"
 
-    virt_raw = f"restated-virtual://{ticker}/{fiscal_year}"
+    # Virtual raw_path encodes both period + accession so different
+    # restating filings for the same cell get distinct source_doc rows.
+    virt_raw = (
+        f"restated-virtual://{ticker}/{period_end}"
+        f"/{restating['accession_number'] or 'unknown'}"
+    )
     existing = conn.execute(
-        "SELECT id FROM source_documents WHERE ticker=? "
-        "AND period_of_report=? AND accession_number=? "
-        "AND form_type='6-K' AND raw_path=?",
-        (ticker, period_end, restating["accession_number"] or "", virt_raw),
+        "SELECT id FROM source_documents WHERE raw_path=?",
+        (virt_raw,),
     ).fetchone()
     if existing:
         return existing["id"]

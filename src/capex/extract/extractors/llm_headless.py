@@ -40,18 +40,20 @@ def _period_type_from(
     basis_months: int,
     period_of_report: str,
     form_type: str,
+    fye_month: int | None = None,
 ) -> str:
-    """Map Agent A's (basis_period_months, period_of_report, form_type)
-    to the canonical period_type string used by selectors.
+    """Map Agent A's `(basis_period_months, period_of_report, form_type,
+    fye_month)` to the canonical period_type used by selectors.
 
     Rules:
-      12 → FY (annual filings)
-       9 → 9M (YTD 9-month columns in a 10-Q Q3)
-       6 → H1 (YTD 6-month columns in a 10-Q Q2)
-       3 → Q1/Q2/Q3/Q4 depending on the quarter-of-fiscal-year
-           which reconcile will finalise anyway; leave blank here so
-           the existing reconcile._infer_period_type fills it from
-           source_documents.period_token.
+      12 → FY
+       9 → 9M
+       6 → H1
+       3 → Q1/Q2/Q3/Q4 based on how many 3-month steps the period
+           end is past the company's fiscal year-end month. Falls
+           back to blank when `fye_month` is not supplied (reconcile
+           will fill from `source_documents.period_token` in that
+           case).
     """
     if basis_months == 12:
         return "FY"
@@ -59,8 +61,18 @@ def _period_type_from(
         return "9M"
     if basis_months == 6:
         return "H1"
-    # 3-month standalone: let reconcile._infer_period_type derive from
-    # source_documents.period_token. Pass-through blank.
+    if basis_months == 3 and period_of_report and fye_month:
+        try:
+            pm = int(period_of_report[5:7])
+        except (ValueError, IndexError):
+            return ""
+        # months-past-FYE-start, 0-based: Q1 = 0..2 months past FY start
+        # FY starts in (fye_month % 12) + 1. So distance of the period's
+        # END from that start - 1:
+        # Position within fiscal year where this quarter ends.
+        offset = (pm - fye_month - 1) % 12
+        q_num = (offset // 3) + 1
+        return f"Q{q_num}"
     return ""
 
 
@@ -148,6 +160,13 @@ class LLMHeadlessExtractor:
         treatment = get_dataset_treatment(ticker, metric_key)
         company_name = company.full_name if company else ticker
         currency = company.reporting_currency if company else "USD"
+        # Fiscal-year-end month for quarterly period_type derivation
+        with db.connect() as conn:
+            fye_row = conn.execute(
+                "SELECT fiscal_year_end_month FROM companies WHERE ticker = ?",
+                (ticker,),
+            ).fetchone()
+        fye_month = fye_row["fiscal_year_end_month"] if fye_row else 12
 
         metric_desc = get_metric_description(metric_key, ticker, treatment)
         deriv_rules = get_derivation_rules(treatment)
@@ -237,6 +256,7 @@ class LLMHeadlessExtractor:
                     with db.mutating() as conn:
                         source_doc_id = ensure_restated_source_doc(
                             conn, ticker, comp_fy, row["id"], now,
+                            period_of_report=comp_period,
                         )
                     extracting_model = "llm-dual-agent-restated@0.1.0"
 
@@ -248,6 +268,7 @@ class LLMHeadlessExtractor:
                     basis,
                     period.get("period_of_report") or "",
                     row["form_type"],
+                    fye_month=fye_month,
                 )
 
                 candidates.append(ExtractionCandidate(

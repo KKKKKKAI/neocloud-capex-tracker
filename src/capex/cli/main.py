@@ -156,12 +156,23 @@ def _chart_command(argv: list[str]) -> int:
             print(f"unknown option: {argv[i]}", file=sys.stderr)
             return 2
 
-    from capex.exporters.charts import generate_cloud_revenue_chart
+    from capex.exporters.charts import (
+        generate_all_metric_charts,
+        generate_cloud_revenue_chart,
+    )
 
-    path = generate_cloud_revenue_chart(output=output)
-    print(f"static chart saved to {path}")
+    # `-o PATH` still targets the cloud PNG (legacy behaviour); without
+    # it, emit all four metric PNGs so the dashboard thumbnails stay in
+    # sync with every run.
+    if output is not None:
+        path = generate_cloud_revenue_chart(output=output)
+        print(f"static chart saved to {path}")
+    else:
+        for p in generate_all_metric_charts():
+            print(f"static chart saved to {p}")
 
     if interactive:
+        from capex.exporters.dashboard_html import generate_dashboard_html
         from capex.exporters.earnings_calendar_html import (
             generate_earnings_calendar_html,
         )
@@ -175,6 +186,8 @@ def _chart_command(argv: list[str]) -> int:
         print(f"earnings calendar saved to {cal_path}")
         treat_path = generate_treatments_html()
         print(f"treatments viewer saved to {treat_path}")
+        dash_path = generate_dashboard_html()
+        print(f"dashboard saved to {dash_path}")
 
     return 0
 

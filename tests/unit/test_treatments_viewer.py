@@ -161,7 +161,7 @@ def test_query_treatments_merges_reviewer_feedback(tmp_path, monkeypatch):
 
 # ---- HTML output --------------------------------------------------
 
-def test_html_has_six_nav_pills_with_treatments_active(tmp_path):
+def test_html_has_seven_nav_pills_with_treatments_active(tmp_path):
     db = _make_db(tmp_path)
     out = tmp_path / "treatments.html"
     from capex.exporters.treatments_html import generate_treatments_html
@@ -172,6 +172,7 @@ def test_html_has_six_nav_pills_with_treatments_active(tmp_path):
     )
     labels = [lbl for _, lbl in pills]
     assert labels == [
+        "Home",
         "Cloud / DC Revenue", "Total Revenue", "CapEx",
         "Operating Cash Flow", "Calendar", "Treatments",
     ]

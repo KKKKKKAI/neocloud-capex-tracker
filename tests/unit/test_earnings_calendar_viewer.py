@@ -196,13 +196,13 @@ def test_query_for_viewer_excludes_past_when_zero(tmp_path):
 
 # ----------------- HTML output -----------------
 
-def test_html_has_all_five_nav_pills_and_calendar_active(tmp_path):
+def test_html_has_all_nav_pills_and_calendar_active(tmp_path):
     db = _make_db(tmp_path)
     _seed(db, date.today())
     out = tmp_path / "calendar.html"
     generate_earnings_calendar_html(output=out, db_path=db)
     txt = out.read_text(encoding="utf-8")
-    for label in ("Cloud / DC Revenue", "Total Revenue", "CapEx",
+    for label in ("Home", "Cloud / DC Revenue", "Total Revenue", "CapEx",
                   "Operating Cash Flow", "Calendar"):
         assert label in txt, f"missing nav label: {label}"
     # Calendar pill is active

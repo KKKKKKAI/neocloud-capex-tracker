@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud / Datacenter Revenue — AI Infrastructure Ecosystem</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         margin: 0; padding: 20px; background: #fafafa; }
+  #chart { width: 100%; max-width: 1400px; margin: 0 auto; }
+  .nav { text-align: center; margin: 0 auto 14px; max-width: 1400px; }
+  .nav-pill { display: inline-block; padding: 6px 14px; margin: 0 4px;
+    border: 1px solid #888; border-radius: 18px; color: #555; font-size: 13px;
+    text-decoration: none; background: #fff; }
+  .nav-pill:hover { border-color: #2E75B6; color: #2E75B6; }
+  .nav-pill.active { background: #2E75B6; color: #fff; border-color: #2E75B6;
+    font-weight: bold; }
+  .controls { text-align: center; margin: 10px 0; }
+  .controls .group { display: inline-block; margin: 0 12px; }
+  .controls button { padding: 8px 20px; margin: 0 5px; border: 2px solid #2E75B6;
+    background: white; color: #2E75B6; cursor: pointer; border-radius: 4px;
+    font-size: 14px; font-weight: bold; }
+  .controls button.active { background: #2E75B6; color: white; }
+  .controls button:hover { background: #2E75B6; color: white; }
+  .note { text-align: center; font-size: 11px; color: #888; margin-top: 5px; }
+  .pending-note { color: #555; background: #F3F4F6; border-left: 3px solid #9CA3AF;
+    padding: 6px 10px; max-width: 900px; margin: 10px auto 0; text-align: left;
+    font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="nav"><a class="nav-pill" href="index.html">Home</a><a class="nav-pill active" href="cloud.html">Cloud / DC Revenue</a><a class="nav-pill" href="revenue.html">Total Revenue</a><a class="nav-pill" href="capex.html">CapEx</a><a class="nav-pill" href="operating_cash_flow.html">Operating Cash Flow</a><a class="nav-pill" href="calendar.html">Calendar</a><a class="nav-pill" href="treatments.html">Treatments</a></div>
+<div id="chart">
+  <div class="controls">
+    <span class="group">
+      <button id="btn-annual" class="active" onclick="setView('annual')">Annual</button>
+      <button id="btn-quarterly" onclick="setView('quarterly')">Quarterly</button>
+    </span>
+    <span class="group">
+      <button onclick="selectAll()">Select All</button>
+      <button onclick="deselectAll()">Deselect All</button>
+    </span>
+  </div>
+  <div id="plotDiv" style="width:100%;height:700px;"></div>
+  <p class="note pending-note">Grey bars are carry-forwards from the prior quarter for companies whose latest report has not yet filed; aggregate YoY/QoQ % is suppressed for those quarters until all trackers publish.</p>
+  <div class="note">
+    Click legend entries to toggle any series — companies, the aggregate
+    <b>YoY %</b> line, or the aggregate <b>QoQ %</b> line.
+    Aggregate lines recompute from the currently-visible companies.
+    QoQ is only shown in Quarterly view (in Annual view it would equal YoY).
+    *Tencent: FinTech &amp; Business Services proxy (includes WeChat Pay).
+    <br>Quarterly view: SEC 10-Q filers and BABA 6-K; other 20-F / HKEX filers annual only.
+    <br>Source:
+    <a href="https://github.com/KKKKKKAI/neocloud-capex-tracker">
+    neocloud-capex-tracker</a>
+  </div>
+</div>
+
+<script>
+/*
+ * Single chart layout: stacked bars + up to two aggregate growth
+ * overlay lines on yaxis2 (YoY visible by default, QoQ hidden-in-legend
+ * by default; both toggleable via legend click). QoQ is omitted in
+ * Annual view where it would equal YoY.
+ *
+ * Growth math mirrors src/capex/exporters/_growth.py — keep in lock-step.
+ */
+var CFG_YOY_MIN = -10;
+var CFG_YOY_MAX = 100;
+var CFG_LABEL_YSHIFT = 15;
+
+// ---- DATA ----
+var annualTraces = [{"name": "AMZN", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [7.88, 12.219, 17.459, 25.655, 35.026, 45.37, 62.202, 80.096, 90.757, 107.556, 128.725], "type": "bar", "marker": {"color": "#FF9900"}}, {"name": "MSFT", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [23.715, 25.042, 27.44, 32.219, 38.985, 48.366, 60.08, 75.251, 87.907, 87.464, 106.265], "type": "bar", "marker": {"color": "#00A4EF"}}, {"name": "GOOGL", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 4.056, 5.838, 8.918, 13.059, 19.206, 26.28, 33.088, 43.229, 58.705], "type": "bar", "marker": {"color": "#4285F4"}}, {"name": "ORCL", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 2.545, 23.758, 26.222, 26.707, 27.392, 28.7, 30.174, 35.307, 39.383, 44.029], "type": "bar", "marker": {"color": "#F80000"}}, {"name": "Tencent*", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 14.55965, 19.592029999999998, 27.106939999999998, 25.66543, 28.67964, 29.03797, 32.7725], "type": "bar", "marker": {"color": "#00B140"}}, {"name": "CRWV", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.229, 1.915, 5.131], "type": "bar", "marker": {"color": "#7D3C98"}}, {"name": "GDS", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.15206, 0.24836000000000003, 0.40594, 0.5921799999999999, 0.87783, 1.23082, 1.35175, 1.40138, 1.4141199999999998, 0.0], "type": "bar", "marker": {"color": "#1A5276"}}, {"name": "BABA", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.96733, 2.12968, 3.68085, 5.63625, 9.17732, 11.757879999999998, 15.05467, 14.71684, 16.27252], "type": "bar", "marker": {"color": "#FF6A00"}}, {"name": "BIDU", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.43689999999999996, 0.9150499999999999, 1.4031, 2.37232, 2.56866, 3.0292199999999996, 3.47117, 4.8496999999999995], "type": "bar", "marker": {"color": "#2932E1"}}, {"name": "APLD", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00855, 0.05539, 0.16557, 0.14418999999999998], "type": "bar", "marker": {"color": "#2E86C1"}}, {"name": "IREN", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07551000000000001, 0.18719, 0.50102], "type": "bar", "marker": {"color": "#27AE60"}}, {"name": "NBIS", "x": ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1175, 0.0], "type": "bar", "marker": {"color": "#F39C12"}}];
+var quarterlyTraces = [{"name": "AMZN", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [7.696, 8.381, 8.995, 9.954, 10.219, 10.808, 11.601, 12.742, 13.503, 14.809, 16.11, 17.78, 18.441, 19.739, 20.538, 21.378, 21.354, 22.14, 23.059, 24.204, 25.037, 26.281, 27.452, 28.786, 29.267, 30.873, 33.006, 35.579, 35.579], "type": "bar", "marker": {"color": ["#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#FF9900", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "MSFT", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [9.649, 11.391, 10.845, 11.869, 12.281, 13.371, 12.986, 14.601, 15.118, 17.375, 16.964, 18.327, 19.051, 20.909, 20.325, 21.508, 22.081, 23.993, 24.259, 0.0, 26.708, 28.515, 24.092, 25.544, 26.751, 29.878, 30.897, 32.907, 32.907], "type": "bar", "marker": {"color": ["#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#00A4EF", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "GOOGL", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 2.777, 3.007, 3.444, 3.831, 4.047, 4.628, 4.99, 5.541, 5.821, 6.276, 6.868, 7.315, 7.454, 8.031, 8.411, 9.192, 9.574, 10.347, 11.353, 11.955, 12.26, 13.624, 15.157, 17.664, 17.664], "type": "bar", "marker": {"color": ["#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#4285F4", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "ORCL", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [6.662, 6.799, 6.805, 6.811, 6.93, 6.846, 6.947, 7.112, 7.252, 7.389, 7.371, 7.554, 7.637, 7.612, 8.417, 8.598, 8.923, 9.369, 9.547, 9.639, 9.963, 10.234, 10.519, 10.806, 11.007, 11.698, 7.186, 7.977, 8.914], "type": "bar", "marker": {"color": ["#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000", "#F80000"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "CRWV", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18868000000000001, 0.39536999999999994, 0.5839500000000001, 0.747, 0.98163, 1.21279, 1.36468, 1.5719, 1.5719], "type": "bar", "marker": {"color": ["#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#7D3C98", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "GDS", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.13288999999999998, 0.1434, 0.14926, 0.16663, 0.17471, 0.18972, 0.22391999999999998, 0.28948, 0.26042000000000004, 0.28864, 0.31889999999999996, 0.3628599999999999, 0.35377, 0.34469, 0.33272, 0.3205699999999999, 0.35041, 0.34007, 0.345, 0.3659000000000001, 0.3635, 0.38911, 0.37355, 0.2879599999999999, 0.37545, 0.40475, 0.40552, 0.4178, 0.4178], "type": "bar", "marker": {"color": ["#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#1A5276", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "BABA", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [1.1864799999999995, 1.1334000000000002, 1.30065, 1.5400699999999998, 1.6621300000000003, 1.7449700000000001, 2.18807, 2.46495, 2.779329999999999, 2.4856599999999998, 3.09508, 4.16077, 2.016369999999999, 3.57131, 3.76058, 3.8691500000000003, 3.8536300000000008, 3.45617, 3.78667, 3.95029, 3.52371, 3.65553, 4.222390000000001, 4.348649999999999, 4.045949999999999, 4.661359999999999, 5.59368, 6.18269, 6.18269], "type": "bar", "marker": {"color": ["#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#FF6A00", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "BIDU", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5800700000000001, 0.74333, 0.74256, 0.30636000000000013, 0.8514700000000001, 0.8653, 0.88534, 1.0726300000000002, 0.90185, 0.92172, 0.91763, 1.14007, 0.91311, 1.00514, 1.08376, 1.3152000000000001, 1.2821900000000002, 1.38174, 1.29223, 0.8935399999999996, 0.8935399999999996], "type": "bar", "marker": {"color": ["#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#2932E1", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "APLD", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.007520000000000001, 0.00692, 0.012340000000000002, 0.01409, 0.02204, 0.03632, 0.04221, 0.04334999999999999, 0.04369, 0.060700000000000004, 0.06387, 0.052920000000000016, 0.0, 0.06422, 0.12659, 0.16175], "type": "bar", "marker": {"color": ["#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1", "#2E86C1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "IREN", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05276, 0.11615, 0.0, 0.0, 0.24029, 0.18470000000000003, 0.18470000000000003], "type": "bar", "marker": {"color": ["#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#27AE60", "#C8CCD1"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [true, "2025Q4"]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}, {"name": "NBIS", "x": ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.055299999999999995, 0.0, 0.0, 0.0, 0.0], "type": "bar", "marker": {"color": ["#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12", "#F39C12"]}, "customdata": [[false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""], [false, ""]], "hovertemplate": "<b>%{fullData.name}</b><br>%{x}: $%{y:.2f}B%{customdata[0] ? ' <i>(carried forward from ' + customdata[1] + ')</i>' : ''}<extra></extra>"}];
+var xAnnual = ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021", "FY2022", "FY2023", "FY2024", "FY2025"];
+var xQuarterly = ["2019Q1", "2019Q2", "2019Q3", "2019Q4", "2020Q1", "2020Q2", "2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1", "2022Q2", "2022Q3", "2022Q4", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2025Q2", "2025Q3", "2025Q4", "2026Q1"];
+var hasQuarterly = true;
+var currentView = 'annual';
+
+// Pending-release quarters: trailing quarters where at least one tracked
+// company hasn't filed their latest earnings. Aggregate YoY/QoQ is
+// suppressed for these quarters to avoid misleading drops.
+window.__INCOMPLETE_QUARTERS = ["2026Q1"];
+
+// ---- RUNTIME STATE ----
+var plotDiv = document.getElementById('plotDiv');
+var allTraces = [];
+var yoyOverlayIdx = -1;
+var qoqOverlayIdx = -1;
+
+// ---- GROWTH HELPERS (mirror of _growth.py) ----
+function priorIndexFor(i, xLabels, mode, period) {
+    if (mode === 'qoq') return i - 1;
+    if (period === 'annual') return i - 1;
+    // quarterly yoy: same-quarter one year prior
+    var cur = xLabels[i];
+    if (!cur || cur.length < 6 || cur[4] !== 'Q') return -1;
+    var year = parseInt(cur.slice(0, 4), 10);
+    if (isNaN(year)) return -1;
+    var target = (year - 1) + cur.slice(4);
+    return xLabels.indexOf(target);
+}
+
+function computeGrowth(series, xLabels, mode, period) {
+    var out = [];
+    for (var i = 0; i < xLabels.length; i++) {
+        var pi = priorIndexFor(i, xLabels, mode, period);
+        if (pi < 0 || pi >= series.length) { out.push(null); continue; }
+        var cur = series[i], prev = series[pi];
+        if (cur === null || prev === null || !prev || !cur) {
+            out.push(null);
+        } else {
+            out.push((cur / prev - 1) * 100);
+        }
+    }
+    return out;
+}
+
+function calcTotals(xLabels) {
+    // Sum all visible BAR traces.
+    var n = xLabels.length;
+    var totals = new Array(n).fill(0);
+    for (var i = 0; i < allTraces.length; i++) {
+        var t = allTraces[i];
+        if (t.type !== 'bar' || t.visible === 'legendonly') continue;
+        for (var j = 0; j < t.y.length; j++) {
+            totals[j] += (t.y[j] || 0);
+        }
+    }
+    return totals;
+}
+
+function makeAnnotations(totals, xLabels) {
+    var anns = [];
+    for (var i = 0; i < totals.length; i++) {
+        if (totals[i] > 0) {
+            anns.push({
+                x: xLabels[i],
+                y: totals[i],
+                text: '<b>$' + Math.round(totals[i]) + 'B</b>',
+                showarrow: false,
+                yshift: CFG_LABEL_YSHIFT,
+                font: { size: 11 }
+            });
+        }
+    }
+    return anns;
+}
+
+function growthSeriesForPlot(totals, xLabels, mode, period) {
+    // Pack (x,y,text) triples for non-null growth values.
+    // Skip quarters flagged as pending-release (see __INCOMPLETE_QUARTERS).
+    var vals = computeGrowth(totals, xLabels, mode, period);
+    var pending = new Set(window.__INCOMPLETE_QUARTERS || []);
+    var oX = [], oY = [], oText = [];
+    for (var i = 0; i < vals.length; i++) {
+        if (vals[i] !== null && !pending.has(xLabels[i])) {
+            oX.push(xLabels[i]);
+            oY.push(vals[i]);
+            oText.push(vals[i].toFixed(0) + '%');
+        }
+    }
+    return { x: oX, y: oY, text: oText };
+}
+
+// ---- TRACE BUILDERS ----
+function buildBarsAndOverlays(dataTraces, xLabels, period) {
+    allTraces = [];
+    yoyOverlayIdx = -1;
+    qoqOverlayIdx = -1;
+
+    dataTraces.forEach(function(t) {
+        allTraces.push({
+            name: t.name,
+            x: t.x,
+            y: t.y,
+            type: 'bar',
+            marker: t.marker,
+            hovertemplate: '<b>' + t.name + '</b><br>$%{y:.1f}B<extra></extra>'
+        });
+    });
+
+    var totals = calcTotals(xLabels);
+
+    // Aggregate YoY line — visible by default.
+    var yoy = growthSeriesForPlot(totals, xLabels, 'yoy', period);
+    yoyOverlayIdx = allTraces.length;
+    allTraces.push({
+        name: 'Aggregate YoY %',
+        x: yoy.x, y: yoy.y,
+        type: 'scatter',
+        mode: 'lines+markers+text',
+        line: { color: '#2C3E50', width: 3, dash: 'dash' },
+        marker: { size: 8 },
+        text: yoy.text,
+        textposition: 'top center',
+        textfont: { size: 10, color: '#2C3E50' },
+        yaxis: 'y2',
+        hovertemplate: '%{x}: %{y:.1f}% YoY<extra></extra>'
+    });
+
+    // Aggregate QoQ line — Quarterly view only, legendonly by default.
+    if (period === 'quarterly') {
+        var qoq = growthSeriesForPlot(totals, xLabels, 'qoq', period);
+        qoqOverlayIdx = allTraces.length;
+        allTraces.push({
+            name: 'Aggregate QoQ %',
+            x: qoq.x, y: qoq.y,
+            type: 'scatter',
+            mode: 'lines+markers+text',
+            visible: 'legendonly',
+            line: { color: '#C65A1A', width: 2, dash: 'dot' },
+            marker: { size: 7, color: '#C65A1A' },
+            text: qoq.text,
+            textposition: 'bottom center',
+            textfont: { size: 10, color: '#C65A1A' },
+            yaxis: 'y2',
+            hovertemplate: '%{x}: %{y:.1f}% QoQ<extra></extra>'
+        });
+    }
+
+    return totals;
+}
+
+// ---- MAIN RENDER ----
+function renderChart() {
+    var xLabels = (currentView === 'annual') ? xAnnual : xQuarterly;
+    var period = currentView;
+    var dataTraces = (currentView === 'annual') ? annualTraces : quarterlyTraces;
+
+    if (currentView === 'quarterly' && (!dataTraces || dataTraces.length === 0)) {
+        plotDiv.innerHTML = '<p style="text-align:center;padding:200px 0;color:#888;">' +
+            'Quarterly revenue data not yet available.</p>';
+        return;
+    }
+
+    var totals = buildBarsAndOverlays(dataTraces, xLabels, period);
+
+    var subtitle = (currentView === 'annual')
+        ? 'Aggregated annual, USD-normalized. ' +
+          'Dashed = aggregate YoY %.'
+        : 'Quarterly. Dashed = aggregate YoY %; ' +
+          'dotted = aggregate QoQ % (click legend to show).';
+
+    var layout = {
+        barmode: 'stack',
+        title: {
+            text: 'Cloud / Datacenter Revenue — AI Infrastructure Ecosystem<br>' +
+                  '<sub>' + subtitle + '</sub>',
+            font: { size: 18 }, x: 0.5
+        },
+        xaxis: { title: 'Period', tickfont: { size: 11 } },
+        yaxis: { title: 'Cloud / DC Revenue ($B USD)', gridcolor: '#E5E5E5' },
+        yaxis2: {
+            title: 'Aggregate Growth (%)',
+            overlaying: 'y', side: 'right',
+            showgrid: false,
+            ticksuffix: '%',
+            range: [CFG_YOY_MIN, CFG_YOY_MAX],
+            fixedrange: true
+        },
+        legend: {
+            orientation: 'v', x: 1.02, y: 1.0,
+            xanchor: 'left', yanchor: 'top',
+            font: { size: 11 }, tracegroupgap: 2
+        },
+        hovermode: 'x unified',
+        plot_bgcolor: 'white',
+        annotations: makeAnnotations(totals, xLabels),
+        margin: { t: 80, b: 60, r: 150 }
+    };
+
+    Plotly.newPlot(plotDiv, allTraces, layout, {
+        displayModeBar: true,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d']
+    });
+
+    plotDiv.on('plotly_legendclick', function() {
+        setTimeout(recalcOverlays, 100);
+    });
+    plotDiv.on('plotly_legenddoubleclick', function() {
+        setTimeout(recalcOverlays, 100);
+    });
+}
+
+function recalcOverlays() {
+    var xLabels = (currentView === 'annual') ? xAnnual : xQuarterly;
+    var data = plotDiv.data;
+    var n = xLabels.length;
+
+    var totals = new Array(n).fill(0);
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].type === 'bar' && data[i].visible !== 'legendonly') {
+            for (var j = 0; j < data[i].y.length; j++) {
+                totals[j] += (data[i].y[j] || 0);
+            }
+        }
+    }
+
+    if (yoyOverlayIdx >= 0) {
+        var yoy = growthSeriesForPlot(totals, xLabels, 'yoy', currentView);
+        Plotly.restyle(plotDiv, {
+            x: [yoy.x], y: [yoy.y], text: [yoy.text]
+        }, [yoyOverlayIdx]);
+    }
+    if (qoqOverlayIdx >= 0 && currentView === 'quarterly') {
+        var qoq = growthSeriesForPlot(totals, xLabels, 'qoq', currentView);
+        Plotly.restyle(plotDiv, {
+            x: [qoq.x], y: [qoq.y], text: [qoq.text]
+        }, [qoqOverlayIdx]);
+    }
+
+    Plotly.relayout(plotDiv, {
+        annotations: makeAnnotations(totals, xLabels)
+    });
+}
+
+// ---- SELECT / DESELECT ALL ----
+function selectAll() {
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) indices.push(i);
+    Plotly.restyle(plotDiv, { visible: true }, indices);
+    setTimeout(recalcOverlays, 100);
+}
+
+function deselectAll() {
+    // Hide all BAR traces; leave the aggregate overlay lines intact so
+    // the user keeps context after a deselect-all click.
+    var indices = [];
+    for (var i = 0; i < plotDiv.data.length; i++) {
+        if (plotDiv.data[i].type === 'bar') indices.push(i);
+    }
+    Plotly.restyle(plotDiv, { visible: 'legendonly' }, indices);
+    setTimeout(recalcOverlays, 100);
+}
+
+// ---- VIEW TOGGLE ----
+function setView(view) {
+    currentView = view;
+    document.getElementById('btn-annual').classList.toggle('active', view === 'annual');
+    document.getElementById('btn-quarterly').classList.toggle('active', view === 'quarterly');
+    renderChart();
+}
+
+// ---- INIT ----
+renderChart();
+</script>
+</body>
+</html>

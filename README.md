@@ -5,7 +5,7 @@ disclosures across major hyperscalers and neocloud providers.
 
 ![Cloud Revenue](charts/cloud_revenue_annual.png)
 
-**[Interactive Chart](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Treatments Audit](https://KKKKKKAI.github.io/neocloud-capex-tracker/treatments.html)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)** | **[Restatement Policy](docs/RESTATEMENT_POLICY.md)**
+**[Dashboard](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Cloud / DC Revenue](https://KKKKKKAI.github.io/neocloud-capex-tracker/cloud.html)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Treatments Audit](https://KKKKKKAI.github.io/neocloud-capex-tracker/treatments.html)** | **[Download Excel](workbook/capex_tracker_v18.xlsx)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)** | **[Restatement Policy](docs/RESTATEMENT_POLICY.md)**
 
 ---
 
@@ -114,6 +114,7 @@ flowchart TD
         ICHART["interactive_chart.py\nPlotly HTML"]
         CALHTML["earnings_calendar_html.py\nearnings viewer"]
         TREATHTML["treatments_html.py\ntreatments audit viewer"]
+        DASHHTML["dashboard_html.py\nlanding-page dashboard"]
     end
 
     subgraph Out["Outputs"]
@@ -122,6 +123,7 @@ flowchart TD
         GHPAGES["GitHub Pages\ninteractive chart"]
         CALPAGE["docs/calendar.html\nearnings calendar"]
         TREATPAGE["docs/treatments.html\ntreatments audit"]
+        DASHPAGE["docs/index.html\ndashboard landing"]
     end
 
     SEC --> SECF --> DISP
@@ -153,6 +155,8 @@ flowchart TD
     HNYAML -.-> EX_SEG
     HNYAML --> TREATHTML
     DB --> TREATHTML --> TREATPAGE
+    CHART --> DASHHTML
+    DB --> DASHHTML --> DASHPAGE
 
     classDef source fill:#e1f5fe,stroke:#0288d1
     classDef store fill:#fff3e0,stroke:#f57c00
@@ -161,8 +165,8 @@ flowchart TD
 
     class SEC,HKEX,XBRL,ECB source
     class RAW,DB,DUMP,HNYAML store
-    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,TREATHTML,AUDIT,REVIEW process
-    class XLSX,PNG,GHPAGES,CALPAGE,TREATPAGE output
+    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,TREATHTML,DASHHTML,AUDIT,REVIEW process
+    class XLSX,PNG,GHPAGES,CALPAGE,TREATPAGE,DASHPAGE output
 ```
 <!-- ARCHITECTURE_END -->
 
@@ -243,6 +247,7 @@ src/capex/
     citations.py          Cell-level source citations for Shift+F2
     interactive_chart.py  Plotly HTML chart for GitHub Pages
     charts.py             Static PNG chart generator
+    dashboard_html.py     Dashboard landing page (docs/index.html)
   db/                     SQLite schema + migrations
   cli/                    Command-line interface
 
@@ -305,6 +310,7 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 4r | Earnings calendar viewer (HTML + rich CLI) | ✅ | `docs/calendar.html` is a 5th nav pill alongside the 4 chart pages — upcoming 90 days + recent 30 days grouped by date, per-row status badges (upcoming / detected / fetched / extracted / failed), `in N days` countdown, and direct SEC EDGAR / HKEXnews links once filings have landed. `capex calendar show` now prints a box-drawing table with `--days`, `--ticker`, `--format json`, `--include-past/--no-past` flags. Data sourced from the existing `fiscal_calendar` table + joined `source_documents`. Shared `query_for_viewer` in `monitor/calendar.py` is the single source of truth consumed by both the HTML and CLI. 13 unit tests cover fiscal-year/period derivation (Dec / Jun / May FYE), table formatting, nav pill presence, and empty-DB safety. |
 | 4s | Protocol Elicitation Loop (`capex audit review`) | ✅ | Closes the feedback gap between the data-quality audit and the reviewer's domain knowledge. Walks flagged clusters, captures free-form NL guidance, calls a formalization sub-agent (via `CLIBackend` → `claude -p`) that returns a scoped JSON artifact, previews the diff, writes a new `human_notes.yaml` entry + an `audit_review_feedback` row (migration 0010), and reports the re-audit delta. Notes are injected into `Agent A`'s prompt (`prompts/agent_a.txt :: {human_notes_block}`) and into the segment extractor's keyword matching, so future extractions pick up the guidance automatically. `writer.py` gains a `force=True` overwrite path with an `extraction_overwritten` audit-log trail for re-extract. Engine is split into `src/capex/pel/` (domain-agnostic: `Anomaly`/`Artifact`/`Effect`/`Checker`) and `src/capex/audit/review.py` (capex adapter) — the engine is reusable for any automated-check-plus-human-expert workflow beyond capex. 34 new unit tests (19 for `human_notes`, 15 for the PEL engine). Full illustrated spec in [docs/PROTOCOL_ELICITATION_LOOP.md](docs/PROTOCOL_ELICITATION_LOOP.md). |
 | 4t | Treatments audit viewer (`docs/treatments.html` + `capex treatments show`) | ✅ | Single-surface audit view of every human-authored rule: per-company cards showing `coverage.yaml` treatments (segment_names, adjustment formulas, quarterly_convention, filing_cadence, extraction_approach, company notes) + `human_notes.yaml` entries (scope, guidance, keywords, cautions, state, provenance) + joined `audit_review_feedback` verbatim reviewer input. 6th nav pill alongside the chart pages + calendar. Self-contained HTML with inline vanilla-JS search + ticker/metric dropdowns (no framework, no server). `capex treatments show` CLI mirror with boxed table + --ticker / --metric / --format json. Shared `query_treatments` in `src/capex/audit/treatments_query.py` is consumed by both HTML and CLI. New `iter_dataset_rules()` helper in `coverage.py` enumerates all per-ticker rules in one pass. 11 unit tests covering data-layer filters + feedback-join + nav-pill presence + CLI table shape. |
+| 4v | Dashboard landing page (`docs/index.html`) | ✅ | Replaces the single-chart landing page with a 6-card responsive dashboard. Each card links to its sub-page: four chart cards embed PNG thumbnails generated by `charts.py` (now generalised as `generate_metric_chart(metric_key)`); Calendar and Treatments cards use inline CSS mock-ups. The cloud/DC chart moves from `index.html` to `cloud.html`; a new `Home` nav pill appears first on every sub-page. Thumbnails are mirrored from `charts/` into `docs/charts/` at build time so GitHub Pages can serve them without escaping the Pages root. `dashboard_html.py` + 6 unit tests. |
 | 4u | Restatement-aware extraction (LLM dual-agent) | ✅ | Closes the "latest filing wins" gap. When a company restates a historical period in a later 10-K / 20-F / 10-Q, the restated value supersedes the original across chart, Excel, and audit — and the Excel cell comment cites the *restating* filing. **Capture path**: the LLM dual-agent extractor, on every filing read, produces **one extraction per period visible in the target table** (current + every prior-year comparative) via a multi-period Agent A prompt. Agent B runs once per period for blind verification. Primary-period rows tag `extracting_model='llm-dual-agent'`; comparatives tag `'llm-dual-agent-restated@0.1.0'` and point at a virtual `source_documents` row whose `fiscal_year` matches the comparative period but whose citation fields come from the restating filing. Selectors in `interactive_chart`, `charts.py`, `audit/orchestrator`, `reconcile` all order by `source_documents.filing_date DESC`. Reconcile cascades (Q4 = FY − 9M etc.) automatically re-derive from the restated inputs. `capex audit` has a Restatements reporter (observational only). `coverage.yaml` carries `restatement_policy` blocks per known-restater, surfaced in the treatments viewer. `scripts/sweep_llm_restatements.py --validate-only` supports dry-run inspection. XBRL is deliberately not in the restatement loop — the previous `restated-xbrl` and regex-based `restated-segment` paths were reverted in favor of the end-to-end LLM flow. Full spec: [docs/RESTATEMENT_POLICY.md](docs/RESTATEMENT_POLICY.md). |
 | 5a | Citation URL fixes | 🚧 | Direct filing URLs replacing SEC directory links |
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |

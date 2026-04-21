@@ -37,7 +37,7 @@ NBIS_START = 2024
 # Configuration for every chart page we emit.
 METRIC_CONFIGS: dict[str, dict[str, Any]] = {
     "cloud_segment_revenue": {
-        "page_name": "index.html",
+        "page_name": "cloud.html",
         "nav_label": "Cloud / DC Revenue",
         "chart_title": "Cloud / Datacenter Revenue — AI Infrastructure Ecosystem",
         "yaxis_title": "Cloud / DC Revenue ($B USD)",
@@ -453,11 +453,16 @@ def _build_html(
     )
 
 
-# Non-metric pages that appear in the nav bar after the metric pills.
+# Non-metric pages that appear in the nav bar.
+# `position` is `"before"` (rendered ahead of the metric pills) or
+# `"after"` (rendered after). The dashboard's "Home" pill sits first.
 NAV_EXTRAS: list[dict[str, str]] = [
-    {"key": "calendar", "page_name": "calendar.html", "nav_label": "Calendar"},
+    {"key": "home", "page_name": "index.html", "nav_label": "Home",
+     "position": "before"},
+    {"key": "calendar", "page_name": "calendar.html", "nav_label": "Calendar",
+     "position": "after"},
     {"key": "treatments", "page_name": "treatments.html",
-     "nav_label": "Treatments"},
+     "nav_label": "Treatments", "position": "after"},
 ]
 
 
@@ -465,16 +470,25 @@ def _build_nav_html(current_key: str) -> str:
     """Build the cross-navigation bar linking the metric pages + extras.
 
     `current_key` is either a metric_key from METRIC_CONFIGS or the key of
-    a NAV_EXTRAS entry (e.g. "calendar"). Unknown keys simply render no
-    pill as active.
+    a NAV_EXTRAS entry (e.g. "calendar", "home"). Unknown keys simply render
+    no pill as active.
     """
     pills = []
+    for extra in NAV_EXTRAS:
+        if extra.get("position", "after") != "before":
+            continue
+        cls = "nav-pill active" if extra["key"] == current_key else "nav-pill"
+        pills.append(
+            f'<a class="{cls}" href="{extra["page_name"]}">{extra["nav_label"]}</a>'
+        )
     for mk, c in METRIC_CONFIGS.items():
         cls = "nav-pill active" if mk == current_key else "nav-pill"
         pills.append(
             f'<a class="{cls}" href="{c["page_name"]}">{c["nav_label"]}</a>'
         )
     for extra in NAV_EXTRAS:
+        if extra.get("position", "after") != "after":
+            continue
         cls = "nav-pill active" if extra["key"] == current_key else "nav-pill"
         pills.append(
             f'<a class="{cls}" href="{extra["page_name"]}">{extra["nav_label"]}</a>'

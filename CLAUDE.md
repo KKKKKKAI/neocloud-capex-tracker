@@ -58,6 +58,14 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 
 ## Critical Rules
 
+0. **Excel workbook filenames.** Every exported workbook under
+   `workbook/` is named `[YYYY.MM.DD - HH:MM] financials sourcebook.xlsx`
+   (minute precision). If two exports land in the same minute, append
+   ` v2`, ` v3`, ... — do NOT revert to the old `capex_tracker_vN.xlsx`
+   scheme. `capex export` auto-generates this name via
+   `default_workbook_path()` in `src/capex/exporters/excel.py`. Manually
+   writing a workbook? Follow the same format.
+
 1. **ALWAYS fetch before extracting.** Use `capex fetch` to download
    reports to `data/_sources/<TICKER>/_raw/` BEFORE extracting data.
    NEVER download to temp files that get deleted.

@@ -854,7 +854,7 @@ def _print_help() -> None:
         "    monitor <TICKER>    poll SEC for latest filing + extract via LLM\n"
         "    monitor --all-today process all companies with earnings today\n"
         "    export              generate Excel workbook from DB\n"
-        "                        -o PATH      output path (default: workbook/capex_tracker.xlsx)\n"
+        "                        -o PATH      output path (default: workbook/[yyyy.mm.dd - HH:MM] financials sourcebook.xlsx)\n"
         "    chart               regenerate charts (YoY auto-recalculated)\n"
         "                        --interactive  also generate Plotly HTML\n"
         "    audit               run the data-quality audit (markdown + JSON)\n"

@@ -19,7 +19,7 @@ Reads the extractions DB and produces an 8-sheet Excel workbook:
 
 Usage:
     from capex.exporters.excel import export_workbook
-    export_workbook("workbook/capex_tracker.xlsx")
+    export_workbook()  # auto-names "[yyyy.mm.dd - HH:MM] financials sourcebook.xlsx"
 
     # Or via CLI:
     capex export
@@ -34,7 +34,42 @@ from typing import Any
 from ..extract.decumulate import FLOW_METRICS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_OUTPUT = REPO_ROOT / "workbook" / "capex_tracker.xlsx"
+WORKBOOK_DIR = REPO_ROOT / "workbook"
+
+# Workbook file naming convention
+# --------------------------------
+# Each exported workbook is named:
+#     [YYYY.MM.DD - HH:MM] financials sourcebook.xlsx
+#
+# Minute precision lets multiple exports per day coexist without
+# collision. If two exports *do* land in the same minute (rare), a
+# ` v2`, ` v3`, ... suffix disambiguates. See
+# `default_workbook_path()` for the generator used by `capex export`.
+WORKBOOK_STEM_SUFFIX = "financials sourcebook"
+
+
+def default_workbook_path(
+    now: datetime | None = None,
+    *,
+    workbook_dir: Path | None = None,
+) -> Path:
+    """Canonical output path for a `capex export` run.
+
+    Returns `workbook/[YYYY.MM.DD - HH:MM] financials sourcebook.xlsx`,
+    escalating to ` v2`, ` v3`, ... if a file already exists at the
+    same minute-stamped name.
+    """
+    now = now or datetime.now()
+    workbook_dir = workbook_dir or WORKBOOK_DIR
+    ts = now.strftime("%Y.%m.%d - %H:%M")
+    base = f"[{ts}] {WORKBOOK_STEM_SUFFIX}"
+    path = workbook_dir / f"{base}.xlsx"
+    n = 2
+    while path.exists():
+        path = workbook_dir / f"{base} v{n}.xlsx"
+        n += 1
+    return path
+
 
 # Coverage start overrides (filter out pre-restructuring noise)
 COVERAGE_START_OVERRIDES = {
@@ -56,7 +91,7 @@ def export_workbook(
             "Install with: pip install openpyxl"
         ) from exc
 
-    output_path = Path(output_path or DEFAULT_OUTPUT)
+    output_path = Path(output_path) if output_path else default_workbook_path()
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     db_path = db_path or (REPO_ROOT / "data" / "db" / "capex.db")

@@ -29,11 +29,39 @@ from ...verification.dual_agent import (
     get_metric_description,
     parse_agent_a_response,
     parse_agent_b_response,
-    verify_period,
+    verify_periods_batch,
 )
 from ..base import ExtractionCandidate
 from ..coverage import DatasetTreatment, get_company_treatment, get_dataset_treatment
 from ..virtual_source_docs import ensure_restated_source_doc
+
+
+def _period_type_from(
+    basis_months: int,
+    period_of_report: str,
+    form_type: str,
+) -> str:
+    """Map Agent A's (basis_period_months, period_of_report, form_type)
+    to the canonical period_type string used by selectors.
+
+    Rules:
+      12 → FY (annual filings)
+       9 → 9M (YTD 9-month columns in a 10-Q Q3)
+       6 → H1 (YTD 6-month columns in a 10-Q Q2)
+       3 → Q1/Q2/Q3/Q4 depending on the quarter-of-fiscal-year
+           which reconcile will finalise anyway; leave blank here so
+           the existing reconcile._infer_period_type fills it from
+           source_documents.period_token.
+    """
+    if basis_months == 12:
+        return "FY"
+    if basis_months == 9:
+        return "9M"
+    if basis_months == 6:
+        return "H1"
+    # 3-month standalone: let reconcile._infer_period_type derive from
+    # source_documents.period_token. Pass-through blank.
+    return ""
 
 
 class LLMHeadlessExtractor:
@@ -101,7 +129,7 @@ class LLMHeadlessExtractor:
                 return None
 
         # Load filing sections
-        text = extract_text(str(filepath))
+        text = extract_text(filepath)
         sections = parse_sections(text, row["form_type"])
         ext_sections = get_extraction_sections(sections, row["form_type"])
         if not ext_sections:
@@ -165,24 +193,24 @@ class LLMHeadlessExtractor:
             if not periods:
                 return None
 
-            # Run Agent B once per period — each gets its own excerpts
-            # so the verifier can blind-check the specific value.
+            # ONE batched Agent B call covers every period Agent A
+            # returned. Per-period verdicts come back as an array.
+            prompt_b = build_agent_b_prompt(
+                company_name=company_name,
+                form_type=row["form_type"],
+                periods=periods,
+                metric_description=metric_desc,
+                unit=unit,
+                derivation_rules=deriv_rules,
+            )
+            response_b = backend.extract(system="", user=prompt_b)
+            result_b = parse_agent_b_response(response_b)
+            verifications = verify_periods_batch(periods, result_b)
+
             candidates: list[ExtractionCandidate] = []
             any_primary_ok = False
             now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-            for period in periods:
-                prompt_b = build_agent_b_prompt(
-                    company_name=company_name,
-                    form_type=row["form_type"],
-                    period=period.get("period_of_report") or row["period_of_report"],
-                    metric_description=metric_desc,
-                    excerpts=period.get("excerpts", []),
-                    unit=unit,
-                    derivation_rules=deriv_rules,
-                )
-                response_b = backend.extract(system="", user=prompt_b)
-                result_b = parse_agent_b_response(response_b)
-                verification = verify_period(period, result_b)
+            for period, verification in zip(periods, verifications, strict=False):
                 verification.attempts = attempt
                 if not verification.verified:
                     continue  # skip unverified periods
@@ -199,9 +227,6 @@ class LLMHeadlessExtractor:
                     extracting_model = "llm-dual-agent"
                     any_primary_ok = True
                 else:
-                    # Comparative — write against a virtual source_doc
-                    # whose fiscal_year matches the comparative period
-                    # but whose citation fields come from this filing.
                     comp_period = period.get("period_of_report") or ""
                     try:
                         comp_fy = int(comp_period[:4]) if comp_period else None
@@ -214,6 +239,16 @@ class LLMHeadlessExtractor:
                             conn, ticker, comp_fy, row["id"], now,
                         )
                     extracting_model = "llm-dual-agent-restated@0.1.0"
+
+                # Derive period_type from basis_period_months + the period's
+                # end-date month (for 3-month rows) so the chart selector
+                # picks the row up correctly.
+                basis = period.get("basis_period_months") or 0
+                period_type = _period_type_from(
+                    basis,
+                    period.get("period_of_report") or "",
+                    row["form_type"],
+                )
 
                 candidates.append(ExtractionCandidate(
                     source_document_id=source_doc_id,
@@ -233,6 +268,8 @@ class LLMHeadlessExtractor:
                     reporting_currency=currency,
                     excerpts=period.get("excerpts", []),
                     reasoning=period.get("reasoning", ""),
+                    period_type=period_type,
+                    basis_period_months=basis or None,
                 ))
 
             if not any_primary_ok:

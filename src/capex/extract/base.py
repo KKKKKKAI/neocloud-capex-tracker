@@ -69,6 +69,10 @@ class ExtractionCandidate:
     reasoning: str = ""
     derivation: str | None = None
 
+    # Period classification (used by chart / audit selectors)
+    period_type: str = ""              # "FY", "Q1", "Q2", "Q3", "Q4", "H1", "9M"
+    basis_period_months: int | None = None
+
     def to_writer_dict(self) -> dict[str, Any]:
         """Convert to the dict format expected by writer.write_extractions()."""
         return {
@@ -83,6 +87,8 @@ class ExtractionCandidate:
             "extraction_type": self.extraction_type,
             "extracting_model": self.extracting_model,
             "reporting_currency": self.reporting_currency,
+            "period_type": self.period_type,
+            "basis_period_months": self.basis_period_months,
         }
 
 

@@ -75,33 +75,57 @@ def build_agent_a_prompt(
 def build_agent_b_prompt(
     company_name: str,
     form_type: str,
-    period: str,
+    periods: list[dict[str, Any]],
     metric_description: str,
-    excerpts: list[dict[str, str]],
     unit: str = "USD_millions",
     derivation_rules: str = "",
 ) -> str:
-    """Format the Agent B prompt for blind verification.
+    """Format the Agent B prompt for blind **multi-period** verification.
 
-    CRITICAL: Agent B receives ONLY the excerpts — not Agent A's value
-    or reasoning. This prevents confirmation bias.
+    Takes the full list of Agent A period entries and produces ONE
+    prompt that asks Agent B to return a verdict per period. Halves
+    the `claude -p` subprocess count per filing (1 Agent A + 1 Agent
+    B, not 1 + N).
+
+    CRITICAL: Agent B receives ONLY the excerpts + period labels —
+    never Agent A's values or reasoning. This prevents confirmation
+    bias on each individual verdict.
     """
     template = (PROMPTS_DIR / "agent_b.txt").read_text(encoding="utf-8")
 
-    # Format excerpts for B — text + location + role, no value
-    excerpts_text = ""
-    for i, exc in enumerate(excerpts, 1):
-        role = exc.get("role", "unknown")
-        location = exc.get("location", "unknown")
-        text = exc.get("text", "")
-        excerpts_text += f"\n--- Excerpt {i} (role: {role}, location: {location}) ---\n"
-        excerpts_text += text
-        excerpts_text += "\n"
+    # Build the "TARGET PERIODS" block
+    periods_block_lines = []
+    for i, p in enumerate(periods, 1):
+        role = p.get("role", "primary")
+        label = p.get("label") or p.get("period_of_report") or f"period {i}"
+        por = p.get("period_of_report", "")
+        basis = p.get("basis_period_months", "")
+        periods_block_lines.append(
+            f"{i}. {label} ({role}) — period_of_report: {por}"
+            + (f", basis: {basis} months" if basis else "")
+        )
+    periods_block = "\n".join(periods_block_lines)
+
+    # Group excerpts by period for clarity
+    excerpts_sections = []
+    for i, p in enumerate(periods, 1):
+        label = p.get("label") or p.get("period_of_report") or f"period {i}"
+        excerpts_sections.append(f"\n### Period {i}: {label}\n")
+        excerpts = p.get("excerpts") or []
+        for j, exc in enumerate(excerpts, 1):
+            role = exc.get("role", "unknown")
+            location = exc.get("location", "unknown")
+            text = exc.get("text", "")
+            excerpts_sections.append(
+                f"\n--- Excerpt {j} (role: {role}, location: {location}) ---\n"
+                f"{text}\n"
+            )
+    excerpts_text = "".join(excerpts_sections)
 
     return template.format(
         company_name=company_name,
         form_type=form_type,
-        period=period,
+        periods_block=periods_block,
         metric_description=metric_description,
         excerpts_text=excerpts_text,
         unit=unit,
@@ -162,23 +186,73 @@ def parse_agent_a_response(response_text: str) -> dict[str, Any]:
 
 
 def parse_agent_b_response(response_text: str) -> dict[str, Any]:
-    """Parse Agent B's JSON response — unchanged shape (single value)."""
+    """Parse Agent B's JSON response.
+
+    Modern shape: `{"verdicts": [{determinable, value, ...}, ...]}`.
+    Legacy shape: `{"determinable": ..., "value": ...}` — normalized
+    to a single-verdict array so `verify_periods_batch` works
+    uniformly.
+    """
     import json
     import re
     text = response_text.strip()
     text = re.sub(r'^```(?:json)?\s*', '', text)
     text = re.sub(r'\s*```$', '', text)
+    parsed = None
     try:
-        return json.loads(text)
+        parsed = json.loads(text)
     except json.JSONDecodeError:
         match = re.search(r'\{[\s\S]*\}', text)
         if match:
             try:
-                return json.loads(match.group())
+                parsed = json.loads(match.group())
             except json.JSONDecodeError:
-                pass
-    return {"determinable": False, "value": None,
-            "reasoning": "Failed to parse response"}
+                parsed = None
+    if parsed is None:
+        return {"verdicts": [], "determinable": False, "value": None,
+                "reasoning": "Failed to parse response"}
+    # Normalize legacy single-verdict shape into the batched form
+    if "verdicts" not in parsed and ("determinable" in parsed
+                                     or "value" in parsed):
+        parsed = {
+            "verdicts": [{
+                "determinable": parsed.get("determinable", False),
+                "value": parsed.get("value"),
+                "reasoning": parsed.get("reasoning", ""),
+                "concerns": parsed.get("concerns"),
+            }],
+            # retain the legacy top-level fields for anything still
+            # reading them
+            **{k: v for k, v in parsed.items()
+               if k in ("determinable", "value", "reasoning", "concerns")},
+        }
+    parsed.setdefault("verdicts", [])
+    return parsed
+
+
+def verify_periods_batch(
+    periods_a: list[dict[str, Any]],
+    agent_b_result: dict[str, Any],
+) -> list[VerificationResult]:
+    """Pair Agent A's period entries with Agent B's batched verdicts.
+
+    Agent B returns `{"verdicts": [{...}, {...}]}` — one entry per
+    period in the same order Agent A produced them. This function
+    aligns the two lists and runs the standard comparison per pair.
+
+    If Agent B returns fewer verdicts than periods (e.g. malformed
+    response), the unmatched Agent A periods receive a `not_found`
+    verdict with `needs_review=True`.
+    """
+    verdicts = agent_b_result.get("verdicts") or []
+    results: list[VerificationResult] = []
+    for i, period_a in enumerate(periods_a):
+        verdict = verdicts[i] if i < len(verdicts) else {
+            "determinable": False, "value": None,
+            "reasoning": "Agent B did not return a verdict for this period.",
+        }
+        results.append(verify_period(period_a, verdict))
+    return results
 
 
 def verify_period(

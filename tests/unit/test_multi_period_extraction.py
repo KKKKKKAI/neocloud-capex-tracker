@@ -105,6 +105,96 @@ def test_verify_period_b_insufficient():
     assert v.value_b is None
 
 
+# ---- Batched Agent B -------------------------------------------
+
+def test_verify_periods_batch_pairs_verdicts_by_index():
+    from capex.verification.dual_agent import verify_periods_batch
+    periods_a = [
+        {"value": 106265, "excerpts": [], "reasoning": "FY25"},
+        {"value": 87464, "excerpts": [], "reasoning": "FY24 restated"},
+        {"value": 87907, "excerpts": [], "reasoning": "FY23 restated"},
+    ]
+    agent_b = {
+        "verdicts": [
+            {"determinable": True, "value": 106265},
+            {"determinable": True, "value": 87464},
+            {"determinable": True, "value": 87907},
+        ]
+    }
+    results = verify_periods_batch(periods_a, agent_b)
+    assert len(results) == 3
+    assert all(r.verified for r in results)
+    assert [r.value_b for r in results] == [106265, 87464, 87907]
+
+
+def test_verify_periods_batch_fewer_verdicts_than_periods():
+    """If Agent B returns a short list, the unmatched periods get
+    a `not_found`-like verdict instead of crashing."""
+    from capex.verification.dual_agent import verify_periods_batch
+    periods_a = [
+        {"value": 100, "excerpts": [], "reasoning": ""},
+        {"value": 200, "excerpts": [], "reasoning": ""},
+    ]
+    agent_b = {"verdicts": [{"determinable": True, "value": 100}]}
+    results = verify_periods_batch(periods_a, agent_b)
+    assert len(results) == 2
+    assert results[0].verified is True
+    assert results[1].verified is False
+    assert results[1].needs_review is True
+
+
+def test_parse_agent_b_response_modern_shape():
+    from capex.verification.dual_agent import parse_agent_b_response
+    raw = json.dumps({
+        "verdicts": [
+            {"period": "FY25", "determinable": True, "value": 1},
+            {"period": "FY24", "determinable": False, "value": None,
+             "concerns": "ambiguous"},
+        ]
+    })
+    parsed = parse_agent_b_response(raw)
+    assert len(parsed["verdicts"]) == 2
+    assert parsed["verdicts"][0]["value"] == 1
+
+
+def test_parse_agent_b_response_legacy_shape_normalized():
+    """Legacy Agent B output (single value, no verdicts list) gets
+    wrapped in a one-element verdicts array so callers can uniformly
+    index."""
+    from capex.verification.dual_agent import parse_agent_b_response
+    raw = json.dumps({
+        "determinable": True, "value": 106265, "reasoning": "yes",
+    })
+    parsed = parse_agent_b_response(raw)
+    assert len(parsed["verdicts"]) == 1
+    assert parsed["verdicts"][0]["value"] == 106265
+
+
+def test_build_agent_b_prompt_multi_lists_periods():
+    from capex.verification.dual_agent import build_agent_b_prompt
+    periods = [
+        {"role": "primary", "label": "FY2025",
+         "period_of_report": "2025-06-30", "basis_period_months": 12,
+         "excerpts": [{"text": "hdr...FY25...106265", "role": "primary_value",
+                       "location": "Segment"}]},
+        {"role": "comparative", "label": "FY2024 (restated)",
+         "period_of_report": "2024-06-30", "basis_period_months": 12,
+         "excerpts": [{"text": "hdr...FY24...87464", "role": "primary_value",
+                       "location": "Segment"}]},
+    ]
+    prompt = build_agent_b_prompt(
+        company_name="MSFT", form_type="10-K",
+        periods=periods, metric_description="Intelligent Cloud revenue",
+    )
+    # Both period labels appear; each period's excerpt is included
+    assert "FY2025" in prompt
+    assert "FY2024 (restated)" in prompt
+    assert "106265" in prompt
+    assert "87464" in prompt
+    # The output format note tells Agent B to return a verdicts array
+    assert '"verdicts"' in prompt
+
+
 # ---- virtual source_doc -----------------------------------------
 
 def _make_min_db(tmp_path: Path) -> Path:

@@ -1,36 +1,45 @@
 You are an independent financial data verification agent.
 
-TASK: From ONLY the text excerpts below (extracted from {company_name}'s {form_type}), determine the value of {metric_description} **for the period {period}** specifically.
-
-The excerpts are drawn from a table that may show this period alongside other comparative periods. Read the column headers carefully and identify the value that corresponds to {period}, not any adjacent period.
+TASK: From ONLY the text excerpts below (extracted from {company_name}'s {form_type}), determine {metric_description} for EACH of the target periods listed. You will receive multiple periods with their own excerpts — produce one verdict per period.
 
 {derivation_rules}
 
+TARGET PERIODS:
+{periods_block}
+
+EXCERPTS (grouped by period):
+{excerpts_text}
+
 RULES:
 1. Read ONLY the provided excerpts. Do NOT assume or infer beyond what is explicitly stated.
-2. If the value can be determined: report it with step-by-step reasoning.
-3. If it must be computed from multiple excerpts: show the complete computation.
-4. If the excerpts are INSUFFICIENT to determine the value: set "determinable" to false and explain exactly what information is missing.
-5. Do NOT guess. If ambiguous between multiple possible values, report the ambiguity.
-6. Report the value in {unit}.
-
-EXCERPTS:
-{excerpts_text}
+2. For EACH target period, identify the column / cell that matches that period's label and extract the value. Do not confuse adjacent columns — read the column headers carefully.
+3. If a period's value can be determined: report it in {unit} with step-by-step reasoning.
+4. If it must be computed from multiple excerpts: show the complete computation for that period.
+5. If the excerpts for a period are INSUFFICIENT: set that period's "determinable" to false and explain exactly what is missing.
+6. Do NOT guess. If ambiguous between multiple possible values, report the ambiguity.
 
 OUTPUT FORMAT (JSON only, no markdown):
 {{
-  "determinable": true,
-  "value": 39824,
-  "unit": "{unit}",
-  "reasoning": "<step-by-step deduction from the excerpts>",
-  "concerns": null
+  "verdicts": [
+    {{
+      "period": "<period label matching the target list>",
+      "period_of_report": "<YYYY-MM-DD>",
+      "determinable": true,
+      "value": 106265,
+      "unit": "{unit}",
+      "reasoning": "<step-by-step deduction from the excerpts>",
+      "concerns": null
+    }},
+    {{
+      "period": "<next period>",
+      "period_of_report": "<YYYY-MM-DD>",
+      "determinable": false,
+      "value": null,
+      "unit": "{unit}",
+      "reasoning": "<what you found in the excerpts>",
+      "concerns": "<what specific information is missing or ambiguous>"
+    }}
+  ]
 }}
 
-If not determinable:
-{{
-  "determinable": false,
-  "value": null,
-  "unit": "{unit}",
-  "reasoning": "<what you found in the excerpts>",
-  "concerns": "<what specific information is missing or ambiguous>"
-}}
+The `verdicts` array must have ONE entry per target period in the order they appear above.

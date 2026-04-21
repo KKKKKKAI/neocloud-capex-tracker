@@ -126,6 +126,8 @@ def generate_metric_chart(
     conn.row_factory = sqlite3.Row
     # ORDER BY filing_date ASC — later rows overwrite the dict so
     # restated values (from a newer 10-K) win over original as-reported.
+    # But 0/NULL restated rows (usually LLM mis-reads of an empty cell)
+    # are demoted so the authentic original keeps its slot.
     rows = conn.execute(
         "SELECT sd.ticker, sd.fiscal_year, "
         "COALESCE(e.value_usd, e.value) as val "
@@ -134,7 +136,10 @@ def generate_metric_chart(
         "WHERE e.metric_key = ? "
         "AND sd.period_token = 'AR' "
         "AND e.period_type = 'FY' "
-        "ORDER BY sd.filing_date ASC, e.extracted_at ASC",
+        "ORDER BY "
+        "  CASE WHEN COALESCE(e.value_usd, e.value) IS NULL "
+        "         OR COALESCE(e.value_usd, e.value) = 0 THEN 1 ELSE 0 END ASC, "
+        "  sd.filing_date ASC, e.extracted_at ASC",
         (metric_key,),
     ).fetchall()
     conn.close()

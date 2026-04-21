@@ -125,6 +125,11 @@ def _load_annual(
     See docs/RESTATEMENT_POLICY.md.
     """
     exclude = exclude_tickers or set()
+    # ORDER BY demotes 0/NULL rows below any real value. Without this
+    # guard, an LLM restated row that mis-read an empty cell as 0 would
+    # overwrite a perfectly good original via filing_date ASC. Within
+    # the set of real values, filing_date ASC → newest wins the final
+    # dict assignment, preserving restated-over-original precedence.
     rows = conn.execute(
         "SELECT sd.ticker, sd.fiscal_year, "
         "COALESCE(e.value_usd, e.value) as val, "
@@ -134,7 +139,10 @@ def _load_annual(
         "WHERE e.metric_key = ? "
         "AND sd.period_token = 'AR' "
         "AND e.period_type = 'FY' "
-        "ORDER BY sd.filing_date ASC, e.extracted_at ASC",
+        "ORDER BY "
+        "  CASE WHEN COALESCE(e.value_usd, e.value) IS NULL "
+        "         OR COALESCE(e.value_usd, e.value) = 0 THEN 1 ELSE 0 END ASC, "
+        "  sd.filing_date ASC, e.extracted_at ASC",
         (metric_key,),
     ).fetchall()
 
@@ -209,6 +217,10 @@ def _load_quarterly(
               AND e2.period_type = e.period_type
               AND e2.value_usd IS NOT NULL
             ORDER BY
+              -- 0/NULL values lose to any real number; a zero restated
+              -- row never preempts the original.
+              CASE WHEN COALESCE(e2.value_usd, e2.value) IS NULL
+                     OR COALESCE(e2.value_usd, e2.value) = 0 THEN 1 ELSE 0 END,
               CASE WHEN e2.extraction_type = 'direct' THEN 0
                    WHEN e2.extraction_type = 'inferred' THEN 1
                    ELSE 2 END,

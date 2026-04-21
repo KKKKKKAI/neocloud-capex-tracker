@@ -50,6 +50,32 @@ citation auto-rewires whenever a restated row wins: **2023Q3 figure
 restated in a 2024Q3 10-Q cites the 2024Q3 download link**, without
 any change in the Excel exporter itself.
 
+### Zero-fallback guardrail
+
+A restated comparative row whose value is **0 or NULL** is treated as
+an LLM mis-read of an empty table cell and never preempts the
+original. This is enforced at two levels:
+
+- **Write time** (`LLMHeadlessExtractor.extract`): when Agent B verifies
+  `value == 0` for a `role='comparative'` period, the row is skipped
+  entirely — no virtual source_doc is created, nothing hits the DB.
+- **Selector time**: every `ORDER BY` that picks among candidate rows
+  for the same cell has a leading `CASE WHEN value IS NULL OR value=0
+  THEN 1 ELSE 0 END` term, so any real number beats 0. This protects
+  rows that were already written before the guardrail landed, and any
+  future edge cases where the LLM slips a zero past the write-time
+  check.
+
+### FYE-aware fiscal year for restated rows
+
+The comparative period's fiscal year is derived from its
+`period_of_report` **plus the company's `fiscal_year_end_month`**, not
+from the first four characters of the ISO date. For MSFT (FYE=June), a
+comparative ending `2024-12-31` sits in FY2025; before the fix it was
+mis-tagged as FY2024 and collided with the *original* MSFT FY2024 Q2
+slot in the selector, masking 2023Q4 entirely. Helper:
+`capex.extract.extractors.llm_headless._fiscal_year_from(period, fye)`.
+
 ---
 
 ## How restatements are captured — LLM dual-agent, one flow

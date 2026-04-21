@@ -166,8 +166,15 @@ def _group_rows(
         value = r.get("value_usd") if r.get("value_usd") is not None else r.get("value")
         if value is None:
             continue
+        abs_val = abs(float(value))
+        # A zero-valued row is almost always an LLM mis-read of an empty
+        # comparative cell; never let it overwrite a real prior number
+        # even if it was filed later.
+        existing = grouped[key].get(ptype)
+        if abs_val == 0 and existing and existing["value"] != 0:
+            continue
         grouped[key][ptype] = {
-            "value": abs(float(value)),
+            "value": abs_val,
             "extraction_id": r["id"],
             "source_document_id": r.get("source_document_id"),
             "period_of_report": r["period_of_report"],

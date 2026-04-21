@@ -36,6 +36,27 @@ from ..coverage import DatasetTreatment, get_company_treatment, get_dataset_trea
 from ..virtual_source_docs import ensure_restated_source_doc
 
 
+def _fiscal_year_from(period_of_report: str, fye_month: int) -> int | None:
+    """Convert a period-end ISO date + fiscal-year-end month → fiscal year.
+
+    A fiscal year FY{N} spans the 12 months ending on `fye_month` of
+    calendar year N. So a period ending on a month > fye_month belongs
+    to FY{calendar_year+1}; any month ≤ fye_month belongs to FY{calendar_year}.
+
+    MSFT (FYE=6): 2024-06-30 → FY2024; 2024-12-31 → FY2025.
+    BABA (FYE=3): 2024-03-31 → FY2024; 2024-06-30 → FY2025.
+    AMZN (FYE=12): every date → calendar year (the common case).
+    """
+    try:
+        cy = int(period_of_report[:4])
+        pm = int(period_of_report[5:7])
+    except (ValueError, IndexError):
+        return None
+    if not 1 <= pm <= 12 or not 1 <= fye_month <= 12:
+        return None
+    return cy if pm <= fye_month else cy + 1
+
+
 def _period_type_from(
     basis_months: int,
     period_of_report: str,
@@ -246,11 +267,14 @@ class LLMHeadlessExtractor:
                     extracting_model = "llm-dual-agent"
                     any_primary_ok = True
                 else:
+                    # User-directed guardrail: a 0/None restated value is
+                    # almost always an LLM mis-read of an empty cell. Skip
+                    # silently — the original as-reported row stays
+                    # authoritative via the filing_date DESC selector.
+                    if value in (None, 0):
+                        continue
                     comp_period = period.get("period_of_report") or ""
-                    try:
-                        comp_fy = int(comp_period[:4]) if comp_period else None
-                    except ValueError:
-                        comp_fy = None
+                    comp_fy = _fiscal_year_from(comp_period, fye_month)
                     if comp_fy is None:
                         continue
                     with db.mutating() as conn:

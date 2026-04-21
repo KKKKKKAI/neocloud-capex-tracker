@@ -141,6 +141,34 @@ The 5 seed metrics from `data/seeds/metric_definitions.yaml`:
 Future metrics (Phase 3.5+): AI-attributable capex, segment revenue
 (cloud/datacenter), committed contracts.
 
+## Restated comparatives — guardrails
+
+When a filing's target table shows prior-period comparative columns
+(standard for 10-K / 20-F segment tables and 10-Q quarterly tables),
+extract one row **per comparative period** alongside the primary. Each
+becomes its own extraction row: primary writes against the filing's
+`source_documents` row; each comparative writes against a virtual
+`source_documents` row via `ensure_restated_source_doc` so downstream
+selectors (ordered by `filing_date DESC`) promote the latest-filed
+value automatically.
+
+Two guardrails are mandatory:
+
+1. **Zero-fallback**: if the verified value for a comparative period is
+   `0` or `None`, **skip the row entirely**. It's almost always an LLM
+   mis-read of an empty cell — writing it would let a bogus 0 overwrite
+   a valid original via the `filing_date DESC` tiebreak. Primary
+   periods with value 0 are still allowed (could be a real zero) but
+   will be demoted at selector time if a non-zero row exists.
+2. **FYE-aware fiscal year**: derive the comparative's `fiscal_year`
+   from `period_of_report + fiscal_year_end_month`, never from the
+   calendar year of the period-end date. MSFT (FYE=June) Q2 ending
+   `2024-12-31` is FY2025, not FY2024. Use the
+   `_fiscal_year_from(period, fye)` helper in
+   `src/capex/extract/extractors/llm_headless.py`.
+
+See `docs/RESTATEMENT_POLICY.md` for the full design.
+
 ## Error vocabulary
 
 - `DocumentNotFoundError` — no `source_documents` row for the requested (ticker, form_type).

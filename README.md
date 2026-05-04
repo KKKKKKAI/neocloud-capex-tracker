@@ -5,7 +5,7 @@ disclosures across major hyperscalers and neocloud providers.
 
 ![Cloud Revenue](charts/cloud_revenue_annual.png)
 
-**[Dashboard](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Cloud / DC Revenue](https://KKKKKKAI.github.io/neocloud-capex-tracker/cloud.html)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Treatments Audit](https://KKKKKKAI.github.io/neocloud-capex-tracker/treatments.html)** | **[Download Excel](workbook/%5B2026.05.04%20-%2020%3A26%5D%20financials%20sourcebook.xlsx)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)** | **[Restatement Policy](docs/RESTATEMENT_POLICY.md)**
+**[Dashboard](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Cloud / DC Revenue](https://KKKKKKAI.github.io/neocloud-capex-tracker/cloud.html)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Treatments Audit](https://KKKKKKAI.github.io/neocloud-capex-tracker/treatments.html)** | **[Download Excel](workbook/%5B2026.05.04%20-%2022%3A41%5D%20financials%20sourcebook.xlsx)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)** | **[Restatement Policy](docs/RESTATEMENT_POLICY.md)**
 
 ---
 

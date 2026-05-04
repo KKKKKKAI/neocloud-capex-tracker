@@ -59,8 +59,14 @@ desktop.ini
 # ---- Local data scratch ----
 data/scratch/
 data/cache/
+data/_logs/
 *.log
 logs/
+
+# Local DB rollback snapshots (taken before destructive migrations /
+# bulk rewrites). They live next to capex.db so a quick `cp` can
+# restore. Each is a full SQLite dump and must NOT go to the remote.
+*.bak
 
 # ---- Source archive (runtime artifacts, fetched on demand) ----
 # Per-ticker directories under data/_sources/ hold the raw regulator

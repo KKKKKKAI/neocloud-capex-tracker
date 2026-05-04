@@ -5,14 +5,21 @@ polls SEC for the filing, runs dual-agent extraction, regenerates
 outputs, and pushes to GitHub.
 
 Usage:
-    # Via cron (daily at 6 AM):
-    PYTHONPATH=src python3 -m capex.monitor.run
+    # Via cron (daily, after US market close):
+    PYTHONPATH=src python3 -m capex.monitor.run --catch-up
+
+    # All companies whose earnings have been announced but never
+    # extracted, regardless of how far back:
+    PYTHONPATH=src python3 -m capex.monitor.run --catch-up
+
+    # Same, but bounded floor (only look back to 2026-04-25):
+    PYTHONPATH=src python3 -m capex.monitor.run --catch-up --since 2026-04-25
+
+    # Strict same-day mode (today's earnings only):
+    PYTHONPATH=src python3 -m capex.monitor.run --all-today
 
     # Manual trigger for one company:
     PYTHONPATH=src python3 -m capex.monitor.run MSFT
-
-    # Manual trigger for all today's earnings:
-    PYTHONPATH=src python3 -m capex.monitor.run --all-today
 """
 from __future__ import annotations
 
@@ -23,7 +30,7 @@ from pathlib import Path
 
 from ..adapters.cli_backend import CLIBackend
 from ..db import Database
-from .calendar import get_todays_earnings
+from .calendar import get_pending_earnings, get_todays_earnings
 from .watcher import watch_and_extract
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -42,7 +49,22 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Using CLI backend: {backend}")
 
     # Determine what to process
-    if argv and argv[0] == "--all-today":
+    if argv and argv[0] == "--catch-up":
+        since = _parse_since_flag(argv[1:])
+        earnings = get_pending_earnings(since=since, db=db)
+        if not earnings:
+            window = f" since {since}" if since else ""
+            print(f"No pending earnings to catch up on{window}.")
+            return 0
+        print(
+            f"Catch-up: {len(earnings)} pending — "
+            f"{[(e['ticker'], e['report_date']) for e in earnings]}"
+        )
+        tickers_forms = [
+            (e["ticker"], _infer_form_type(e, db))
+            for e in earnings
+        ]
+    elif argv and argv[0] == "--all-today":
         earnings = get_todays_earnings(db=db)
         if not earnings:
             print("No earnings scheduled today.")
@@ -97,6 +119,16 @@ def main(argv: list[str] | None = None) -> int:
         _create_github_issue(results)
 
     return 0
+
+
+def _parse_since_flag(rest: list[str]) -> str | None:
+    """Pull `--since YYYY-MM-DD` out of remaining argv. Returns None if absent."""
+    if "--since" in rest:
+        i = rest.index("--since")
+        if i + 1 < len(rest):
+            return rest[i + 1]
+        raise SystemExit("--since requires a YYYY-MM-DD argument")
+    return None
 
 
 def _infer_form_type(earning: dict, db: Database) -> str:

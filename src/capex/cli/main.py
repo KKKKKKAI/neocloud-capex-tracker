@@ -853,6 +853,8 @@ def _print_help() -> None:
         "    calendar show       show upcoming earnings (--week for 7 days)\n"
         "    monitor <TICKER>    poll SEC for latest filing + extract via LLM\n"
         "    monitor --all-today process all companies with earnings today\n"
+        "    monitor --catch-up  process every announced earnings date still 'upcoming'\n"
+        "                        --since YYYY-MM-DD  only look back to this date\n"
         "    export              generate Excel workbook from DB\n"
         "                        -o PATH      output path (default: workbook/[yyyy.mm.dd - HH:MM] financials sourcebook.xlsx)\n"
         "    chart               regenerate charts (YoY auto-recalculated)\n"

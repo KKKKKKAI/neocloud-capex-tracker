@@ -1,16 +1,16 @@
-name: Watcher (placeholder)
+name: Calendar sync
 
-# Scheduled watcher job. Runs on a cron cadence to check for new filings from
-# companies in scope. This workflow is a placeholder scaffold — the actual
-# watcher logic is not yet implemented. See docs/SYSTEM_DESIGN.md §4 (Layer 1).
+# Weekly Alpha Vantage refresh of fiscal_calendar. The LLM-heavy filing
+# watcher runs on the maintainer's WSL cron (uses Claude Code Pro Max
+# auth via `claude -p`), not in CI. This workflow is the cheap, no-LLM
+# half: keep the calendar table fresh even if the local machine is off.
 #
 # Single-writer guarantee on the workbook is enforced by the concurrency group.
 
 on:
   schedule:
-    # Every weekday at 13:30 UTC (after US market open, before most earnings releases).
-    # Cadence will be revisited once target companies are locked.
-    - cron: "30 13 * * 1-5"
+    # Sundays at 13:30 UTC — well outside any earnings-day window.
+    - cron: "30 13 * * 0"
   workflow_dispatch: {}
 
 concurrency:
@@ -18,8 +18,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  watch:
+  sync-calendar:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +35,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
-      - name: Run watcher (not yet implemented)
+      - name: Sync earnings calendar from Alpha Vantage
+        env:
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
         run: |
-          echo "Watcher layer not yet implemented. See docs/SYSTEM_DESIGN.md."
-          exit 0
+          PYTHONPATH=src python -m capex.monitor.calendar
+
+      - name: Commit calendar changes
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/db/capex.db data/db/dump.sql || true
+          if ! git diff --staged --quiet; then
+            git commit -m "data(calendar): weekly Alpha Vantage sync"
+            git push
+          else
+            echo "no calendar changes."
+          fi

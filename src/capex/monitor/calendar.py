@@ -1,5 +1,17 @@
 """Earnings calendar sync via Alpha Vantage.
 
+SCOPE — read this first:
+    Alpha Vantage is used SOLELY to discover forward-looking earnings
+    *dates* (e.g. "GOOGL will report on 2026-04-29"). It NEVER touches
+    financial data, never extracts a value, never writes to extractions
+    or extraction_evidence. Its only output is rows in fiscal_calendar
+    with status='upcoming'.
+
+    All actual financial data extraction is our own LLM dual-agent
+    framework reading filings from SEC EDGAR / HKEXnews — see
+    src/capex/extract/extractors/llm_headless_filing.py and
+    src/capex/extract/extractors/llm_headless.py.
+
 Pulls upcoming earnings dates for our tracked companies and stores them
 in the fiscal_calendar table. The monitor uses these dates to know
 exactly when to start polling SEC EDGAR for new filings.
@@ -141,6 +153,40 @@ def get_todays_earnings(*, db: Database | None = None) -> list[dict[str, Any]]:
             """,
             (today,),
         ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_pending_earnings(
+    *,
+    on_or_before: str | None = None,
+    since: str | None = None,
+    db: Database | None = None,
+) -> list[dict[str, Any]]:
+    """Return all calendar rows still 'upcoming' whose report_date has passed.
+
+    Used by `capex monitor --catch-up` so a missed earnings day is picked
+    up the next time cron fires (or whenever the user runs it manually).
+
+    Args:
+        on_or_before: ISO date ceiling (default: today). Anything with
+            report_date <= this is eligible.
+        since: optional ISO date floor. When set, only rows with
+            report_date >= since are returned. Defaults to no floor.
+    """
+    db = db or Database()
+    ceiling = on_or_before or date.today().isoformat()
+    sql = (
+        "SELECT ticker, report_date, fiscal_date_ending, form_type, status "
+        "FROM fiscal_calendar "
+        "WHERE report_date <= ? AND status = 'upcoming' "
+    )
+    params: list[Any] = [ceiling]
+    if since:
+        sql += "AND report_date >= ? "
+        params.append(since)
+    sql += "ORDER BY report_date, ticker"
+    with db.connect() as conn:
+        rows = conn.execute(sql, params).fetchall()
     return [dict(r) for r in rows]
 
 
@@ -398,3 +444,12 @@ def add_manual_entry(
             """,
             (ticker, report_date, fiscal_date_ending, form_type, now),
         )
+
+
+if __name__ == "__main__":
+    import json
+    import sys
+
+    result = sync_earnings_calendar()
+    print(json.dumps(result, indent=2))
+    sys.exit(0 if not result.get("errors") else 1)

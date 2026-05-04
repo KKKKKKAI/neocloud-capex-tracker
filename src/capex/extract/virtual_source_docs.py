@@ -103,7 +103,7 @@ def ensure_restated_source_doc(
         (
             ticker, restating["filing_date"],
             period_end, fiscal_year,
-            f"restated-{ticker}-{fiscal_year}-{restating['accession_number'] or ''}",
+            f"restated-{ticker}-{period_end}-{restating['accession_number'] or ''}",
             virt_raw,
             src_value,
             restating["source_url"] or "",

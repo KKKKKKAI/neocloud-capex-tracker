@@ -12,6 +12,39 @@ from ...xbrl.timeseries import fetch_concept_timeseries
 from ..base import ExtractionCandidate
 from ..coverage import DatasetTreatment
 
+
+def _period_classification(
+    form_type: str,
+    period_end: str,
+    ticker: str,
+    db: Database,
+) -> tuple[str, int | None]:
+    """Map (form_type, period_end, ticker) → (period_type, basis_months).
+
+    The xbrl/timeseries.py duration preference picks 90d for 10-Q and
+    365d for 10-K/20-F, so we know the basis. For 10-Qs we map the
+    period_end's month to a fiscal quarter using the company's FYE
+    (FYE December → calendar Q = fiscal Q; FYE June → 3-month shift).
+    """
+    if form_type in ("10-K", "20-F"):
+        return "FY", 12
+    if form_type != "10-Q":
+        return "", None
+    # 10-Q: derive Qn from FYE month
+    try:
+        with db.connect() as conn:
+            row = conn.execute(
+                "SELECT fiscal_year_end_month FROM companies WHERE ticker = ?",
+                (ticker,),
+            ).fetchone()
+        fye_month = row["fiscal_year_end_month"] if row else 12
+        period_month = int(period_end[5:7])
+    except (ValueError, IndexError, TypeError):
+        return "", 3
+    # offset (0-based) of period_end month past fiscal-year-start month
+    offset = (period_month - fye_month - 1) % 12
+    return f"Q{(offset // 3) + 1}", 3
+
 # Map metric_key → XBRL concept candidates (try in order)
 CONCEPT_MAP: dict[str, list[str]] = {
     "capital_expenditures": [
@@ -124,6 +157,14 @@ class XBRLExtractor:
             if doc_id is None:
                 continue
 
+            # Set period_type / basis_period_months directly so chart
+            # selectors (which filter on period_type) see the row even
+            # when reconcile hasn't run. The xbrl/timeseries.py duration
+            # preference picks 90d for 10-Qs and 365d for 10-K/20-F, so
+            # we can map form_type → period basis confidently here.
+            ptype, basis = _period_classification(
+                form, point["end"], ticker, db,
+            )
             candidates.append(ExtractionCandidate(
                 source_document_id=doc_id,
                 metric_key=metric_key,
@@ -135,6 +176,8 @@ class XBRLExtractor:
                 extraction_type="direct",
                 extracting_model="xbrl-verified",
                 reporting_currency=currency,
+                period_type=ptype,
+                basis_period_months=basis,
             ))
 
         return candidates if candidates else None

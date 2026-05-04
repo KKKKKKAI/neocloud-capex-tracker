@@ -167,7 +167,23 @@ def _default_form_type(ticker: str, db: Database) -> str:
 
 
 def _regenerate_outputs() -> None:
-    """Regenerate Excel workbook and charts."""
+    """Reconcile period_types, then regenerate workbook + all chart pages.
+
+    Reconcile MUST run before the exporters: XBRL-extracted rows land
+    with `period_type=''` and the chart selectors filter by
+    `period_type IN ('FY','Q1','Q2','Q3','Q4')`. Without reconcile the
+    new period would be invisible to every chart and HTML viewer.
+    """
+    try:
+        from ..extract.reconcile import reconcile
+        summary = reconcile(write=True)
+        print(
+            f"  Reconcile: derived={summary.derived} "
+            f"conflicts={summary.conflicts} unresolved={summary.unresolved}"
+        )
+    except Exception as e:
+        print(f"  Reconcile error: {e}")
+
     try:
         from ..exporters.excel import export_workbook
         export_workbook()
@@ -176,13 +192,33 @@ def _regenerate_outputs() -> None:
         print(f"  Excel error: {e}")
 
     try:
-        from ..exporters.charts import generate_cloud_revenue_chart
-        from ..exporters.interactive_chart import generate_interactive
-        generate_cloud_revenue_chart()
-        generate_interactive()
-        print("  Charts regenerated")
+        from ..exporters.charts import generate_all_metric_charts
+        from ..exporters.dashboard_html import generate_dashboard_html
+        from ..exporters.earnings_calendar_html import (
+            generate_earnings_calendar_html,
+        )
+        from ..exporters.interactive_chart import generate_all_interactive
+        from ..exporters.treatments_html import generate_treatments_html
+        generate_all_metric_charts()
+        generate_all_interactive()
+        generate_dashboard_html()
+        generate_earnings_calendar_html()
+        generate_treatments_html()
+        print("  Charts + dashboards regenerated")
     except Exception as e:
         print(f"  Chart error: {e}")
+
+    try:
+        from pathlib import Path
+
+        from ..db.dump import dump_to_sql
+        dump_to_sql(
+            Path("data/db/capex.db"),
+            Path("data/db/dump.sql"),
+        )
+        print("  dump.sql regenerated")
+    except Exception as e:
+        print(f"  dump.sql error: {e}")
 
 
 def _git_commit_and_push(results: list[dict]) -> None:

@@ -85,6 +85,18 @@ both the current period AND every prior-period comparative** shown
 in the same table / income statement. Each period is verified
 independently by Agent B, and each becomes its own extraction row.
 
+When the auto-update watcher runs, this happens through the
+**multi-metric Agent A path** (`LLMHeadlessFilingExtractor` +
+`agent_a_multi_metric.txt`): one Agent A call covers all 6 metrics
+× all visible periods (primary + comparatives) in a single response.
+Per-metric Agent B then verifies each metric's periods independently.
+The per-metric path (`LLMHeadlessExtractor` + `agent_a.txt`) — used
+by PEL re-extract, audit re-verify, the restatement sweep, and the
+multi-metric fallback — emits the same multi-period schema for one
+metric at a time. **The per-period restatement capture is identical
+between the two paths** — they only differ in how many metrics are
+batched into one Agent A call.
+
 ### Agent A prompt (multi-period schema)
 
 `src/capex/verification/prompts/agent_a.txt` instructs the LLM to

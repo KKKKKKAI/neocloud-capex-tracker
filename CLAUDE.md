@@ -26,6 +26,9 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 | `src/capex/read/sections.py` | Parse text into named sections (Items 7, 8, Notes) |
 | `src/capex/extract/writer.py` | Adapter-agnostic DB writer — validates + writes extractions |
 | `src/capex/extract/segment.py` | Generalized segment revenue extractor with table scoring |
+| `src/capex/extract/extractors/llm_headless.py` | Per-metric dual-agent extractor — used by PEL re-extract, audit re-verify, restatement sweep, and as the fallback for the multi-metric path |
+| `src/capex/extract/extractors/llm_headless_filing.py` | Per-filing dual-agent extractor — one Agent A call covers all 6 metrics, then one Agent B call per metric. Used by `monitor/watcher.py` via `router.extract_filing()` |
+| `src/capex/extract/router.py` | `extract_metric()` (per-metric, retained for PEL/audit) and `extract_filing()` (per-filing bulk path used by the auto-update watcher) |
 | `src/capex/xbrl/timeseries.py` | XBRL companyfacts API — pulls full quarterly history |
 | `src/capex/fx/rates.py` | FX rate lookups via frankfurter.app (ECB data) |
 | `src/capex/db/schema.py` | SQLite Database wrapper + migrator |

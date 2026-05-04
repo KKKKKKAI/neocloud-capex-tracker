@@ -88,7 +88,7 @@ flowchart TD
 
         subgraph Extractors["Extraction Strategies"]
             EX_XBRL["xbrl.py\n1,257 records"]
-            EX_LLM["llm + dual-agent\n167 verified"]
+            EX_LLM["llm + dual-agent\n167 verified\n(multi-metric: 1 Agent A + 6 Agent B per filing)"]
             EX_SEG["segment.py\ntable scorer"]
             EX_6K["press_release.py\n6-K quarterly"]
         end
@@ -316,8 +316,9 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
 | 6 | Quarterly cloud segment extraction | 📋 | LLM-extract AWS/Azure/GCP quarterly segment revenue from 10-Qs so `cloud_segment_revenue` Q4 2019/2020 can be reconciled |
 | 6b | XBRL filing-text quote backfill | 📋 | `xbrl_excerpt.py` to locate filing HTML snippets and populate `extraction_evidence` for XBRL-sourced rows |
-| 7a | Fiscal calendar monitor | 📋 | Automated new-filing detection via Alpha Vantage |
-| 7b | Headless LLM extraction (CLI `-p` mode) | 📋 | Unattended cron extraction without Claude Code session |
+| 7a | Fiscal calendar monitor | ✅ | **Alpha Vantage = date discovery only (no data extraction).** It populates `fiscal_calendar` with forward earnings *dates* (3-month horizon) so the watcher knows when to start polling SEC. All financial data extraction is our own LLM dual-agent framework — Alpha Vantage never sees a value. `capex monitor --catch-up [--since YYYY-MM-DD]` walks every announced earnings date still `status='upcoming'`, polls SEC, runs LLM dual-agent extraction, regenerates Excel/charts, auto-commits. Triggered by WSL cron via `scripts/run_monitor.sh` (daily 18:00 weekdays, after US close) and `scripts/sync_calendar.sh` (weekly). `scripts/install_cron.sh` is the idempotent installer. GitHub Actions runs the cheap calendar-sync half weekly as a fallback. Catch-up mode means a missed day self-heals on the next run. |
+| 7b | Headless LLM extraction (CLI `-p` mode) | ✅ | Unattended cron extraction via `claude -p`. `LLMHeadlessExtractor` (per-metric) drives the per-metric flow used by PEL re-extract, audit re-verify, and the restatement sweep. Dual-agent verification runs without an interactive session. |
+| 7c | Multi-metric Agent A per filing | ✅ | Watcher's `extract_filing()` makes ONE Agent A call per filing covering all 6 metrics (~106K input chars), then ONE Agent B call per metric (each batched across periods). Cost drops from ~600K → ~112K input chars per filing (~5× cheaper, ~5× faster). Per-metric fallback fires automatically for any metric the multi-metric pass can't satisfy — worst case = today's per-metric cost. `LLMHeadlessFilingExtractor` + `build_agent_a_multi_metric_prompt` + `parse_agent_a_multi_metric_response`. Per-metric `extract_metric()` API preserved for PEL/audit. |
 | 8a | Auto-publish pipeline | 📋 | CI-driven Excel + chart regeneration on new data |
 | 8b | CSV / JSON / Parquet exporters | 📋 | Additional output formats from DB |
 | — | Pluggable LLM adapters (Anthropic, Gemini, OpenAI) | 📋 | Replace interactive Claude Code extraction |

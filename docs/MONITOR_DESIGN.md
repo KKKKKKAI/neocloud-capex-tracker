@@ -65,6 +65,14 @@ Python orchestrator (no approval needed)
 
 ## Part 1: Earnings Calendar Integration
 
+> **Scope.** This entire section is about discovering forward earnings
+> *dates* — i.e. answering "when will GOOGL next report?" so the
+> watcher knows when to start polling SEC. The third-party feed
+> described below (Alpha Vantage) is used SOLELY for that. It never
+> sees a financial value, never extracts data, never writes to
+> `extractions` or `extraction_evidence`. All actual data extraction
+> is our own LLM dual-agent framework — see Part 3.
+
 ### How companies announce earnings dates
 
 Companies announce their exact earnings release date weeks in advance
@@ -192,23 +200,50 @@ This ensures every data point has:
 - XBRL cross-check where available (catches LLM errors)
 - Dual-agent verification (catches hallucination)
 
-### Headless dual-agent extractor
+### Per-filing call pattern (the cost-shape that the watcher uses)
 
-**File:** `src/capex/extract/extractors/llm_headless.py`
+For one new 10-Q the LLM traffic is **1 Agent A call + N Agent B calls** (one per
+metric, batched across periods), not N × (Agent A + Agent B):
+
+```
+1 × Agent A multi-metric prompt   (~106K input chars: filing once + 6 metric specs)
+6 × Agent B excerpt-only prompts  (~1K input chars each, batched across periods)
+```
+
+This is ~5–6× cheaper and faster than calling Agent A once per metric.
+Per-metric fallback fires automatically for any metric the multi-metric pass
+can't satisfy (parse failure, Agent B says insufficient, no verified primary
+or comparative). Worst case = today's per-metric cost; common case = the
+cheap path above.
+
+### Headless dual-agent extractors
+
+**Per-filing (auto-update path):** `src/capex/extract/extractors/llm_headless_filing.py`
 
 ```python
-def extract_with_dual_agent(ticker, metric_key, period, *, backend, db=None):
-    """Full dual-agent extraction using CLI backend.
-    
-    1. Load filing sections from disk (Python — no LLM needed)
-    2. Format Agent A prompt → call CLI → parse JSON response
-    3. Format Agent B prompt (excerpts only) → call CLI → parse JSON
-    4. Compare A vs B (Python — no LLM needed)
-    5. XBRL cross-check if available (Python — no LLM needed)
-    6. If verified: write to DB + store evidence (Python)
-    7. If mismatch: queue for review, do NOT write (Python)
-    """
+class LLMHeadlessFilingExtractor:
+    def extract_filing(ticker, form_type, period, metric_keys, *, backend, db=None):
+        """One Agent A multi-metric call + one Agent B per metric.
+        
+        Returns {metric_key: [verified candidates] | None}.
+        None signals the router to fall back to the per-metric path.
+        """
 ```
+
+**Per-metric (fallback + PEL re-extract + restatement sweep):**
+`src/capex/extract/extractors/llm_headless.py`
+
+```python
+class LLMHeadlessExtractor:
+    def extract(ticker, metric_key, period, *, backend, db=None):
+        """Full per-metric dual-agent extraction with 3-attempt
+        context-broadening retry loop. Used when multi-metric needs
+        a more careful read of one specific metric."""
+```
+
+The router's `extract_filing()` (in `src/capex/extract/router.py`) is the
+single entry point that wires both: XBRL pre-filter → multi-metric Agent A →
+per-metric fallback for anything that didn't verify.
 
 ---
 

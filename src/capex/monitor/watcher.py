@@ -136,24 +136,33 @@ def watch_and_extract(
                     "error": str(e),
                 }
 
-            # 2. LLM dual-agent extraction for each metric
-            from ..extract.router import extract_metric
+            # 2. One Agent A call per filing (multi-metric) +
+            #    one Agent B call per metric. Per-metric fallback
+            #    is wired inside extract_filing for any metric that
+            #    the multi-metric pass couldn't satisfy.
+            from ..extract.router import extract_filing
 
             extracted = []
             issues = []
+            try:
+                results = extract_filing(
+                    ticker, form_type,
+                    period=latest["period"],
+                    metric_keys=metric_keys,
+                    write=True, backend=backend, db=db,
+                )
+            except Exception as e:
+                results = {}
+                issues.append(f"extract_filing: {type(e).__name__}: {e}")
+
             for metric_key in metric_keys:
-                try:
-                    r = extract_metric(
-                        ticker, metric_key,
-                        period=latest["period"],
-                        write=True, backend=backend, db=db,
-                    )
-                    if r.status == "success":
-                        extracted.append(metric_key)
-                    else:
-                        issues.append(f"{metric_key}: {r.status}")
-                except Exception as e:
-                    issues.append(f"{metric_key}: {type(e).__name__}: {e}")
+                r = results.get(metric_key)
+                if r is None:
+                    continue  # error already in `issues`
+                if r.status == "success":
+                    extracted.append(metric_key)
+                else:
+                    issues.append(f"{metric_key}: {r.status}")
 
             # 3. Update calendar status
             try:

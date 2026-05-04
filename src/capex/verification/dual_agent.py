@@ -72,6 +72,130 @@ def build_agent_a_prompt(
     )
 
 
+def build_agent_a_multi_metric_prompt(
+    company_name: str,
+    form_type: str,
+    period: str,
+    metrics: list[dict[str, str]],
+    unit: str = "USD_millions",
+) -> str:
+    """Build a single Agent A prompt covering every metric in `metrics`.
+
+    Filing text appears once in the prompt; the per-metric specs
+    (description, derivation rules, human notes) are listed in a
+    structured METRICS block. The expected response shape is
+    `{"metrics": [{metric_key, found, periods: [...]}, ...]}`.
+
+    Args:
+        metrics: list of dicts, each with keys:
+            - metric_key (str)
+            - metric_description (str)
+            - derivation_rules (str, may be empty)
+            - human_notes_block (str, may be empty)
+            - sections_text (str) — only the FIRST entry's sections_text
+              is used; all metrics share one filing context.
+    """
+    if not metrics:
+        raise ValueError("metrics must be non-empty")
+
+    template = (PROMPTS_DIR / "agent_a_multi_metric.txt").read_text(
+        encoding="utf-8",
+    )
+
+    sections_text = metrics[0].get("sections_text", "")
+
+    block_parts: list[str] = []
+    for i, m in enumerate(metrics, 1):
+        key = m["metric_key"]
+        desc = m.get("metric_description", "").strip()
+        deriv = (m.get("derivation_rules") or "").strip()
+        notes = (m.get("human_notes_block") or "").strip()
+        chunk = [
+            f"### Metric {i}: `{key}`",
+            f"**Description:** {desc}",
+        ]
+        if deriv:
+            chunk.append("")
+            chunk.append(deriv)
+        if notes:
+            chunk.append("")
+            chunk.append(notes)
+        block_parts.append("\n".join(chunk))
+
+    metrics_block = "\n\n".join(block_parts)
+
+    return template.format(
+        company_name=company_name,
+        form_type=form_type,
+        period=period,
+        metrics_block=metrics_block,
+        sections_text=sections_text,
+        unit=unit,
+    )
+
+
+def parse_agent_a_multi_metric_response(
+    response_text: str,
+    expected_keys: list[str] | None = None,
+) -> dict[str, dict[str, Any] | None]:
+    """Parse Agent A's multi-metric JSON response into a per-metric dict.
+
+    Returns `{metric_key: <per-metric Agent A result> or None}`. None
+    indicates a malformed entry for that metric (the orchestrator
+    should fall back to a per-metric extract for it).
+
+    If `expected_keys` is provided, every key gets an entry in the
+    returned dict — keys missing from the response map to None so the
+    caller can spot which metrics need fallback.
+
+    The per-metric result has the same shape as `parse_agent_a_response`'s
+    output: `{found, periods: [...], reasoning}`.
+    """
+    import json
+    import re
+
+    text = response_text.strip()
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
+
+    parsed: dict[str, Any] | None
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        match = re.search(r"\{[\s\S]*\}", text)
+        parsed = None
+        if match:
+            try:
+                parsed = json.loads(match.group())
+            except json.JSONDecodeError:
+                parsed = None
+
+    out: dict[str, dict[str, Any] | None] = {}
+    if expected_keys:
+        for k in expected_keys:
+            out[k] = None
+
+    if parsed is None:
+        return out
+
+    entries = parsed.get("metrics") or []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        key = entry.get("metric_key")
+        if not isinstance(key, str) or not key:
+            continue
+        found = bool(entry.get("found"))
+        periods = entry.get("periods") if isinstance(entry.get("periods"), list) else []
+        out[key] = {
+            "found": found,
+            "periods": periods,
+            "reasoning": entry.get("reasoning", ""),
+        }
+
+    return out
+
+
 def build_agent_b_prompt(
     company_name: str,
     form_type: str,

@@ -126,7 +126,15 @@ def write_extractions(
                     summary["inserted"] += 1
                 summary["ids"].append(row_id)
 
-                # 4. Provenance check if function provided
+                # 4. Persist dual-agent excerpts so citations.py can
+                # surface the Quote: "..." line in Excel cell comments.
+                # The headless extractor populates these; XBRL rows
+                # don't have them and skip this branch.
+                excerpts = result.get("excerpts") or []
+                if excerpts:
+                    _store_evidence(db, row_id, excerpts, now)
+
+                # 5. Provenance check if function provided
                 if provenance_check_fn is not None:
                     _run_provenance_check(db, row_id, result, provenance_check_fn, now)
 
@@ -263,6 +271,50 @@ def _insert_extraction(
         )
 
         return row_id, was_overwrite
+
+
+_VALID_EVIDENCE_ROLES = (
+    "primary_value", "supporting", "derivation_input", "footnote",
+)
+
+
+def _store_evidence(
+    db: Database,
+    extraction_id: int,
+    excerpts: list[dict[str, Any]],
+    now: str,
+) -> None:
+    """Insert each excerpt into extraction_evidence.
+
+    First excerpt without an explicit role is tagged 'primary_value'
+    (citations.py looks for that role to build the Quote: line). Any
+    role outside the valid set falls back to 'supporting'.
+    """
+    promoted_primary = False
+    with db.mutating() as conn:
+        for exc in excerpts:
+            role = (exc.get("role") or "").strip()
+            if not role:
+                role = "primary_value" if not promoted_primary else "supporting"
+            if role not in _VALID_EVIDENCE_ROLES:
+                role = "supporting"
+            if role == "primary_value":
+                promoted_primary = True
+            conn.execute(
+                """
+                INSERT INTO extraction_evidence
+                    (extraction_id, excerpt_text, excerpt_location,
+                     excerpt_role, created_at)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (
+                    extraction_id,
+                    exc.get("text", ""),
+                    exc.get("location", ""),
+                    role,
+                    now,
+                ),
+            )
 
 
 def _run_provenance_check(

@@ -74,7 +74,12 @@ class ExtractionCandidate:
     basis_period_months: int | None = None
 
     def to_writer_dict(self) -> dict[str, Any]:
-        """Convert to the dict format expected by writer.write_extractions()."""
+        """Convert to the dict format expected by writer.write_extractions().
+
+        `excerpts` and `reasoning` ride along so the writer can persist
+        them to extraction_evidence (read by exporters/citations.py to
+        produce the Quote: line in Excel cell comments).
+        """
         return {
             "source_document_id": self.source_document_id,
             "metric_key": self.metric_key,
@@ -89,6 +94,8 @@ class ExtractionCandidate:
             "reporting_currency": self.reporting_currency,
             "period_type": self.period_type,
             "basis_period_months": self.basis_period_months,
+            "excerpts": self.excerpts,
+            "reasoning": self.reasoning,
         }
 
 

@@ -72,7 +72,13 @@ ignore = ["UP017"]  # datetime.UTC requires 3.11+; we use timezone.utc for 3.10 
 # Standalone scripts intentionally mutate sys.path before importing capex.*.
 "scripts/*.py" = ["E402"]
 # Test files legitimately import modules with short aliases for legibility.
-"tests/**/*.py" = ["N812"]
+# Long SQL string literals in test setup are clearer when not split.
+"tests/**/*.py" = ["N812", "E501"]
+# Inline HTML strings in the email formatter are inherently wide; breaking
+# them across lines hurts readability without buying anything.
+"src/capex/notify/formatter.py" = ["E501"]
+# Stdlib-style "Configured" exception name (no Error suffix) — intentional.
+"src/capex/notify/email_sender.py" = ["N818"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

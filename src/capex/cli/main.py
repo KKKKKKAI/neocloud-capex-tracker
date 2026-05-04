@@ -57,6 +57,8 @@ def main(argv: list[str] | None = None) -> int:
         return _audit_command(rest)
     if cmd == "treatments":
         return _treatments_command(rest)
+    if cmd == "notify":
+        return _notify_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -832,6 +834,155 @@ def _monitor_command(argv: list[str]) -> int:
     return monitor_main(argv)
 
 
+def _notify_command(argv: list[str]) -> int:
+    """Manage email notification subscribers and send test emails."""
+    if not argv:
+        _print_notify_usage()
+        return 2
+    sub = argv[0]
+    rest = argv[1:]
+    from capex.notify.subscribers import (
+        add_subscriber,
+        load_subscribers,
+        remove_subscriber,
+        set_enabled,
+    )
+    if sub == "list":
+        subs = load_subscribers()
+        if not subs:
+            print("No subscribers configured.")
+            print("  Add one with: capex notify add <email>")
+            return 0
+        print(f"{len(subs)} subscriber(s):")
+        for s in subs:
+            tickers = ",".join(s.tickers)
+            metrics = ",".join(s.metrics)
+            flag = "" if s.enabled else " [disabled]"
+            print(f"  - {s.email}{flag}  tickers={tickers}  metrics={metrics}")
+        return 0
+    if sub == "add":
+        if not rest:
+            print("usage: capex notify add <email> [--tickers A,B] [--metrics A,B]",
+                  file=sys.stderr)
+            return 2
+        email = rest[0]
+        tickers = _parse_csv_flag(rest, "--tickers")
+        metrics = _parse_csv_flag(rest, "--metrics")
+        s = add_subscriber(email, tickers=tickers, metrics=metrics)
+        print(f"added: {s.email}  tickers={','.join(s.tickers)}  metrics={','.join(s.metrics)}")
+        return 0
+    if sub == "remove":
+        if not rest:
+            print("usage: capex notify remove <email>", file=sys.stderr)
+            return 2
+        ok = remove_subscriber(rest[0])
+        print(f"removed: {rest[0]}" if ok else f"not found: {rest[0]}")
+        return 0 if ok else 1
+    if sub == "disable":
+        if not rest:
+            print("usage: capex notify disable <email>", file=sys.stderr)
+            return 2
+        ok = set_enabled(rest[0], False)
+        print(f"disabled: {rest[0]}" if ok else f"not found: {rest[0]}")
+        return 0 if ok else 1
+    if sub == "enable":
+        if not rest:
+            print("usage: capex notify enable <email>", file=sys.stderr)
+            return 2
+        ok = set_enabled(rest[0], True)
+        print(f"enabled: {rest[0]}" if ok else f"not found: {rest[0]}")
+        return 0 if ok else 1
+    if sub == "test":
+        return _notify_test(rest)
+    print(f"unknown notify subcommand: {sub}", file=sys.stderr)
+    _print_notify_usage()
+    return 2
+
+
+def _parse_csv_flag(rest: list[str], flag: str) -> list[str] | None:
+    if flag not in rest:
+        return None
+    i = rest.index(flag)
+    if i + 1 >= len(rest):
+        return None
+    return [t.strip() for t in rest[i + 1].split(",") if t.strip()]
+
+
+def _notify_test(rest: list[str]) -> int:
+    """Send a sample email built from the most recent extracted filing."""
+    from capex.db import Database
+    from capex.notify import notify_subscribers
+    from capex.notify.subscribers import (
+        add_subscriber,
+        load_subscribers,
+        remove_subscriber,
+    )
+
+    target = rest[0] if rest else None
+    db = Database()
+
+    # Find the most-recent filing that has chart-visible extractions.
+    with db.connect() as conn:
+        row = conn.execute(
+            """
+            SELECT sd.ticker, sd.period_of_report, sd.filing_date
+            FROM source_documents sd
+            WHERE EXISTS (
+                SELECT 1 FROM extractions e
+                WHERE e.source_document_id = sd.id
+                  AND e.period_type IN ('FY','Q1','Q2','Q3','Q4')
+            )
+            ORDER BY sd.filing_date DESC, sd.id DESC
+            LIMIT 1
+            """,
+        ).fetchone()
+    if not row:
+        print("No chart-visible extractions in DB to build a sample email from.",
+              file=sys.stderr)
+        return 1
+    fake_results = [{
+        "status": "success",
+        "ticker": row["ticker"],
+        "period": row["period_of_report"],
+        "filed": row["filing_date"],
+    }]
+    print(f"sample filing: {row['ticker']} period={row['period_of_report']}")
+
+    if target:
+        # Temporary one-off subscriber so the test isolates to this email.
+        existing = {s.email for s in load_subscribers()}
+        added_for_test = target not in existing
+        if added_for_test:
+            add_subscriber(target)
+        try:
+            summary = notify_subscribers(fake_results, db=db)
+        finally:
+            if added_for_test:
+                remove_subscriber(target)
+    else:
+        summary = notify_subscribers(fake_results, db=db)
+
+    print(f"sent={summary['sent']}  skipped={summary['skipped']}  "
+          f"errors={len(summary['errors'])}")
+    for err in summary["errors"]:
+        print(f"  ! {err}")
+    return 0 if not summary["errors"] else 1
+
+
+def _print_notify_usage() -> None:
+    print(
+        "usage:\n"
+        "  capex notify list                        show subscribers\n"
+        "  capex notify add <email> [--tickers A,B] [--metrics A,B]\n"
+        "  capex notify remove <email>\n"
+        "  capex notify enable <email>\n"
+        "  capex notify disable <email>\n"
+        "  capex notify test [<email>]              send a sample email "
+        "built from the most-recent extracted filing\n",
+        file=sys.stderr,
+    )
+
+
 def _print_help() -> None:
     print(
         "neocloud-capex-tracker CLI\n"
@@ -869,6 +1020,9 @@ def _print_help() -> None:
         "                        --ticker T       filter to ticker T\n"
         "                        --metric KEY     filter to metric KEY\n"
         "                        --format json    emit JSON instead of table\n"
+        "    notify list         show email notification subscribers\n"
+        "    notify add <email>  add a subscriber (--tickers / --metrics filters)\n"
+        "    notify test [email] send a sample email from the most-recent filing\n"
     )
 
 

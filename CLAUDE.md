@@ -29,6 +29,11 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 | `src/capex/extract/extractors/llm_headless.py` | Per-metric dual-agent extractor — used by PEL re-extract, audit re-verify, restatement sweep, and as the fallback for the multi-metric path |
 | `src/capex/extract/extractors/llm_headless_filing.py` | Per-filing dual-agent extractor — one Agent A call covers all 6 metrics, then one Agent B call per metric. Used by `monitor/watcher.py` via `router.extract_filing()` |
 | `src/capex/extract/router.py` | `extract_metric()` (per-metric, retained for PEL/audit) and `extract_filing()` (per-filing bulk path used by the auto-update watcher) |
+| `src/capex/notify/orchestrator.py` | `notify_subscribers(results)` — entry point called by `monitor/run.py` after auto-commit/push. Builds one email per (subscriber, filing). |
+| `src/capex/notify/subscribers.py` | YAML load/save + filter for `data/_local/subscribers.yaml` (gitignored) |
+| `src/capex/notify/performance.py` | QoQ + YoY comparisons for the email's metric table |
+| `src/capex/notify/formatter.py` | HTML + plain-text body builder, subject-line generator |
+| `src/capex/notify/email_sender.py` | Gmail SMTP via stdlib `smtplib.SMTP_SSL`, reads `GMAIL_USERNAME` / `GMAIL_APP_PASSWORD` from env |
 | `src/capex/xbrl/timeseries.py` | XBRL companyfacts API — pulls full quarterly history |
 | `src/capex/fx/rates.py` | FX rate lookups via frankfurter.app (ECB data) |
 | `src/capex/db/schema.py` | SQLite Database wrapper + migrator |

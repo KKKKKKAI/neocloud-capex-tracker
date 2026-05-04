@@ -395,6 +395,76 @@ Phase 4 (deploy):
   12. Verify end-to-end: calendar → detect → fetch → extract → publish
 ```
 
+## Part 7: Email Notifications
+
+After every successful auto-update, the watcher pushes a per-filing
+HTML+text email to every enabled subscriber whose ticker filter matches.
+This is the "human-in-the-loop" surface for analysts who don't open the
+GitHub repo or dashboard daily.
+
+### Subject + body
+
+```
+📊 GOOGL Q1 FY2026 10-Q — revenue $109.9B (+12.1% YoY, -3.5% QoQ)
+```
+
+Body has the company line + form/period meta + a clean metrics table:
+
+| Metric | This quarter | Prior quarter | Prior year |
+|---|---|---|---|
+| Revenue | $109,896M | $113,828M (-3.5%) | $98,000M (+12.1%) |
+| Capital Expenditure | $35,674M | $27,851M (+28.1%) | $14,400M (+147.7%) |
+| ... | | | |
+
+Plus links to the dashboard + Excel workbook on GitHub.
+
+### Subscribers
+
+`data/_local/subscribers.yaml` — **gitignored**. Real emails NEVER
+reach the public repo. Per-subscriber `tickers` and `metrics` filters
+let different recipients get different cuts.
+
+```yaml
+subscribers:
+  - email: alice@example.com
+    tickers: ["*"]
+    metrics: ["*"]
+    enabled: true
+```
+
+CLI:
+
+```bash
+capex notify list
+capex notify add alice@example.com --tickers MSFT,GOOGL
+capex notify remove alice@example.com
+capex notify enable / disable alice@example.com
+capex notify test [<email>]    # send a sample email built from the
+                               # most-recent extracted filing
+```
+
+### SMTP
+
+Gmail SMTP via stdlib `smtplib.SMTP_SSL` (port 465). Credentials in
+`.env`:
+
+```bash
+GMAIL_USERNAME=your.gmail@gmail.com
+GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx   # 16-char App Password
+```
+
+Gmail's send limit (500/day) is far above our cadence (~1–5 emails
+per week, only on earnings days).
+
+### Crash safety
+
+`notify_subscribers()` catches every exception and returns a summary
+dict. SMTP errors, missing credentials, formatter bugs — none of them
+break the cron run that just succeeded at extraction. The data is
+already committed and pushed before notify runs.
+
+---
+
 ## Prerequisites
 
 - Claude Code CLI installed and authenticated (Pro Max subscription)

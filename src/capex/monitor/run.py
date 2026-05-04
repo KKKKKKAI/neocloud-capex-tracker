@@ -117,8 +117,24 @@ def main(argv: list[str] | None = None) -> int:
         _regenerate_outputs()
         _git_commit_and_push(results)
         _create_github_issue(results)
+        _notify_subscribers(results, db=db)
 
     return 0
+
+
+def _notify_subscribers(results: list[dict], db: Database) -> None:
+    """Send email notifications to enabled subscribers (failsafe)."""
+    try:
+        from ..notify import notify_subscribers
+        summary = notify_subscribers(results, db=db)
+        print(
+            f"  Notify: sent={summary['sent']} "
+            f"skipped={summary['skipped']} errors={len(summary['errors'])}"
+        )
+        for err in summary["errors"][:3]:
+            print(f"    - {err.get('phase')}: {err.get('error')}")
+    except Exception as e:
+        print(f"  Notify error: {e}")
 
 
 def _parse_since_flag(rest: list[str]) -> str | None:

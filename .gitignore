@@ -68,6 +68,13 @@ logs/
 # restore. Each is a full SQLite dump and must NOT go to the remote.
 *.bak
 
+# Personal subscriber data (notify emails). NEVER commit real emails
+# to the public repo. Only data/_local/subscribers.yaml.example
+# (committed) shows the schema.
+data/_local/*
+!data/_local/subscribers.yaml.example
+!data/_local/.gitkeep
+
 # ---- Source archive (runtime artifacts, fetched on demand) ----
 # Per-ticker directories under data/_sources/ hold the raw regulator
 # bytes (HTML/PDF) and the canonical year-folder copies. These are

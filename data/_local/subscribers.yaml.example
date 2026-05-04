@@ -1,0 +1,25 @@
+# Email notification subscribers. COPY this file to
+# `data/_local/subscribers.yaml` and edit it locally — the real file is
+# gitignored. Real subscriber emails must NEVER reach the public repo.
+#
+# Each subscriber gets one email per ticker × per filing that matches
+# their filters. Filters default to "*" (all tickers, all metrics).
+#
+# Manage via the CLI instead of editing by hand:
+#   capex notify add  alice@example.com
+#   capex notify add  alice@example.com --tickers MSFT,GOOGL --metrics revenue,capital_expenditures
+#   capex notify list
+#   capex notify disable alice@example.com
+#   capex notify remove  alice@example.com
+#   capex notify test    alice@example.com    # send sample email
+
+subscribers:
+  - email: alice@example.com
+    tickers: ["*"]                # "*" = every tracked company
+    metrics: ["*"]                # "*" = all 6 headline metrics
+    enabled: true
+
+  - email: bob@example.com
+    tickers: ["MSFT", "GOOGL"]
+    metrics: ["revenue", "capital_expenditures", "cloud_segment_revenue"]
+    enabled: true

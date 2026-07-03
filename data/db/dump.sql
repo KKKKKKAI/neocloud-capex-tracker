@@ -15499,12 +15499,24 @@ INSERT INTO "fiscal_calendar" VALUES(2,'META','2026-04-29','2026-03-31','10-Q','
 INSERT INTO "fiscal_calendar" VALUES(3,'MSFT','2026-04-29','2026-03-31','10-Q','extracted','alpha_vantage','2026-05-04T17:21:09+00:00');
 INSERT INTO "fiscal_calendar" VALUES(4,'AMZN','2026-05-07','2026-03-31','10-Q','extracted','alpha_vantage','2026-05-25T18:30:49+00:00');
 INSERT INTO "fiscal_calendar" VALUES(5,'CRWV','2026-05-13','2026-03-31','10-Q','extracted','alpha_vantage','2026-05-25T18:31:40+00:00');
-INSERT INTO "fiscal_calendar" VALUES(6,'IREN','2026-05-13','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
-INSERT INTO "fiscal_calendar" VALUES(7,'NBIS','2026-05-18','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
-INSERT INTO "fiscal_calendar" VALUES(8,'GDS','2026-05-19','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
-INSERT INTO "fiscal_calendar" VALUES(9,'BIDU','2026-05-20','2026-03-31','20-F','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(6,'IREN','2026-05-13','2026-03-31','20-F','failed','alpha_vantage','2026-07-03T10:46:24+00:00');
+INSERT INTO "fiscal_calendar" VALUES(7,'NBIS','2026-05-18','2026-03-31','20-F','failed','alpha_vantage','2026-07-03T10:46:24+00:00');
+INSERT INTO "fiscal_calendar" VALUES(8,'GDS','2026-05-19','2026-03-31','20-F','failed','alpha_vantage','2026-07-03T10:46:24+00:00');
+INSERT INTO "fiscal_calendar" VALUES(9,'BIDU','2026-05-20','2026-03-31','20-F','failed','alpha_vantage','2026-07-03T10:46:24+00:00');
 INSERT INTO "fiscal_calendar" VALUES(10,'BABA','2026-05-21','2026-03-31','20-F','extracted','alpha_vantage','2026-05-25T18:33:23+00:00');
 INSERT INTO "fiscal_calendar" VALUES(11,'ORCL','2026-06-16','2026-05-31','10-K','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(12,'GOOGL','2026-07-22','2026-06-30','10-Q','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(13,'APLD','2026-07-29','2026-05-31','10-K','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(14,'META','2026-07-29','2026-06-30','10-Q','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(15,'MSFT','2026-07-29','2026-06-30','10-K','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(16,'AMZN','2026-07-30','2026-06-30','10-Q','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(17,'NBIS','2026-08-06','2026-06-30','20-F','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(18,'CRWV','2026-08-11','2026-06-30','10-Q','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(19,'BIDU','2026-08-19','2026-06-30','20-F','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(20,'GDS','2026-08-19','2026-06-30','20-F','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(21,'IREN','2026-08-27','2026-06-30','20-F','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(22,'BABA','2026-08-28','2026-06-30','20-F','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
+INSERT INTO "fiscal_calendar" VALUES(23,'ORCL','2026-09-09','2026-08-31','10-Q','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
 CREATE TABLE fx_rates (
     currency_pair  TEXT NOT NULL,   -- e.g. 'CNY/USD' (1 CNY = ? USD)
     rate_date      TEXT NOT NULL,   -- ISO date (period-end date)
@@ -16210,7 +16222,7 @@ DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('audit_log',4764);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1103);
-INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
+INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',23);
 INSERT INTO "sqlite_sequence" VALUES('extractions',5853);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',546);
 INSERT INTO "sqlite_sequence" VALUES('audit_verdicts',250);

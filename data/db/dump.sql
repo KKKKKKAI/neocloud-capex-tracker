@@ -4768,6 +4768,14 @@ INSERT INTO "audit_log" VALUES(4753,'2026-05-25T18:32:49+00:00','read-and-extrac
 INSERT INTO "audit_log" VALUES(4754,'2026-05-25T18:32:53+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5843,'{"extracting_model": "xbrl-verified", "metric_key": "operating_cash_flow", "source_document_id": 546, "value": 11049.0}');
 INSERT INTO "audit_log" VALUES(4755,'2026-05-25T18:32:57+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5844,'{"extracting_model": "xbrl-verified", "metric_key": "depreciation_amortization", "source_document_id": 546, "value": 34963.0}');
 INSERT INTO "audit_log" VALUES(4756,'2026-05-25T18:33:01+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5845,'{"extracting_model": "xbrl-verified", "metric_key": "property_plant_equipment_net", "source_document_id": 546, "value": 40983.0}');
+INSERT INTO "audit_log" VALUES(4757,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5846,'{"extracting_model": "claude-code-pdf", "metric_key": "capital_expenditures", "source_document_id": 13, "value": 87482}');
+INSERT INTO "audit_log" VALUES(4758,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5847,'{"extracting_model": "claude-code-pdf", "metric_key": "operating_cash_flow", "source_document_id": 13, "value": 303052}');
+INSERT INTO "audit_log" VALUES(4759,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5848,'{"extracting_model": "claude-code-pdf", "metric_key": "depreciation_amortization", "source_document_id": 13, "value": 66028}');
+INSERT INTO "audit_log" VALUES(4760,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5849,'{"extracting_model": "claude-code-pdf", "metric_key": "property_plant_equipment_net", "source_document_id": 13, "value": 149905}');
+INSERT INTO "audit_log" VALUES(4761,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5850,'{"extracting_model": "claude-code-pdf", "metric_key": "capital_expenditures", "source_document_id": 334, "value": 62927}');
+INSERT INTO "audit_log" VALUES(4762,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5851,'{"extracting_model": "claude-code-pdf", "metric_key": "operating_cash_flow", "source_document_id": 334, "value": 258521}');
+INSERT INTO "audit_log" VALUES(4763,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5852,'{"extracting_model": "claude-code-pdf", "metric_key": "depreciation_amortization", "source_document_id": 334, "value": 56213}');
+INSERT INTO "audit_log" VALUES(4764,'2026-07-03T10:20:21+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5853,'{"extracting_model": "claude-code-pdf", "metric_key": "property_plant_equipment_net", "source_document_id": 334, "value": 80185}');
 CREATE TABLE audit_review_feedback (
     id                    INTEGER PRIMARY KEY AUTOINCREMENT,
     audit_run_id          TEXT NOT NULL,
@@ -15466,6 +15474,14 @@ INSERT INTO "extractions" VALUES(5842,546,'revenue','FY',12,NULL,148401.0,'$148,
 INSERT INTO "extractions" VALUES(5843,546,'operating_cash_flow','FY',12,NULL,11049.0,'$11,049 million','USD_millions','XBRL: operating_cash_flow',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-05-25T18:32:53+00:00',1601.22,0.14492,'2026-03-31','CNY');
 INSERT INTO "extractions" VALUES(5844,546,'depreciation_amortization','FY',12,NULL,34963.0,'$34,963 million','USD_millions','XBRL: depreciation_amortization',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-05-25T18:32:57+00:00',5066.84,0.14492,'2026-03-31','CNY');
 INSERT INTO "extractions" VALUES(5845,546,'property_plant_equipment_net','FY',12,NULL,40983.0,'$40,983 million','USD_millions','XBRL: property_plant_equipment_net',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-05-25T18:33:01+00:00',5939.26,0.14492,'2026-03-31','CNY');
+INSERT INTO "extractions" VALUES(5846,13,'capital_expenditures','FY',12,NULL,87482.0,'CNY 87,482 million','USD_millions','購買物業、設備及器材、在建工程與投資物業的付款╱預付款項 (87,482)',NULL,'綜合現金流量表 Page 139 — Investing activities','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',12495.93,0.14284,'2025-12-31','CNY');
+INSERT INTO "extractions" VALUES(5847,13,'operating_cash_flow','FY',12,NULL,303052.0,'CNY 303,052 million','USD_millions','經營活動所得現金流量淨額 303,052',NULL,'綜合現金流量表 Page 139 — Operating activities net','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',43287.95,0.14284,'2025-12-31','CNY');
+INSERT INTO "extractions" VALUES(5848,13,'depreciation_amortization','FY',12,NULL,66028.0,'CNY 66,028 million (PP&E+ROU depreciation 32,799 + intangibles/LUR amortisation 33,229)','USD_millions','物業、設備及器材、投資物業及使用權資產的折舊 32,799 無形資產及土地使用權的攤銷 33,229',NULL,'綜合財務報表附註43(a) Page 263 — Reconciliation of profit to operating cash','derived',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',9431.44,0.14284,'2025-12-31','CNY');
+INSERT INTO "extractions" VALUES(5849,13,'property_plant_equipment_net','FY',12,NULL,149905.0,'CNY 149,905 million','USD_millions','物業、設備及器材 17 149,905 80,185',NULL,'綜合財務狀況表 Page 132 — Non-current assets','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',21412.43,0.14284,'2025-12-31','CNY');
+INSERT INTO "extractions" VALUES(5850,334,'capital_expenditures','FY',12,NULL,62927.0,'CNY 62,927 million','USD_millions','購買物業、設備及器材、在建工程與投資物業的付款╱預付款項 (62,927)',NULL,'綜合現金流量表 Page 139 — Investing activities (FY2024 comparative)','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',8621.0,0.137,'2024-12-31','CNY');
+INSERT INTO "extractions" VALUES(5851,334,'operating_cash_flow','FY',12,NULL,258521.0,'CNY 258,521 million','USD_millions','經營活動所得現金流量淨額 258,521',NULL,'綜合現金流量表 Page 139 — Operating activities net (FY2024 comparative)','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',35417.38,0.137,'2024-12-31','CNY');
+INSERT INTO "extractions" VALUES(5852,334,'depreciation_amortization','FY',12,NULL,56213.0,'CNY 56,213 million (PP&E+ROU depreciation 27,332 + intangibles/LUR amortisation 28,881)','USD_millions','物業、設備及器材、投資物業及使用權資產的折舊 27,332 無形資產及土地使用權的攤銷 28,881',NULL,'綜合財務報表附註43(a) Page 263 — Reconciliation (FY2024 comparative)','derived',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',7701.18,0.137,'2024-12-31','CNY');
+INSERT INTO "extractions" VALUES(5853,334,'property_plant_equipment_net','FY',12,NULL,80185.0,'CNY 80,185 million','USD_millions','物業、設備及器材 17 149,905 80,185',NULL,'綜合財務狀況表 Page 132 — Non-current assets (FY2024 comparative)','direct',NULL,'claude-code-pdf','0.1.0-draft','2026-07-03T10:20:21+00:00',10985.35,0.137,'2024-12-31','CNY');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -16191,11 +16207,11 @@ CREATE INDEX idx_audit_verdicts_run
 CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
 CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4756);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4764);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1103);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',11);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5845);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5853);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',546);
 INSERT INTO "sqlite_sequence" VALUES('audit_verdicts',250);
 COMMIT;

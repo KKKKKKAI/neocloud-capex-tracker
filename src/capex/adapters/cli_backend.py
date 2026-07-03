@@ -22,7 +22,7 @@ from typing import Any
 TOOL_CONFIGS = {
     "claude": {
         "cmd": "claude",
-        "args": ["-p"],          # claude -p "prompt"
+        "args": ["-p", "--model", "claude-opus-4-8"],
         "version_flag": "--version",
     },
     "gemini": {

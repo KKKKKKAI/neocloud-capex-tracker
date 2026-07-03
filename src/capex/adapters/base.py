@@ -17,7 +17,7 @@ class ModelBackend(Protocol):
     """Minimal contract every model adapter must implement.
 
     Attributes:
-        name: model identifier, e.g. "claude-sonnet-4-6"
+        name: model identifier, e.g. "claude-opus-4-8"
         version: adapter version or model version string
 
     Methods:

@@ -36,8 +36,8 @@ You need a programmatic adapter when ANY of these are true:
 from .base import ModelBackend
 
 class AnthropicBackend(ModelBackend):
-    name = "claude-sonnet-4-6"
-    version = "2026-04"
+    name = "claude-opus-4-8"
+    version = "2026-07"
 
     def __init__(self):
         import anthropic
@@ -85,7 +85,7 @@ def _extract_command(argv):
 | Env var | Purpose | Default |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | Anthropic API authentication | (none — required for anthropic adapter) |
-| `CAPEX_EXTRACT_MODEL` | Which model to use | `claude-sonnet-4-6` |
+| `CAPEX_EXTRACT_MODEL` | Which model to use | `claude-opus-4-8` |
 | `CAPEX_EXTRACT_BACKEND` | Which adapter to use | `claude-code` (v1) / `anthropic` (Phase 3.5) |
 
 ## What stays the same when you swap adapters

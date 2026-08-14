@@ -4856,6 +4856,14 @@ INSERT INTO "audit_log" VALUES(4841,'2026-08-14T09:50:10+00:00','reconcile@0.1.0
 INSERT INTO "audit_log" VALUES(4842,'2026-08-14T09:50:10+00:00','reconcile@0.1.0','extraction_derived','extractions',5925,'{"components": [5916, 5811], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "revenue", "period_type": "Q4", "ticker": "MSFT", "value": 90007.0}');
 INSERT INTO "audit_log" VALUES(4843,'2026-08-14T09:50:10+00:00','reconcile@0.1.0','extraction_derived','extractions',5926,'{"components": [5917, 5812], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "MSFT", "value": 55441.0}');
 INSERT INTO "audit_log" VALUES(4844,'2026-08-14T09:50:10+00:00','reconcile@0.1.0','extraction_derived','extractions',5927,'{"components": [5922, 5799], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "cloud_segment_revenue", "period_type": "Q4", "ticker": "MSFT", "value": 39306.0}');
+INSERT INTO "audit_log" VALUES(4845,'2026-08-14T09:51:02+00:00','fetch-company-report@0.1.0','source_document_inserted','source_documents',562,'{"form_type": "10-K", "period_of_report": "2026-05-31", "raw_path": "data/_sources/ORCL/_raw/[2026.06.22][ORCL][AR][10-K].htm", "sha256": "6cd094af28aa16098cad795bf785be1866d69e59605aed1d6aef75a911a5766b", "ticker": "ORCL"}');
+INSERT INTO "audit_log" VALUES(4846,'2026-08-14T09:51:04+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5928,'{"extracting_model": "xbrl-verified", "metric_key": "capital_expenditures", "source_document_id": 562, "value": 55663.0}');
+INSERT INTO "audit_log" VALUES(4847,'2026-08-14T09:51:05+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5929,'{"extracting_model": "xbrl-verified", "metric_key": "revenue", "source_document_id": 562, "value": 67357.0}');
+INSERT INTO "audit_log" VALUES(4848,'2026-08-14T09:51:06+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5930,'{"extracting_model": "xbrl-verified", "metric_key": "operating_cash_flow", "source_document_id": 562, "value": 31977.0}');
+INSERT INTO "audit_log" VALUES(4849,'2026-08-14T09:51:08+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5931,'{"extracting_model": "xbrl-verified", "metric_key": "property_plant_equipment_net", "source_document_id": 562, "value": 99957.0}');
+INSERT INTO "audit_log" VALUES(4850,'2026-08-14T09:52:24+00:00','reconcile@0.1.0','extraction_derived','extractions',5932,'{"components": [5928, 709], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "ORCL", "value": 16493.0}');
+INSERT INTO "audit_log" VALUES(4851,'2026-08-14T09:52:24+00:00','reconcile@0.1.0','extraction_derived','extractions',5933,'{"components": [5930, 767], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "ORCL", "value": 14620.0}');
+INSERT INTO "audit_log" VALUES(4852,'2026-08-14T09:52:24+00:00','reconcile@0.1.0','extraction_derived','extractions',5934,'{"components": [5929, 4283], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "revenue", "period_type": "Q4", "ticker": "ORCL", "value": 19183.0}');
 CREATE TABLE audit_review_feedback (
     id                    INTEGER PRIMARY KEY AUTOINCREMENT,
     audit_run_id          TEXT NOT NULL,
@@ -15668,6 +15676,13 @@ INSERT INTO "extractions" VALUES(5924,560,'capital_expenditures','Q4',3,NULL,358
 INSERT INTO "extractions" VALUES(5925,560,'revenue','Q4',3,NULL,90007.0,'$90,007M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:50:10+00:00',90007.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5926,560,'operating_cash_flow','Q4',3,NULL,55441.0,'$55,441M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:50:10+00:00',55441.0,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5927,560,'cloud_segment_revenue','Q4',3,NULL,39306.0,'$39,306M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:50:10+00:00',39306.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5928,562,'capital_expenditures','FY',12,NULL,55663.0,'$55,663 million','USD_millions','XBRL: capital_expenditures',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-08-14T09:51:04+00:00',55663.0,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5929,562,'revenue','FY',12,NULL,67357.0,'$67,357 million','USD_millions','XBRL: revenue',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-08-14T09:51:05+00:00',67357.0,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5930,562,'operating_cash_flow','FY',12,NULL,31977.0,'$31,977 million','USD_millions','XBRL: operating_cash_flow',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-08-14T09:51:06+00:00',31977.0,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5931,562,'property_plant_equipment_net','FY',12,NULL,99957.0,'$99,957 million','USD_millions','XBRL: property_plant_equipment_net',NULL,'SEC XBRL companyfacts API','direct',NULL,'xbrl-verified','0.1.0-draft','2026-08-14T09:51:08+00:00',99957.0,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5932,562,'capital_expenditures','Q4',3,NULL,16493.0,'$16,493M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:52:24+00:00',16493.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5933,562,'operating_cash_flow','Q4',3,NULL,14620.0,'$14,620M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:52:24+00:00',14620.0,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5934,562,'revenue','Q4',3,NULL,19183.0,'$19,183M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:52:24+00:00',19183.0,NULL,NULL,'USD');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -15690,7 +15705,7 @@ INSERT INTO "fiscal_calendar" VALUES(7,'NBIS','2026-05-18','2026-03-31','20-F','
 INSERT INTO "fiscal_calendar" VALUES(8,'GDS','2026-05-19','2026-03-31','20-F','failed','alpha_vantage','2026-07-03T10:46:24+00:00');
 INSERT INTO "fiscal_calendar" VALUES(9,'BIDU','2026-05-20','2026-03-31','20-F','failed','alpha_vantage','2026-07-03T10:46:24+00:00');
 INSERT INTO "fiscal_calendar" VALUES(10,'BABA','2026-05-21','2026-03-31','20-F','extracted','alpha_vantage','2026-05-25T18:33:23+00:00');
-INSERT INTO "fiscal_calendar" VALUES(11,'ORCL','2026-06-16','2026-05-31','10-K','upcoming','alpha_vantage','2026-04-15T19:05:48+00:00');
+INSERT INTO "fiscal_calendar" VALUES(11,'ORCL','2026-06-16','2026-05-31','10-K','extracted','alpha_vantage','2026-08-14T09:52:23+00:00');
 INSERT INTO "fiscal_calendar" VALUES(12,'GOOGL','2026-07-22','2026-06-30','10-Q','extracted','alpha_vantage','2026-08-14T09:33:21+00:00');
 INSERT INTO "fiscal_calendar" VALUES(13,'APLD','2026-07-29','2026-05-31','10-K','upcoming','alpha_vantage','2026-07-03T10:45:17+00:00');
 INSERT INTO "fiscal_calendar" VALUES(14,'META','2026-07-29','2026-06-30','10-Q','extracted','alpha_vantage','2026-08-14T09:39:01+00:00');
@@ -16296,6 +16311,8 @@ INSERT INTO "source_documents" VALUES(558,'CRWV','6-K','2026-08-12','2026-06-30'
 INSERT INTO "source_documents" VALUES(559,'NBIS','6-K','2026-08-12','2026-06-30',2026,'Q2','440449e9671dc8f744e7a9cbbac86384d6eacbfded9dc3c01c95613d64c31c4c','data/_sources/NBIS/_raw/[2026.08.12][NBIS][Q2][6-K]-financials.htm',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1513845/000110465926094844/nbis-20260812xex99d2.htm','0001104659-26-094844','2026-08-14T09:48:02.921286+00:00','manual-ingest@0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(560,'MSFT','10-K','2026-07-29','2026-06-30',2026,'AR','4bcf2da2871acc19e32c5a62f36f6d83d6aae03cdc4aaa9a86a9a21ee8223f02','data/_sources/MSFT/_raw/[2026.07.29][MSFT][AR][10-K].htm',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm','0001193125-26-323660','2026-08-14T09:49:03+00:00','0.1.0','0.1.0-draft');
 INSERT INTO "source_documents" VALUES(561,'MSFT','6-K','2026-07-29','2025-06-30',2025,'AR','restated-MSFT-2025-06-30-0001193125-26-323660','restated-virtual://MSFT/2025-06-30/0001193125-26-323660',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm','0001193125-26-323660','2026-08-14T09:49:38+00:00','llm-dual-agent@0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(562,'ORCL','10-K','2026-06-22','2026-05-31',2026,'AR','6cd094af28aa16098cad795bf785be1866d69e59605aed1d6aef75a911a5766b','data/_sources/ORCL/_raw/[2026.06.22][ORCL][AR][10-K].htm',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm','0001193125-26-277521','2026-08-14T09:51:02+00:00','0.1.0','0.1.0-draft');
+INSERT INTO "source_documents" VALUES(563,'ORCL','6-K','2026-06-22','2025-05-31',2025,'AR','restated-ORCL-2025-05-31-0001193125-26-277521','restated-virtual://ORCL/2025-05-31/0001193125-26-277521',NULL,'sec_edgar','https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm','0001193125-26-277521','2026-08-14T09:51:51+00:00','llm-dual-agent@0.1.0','0.1.0-draft');
 CREATE TABLE validation_results (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     extraction_id INTEGER NOT NULL REFERENCES extractions(id),
@@ -16420,11 +16437,11 @@ CREATE INDEX idx_audit_verdicts_run
 CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
 CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4844);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4852);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1135);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',23);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5927);
-INSERT INTO "sqlite_sequence" VALUES('source_documents',561);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5934);
+INSERT INTO "sqlite_sequence" VALUES('source_documents',563);
 INSERT INTO "sqlite_sequence" VALUES('audit_verdicts',250);
 COMMIT;

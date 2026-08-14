@@ -4875,6 +4875,13 @@ INSERT INTO "audit_log" VALUES(4860,'2026-08-14T09:54:52+00:00','read-and-extrac
 INSERT INTO "audit_log" VALUES(4861,'2026-08-14T09:54:58+00:00','reconcile@0.1.0','extraction_derived','extractions',5942,'{"components": [5935, 4066], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "revenue", "period_type": "Q4", "ticker": "APLD", "value": 293.85999999999996}');
 INSERT INTO "audit_log" VALUES(4862,'2026-08-14T09:54:58+00:00','reconcile@0.1.0','extraction_derived','extractions',5943,'{"components": [5936, 1033], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "operating_cash_flow", "period_type": "Q4", "ticker": "APLD", "value": 46.83}');
 INSERT INTO "audit_log" VALUES(4863,'2026-08-14T09:54:58+00:00','reconcile@0.1.0','extraction_derived','extractions',5944,'{"components": [5937, 4668], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "depreciation_amortization", "period_type": "Q4", "ticker": "APLD", "value": 33.84}');
+INSERT INTO "audit_log" VALUES(4864,'2026-08-14T09:58:14+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5945,'{"extracting_model": "manual-ingest@0.1.0", "metric_key": "capital_expenditures", "source_document_id": 564, "value": 2865.765}');
+INSERT INTO "audit_log" VALUES(4865,'2026-08-14T10:02:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5946,'{"extracting_model": "manual-ingest@0.1.0", "metric_key": "cloud_segment_revenue", "source_document_id": 553, "value": 42232.0}');
+INSERT INTO "audit_log" VALUES(4866,'2026-08-14T10:02:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5947,'{"extracting_model": "manual-ingest@0.1.0", "metric_key": "cloud_segment_revenue", "source_document_id": 553, "value": 79819.0}');
+INSERT INTO "audit_log" VALUES(4867,'2026-08-14T10:02:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5948,'{"extracting_model": "manual-ingest@0.1.0", "metric_key": "depreciation_amortization", "source_document_id": 562, "value": 9294.0}');
+INSERT INTO "audit_log" VALUES(4868,'2026-08-14T10:02:43+00:00','read-and-extract@0.1.0','extraction_inserted','extractions',5949,'{"extracting_model": "manual-ingest@0.1.0", "metric_key": "cloud_segment_revenue", "source_document_id": 562, "value": 33989.0}');
+INSERT INTO "audit_log" VALUES(4869,'2026-08-14T10:02:59+00:00','reconcile@0.1.0','extraction_derived','extractions',5950,'{"components": [5945, 1234], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "capital_expenditures", "period_type": "Q4", "ticker": "APLD", "value": 1289.0649999999998}');
+INSERT INTO "audit_log" VALUES(4870,'2026-08-14T10:02:59+00:00','reconcile@0.1.0','extraction_derived','extractions',5951,'{"components": [5949, 3085], "fiscal_year": 2026, "formula": "Q4 = FY - 9M", "metric_key": "cloud_segment_revenue", "period_type": "Q4", "ticker": "ORCL", "value": 9913.0}');
 CREATE TABLE audit_review_feedback (
     id                    INTEGER PRIMARY KEY AUTOINCREMENT,
     audit_run_id          TEXT NOT NULL,
@@ -15708,6 +15715,13 @@ INSERT INTO "extractions" VALUES(5941,566,'cloud_segment_revenue','FY',12,NULL,2
 INSERT INTO "extractions" VALUES(5942,564,'revenue','Q4',3,NULL,2.9385999999999995679e+02,'$294M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:54:58+00:00',2.9385999999999995679e+02,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5943,564,'operating_cash_flow','Q4',3,NULL,46.83,'$47M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:54:58+00:00',46.83,NULL,NULL,'USD');
 INSERT INTO "extractions" VALUES(5944,564,'depreciation_amortization','Q4',3,NULL,33.84,'$34M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T09:54:58+00:00',33.84,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5945,564,'capital_expenditures','FY',12,NULL,2865.765,'$2,865,765 thousand ($2,865.8 million)','USD_millions','Purchases of property and equipment and other assets (2,865,765)',NULL,'Consolidated Statements of Cash Flows — Cash flow used in investing activities','direct',NULL,'manual-ingest@0.1.0','0.1.0-draft','2026-08-14T09:58:14+00:00',2865.765,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5946,553,'cloud_segment_revenue','Q2',3,NULL,42232.0,'$42,232 million (Q2 2026, AWS segment)','USD_millions','AWS Net sales $ 30,873 $ 42,232 Three Months Ended June 30',NULL,'Segment Information — AWS Net sales, three months ended','direct',NULL,'manual-ingest@0.1.0','0.1.0-draft','2026-08-14T10:02:43+00:00',42232.0,1.0,'2026-06-30','USD');
+INSERT INTO "extractions" VALUES(5947,553,'cloud_segment_revenue','H1',6,NULL,79819.0,'$79,819 million (H1 2026, AWS segment)','USD_millions','AWS Net sales $ 60,140 $ 79,819 Six Months Ended June 30',NULL,'Segment Information — AWS Net sales, six months ended','direct',NULL,'manual-ingest@0.1.0','0.1.0-draft','2026-08-14T10:02:43+00:00',79819.0,1.0,'2026-06-30','USD');
+INSERT INTO "extractions" VALUES(5948,562,'depreciation_amortization','FY',12,NULL,9294.0,'$9,294 million (FY2026; depreciation 7,623 + amortization 1,671)','USD_millions','Depreciation 7,623; Amortization of intangible assets 1,671',NULL,'Consolidated Statements of Cash Flows — Adjustments','derived',NULL,'manual-ingest@0.1.0','0.1.0-draft','2026-08-14T10:02:43+00:00',9294.0,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5949,562,'cloud_segment_revenue','FY',12,NULL,33989.0,'$33,989 million (FY2026; cloud applications 15,888 + cloud infrastructure 18,101)','USD_millions','Cloud applications $ 15,888; Cloud infrastructure 18,101',NULL,'Revenues by Offerings — Cloud and Software Business','derived',NULL,'manual-ingest@0.1.0','0.1.0-draft','2026-08-14T10:02:43+00:00',33989.0,1.0,'2026-05-31','USD');
+INSERT INTO "extractions" VALUES(5950,564,'capital_expenditures','Q4',3,NULL,1.28906499999999982718e+03,'$1,289M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T10:02:59+00:00',1.28906499999999982718e+03,NULL,NULL,'USD');
+INSERT INTO "extractions" VALUES(5951,562,'cloud_segment_revenue','Q4',3,NULL,9913.0,'$9,913M (derived)','USD_millions','Derived: Q4 = FY - 9M',NULL,'Derived from Q4 = FY - 9M','derived',NULL,'reconcile-derived','0.1.0-draft','2026-08-14T10:02:59+00:00',9913.0,NULL,NULL,'USD');
 CREATE TABLE fiscal_calendar (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     ticker              TEXT NOT NULL REFERENCES companies(ticker),
@@ -16465,11 +16479,11 @@ CREATE INDEX idx_audit_verdicts_run
 CREATE INDEX idx_arf_run ON audit_review_feedback(audit_run_id);
 CREATE INDEX idx_arf_note ON audit_review_feedback(formalized_note_id);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('audit_log',4863);
+INSERT INTO "sqlite_sequence" VALUES('audit_log',4870);
 INSERT INTO "sqlite_sequence" VALUES('validation_results',97);
 INSERT INTO "sqlite_sequence" VALUES('extraction_evidence',1139);
 INSERT INTO "sqlite_sequence" VALUES('fiscal_calendar',23);
-INSERT INTO "sqlite_sequence" VALUES('extractions',5944);
+INSERT INTO "sqlite_sequence" VALUES('extractions',5951);
 INSERT INTO "sqlite_sequence" VALUES('source_documents',566);
 INSERT INTO "sqlite_sequence" VALUES('audit_verdicts',250);
 COMMIT;

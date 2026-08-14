@@ -78,15 +78,19 @@ def ensure_restated_source_doc(
         last_day = LAST_DAY_OF_MONTH[fye_month]
         period_end = f"{fiscal_year:04d}-{fye_month:02d}-{last_day:02d}"
 
-    # Virtual raw_path encodes both period + accession so different
-    # restating filings for the same cell get distinct source_doc rows.
+    # Virtual raw_path encodes both period + accession for traceability,
+    # but the real source_documents constraint is UNIQUE(ticker, form_type,
+    # period_of_report) — dedup on that, not on raw_path, or a second
+    # restating filing for the same prior period (different accession)
+    # will pass this check and then crash on the INSERT below.
     virt_raw = (
         f"restated-virtual://{ticker}/{period_end}"
         f"/{restating['accession_number'] or 'unknown'}"
     )
     existing = conn.execute(
-        "SELECT id FROM source_documents WHERE raw_path=?",
-        (virt_raw,),
+        "SELECT id FROM source_documents "
+        "WHERE ticker=? AND form_type='6-K' AND period_of_report=?",
+        (ticker, period_end),
     ).fetchone()
     if existing:
         return existing["id"]

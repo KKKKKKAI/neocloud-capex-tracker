@@ -18,12 +18,12 @@ source-doc creation) are shared with `llm_headless.py`.
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 from ...audit import human_notes as hn_mod
 from ...db import Database
 from ...fx.rates import normalize_to_usd
+from ...paths import resolve_raw_path
 from ...read.sections import get_extraction_sections, parse_sections
 from ...read.text import extract_text
 from ...verification.dual_agent import (
@@ -81,12 +81,9 @@ class LLMHeadlessFilingExtractor:
         if not row:
             return {k: None for k in metric_keys}
 
-        filepath = Path(row["raw_path"])
-        if not filepath.exists():
-            from ...db.schema import REPO_ROOT
-            filepath = REPO_ROOT / row["raw_path"]
-            if not filepath.exists():
-                return {k: None for k in metric_keys}
+        filepath = resolve_raw_path(row["raw_path"])
+        if filepath is None or not filepath.exists():
+            return {k: None for k in metric_keys}
 
         # Load filing once
         text = extract_text(filepath)

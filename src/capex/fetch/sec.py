@@ -32,6 +32,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .. import paths
 from . import FETCHER_VERSION, get_user_agent
 from .errors import (
     FilingNotFoundError,
@@ -40,9 +41,8 @@ from .errors import (
     SuspiciousFilingSizeError,
 )
 
-# Resolve repo root from this file's location: src/capex/fetch/sec.py → ../../../
-REPO_ROOT = Path(__file__).resolve().parents[3]
-SOURCES_DIR = REPO_ROOT / "data" / "_sources"
+# Kept for callers that import it. Raw filings go under paths.sources_dir().
+REPO_ROOT = paths.CODE_ROOT
 
 SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik_padded}.json"
 ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data/{cik_int}/{accession_no_dashes}/{filename}"
@@ -118,7 +118,7 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
     # 5. Compute hash and write to _raw/ with canonical name.
     sha256 = hashlib.sha256(body).hexdigest()
 
-    raw_dir = SOURCES_DIR / ticker / "_raw"
+    raw_dir = paths.sources_dir() / ticker / "_raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     # Build canonical filename at download time — no separate organize step.
@@ -214,7 +214,7 @@ def _build_metadata(
 ) -> dict[str, Any]:
     """Assemble the metadata dict that becomes the sidecar JSON + DB row."""
     return {
-        "raw_path": str(raw_path.relative_to(REPO_ROOT)).replace("\\", "/"),
+        "raw_path": paths.raw_path_key(raw_path),
         "sha256": sha256,
         "source": "sec_edgar",
         "source_url": source_url,
@@ -262,16 +262,15 @@ def _http_get_bytes(url: str) -> bytes:
 
 def _get_fye_month(ticker: str) -> int:
     """Look up fiscal year end month from the DB, default 12."""
-    import sqlite3
-    db_path = REPO_ROOT / "data" / "db" / "capex.db"
-    if not db_path.exists():
+    from ..db import Database
+
+    if not paths.db_path().exists():
         return 12
-    conn = sqlite3.connect(str(db_path))
-    row = conn.execute(
-        "SELECT fiscal_year_end_month FROM companies WHERE ticker=?",
-        (ticker,),
-    ).fetchone()
-    conn.close()
+    with Database().connect_ro() as conn:
+        row = conn.execute(
+            "SELECT fiscal_year_end_month FROM companies WHERE ticker=?",
+            (ticker,),
+        ).fetchone()
     return row[0] if row else 12
 
 

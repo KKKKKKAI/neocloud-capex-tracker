@@ -30,8 +30,9 @@ def subscribers_path() -> Path:
     override = os.environ.get("NOTIFY_SUBSCRIBERS_PATH")
     if override:
         return Path(override)
-    # repo_root / data / _local / subscribers.yaml
-    return Path(__file__).resolve().parents[3] / "data" / "_local" / "subscribers.yaml"
+    from .. import paths
+
+    return paths.local_dir() / "subscribers.yaml"
 
 
 @dataclass

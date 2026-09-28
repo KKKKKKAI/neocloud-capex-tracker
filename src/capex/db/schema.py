@@ -19,48 +19,99 @@ Usage:
 The mutating() context manager is the single chokepoint for writes. It:
     1. Opens a connection with foreign_keys = ON
     2. Yields the connection for the caller to run statements on
-    3. On successful exit, commits and regenerates data/db/dump.sql
+    3. On successful exit, commits and (when dumps are on) regenerates dump.sql
     4. On exception, rolls back and leaves dump.sql untouched
 
 Any code that writes with a raw sqlite3.connect() bypasses the dump hook
 and breaks the audit trail. Don't do that.
+
+Environment:
+    CAPEX_HOME / CAPEX_DB_PATH  where the DB lives (see capex.paths)
+    CAPEX_DB_JOURNAL_MODE       e.g. WAL on the server, where the scheduler
+                                and the admin panel share the DB. Unset =
+                                leave the file's mode alone (WAL is unsafe
+                                on the /mnt/c checkout).
+    CAPEX_DUMP_SQL              1/0. Default: on in a plain checkout (where
+                                dump.sql is tracked), off when CAPEX_HOME
+                                is set (the server skips the multi-MB
+                                rewrite on every write).
 """
 from __future__ import annotations
 
+import os
 import sqlite3
 from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Resolve the repo root from this file's location: src/capex/db/schema.py → ../../../
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DB_PATH = REPO_ROOT / "data" / "db" / "capex.db"
-DUMP_PATH = REPO_ROOT / "data" / "db" / "dump.sql"
+from .. import paths
+
+# Kept for scripts that import it: the code checkout.
+REPO_ROOT = paths.CODE_ROOT
+# Import-time snapshots; Database() resolves the defaults at call time.
+DB_PATH = paths.db_path()
+DUMP_PATH = paths.dump_path()
 MIGRATIONS_DIR = Path(__file__).resolve().parent / "migrations"
+
+BUSY_TIMEOUT_S = 30
+
+
+def dumps_enabled_by_default() -> bool:
+    setting = os.environ.get("CAPEX_DUMP_SQL")
+    if setting is not None:
+        return setting.strip().lower() in ("1", "true", "yes", "on")
+    return "CAPEX_HOME" not in os.environ
 
 
 class Database:
     """Thin wrapper around a SQLite file with a mutating-write discipline."""
 
     def __init__(self, path: Path | None = None, dump_path: Path | None = None) -> None:
-        self.path = Path(path) if path else DB_PATH
+        canonical = paths.db_path()
+        self.path = Path(path) if path else canonical
+        # An explicit dump_path means the caller wants a dump.
+        self.dump_enabled = dump_path is not None or dumps_enabled_by_default()
         if dump_path is None:
             # A DB at a custom path (tests, scratch copies) dumps next to
-            # itself — never over the canonical data/db/dump.sql.
+            # itself — never over the canonical dump.sql.
             dump_path = (
-                DUMP_PATH
-                if self.path.resolve() == DB_PATH.resolve()
+                paths.dump_path()
+                if self.path.resolve() == canonical.resolve()
                 else self.path.with_name(f"{self.path.stem}.dump.sql")
             )
         self.dump_path = Path(dump_path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
 
+    def _open(self) -> sqlite3.Connection:
+        mode = os.environ.get("CAPEX_DB_JOURNAL_MODE", "").strip().upper()
+        if mode and mode not in ("WAL", "DELETE", "TRUNCATE", "PERSIST", "MEMORY"):
+            raise ValueError(f"unsupported CAPEX_DB_JOURNAL_MODE={mode!r}")
+        conn = sqlite3.connect(self.path, timeout=BUSY_TIMEOUT_S)
+        conn.execute(f"PRAGMA busy_timeout = {BUSY_TIMEOUT_S * 1000}")
+        if mode:
+            conn.execute(f"PRAGMA journal_mode = {mode}")
+            if mode == "WAL":
+                conn.execute("PRAGMA synchronous = NORMAL")
+        conn.execute("PRAGMA foreign_keys = ON")
+        conn.row_factory = sqlite3.Row
+        return conn
+
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
         """Open a read-capable connection. Foreign keys enforced."""
-        conn = sqlite3.connect(self.path)
-        conn.execute("PRAGMA foreign_keys = ON")
+        conn = self._open()
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    @contextmanager
+    def connect_ro(self) -> Iterator[sqlite3.Connection]:
+        """Open a read-only connection (exporters, viewers)."""
+        uri = f"{self.path.resolve().as_uri()}?mode=ro"
+        conn = sqlite3.connect(uri, uri=True, timeout=BUSY_TIMEOUT_S)
+        conn.execute(f"PRAGMA busy_timeout = {BUSY_TIMEOUT_S * 1000}")
         conn.row_factory = sqlite3.Row
         try:
             yield conn
@@ -75,9 +126,7 @@ class Database:
         statement. One `with db.mutating()` block = one atomic unit of
         work = one dump.sql regeneration.
         """
-        conn = sqlite3.connect(self.path)
-        conn.execute("PRAGMA foreign_keys = ON")
-        conn.row_factory = sqlite3.Row
+        conn = self._open()
         try:
             yield conn
             conn.commit()
@@ -87,6 +136,8 @@ class Database:
         finally:
             conn.close()
 
+        if not self.dump_enabled:
+            return
         # Only reached on successful commit. Keep the dump import local
         # to avoid a circular import and to make failures in dump
         # generation surface at the right point in the stack trace.

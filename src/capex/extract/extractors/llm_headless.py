@@ -13,12 +13,12 @@ Flow:
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 from ...audit import human_notes as hn_mod
 from ...db import Database
 from ...fx.rates import normalize_to_usd
+from ...paths import resolve_raw_path
 from ...read.sections import get_extraction_sections, parse_sections
 from ...read.text import extract_text
 from ...verification.dual_agent import (
@@ -153,13 +153,9 @@ class LLMHeadlessExtractor:
         if not row:
             return None
 
-        filepath = Path(row["raw_path"])
-        if not filepath.exists():
-            # Try relative to repo root
-            from ...db.schema import REPO_ROOT
-            filepath = REPO_ROOT / row["raw_path"]
-            if not filepath.exists():
-                return None
+        filepath = resolve_raw_path(row["raw_path"])
+        if filepath is None or not filepath.exists():
+            return None
 
         # Load filing sections
         text = extract_text(filepath)

@@ -12,13 +12,13 @@ quoting the filing's footnotes and explaining the deduction logic.
 """
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-COVERAGE_PATH = REPO_ROOT / "data" / "seeds" / "coverage.yaml"
+from .. import paths
+
+COVERAGE_PATH = paths.COVERAGE_YAML
 
 # Cache coverage.yaml adjustments
 _coverage_cache: dict | None = None
@@ -295,7 +295,7 @@ def _get_cik(ticker: str) -> str | None:
         return cik
 
     # Fallback: read from DB
-    db_path = REPO_ROOT / "data" / "db" / "capex.db"
+    db_path = paths.db_path()
     if db_path.exists():
         import sqlite3
         conn = sqlite3.connect(str(db_path))
@@ -367,7 +367,7 @@ def _get_verification_badge(extraction_id: int | None) -> str | None:
     if not extraction_id:
         return None
 
-    db_path = REPO_ROOT / "data" / "db" / "capex.db"
+    db_path = paths.db_path()
     if not db_path.exists():
         return None
 

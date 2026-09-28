@@ -41,6 +41,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .. import paths
 from . import FETCHER_VERSION, get_user_agent
 from .errors import (
     FilingNotFoundError,
@@ -49,8 +50,8 @@ from .errors import (
     SuspiciousFilingSizeError,
 )
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-SOURCES_DIR = REPO_ROOT / "data" / "_sources"
+# Kept for callers that import it. Raw filings go under paths.sources_dir().
+REPO_ROOT = paths.CODE_ROOT
 
 FEED_URL = "https://www1.hkexnews.hk/ncms/json/eds/lcisehk1relsdc_{page}.json"
 BASE_URL = "https://www1.hkexnews.hk"
@@ -121,7 +122,7 @@ def fetch_latest(ticker: str, stock_code: str, form_type: str) -> dict[str, Any]
     period_of_report = _derive_period_of_report(match, filing_date, form_type)
 
     # Write to _raw/ with canonical name at download time.
-    raw_dir = SOURCES_DIR / ticker / "_raw"
+    raw_dir = paths.sources_dir() / ticker / "_raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     original_filename = web_path.split("/")[-1]
@@ -269,7 +270,7 @@ def _build_metadata(
     period_of_report: str,
 ) -> dict[str, Any]:
     return {
-        "raw_path": str(raw_path.relative_to(REPO_ROOT)).replace("\\", "/"),
+        "raw_path": paths.raw_path_key(raw_path),
         "sha256": sha256,
         "source": "hkex",
         "source_url": source_url,
@@ -305,16 +306,15 @@ def _http_get_bytes(url: str) -> bytes:
 
 def _get_fye_month(ticker: str) -> int:
     """Look up fiscal year end month from the DB, default 12."""
-    import sqlite3
-    db_path = REPO_ROOT / "data" / "db" / "capex.db"
-    if not db_path.exists():
+    from ..db import Database
+
+    if not paths.db_path().exists():
         return 12
-    conn = sqlite3.connect(str(db_path))
-    row = conn.execute(
-        "SELECT fiscal_year_end_month FROM companies WHERE ticker=?",
-        (ticker,),
-    ).fetchone()
-    conn.close()
+    with Database().connect_ro() as conn:
+        row = conn.execute(
+            "SELECT fiscal_year_end_month FROM companies WHERE ticker=?",
+            (ticker,),
+        ).fetchone()
     return row[0] if row else 12
 
 

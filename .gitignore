@@ -65,6 +65,15 @@ data/_logs/
 *.log
 logs/
 
+# ---- Runtime dirs under CAPEX_HOME (= the checkout by default) ----
+# See src/capex/paths.py. The server keeps these on its data volume.
+/site/
+/run/
+/backups/
+/llm-cwd/
+# Dumps of scratch/test DBs (the canonical one is data/db/dump.sql).
+*.dump.sql
+
 # Local DB rollback snapshots (taken before destructive migrations /
 # bulk rewrites). They live next to capex.db so a quick `cp` can
 # restore. Each is a full SQLite dump and must NOT go to the remote.

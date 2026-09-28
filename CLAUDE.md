@@ -21,7 +21,13 @@ but is developed and run from WSL Ubuntu
   Windows can't check out (`<>:"|?*`, reserved names, trailing dot or
   space, case-only collisions).
 - The move to an always-on AWS server is tracked step by step in
-  `docs/SERVER_MIGRATION_CHECKLIST.md`.
+  `docs/SERVER_MIGRATION_CHECKLIST.md`. Server infrastructure lives in
+  `deploy/` (see `deploy/README.md`); `deploy/aws/run_on_host.py` runs a
+  command on the host via SSM without SSH.
+- `CAPEX_HOME` moves all runtime data (see `src/capex/paths.py`). To try
+  something against a scratch copy: `CAPEX_HOME=$(mktemp -d)`, copy
+  `data/db/capex.db` into `$CAPEX_HOME/data/db/`, and symlink
+  `data/_sources` in.
 
 ## CLI Commands
 
@@ -38,6 +44,9 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 
 | Module | Purpose |
 |---|---|
+| `src/capex/paths.py` | **Every filesystem location.** Code/config (seeds, prompts) under the checkout; runtime data (DB, raw filings, workbooks, charts, `site/`, reports) under `$CAPEX_HOME` (default: the checkout). `resolve_raw_path()` maps DB `raw_path` values to files. Never build `Path(__file__).parents[...]` data paths. |
+| `src/capex/server/secrets.py` | Server: SSM Parameter Store `/capex/*` → `/run/capex/capex.env` at boot (`check` shows names/types only) |
+| `src/capex/server/doctor.py` | Server health checks (claude, SEC, Alpha Vantage, Gmail, S3→CloudFront, memory, disk, data volume) |
 | `src/capex/fetch/sec.py` | SEC EDGAR fetcher — downloads filings with canonical names |
 | `src/capex/fetch/hkex.py` | HKEXnews fetcher — downloads HKEX annual/interim reports |
 | `src/capex/fetch/dispatcher.py` | Routes fetch requests by form_type + source |
@@ -137,8 +146,12 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 ```bash
 capex export          # auto-named per Rule 0
 capex chart
-git add charts/ workbook/ data/db/ && git commit && git push
 ```
+Outputs land under `$CAPEX_HOME` (the checkout by default): `workbook/`,
+`charts/`, and the HTML pages in `site/` (gitignored). The committed
+`docs/*.html` (GitHub Pages) are frozen until the always-on server
+publishes the site to S3 + CloudFront; data is no longer committed from
+local runs. See `docs/SERVER_MIGRATION_CHECKLIST.md`.
 
 **Update README architecture diagram and status table when adding features:**
 

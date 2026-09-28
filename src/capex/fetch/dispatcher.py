@@ -23,6 +23,7 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+from .. import paths
 from ..db import Database
 from .errors import FormTypeMismatchError, UnknownCompanyError
 from .hkex import HKEX_FORM_TYPES
@@ -66,11 +67,9 @@ def fetch_filing(ticker: str, form_type: str, db: Database | None = None) -> dic
         all_supported = SEC_FORM_TYPES + HKEX_FORM_TYPES
         raise FormTypeMismatchError(ticker, form_type, all_supported)
 
-    # Write the sidecar next to the file. The fetcher gave us a repo-relative
-    # path; resolve it back to absolute for the sidecar writer.
-    from .sec import REPO_ROOT  # local import to avoid circular at module load
-    raw_path_abs = REPO_ROOT / metadata["raw_path"]
-    write_sidecar(raw_path_abs, metadata)
+    # Write the sidecar next to the file. The fetcher gave us a path
+    # relative to the runtime home; resolve it for the sidecar writer.
+    write_sidecar(paths.resolve_raw_path(metadata["raw_path"]), metadata)
 
     return metadata
 

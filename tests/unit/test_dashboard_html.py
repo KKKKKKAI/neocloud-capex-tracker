@@ -95,26 +95,21 @@ def test_dashboard_references_thumbnails_via_relative_path(tmp_path):
         assert f"../charts/{name}" not in txt
 
 
-def test_dashboard_mirrors_existing_thumbnails_into_docs_charts(tmp_path):
-    """If a PNG exists in CHARTS_DIR, it's copied into docs/charts/."""
+def test_dashboard_mirrors_existing_thumbnails_next_to_the_page(tmp_path, monkeypatch):
+    """A PNG in <CAPEX_HOME>/charts/ is copied into the page's charts/."""
     from capex.exporters import dashboard_html as dh
 
-    # Stage a fake charts/ dir so we don't touch the repo's real one.
-    src_charts = tmp_path / "src_charts"
-    src_charts.mkdir()
+    # A throwaway runtime home so we don't touch the repo's real charts/.
+    monkeypatch.setenv("CAPEX_HOME", str(tmp_path / "home"))
+    src_charts = tmp_path / "home" / "charts"
+    src_charts.mkdir(parents=True)
     png_name = dh.CHART_CARDS[0]["png"]
     (src_charts / png_name).write_bytes(b"\x89PNG\r\n\x1a\nfake")
 
-    # Monkeypatch via direct swap of CHARTS_DIR.
-    original = dh.CHARTS_DIR
-    dh.CHARTS_DIR = src_charts
-    try:
-        db = _make_empty_db(tmp_path)
-        out = tmp_path / "docs" / "index.html"
-        dh.generate_dashboard_html(output=out, db_path=db)
-        assert (out.parent / "charts" / png_name).exists()
-    finally:
-        dh.CHARTS_DIR = original
+    db = _make_empty_db(tmp_path)
+    out = tmp_path / "site" / "index.html"
+    dh.generate_dashboard_html(output=out, db_path=db)
+    assert (out.parent / "charts" / png_name).exists()
 
 
 def test_dashboard_stats_line_reflects_db(tmp_path):

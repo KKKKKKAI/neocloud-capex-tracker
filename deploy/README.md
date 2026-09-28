@@ -11,6 +11,7 @@ host. Progress is tracked in `docs/SERVER_MIGRATION_CHECKLIST.md`.
 | `bootstrap.sh` | server (root) | Idempotent host setup: packages, swap, data volume, users, venv, Claude Code, systemd units |
 | `systemd/capex-secrets.service` | server | At boot, copies `/capex/*` from SSM into `/run/capex/capex.env` (tmpfs, `root:capex 0640`) |
 | `smoke_test.sh` | server | Runs `capex.server.doctor` as the `capex` user with the service environment |
+| `aws/run_on_host.py` | WSL | Runs a command on the host through SSM Run Command: no SSH key or open port needed |
 
 ## Secrets
 
@@ -33,16 +34,19 @@ python -m capex.server.secrets check
 After changing a parameter on a running host:
 
 ```bash
-ssh capex sudo systemctl restart capex-secrets
+python deploy/aws/run_on_host.py 'systemctl restart capex-secrets'
 ```
+
+(`ssh capex sudo …` works too. With a passphrase-protected key, load
+it once per WSL session: `eval "$(ssh-agent -s)" && ssh-add ~/.ssh/capex_ed25519`.)
 
 ## First deploy
 
 ```bash
 deploy/aws/deploy_stack.sh                         # ~10 min (CloudFront is the slow part)
 # add the printed PublicIp to ~/.ssh/config — see scripts/ssh_config.example
-ssh capex sudo tail -n 20 /var/log/capex-bootstrap.log
-ssh capex sudo bash /opt/capex/src/deploy/smoke_test.sh
+python deploy/aws/run_on_host.py 'tail -n 20 /var/log/capex-bootstrap.log'
+python deploy/aws/run_on_host.py --timeout 600 'bash /opt/capex/src/deploy/smoke_test.sh'
 ```
 
 The smoke test prints one line per check (claude, sec, alpha_vantage,

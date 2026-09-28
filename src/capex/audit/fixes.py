@@ -7,15 +7,16 @@ Every fix logs to `audit_verdicts` with a before/after snapshot.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
+from .. import paths
 from ..db import Database
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = paths.CODE_ROOT
 
 
 def classify_fix(cell) -> str | None:
@@ -114,12 +115,13 @@ def _apply_reconcile(cells, apply: bool, run_id: str) -> list[dict]:
         cmd = [sys.executable, "-m", "capex.cli.main", "reconcile",
                "--metric", m]
         print(f"  [reconcile] {m}...")
+        # Inherit the environment (PATH, CAPEX_HOME, HOME, ...); only make
+        # sure the in-tree package is importable.
+        env = {**os.environ, "PYTHONPATH": str(REPO_ROOT / "src")}
         try:
-            subprocess.run(cmd, check=True, cwd=REPO_ROOT,
-                           env={"PYTHONPATH": str(REPO_ROOT / "src"),
-                                "PATH": sys.executable})
-        except subprocess.CalledProcessError:
-            pass
+            subprocess.run(cmd, check=True, cwd=REPO_ROOT, env=env)
+        except subprocess.CalledProcessError as e:
+            print(f"  [reconcile] {m} FAILED: {e}", file=sys.stderr)
     return [
         {"ticker": c.ticker, "fiscal_year": c.fiscal_year,
          "metric_key": c.metric_key, "period_type": c.period_type,

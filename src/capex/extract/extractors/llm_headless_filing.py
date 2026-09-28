@@ -20,6 +20,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any
 
+from ...adapters.errors import FATAL_LLM_ERRORS
 from ...audit import human_notes as hn_mod
 from ...db import Database
 from ...fx.rates import normalize_to_usd
@@ -144,6 +145,8 @@ class LLMHeadlessFilingExtractor:
         )
         try:
             response_a = backend.extract(system="", user=prompt_a)
+        except FATAL_LLM_ERRORS:
+            raise  # every further call would fail too: stop the run
         except Exception:
             return {k: None for k in metric_keys}
 
@@ -186,6 +189,8 @@ class LLMHeadlessFilingExtractor:
             )
             try:
                 response_b = backend.extract(system="", user=prompt_b)
+            except FATAL_LLM_ERRORS:
+                raise
             except Exception:
                 results[mk] = None
                 continue

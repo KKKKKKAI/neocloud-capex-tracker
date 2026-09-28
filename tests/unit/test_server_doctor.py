@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 import smtplib
-import subprocess
 
 import pytest
 
@@ -18,55 +17,32 @@ def _clean_env(monkeypatch):
         monkeypatch.delenv(var, raising=False)
 
 
-# ---- claude -------------------------------------------------------------
+# ---- claude (through the production backend, against a fake CLI) --------
 
-def _fake_claude(monkeypatch, stdout, returncode=0, stderr=""):
-    calls = {}
-
-    def fake_run(cmd, **kwargs):
-        calls.update(cmd=cmd, **kwargs)
-        return subprocess.CompletedProcess(cmd, returncode, stdout, stderr)
-
-    monkeypatch.setenv("CAPEX_CLAUDE_BIN", "/opt/fake/claude")
-    monkeypatch.setattr(doctor.subprocess, "run", fake_run)
-    return calls
-
-
-def test_claude_pass_uses_stdin_empty_cwd_and_no_api_key(monkeypatch):
+def test_claude_pass_uses_the_hardened_backend(fake_claude, monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "should-not-leak")
-    envelope = {"type": "result", "subtype": "success", "is_error": False,
-                "result": "OK", "duration_ms": 1234}
-    calls = _fake_claude(monkeypatch, json.dumps(envelope) + "\n")
-
     result = doctor.check_claude()
-
     assert result.status == doctor.PASS
-    assert calls["input"].startswith("Reply with")
-    assert calls["cmd"][:2] == ["/opt/fake/claude", "-p"]
-    assert ["--tools", ""] == calls["cmd"][4:6]
-    assert "ANTHROPIC_API_KEY" not in calls["env"]
-    assert calls["env"]["DISABLE_AUTOUPDATER"] == "1"
-    assert "capex-doctor-" in calls["cwd"]
+    (call,) = fake_claude()
+    assert call["stdin"].startswith("Reply with")
+    assert call["env"]["ANTHROPIC_API_KEY"] is None
+    assert call["cwd_entries"] == []
 
 
-def test_claude_auth_failure_is_named(monkeypatch):
-    envelope = {"type": "result", "is_error": True,
-                "result": "Invalid API key · Please run /login"}
-    _fake_claude(monkeypatch, json.dumps(envelope), returncode=1)
+def test_claude_auth_failure_is_named(fake_claude, monkeypatch):
+    monkeypatch.setenv("FAKE_CLAUDE_MODE", "auth")
     result = doctor.check_claude()
     assert result.status == doctor.FAIL
-    assert "authentication failed" in result.detail
+    assert "LLMAuthError" in result.detail
 
 
-def test_claude_usage_limit_is_named(monkeypatch):
-    envelope = {"type": "result", "is_error": True,
-                "result": "Claude usage limit reached. Your limit will reset at 5pm."}
-    _fake_claude(monkeypatch, json.dumps(envelope), returncode=1)
-    assert "usage limit" in doctor.check_claude().detail
+def test_claude_usage_limit_is_named(fake_claude, monkeypatch):
+    monkeypatch.setenv("FAKE_CLAUDE_MODE", "limit")
+    assert "LLMUsageLimitError" in doctor.check_claude().detail
 
 
 def test_claude_missing_binary(monkeypatch):
-    monkeypatch.setattr(doctor.shutil, "which", lambda name: None)
+    monkeypatch.setattr("capex.adapters.cli_backend.shutil.which", lambda name: None)
     result = doctor.check_claude()
     assert result.status == doctor.FAIL
     assert "not found" in result.detail

@@ -65,7 +65,7 @@ the server deploys commits whose `lint-and-test` CI run passed.
   - S3 → CloudFront round trip OK; placeholder page live
   - RAM 909 MiB + 2 GiB swap
   - data volume mounted, 14.8 GiB free
-- [ ] Gmail: parameters exist at the top level (`GMAIL_USERNAME`, `GMAIL_APP_PASSWORD`); re-create them under `/capex/`, then restart `capex-secrets` and re-run the gmail check
+- [x] Gmail: parameters re-created under `/capex/`; after `capex-secrets` restarted, the gmail check logs in to SMTP as the operator address. Smoke test is now **9/9** — 2026-09-28
 - [x] The SSH key is passphrase-protected, so agent-side host commands go through SSM Run Command (`deploy/aws/run_on_host.py`)
 
 ## Phase 3: Code/data split, central paths, DB concurrency (PR 4)
@@ -75,14 +75,21 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 3.4 `Database`: 30 s busy timeout, `CAPEX_DB_JOURNAL_MODE` (WAL on the server), `connect_ro()`. Dumps stay on in a plain checkout and are off under `CAPEX_HOME` (`CAPEX_DUMP_SQL` overrides).
 - [x] 3.5 `audit/fixes.py` inherits the environment and reports failures instead of swallowing them
 - [x] Verified: outputs regenerated under a scratch `CAPEX_HOME` match the committed `docs/*.html` (6/7 identical; `calendar.html` differs only in date-relative text); `capex extract MSFT` resolves raw files there; 250 tests pass
+- [x] PR merged — 2026-09-28, #4 (`9229c2a`)
 
-## Phase 4: LLM backend hardening and runtime-control schema (PR 4)
-- [ ] 4.1 Migration 0011 (settings, watchlist, job_schedules, job_requests, runs, subscribers, alerts_sent, llm_calls)
-- [ ] 4.2 `capex/settings.py`
-- [ ] 4.3 `adapters/errors.py`
-- [ ] 4.4 `cli_backend.py`: prompt on stdin, JSON output, no tools, empty cwd, error classes
-- [ ] 4.5 Fatal LLM errors no longer swallowed
-- [ ] 4.6 `capex llm ping`, `capex settings`
+## Phase 4: LLM backend hardening and runtime-control schema (PR 5)
+- [x] 4.1 Migration 0011 (additive): settings, settings_audit, watchlist, job_schedules, job_requests, runs, subscribers, alerts_sent, llm_calls
+- [x] 4.2 `capex/settings.py`: typed registry with validation, env fallbacks for stack values, and audited set/reset. No free-form keys, so secrets can't be stored.
+- [x] 4.3 `adapters/errors.py`: `LLMAuthError`, `LLMUsageLimitError` (with reset time), `LLMBudgetError`, `LLMConfigError` (all fatal), `LLMTransientError`, `LLMOutputError`; shared classifier
+- [x] 4.4 `cli_backend.py`:
+  - prompt on stdin; `--output-format json`; `--tools ""`
+  - empty working dir with `--setting-sources user`; API-key env vars stripped
+  - daily budget, pause, and `llm_calls` telemetry
+- [x] 4.5 Fatal LLM errors re-raised by the multi-metric extractor, router and watcher instead of reading as "found nothing" / "success"
+- [x] 4.6 `capex llm ping|usage`, `capex settings list|help|get|set|reset`; `doctor` now pings through the production backend
+- [x] Verified locally with the real CLI (2.1.232 accepted every flag): an expired login and a bogus token both give `LLMAuthError` (exit 77) and are logged in `llm_calls`. 299 tests pass.
+- [ ] Verify on the server after merge: `capex llm ping` succeeds with the SSM token
+- [ ] Extraction regression (same values as stored) → happens with the Phase 10 backlog run and its spot-check
 
 ## Phase 5: Watcher correctness and pipeline refactor (PR 5)
 - [ ] 5.1 Migration 0012 (filing_events, calendar v2)

@@ -29,6 +29,7 @@ from datetime import date
 
 from .. import paths
 from ..adapters.cli_backend import CLIBackend
+from ..adapters.errors import LLMConfigError
 from ..db import Database
 from .calendar import get_pending_earnings, get_todays_earnings
 from .watcher import watch_and_extract
@@ -40,12 +41,12 @@ def main(argv: list[str] | None = None) -> int:
     argv = argv if argv is not None else sys.argv[1:]
     db = Database()
 
-    # Detect CLI backend
-    tool = CLIBackend.detect_available()
-    if not tool:
-        print("ERROR: No LLM CLI tool found (claude/gemini/codex)")
+    # LLM backend (claude, configured from the llm.* settings)
+    try:
+        backend = CLIBackend.auto(db=db)
+    except LLMConfigError as e:
+        print(f"ERROR: {e}")
         return 1
-    backend = CLIBackend(tool)
     print(f"Using CLI backend: {backend}")
 
     # Determine what to process

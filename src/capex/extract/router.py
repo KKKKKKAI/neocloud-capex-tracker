@@ -18,6 +18,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from ..adapters.errors import FATAL_LLM_ERRORS
 from ..db import Database
 from .base import ExtractResult
 from .coverage import (
@@ -234,6 +235,8 @@ def extract_batch(
                         "ticker": ticker, "metric": metric_key,
                         "status": r.status, "chain": r.chain_tried,
                     })
+            except FATAL_LLM_ERRORS:
+                raise
             except Exception as e:
                 result.failed.append({
                     "ticker": ticker, "metric": metric_key,
@@ -320,6 +323,8 @@ def extract_filing(
                 ticker, form_type, period, pending_llm,
                 backend=backend, db=db,
             )
+        except FATAL_LLM_ERRORS:
+            raise  # auth / usage limit / budget: the fallback would fail too
         except Exception:
             multi = {k: None for k in pending_llm}
 

@@ -1,0 +1,9 @@
+# Append to ~/.ssh/config in WSL, with HostName set to the stack's
+# PublicIp output (deploy/aws/deploy_stack.sh prints it). Then:
+#     ssh capex
+Host capex
+    HostName 0.0.0.0
+    User ubuntu
+    IdentityFile ~/.ssh/capex_ed25519
+    IdentitiesOnly yes
+    ServerAliveInterval 30

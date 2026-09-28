@@ -14,12 +14,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import re
 import shutil
 import smtplib
-import subprocess
 import sys
-import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -41,14 +38,6 @@ PLACEHOLDER_HTML = (
     "first publish.</p></body></html>\n"
 )
 
-_AUTH_ERROR = re.compile(
-    r"401|unauthori[sz]ed|authenticat|invalid (api key|token|bearer)|/login|expired|"
-    r"oauth token",
-    re.IGNORECASE,
-)
-_USAGE_LIMIT = re.compile(r"usage limit|rate limit|429|limit reached", re.IGNORECASE)
-
-
 @dataclass
 class Result:
     name: str
@@ -66,63 +55,23 @@ def _http_get(url: str, headers: dict[str, str] | None = None,
         return e.code, e.read()
 
 
-def llm_child_env() -> dict[str, str]:
-    """Environment for `claude`: no API-key variables, so the CLI always
-    authenticates with the subscription token, and no self-updates."""
-    env = {
-        k: v for k, v in os.environ.items()
-        if k not in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN")
-    }
-    env["DISABLE_AUTOUPDATER"] = "1"
-    return env
-
-
-def _last_json_object(text: str) -> dict | None:
-    for line in reversed(text.strip().splitlines()):
-        try:
-            obj = json.loads(line)
-        except ValueError:
-            continue
-        if isinstance(obj, dict):
-            return obj
-    return None
-
-
-def _llm_failure_detail(text: str, returncode: int) -> str:
-    if _AUTH_ERROR.search(text):
-        return "authentication failed: CLAUDE_CODE_OAUTH_TOKEN missing, invalid or expired"
-    if _USAGE_LIMIT.search(text):
-        return "subscription usage limit reached; retry after it resets"
-    first = next((ln.strip() for ln in text.splitlines() if ln.strip()), "")
-    return f"exit {returncode}: {first[:160] or 'no output'}"
-
-
 def check_claude() -> Result:
-    binary = os.environ.get("CAPEX_CLAUDE_BIN") or shutil.which("claude")
-    if not binary:
+    """One real call through the production backend and settings (model,
+    budget, pause). It is logged in llm_calls like any other call."""
+    from ..adapters.cli_backend import CLIBackend, claude_binary
+    from ..adapters.errors import LLMError
+
+    if not claude_binary():
         return Result("claude", FAIL, "claude CLI not found (set CAPEX_CLAUDE_BIN)")
-    cmd = [
-        binary, "-p", "--output-format", "json", "--tools", "",
-        "--no-session-persistence", "--disable-slash-commands",
-        "--setting-sources", "user",
-    ]
-    # An empty working directory: no repo CLAUDE.md or .claude settings.
-    with tempfile.TemporaryDirectory(prefix="capex-doctor-") as cwd:
-        try:
-            proc = subprocess.run(
-                cmd, input="Reply with the single word OK.", capture_output=True,
-                text=True, timeout=CLAUDE_TIMEOUT_S, cwd=cwd, env=llm_child_env(),
-            )
-        except subprocess.TimeoutExpired:
-            return Result("claude", FAIL, f"no answer within {CLAUDE_TIMEOUT_S}s")
-        except OSError as e:
-            return Result("claude", FAIL, f"could not run {binary}: {e.strerror}")
-    envelope = _last_json_object(proc.stdout)
-    if (envelope and not envelope.get("is_error")
-            and "OK" in str(envelope.get("result", "")).upper()):
-        return Result("claude", PASS, f"answered in {envelope.get('duration_ms', '?')} ms")
-    text = str((envelope or {}).get("result") or proc.stderr or proc.stdout)
-    return Result("claude", FAIL, _llm_failure_detail(text, proc.returncode))
+    backend = CLIBackend.from_settings(timeout=CLAUDE_TIMEOUT_S)
+    try:
+        answer = backend.extract("", "Reply with the single word OK.")
+    except LLMError as e:
+        return Result("claude", FAIL, f"{type(e).__name__}: {e}")
+    if "OK" not in answer.upper():
+        return Result("claude", FAIL, f"unexpected answer: {answer[:80]!r}")
+    ms = (backend.last_call or {}).get("duration_ms", "?")
+    return Result("claude", PASS, f"{backend.model} answered in {ms} ms")
 
 
 def check_sec() -> Result:

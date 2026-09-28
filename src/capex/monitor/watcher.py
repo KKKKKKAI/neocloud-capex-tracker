@@ -10,6 +10,7 @@ import time
 import urllib.request
 from typing import Any
 
+from ..adapters.errors import FATAL_LLM_ERRORS
 from ..db import Database
 from ..fetch import get_user_agent
 from ..fetch.dispatcher import fetch_and_record
@@ -151,6 +152,10 @@ def watch_and_extract(
                     metric_keys=metric_keys,
                     write=True, backend=backend, db=db,
                 )
+            except FATAL_LLM_ERRORS:
+                # Auth / usage limit / budget: don't mark the filing
+                # extracted; let the run fail loudly.
+                raise
             except Exception as e:
                 results = {}
                 issues.append(f"extract_filing: {type(e).__name__}: {e}")

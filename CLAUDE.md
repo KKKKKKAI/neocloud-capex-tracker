@@ -38,6 +38,8 @@ capex fetch <TICKER> <FORM>   # download latest filing from SEC/HKEX → _raw/
 capex extract <TICKER>        # dry-run: show sections + metrics for extraction
 capex export [-o PATH]        # generate Excel workbook from DB
 capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
+capex llm ping                # one real call through the production LLM backend
+capex settings list|set K V   # runtime settings (audited; see `capex settings help`)
 ```
 
 ## Key Modules
@@ -45,6 +47,9 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 | Module | Purpose |
 |---|---|
 | `src/capex/paths.py` | **Every filesystem location.** Code/config (seeds, prompts) under the checkout; runtime data (DB, raw filings, workbooks, charts, `site/`, reports) under `$CAPEX_HOME` (default: the checkout). `resolve_raw_path()` maps DB `raw_path` values to files. Never build `Path(__file__).parents[...]` data paths. |
+| `src/capex/adapters/cli_backend.py` | The only LLM entry point: `claude -p` with the prompt on stdin, JSON output, no tools, an empty cwd, budget/pause/telemetry. Build it with `CLIBackend.from_settings()`. |
+| `src/capex/adapters/errors.py` | Typed LLM errors. `FATAL_LLM_ERRORS` (auth, usage limit, budget, config) must never be swallowed — re-raise them. |
+| `src/capex/settings.py` | Runtime settings registry (`settings` table, audited). Add new knobs here, never as ad-hoc env vars. |
 | `src/capex/server/secrets.py` | Server: SSM Parameter Store `/capex/*` → `/run/capex/capex.env` at boot (`check` shows names/types only) |
 | `src/capex/server/doctor.py` | Server health checks (claude, SEC, Alpha Vantage, Gmail, S3→CloudFront, memory, disk, data volume) |
 | `src/capex/fetch/sec.py` | SEC EDGAR fetcher — downloads filings with canonical names |

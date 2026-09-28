@@ -59,6 +59,12 @@ def main(argv: list[str] | None = None) -> int:
         return _treatments_command(rest)
     if cmd == "notify":
         return _notify_command(rest)
+    if cmd == "llm":
+        from capex.cli.control import llm_command
+        return llm_command(rest)
+    if cmd == "settings":
+        from capex.cli.control import settings_command
+        return settings_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -1023,6 +1029,10 @@ def _print_help() -> None:
         "    notify list         show email notification subscribers\n"
         "    notify add <email>  add a subscriber (--tickers / --metrics filters)\n"
         "    notify test [email] send a sample email from the most-recent filing\n"
+        "    llm ping            one real call through the production LLM backend\n"
+        "    llm usage           LLM calls today vs the daily budget\n"
+        "    settings list       runtime settings (see `capex settings help`)\n"
+        "    settings set K V    change a runtime setting (audited)\n"
     )
 
 

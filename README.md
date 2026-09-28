@@ -322,6 +322,7 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 7d | Email notifications on new filings | ✅ | After every successful auto-update, sends one HTML+text email per (subscriber, filing) pair. Subject leads with the headline metric (e.g. `📊 GOOGL Q1 FY2026 10-Q — revenue $109.9B (+12.1% YoY, -3.5% QoQ)`); body has a clean table with each metric's current value + prior-quarter delta + prior-year delta. Subscribers live in `data/_local/subscribers.yaml` — **gitignored**, real emails never enter the public repo. Per-subscriber ticker / metric filters supported. Gmail SMTP via stdlib (`GMAIL_USERNAME` + `GMAIL_APP_PASSWORD` in `.env`). CLI: `capex notify {list,add,remove,enable,disable,test}`. Crash-safe — SMTP failures log but never break the cron run that just succeeded at extraction. |
 | 8a | Auto-publish pipeline | 📋 | CI-driven Excel + chart regeneration on new data |
 | 8b | CSV / JSON / Parquet exporters | 📋 | Additional output formats from DB |
+| 9a | Always-on AWS server | 🚧 | `deploy/aws/capex-stack.yaml` (EC2 + persistent data volume, S3 + CloudFront site, versioned backup bucket), `deploy/bootstrap.sh`, secrets from SSM Parameter Store (`capex.server.secrets`), health checks (`capex.server.doctor`). Progress: `docs/SERVER_MIGRATION_CHECKLIST.md` |
 | — | Pluggable LLM adapters (Anthropic, Gemini, OpenAI) | 📋 | Replace interactive Claude Code extraction |
 
 **Current data:** 13 companies, 1,455 data points, 267 quarterly revenue series, 92 dual-agent verified extractions.

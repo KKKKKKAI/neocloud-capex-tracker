@@ -1,0 +1,333 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  neocloud-capex-tracker: always-on EC2 host (scheduler, pipeline, admin
+  panel over SSH), a persistent data volume, S3 + CloudFront for the
+  public dashboard, and a private versioned backup bucket. Secrets are
+  read at boot from SSM Parameter Store under /capex/.
+
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues: [t3.micro, t3.small, t3.medium]
+    Description: t3.micro (1 GiB RAM + 2 GiB swap) fits the workload; t3.small doubles the RAM.
+  AvailabilityZone:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: eu-north-1a
+    Description: The instance and its data volume must share one AZ.
+  ImageId:
+    Type: AWS::EC2::Image::Id
+    Description: >-
+      Ubuntu 24.04 AMI. deploy_stack.sh resolves the current one on first
+      deploy and then keeps it, so later updates never replace the host.
+  AdminCidr:
+    Type: String
+    AllowedPattern: '^\d{1,3}(\.\d{1,3}){3}/\d{1,2}$'
+    Description: Your public IP as a /32 - the only source allowed to SSH in.
+  SshPublicKey:
+    Type: String
+    Description: Contents of ~/.ssh/capex_ed25519.pub (changing it replaces the host).
+  RepoUrl:
+    Type: String
+    Default: https://github.com/KKKKKKAI/neocloud-capex-tracker.git
+  RepoRef:
+    Type: String
+    Default: main
+  RootVolumeGiB:
+    Type: Number
+    Default: 12
+    MinValue: 8
+  DataVolumeGiB:
+    Type: Number
+    Default: 16
+    MinValue: 8
+
+Resources:
+  # ---- Public site: private bucket, readable only through CloudFront ----
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  SiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: CloudFrontReadViaOAC
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub "${SiteBucket.Arn}/*"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+
+  SiteOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub "${AWS::StackName}-site"
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: !Sub "${AWS::StackName} public dashboard"
+        Enabled: true
+        DefaultRootObject: index.html
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_100
+        Origins:
+          - Id: site
+            DomainName: !GetAtt SiteBucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt SiteOriginAccessControl.Id
+            S3OriginConfig:
+              OriginAccessIdentity: ""
+        DefaultCacheBehavior:
+          TargetOriginId: site
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          # Managed-CachingOptimized: honours each object's Cache-Control.
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          # Managed-SecurityHeadersPolicy.
+          ResponseHeadersPolicyId: 67f7725c-6f97-4210-82d7-5512b31e9d03
+
+  # ---- Backups: private, versioned; the host can write but not delete ----
+  BackupBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-db-backups
+            Status: Enabled
+            Prefix: db/
+            ExpirationInDays: 180
+          - Id: expire-noncurrent-versions
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 30
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 7
+
+  # ---- Host ----
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        # Session Manager: break-glass shell if SSH is ever locked out.
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      Policies:
+        - PolicyName: capex-runtime
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: ReadSecrets
+                Effect: Allow
+                Action:
+                  - ssm:GetParametersByPath
+                  - ssm:GetParameters
+                  - ssm:GetParameter
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/capex"
+                  - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/capex/*"
+              - Sid: ListParameterNamesAndTypes
+                # DescribeParameters has no resource-level scoping; it
+                # returns names and types, never values.
+                Effect: Allow
+                Action: ssm:DescribeParameters
+                Resource: "*"
+              - Sid: DecryptSecureStrings
+                Effect: Allow
+                Action: kms:Decrypt
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    kms:ViaService: !Sub "ssm.${AWS::Region}.amazonaws.com"
+              - Sid: SiteList
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt SiteBucket.Arn
+              - Sid: SiteObjects
+                Effect: Allow
+                Action: [s3:GetObject, s3:PutObject, s3:DeleteObject]
+                Resource: !Sub "${SiteBucket.Arn}/*"
+              - Sid: BackupList
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt BackupBucket.Arn
+              - Sid: BackupObjects
+                Effect: Allow
+                Action: [s3:GetObject, s3:PutObject]
+                Resource: !Sub "${BackupBucket.Arn}/*"
+              - Sid: InvalidateSite
+                Effect: Allow
+                Action: [cloudfront:CreateInvalidation, cloudfront:GetInvalidation]
+                Resource: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref InstanceRole]
+
+  KeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: !Sub "${AWS::StackName}-admin"
+      PublicKeyMaterial: !Ref SshPublicKey
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: capex host - SSH from the admin IP only
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref AdminCidr
+          Description: admin SSH
+
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        MetadataOptions:
+          HttpEndpoint: enabled
+          HttpTokens: required
+          HttpPutResponseHopLimit: 1
+
+  # DB, raw filings and outputs live here, not on the root disk, so the
+  # host can be replaced without losing data.
+  DataVolume:
+    Type: AWS::EC2::Volume
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Properties:
+      AvailabilityZone: !Ref AvailabilityZone
+      Size: !Ref DataVolumeGiB
+      VolumeType: gp3
+      Encrypted: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-data"
+
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
+      AvailabilityZone: !Ref AvailabilityZone
+      KeyName: !Ref KeyPair
+      IamInstanceProfile: !Ref InstanceProfile
+      SecurityGroupIds: [!GetAtt SecurityGroup.GroupId]
+      LaunchTemplate:
+        LaunchTemplateId: !Ref LaunchTemplate
+        Version: !GetAtt LaunchTemplate.LatestVersionNumber
+      CreditSpecification:
+        CPUCredits: standard
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: !Ref RootVolumeGiB
+            VolumeType: gp3
+            Encrypted: true
+            DeleteOnTermination: true
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -euxo pipefail
+          exec >>/var/log/capex-bootstrap.log 2>&1
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -y
+          apt-get install -y git
+          if [ ! -d /opt/capex/src/.git ]; then
+            git clone --branch '${RepoRef}' '${RepoUrl}' /opt/capex/src
+          fi
+          CAPEX_DATA_VOLUME_ID='${DataVolume}' \
+          CAPEX_SITE_BUCKET='${SiteBucket}' \
+          CAPEX_BACKUP_BUCKET='${BackupBucket}' \
+          CAPEX_DISTRIBUTION_ID='${Distribution}' \
+          CAPEX_PUBLIC_BASE_URL='https://${Distribution.DomainName}' \
+          bash /opt/capex/src/deploy/bootstrap.sh
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-host"
+
+  DataVolumeAttachment:
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      InstanceId: !Ref Instance
+      VolumeId: !Ref DataVolume
+      Device: /dev/sdf
+
+  ElasticIp:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref Instance
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-host"
+
+Outputs:
+  InstanceId:
+    Value: !Ref Instance
+  PublicIp:
+    Description: SSH to ubuntu@ this address (see scripts/ssh_config.example).
+    Value: !Ref ElasticIp
+  PublicUrl:
+    Description: Public dashboard and workbook downloads.
+    Value: !Sub "https://${Distribution.DomainName}"
+  DistributionId:
+    Value: !Ref Distribution
+  SiteBucket:
+    Value: !Ref SiteBucket
+  BackupBucket:
+    Value: !Ref BackupBucket
+  DataVolumeId:
+    Value: !Ref DataVolume
+  ImageId:
+    Value: !Ref ImageId

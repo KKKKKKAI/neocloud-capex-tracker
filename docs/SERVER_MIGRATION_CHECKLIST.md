@@ -47,14 +47,15 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 1.8 CI: Python 3.12, all extras, lint `src tests scripts`, read-only token, job id `lint-and-test`
 - [x] 1.9 Removed `organize-sources.yml`, `watcher.yml`, `install_cron.sh`; untracked `.claude/settings.local.json`
 - [x] 1.10 CLAUDE.md: Rule 0 and a Windows/WSL environment section
-- [ ] PR merged with CI green
+- [x] PR merged with CI green — 2026-09-28, #2 (`908c15a`), first green CI since 2026-04-21
 
-## Phase 2: AWS foundation and early smoke test (PR 2) — pause (b)
-- [ ] 2.1 `deploy/aws/capex-stack.yaml` (site and backup buckets, CloudFront OAC, IAM role, key pair, security group, EC2)
-- [ ] 2.2 `deploy/bootstrap.sh`
-- [ ] 2.3 `capex-secrets.service` + `capex.server.secrets`
-- [ ] 2.4 `deploy/aws/allow_my_ip.sh`, `scripts/ssh_config.example`
-- [ ] 2.5 Stack deployed; `deploy/smoke_test.sh` passes (claude, SEC, Alpha Vantage, Gmail, S3/CloudFront, memory)
+## Phase 2: AWS foundation and early smoke test (PR 3) — pause (b)
+- [x] 2.1 `deploy/aws/capex-stack.yaml`: site and backup buckets, CloudFront OAC, least-privilege role, key pair, SSH-only security group, EC2 plus a persistent data volume and Elastic IP. cfn-lint clean; AWS `validate-template` OK.
+- [x] 2.2 `deploy/bootstrap.sh` (idempotent; pins uv 0.12.19 and Claude Code 2.1.232)
+- [x] 2.3 `capex-secrets.service` + `capex.server.secrets` (fetch / check); `capex.server.doctor` for the smoke test and later health checks
+- [x] 2.4 `deploy/aws/deploy_stack.sh`, `deploy/aws/allow_my_ip.sh`, `scripts/ssh_config.example`, `deploy/README.md`
+- [x] `secrets check` against the real account (names and types only): two `String` params, the Gmail pair missing
+- [ ] 2.5 Stack deployed; `deploy/smoke_test.sh` passes (claude, SEC, Alpha Vantage, Gmail, S3/CloudFront, memory, disk, data volume)
 
 ## Phase 3: Code/data split, central paths, DB concurrency (PR 3)
 - [ ] 3.1 `capex/paths.py`

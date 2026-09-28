@@ -52,5 +52,6 @@ def send_email(
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
     with smtplib.SMTP_SSL(GMAIL_SMTP_HOST, GMAIL_SMTP_PORT, timeout=timeout) as smtp:
-        smtp.login(username, app_password)
+        # Google displays app passwords in groups of four; SMTP wants none.
+        smtp.login(username, app_password.replace(" ", ""))
         smtp.send_message(msg)

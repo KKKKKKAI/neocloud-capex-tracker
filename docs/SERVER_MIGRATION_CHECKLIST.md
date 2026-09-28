@@ -88,20 +88,28 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 4.5 Fatal LLM errors re-raised by the multi-metric extractor, router and watcher instead of reading as "found nothing" / "success"
 - [x] 4.6 `capex llm ping|usage`, `capex settings list|help|get|set|reset`; `doctor` now pings through the production backend
 - [x] Verified locally with the real CLI (2.1.232 accepted every flag): an expired login and a bogus token both give `LLMAuthError` (exit 77) and are logged in `llm_calls`. 299 tests pass.
-- [ ] Verify on the server after merge: `capex llm ping` succeeds with the SSM token
+- [x] PR merged — 2026-09-29, #5 (`afd3e51`)
+- [x] Verified on the server: `capex llm ping` → `claude-opus-4-8: 'OK' in 2732 ms`, exit 0, with the SSM token, and no DB file created
 - [ ] Extraction regression (same values as stored) → happens with the Phase 10 backlog run and its spot-check
 
-## Phase 5: Watcher correctness and pipeline refactor (PR 5)
-- [ ] 5.1 Migration 0012 (filing_events, calendar v2)
-- [ ] 5.2 IREN seeds → 10-K/10-Q
-- [ ] 5.3 `monitor/watchlist.py`
-- [ ] 5.4 `fetch/sec_http.py`
-- [ ] 5.5 `find_filings` / `fetch_accession`; idempotent `record_source_document`
-- [ ] 5.6 Calendar: key validation, expected forms, lookback
-- [ ] 5.7 Watcher: poll results, no success-on-exception
-- [ ] 5.8 `monitor/pipeline.py`
-- [ ] 5.9 `run.py` thin CLI (git push and issue creation removed, real exit codes)
-- [ ] 5.10 `capex calendar requeue`
+## Phase 5: Watcher correctness and pipeline refactor (PR 6)
+- [x] 5.1 Migration 0012: `fiscal_calendar` rebuilt with statuses partial/stale/skipped plus attempts, last_error, last/next attempt and filing_event_id; new `filing_events` (unique accession); index on `source_documents(accession_number)`
+- [x] 5.2 IREN seeds → 10-K/10-Q (it left 20-F filing in FY2025); convention `three_month_column`
+- [x] 5.3 `monitor/watchlist.py`: `sync_watchlist()` (never overwrites edits; 20-F filers → 6-K quarters; HKEX starts unwatched) and `expected_form()`
+- [x] 5.4 `fetch/sec_http.py`: one SEC client (contact UA, gzip, ≤ 5 req/s, retries 429/5xx honouring Retry-After, clean errors). Used by the fetcher, watcher and both XBRL readers.
+- [x] 5.5 `sec.list_filings()` / `fetch_accession()` (the exact matched filing, not "latest"); `dispatcher.record_source_document()` idempotent by sha256, accession or period
+- [x] 5.6 Calendar sync refuses missing/placeholder keys and AV error bodies (the old workflow's silent zero-row runs). Forms come from the watchlist, one transaction per sync, and manual or in-flight rows are never overwritten.
+- [x] 5.7 `watcher.poll_for_row()` → hit / not_yet / error / unsupported, matching within ±10 days and skipping amendments
+- [x] 5.8 `monitor/pipeline.py`:
+  - stale marking; due-row selection (watched, lookback, backoff)
+  - filing events; fetch-then-extract
+  - extracted / partial (retry with backoff 15 min → 12 h) / failed after `watcher.max_attempts`
+  - fatal LLM errors stop the run without costing the filing an attempt (usage limit → `llm.paused_until`)
+  - optional sweep for filings with no calendar row
+  - outputs regenerated only when something was extracted; backlog not emailed
+- [x] 5.9 `run.py` is now a thin CLI with no git push or gh issue. Exit codes 0 / 1 / 3 partial / 75 deferred / 77 auth; `--dry-run`, `--sweep`, `TICKER [FORM]`.
+- [x] 5.10 `capex calendar requeue [--status] [--since] [--ticker] [--refresh-forms]`
+- [x] Verified on a scratch DB copy against live EDGAR: migrated to v12, 13 watchlist rows correct, requeue fixed IREN's forms, and the dry-run catch-up found IREN 10-Q (2026-03-31), IREN 10-K (2026-06-30) and ORCL 10-Q (2026-08-31). The six 6-K rows show as unsupported until Phase 6. 350 tests pass.
 
 ## Phase 6: 6-K quarterly results for NBIS, GDS, BIDU, BABA (PR 6)
 - [ ] 6.1 `fetch/sec_6k.py`

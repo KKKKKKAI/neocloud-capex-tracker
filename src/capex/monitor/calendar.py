@@ -16,7 +16,8 @@ Pulls upcoming earnings dates for our tracked companies and stores them
 in the fiscal_calendar table. The monitor uses these dates to know
 exactly when to start polling SEC EDGAR for new filings.
 
-Alpha Vantage free tier: 5 calls/min, 500/day. We need ~1 call/week.
+Alpha Vantage free tier: a small daily quota (check alphavantage.co);
+we need one call per day at most.
 Register at https://www.alphavantage.co/support/#api-key
 
 Usage:
@@ -28,27 +29,59 @@ from __future__ import annotations
 
 import csv
 import io
+import json
 import os
 import urllib.request
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
+from .. import settings
 from ..db import Database
-from ..extract.coverage import get_all_tickers, get_company_treatment
+from ..extract.coverage import get_all_tickers
+from .clock import utc_iso
+from .watchlist import expected_form, sync_watchlist
 
 ALPHA_VANTAGE_URL = (
     "https://www.alphavantage.co/query"
     "?function=EARNINGS_CALENDAR&horizon=3month&apikey={api_key}"
 )
 
-# Map filing cadence to expected form types
-FORM_TYPE_MAP = {
-    "10-K": "10-K",
-    "10-Q": "10-Q",
-    "20-F": "20-F",
-    "HK-AR": "HK-AR",
-}
+class CalendarError(RuntimeError):
+    """The calendar can't be synced (bad key, provider error, bad reply)."""
+
+
+# Keys that mean "not configured". Alpha Vantage answers "demo" with an
+# error body, which used to parse as zero rows and exit green.
+PLACEHOLDER_KEYS = frozenset({"", "demo", "your_key_here", "changeme", "none"})
+
+
+def fetch_calendar_csv(api_key: str, horizon: str = "3month") -> str:
+    url = ALPHA_VANTAGE_URL.format(api_key=api_key).replace(
+        "horizon=3month", f"horizon={horizon}"
+    )
+    with urllib.request.urlopen(urllib.request.Request(url), timeout=30) as resp:
+        return resp.read().decode("utf-8")
+
+
+def parse_calendar_csv(text: str) -> list[dict[str, str]]:
+    """Rows of Alpha Vantage's EARNINGS_CALENDAR CSV.
+
+    Raises CalendarError when the reply is an error body (JSON such as
+    {"Information": "..."}) or lacks the expected CSV header.
+    """
+    stripped = text.lstrip()
+    if stripped.startswith("{"):
+        try:
+            message = str(next(iter(json.loads(stripped).values())))
+        except (ValueError, StopIteration, AttributeError):
+            message = stripped[:200]
+        raise CalendarError(f"Alpha Vantage returned an error instead of CSV: {message[:200]}")
+    reader = csv.DictReader(io.StringIO(text))
+    header = set(reader.fieldnames or [])
+    if not {"symbol", "reportDate", "fiscalDateEnding"} <= header:
+        raise CalendarError("unexpected Alpha Vantage reply (no earnings-calendar CSV header)")
+    return list(reader)
 
 
 def sync_earnings_calendar(
@@ -56,55 +89,49 @@ def sync_earnings_calendar(
     horizon: str = "3month",
     *,
     db: Database | None = None,
+    allow_demo_key: bool | None = None,
 ) -> dict[str, Any]:
-    """Pull upcoming earnings dates from Alpha Vantage.
+    """Pull upcoming earnings dates from Alpha Vantage into fiscal_calendar.
 
-    Fetches CSV, filters to our tracked tickers, upserts into
-    fiscal_calendar table.
+    Only covered tickers are kept. The expected form comes from the
+    watchlist (see watchlist.expected_form). Existing rows are updated
+    only while still 'upcoming' and not entered by hand, so a sync never
+    rewrites a row the watcher is processing or a manual correction.
 
     Returns: {synced: int, skipped: int, errors: list}
+    Raises CalendarError for a missing/placeholder key or a provider error.
     """
-    api_key = api_key or os.environ.get("ALPHA_VANTAGE_API_KEY", "demo")
     db = db or Database()
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    if api_key is None:
+        api_key = os.environ.get("ALPHA_VANTAGE_API_KEY", "")
+    if allow_demo_key is None:
+        allow_demo_key = settings.get("calendar.allow_demo_key", db)
+    if api_key.strip().lower() in PLACEHOLDER_KEYS and not allow_demo_key:
+        raise CalendarError(
+            "ALPHA_VANTAGE_API_KEY is missing or a placeholder; set it (on the "
+            "server: SSM parameter /capex/ALPHA_VANTAGE_API_KEY)"
+        )
+
+    rows = parse_calendar_csv(fetch_calendar_csv(api_key, horizon))
     our_tickers = set(get_all_tickers())
-
-    url = ALPHA_VANTAGE_URL.format(api_key=api_key)
-    req = urllib.request.Request(url)
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        text = resp.read().decode("utf-8")
-
-    reader = csv.DictReader(io.StringIO(text))
+    sync_watchlist(db)
+    now = utc_iso()
     synced = 0
     skipped = 0
-    errors = []
+    errors: list[str] = []
 
-    for row in reader:
-        symbol = row.get("symbol", "").strip()
-        if symbol not in our_tickers:
-            continue
-
-        report_date = row.get("reportDate", "").strip()
-        fiscal_end = row.get("fiscalDateEnding", "").strip()
-
-        if not report_date or not fiscal_end:
-            skipped += 1
-            continue
-
-        # Determine expected form type from company config
-        company = get_company_treatment(symbol)
-        form_type = None
-        if company:
-            cadence = company.filing_cadence
-            # Is this a quarter-end or year-end?
-            fye = int(fiscal_end[5:7])
-            if company.filing_cadence.get("annual") and fye == _fye_month(company):
-                form_type = cadence.get("annual")
-            else:
-                form_type = cadence.get("quarterly") or cadence.get("annual")
-
-        try:
-            with db.mutating() as conn:
+    with db.mutating() as conn:
+        for row in rows:
+            symbol = row.get("symbol", "").strip()
+            if symbol not in our_tickers:
+                continue
+            report_date = row.get("reportDate", "").strip()
+            fiscal_end = row.get("fiscalDateEnding", "").strip()
+            if not report_date or not fiscal_end:
+                skipped += 1
+                continue
+            try:
+                form_type = expected_form(symbol, fiscal_end, db)
                 conn.execute(
                     """
                     INSERT INTO fiscal_calendar
@@ -116,120 +143,58 @@ def sync_earnings_calendar(
                         form_type = excluded.form_type,
                         source = excluded.source,
                         updated_at = excluded.updated_at
+                    WHERE fiscal_calendar.status = 'upcoming'
+                      AND fiscal_calendar.source != 'manual'
                     """,
                     (symbol, report_date, fiscal_end, form_type, now),
                 )
                 synced += 1
-        except Exception as e:
-            errors.append(f"{symbol}: {e}")
+            except Exception as e:  # one bad row must not sink the sync
+                errors.append(f"{symbol}: {e}")
 
     return {"synced": synced, "skipped": skipped, "errors": errors}
 
 
-def _fye_month(company) -> int:
-    """Get the fiscal year end month number from coverage config."""
-    # Parse from coverage_start or filing_cadence
-    # Fallback: read from DB
-    db = Database()
-    with db.connect() as conn:
-        row = conn.execute(
-            "SELECT fiscal_year_end_month FROM companies WHERE ticker = ?",
-            (company.ticker,),
-        ).fetchone()
-    return row["fiscal_year_end_month"] if row else 12
-
-
-def get_todays_earnings(*, db: Database | None = None) -> list[dict[str, Any]]:
-    """Return companies with earnings scheduled for today."""
-    db = db or Database()
-    today = date.today().isoformat()
-    with db.connect() as conn:
-        rows = conn.execute(
-            """
-            SELECT ticker, report_date, fiscal_date_ending, form_type, status
-            FROM fiscal_calendar
-            WHERE report_date = ? AND status = 'upcoming'
-            ORDER BY ticker
-            """,
-            (today,),
-        ).fetchall()
-    return [dict(r) for r in rows]
-
-
-def get_pending_earnings(
+def requeue(
     *,
-    on_or_before: str | None = None,
+    statuses: tuple[str, ...] = ("failed", "stale"),
     since: str | None = None,
+    tickers: set[str] | None = None,
+    refresh_forms: bool = False,
     db: Database | None = None,
 ) -> list[dict[str, Any]]:
-    """Return all calendar rows still 'upcoming' whose report_date has passed.
+    """Put calendar rows back in the watcher's queue ('upcoming', 0 attempts).
 
-    Used by `capex monitor --catch-up` so a missed earnings day is picked
-    up the next time cron fires (or whenever the user runs it manually).
-
-    Args:
-        on_or_before: ISO date ceiling (default: today). Anything with
-            report_date <= this is eligible.
-        since: optional ISO date floor. When set, only rows with
-            report_date >= since are returned. Defaults to no floor.
+    `refresh_forms` recomputes each row's expected form from the watchlist
+    (e.g. after correcting a company's filing cadence). Returns the rows
+    changed, with their new form.
     """
     db = db or Database()
-    ceiling = on_or_before or date.today().isoformat()
     sql = (
-        "SELECT ticker, report_date, fiscal_date_ending, form_type, status "
-        "FROM fiscal_calendar "
-        "WHERE report_date <= ? AND status = 'upcoming' "
+        "SELECT id, ticker, report_date, fiscal_date_ending, form_type, status "
+        f"FROM fiscal_calendar WHERE status IN ({','.join('?' * len(statuses))})"
     )
-    params: list[Any] = [ceiling]
+    params: list[Any] = list(statuses)
     if since:
-        sql += "AND report_date >= ? "
+        sql += " AND report_date >= ?"
         params.append(since)
-    sql += "ORDER BY report_date, ticker"
     with db.connect() as conn:
-        rows = conn.execute(sql, params).fetchall()
-    return [dict(r) for r in rows]
-
-
-def get_upcoming_earnings(
-    days: int = 7,
-    *,
-    db: Database | None = None,
-) -> list[dict[str, Any]]:
-    """Return companies with earnings in the next N days."""
-    db = db or Database()
-    today = date.today()
-    end = (today + timedelta(days=days)).isoformat()
-    with db.connect() as conn:
-        rows = conn.execute(
-            """
-            SELECT ticker, report_date, fiscal_date_ending, form_type, status
-            FROM fiscal_calendar
-            WHERE report_date >= ? AND report_date <= ?
-            ORDER BY report_date, ticker
-            """,
-            (today.isoformat(), end),
-        ).fetchall()
-    return [dict(r) for r in rows]
-
-
-def update_status(
-    ticker: str,
-    fiscal_date_ending: str,
-    status: str,
-    *,
-    db: Database | None = None,
-) -> None:
-    """Update the status of a fiscal calendar entry."""
-    db = db or Database()
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        rows = [dict(r) for r in conn.execute(sql + " ORDER BY report_date, ticker", params)]
+    rows = [r for r in rows if tickers is None or r["ticker"] in tickers]
+    if not rows:
+        return []
+    now = utc_iso()
     with db.mutating() as conn:
-        conn.execute(
-            """
-            UPDATE fiscal_calendar SET status = ?, updated_at = ?
-            WHERE ticker = ? AND fiscal_date_ending = ?
-            """,
-            (status, now, ticker, fiscal_date_ending),
-        )
+        for r in rows:
+            if refresh_forms:
+                r["form_type"] = expected_form(r["ticker"], r["fiscal_date_ending"], db)
+            conn.execute(
+                "UPDATE fiscal_calendar SET status = 'upcoming', attempts = 0, "
+                "last_error = NULL, next_attempt_at = NULL, form_type = ?, "
+                "updated_at = ? WHERE id = ?",
+                (r["form_type"], now, r["id"]),
+            )
+    return rows
 
 
 def get_recent_earnings(
@@ -447,9 +412,12 @@ def add_manual_entry(
 
 
 if __name__ == "__main__":
-    import json
     import sys
 
-    result = sync_earnings_calendar()
+    try:
+        result = sync_earnings_calendar()
+    except CalendarError as e:
+        print(f"calendar sync failed: {e}", file=sys.stderr)
+        sys.exit(1)
     print(json.dumps(result, indent=2))
     sys.exit(0 if not result.get("errors") else 1)

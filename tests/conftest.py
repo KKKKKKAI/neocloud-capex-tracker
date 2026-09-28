@@ -45,6 +45,24 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(skip_network)
 
 
+# ---- A migrated DB with the real company registry -------------------------
+
+@pytest.fixture
+def capex_db(tmp_path, monkeypatch):
+    """A scratch CAPEX_HOME with a migrated DB, the 13 companies from
+    _identity.yaml and a synced watchlist."""
+    from capex.db.schema import Database, migrate
+    from capex.db.sync import sync_companies
+    from capex.monitor.watchlist import sync_watchlist
+
+    monkeypatch.setenv("CAPEX_HOME", str(tmp_path / "home"))
+    db = Database()
+    migrate(db)
+    sync_companies(db)
+    sync_watchlist(db)
+    return db
+
+
 # ---- A fake `claude` CLI --------------------------------------------------
 
 _FAKE_CLAUDE = r'''#!{python}

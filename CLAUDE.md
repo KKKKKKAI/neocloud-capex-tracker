@@ -38,6 +38,8 @@ capex fetch <TICKER> <FORM>   # download latest filing from SEC/HKEX → _raw/
 capex extract <TICKER>        # dry-run: show sections + metrics for extraction
 capex export [-o PATH]        # generate Excel workbook from DB
 capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
+capex monitor --catch-up [--dry-run] [--sweep]   # one watcher run (see monitor/pipeline.py)
+capex calendar requeue --since DATE --refresh-forms
 capex llm ping                # one real call through the production LLM backend
 capex settings list|set K V   # runtime settings (audited; see `capex settings help`)
 ```
@@ -52,7 +54,10 @@ capex settings list|set K V   # runtime settings (audited; see `capex settings h
 | `src/capex/settings.py` | Runtime settings registry (`settings` table, audited). Add new knobs here, never as ad-hoc env vars. |
 | `src/capex/server/secrets.py` | Server: SSM Parameter Store `/capex/*` → `/run/capex/capex.env` at boot (`check` shows names/types only) |
 | `src/capex/server/doctor.py` | Server health checks (claude, SEC, Alpha Vantage, Gmail, S3→CloudFront, memory, disk, data volume) |
-| `src/capex/fetch/sec.py` | SEC EDGAR fetcher — downloads filings with canonical names |
+| `src/capex/monitor/pipeline.py` | The watcher state machine: calendar row → `filing_events` → fetch the exact accession → extract → outputs. Retries with backoff, stale rows, fatal-LLM stop. `run.py` is its CLI. |
+| `src/capex/monitor/watchlist.py` | Runtime watch list (which companies, which forms); `expected_form()` |
+| `src/capex/fetch/sec_http.py` | The only way to call SEC: contact UA, ≤ 5 req/s, retries honouring Retry-After |
+| `src/capex/fetch/sec.py` | SEC EDGAR fetcher — `list_filings()` / `fetch_accession()` / `fetch_latest()` with canonical names |
 | `src/capex/fetch/hkex.py` | HKEXnews fetcher — downloads HKEX annual/interim reports |
 | `src/capex/fetch/dispatcher.py` | Routes fetch requests by form_type + source |
 | `src/capex/fetch/sidecar.py` | JSON sidecar writer/reader for raw archive |

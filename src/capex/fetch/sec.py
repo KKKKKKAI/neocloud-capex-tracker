@@ -23,21 +23,16 @@ What this module does NOT do:
 from __future__ import annotations
 
 import hashlib
-import json
 import re
-import time
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from .. import paths
-from . import FETCHER_VERSION, get_user_agent
+from . import FETCHER_VERSION, sec_http
 from .errors import (
     FilingNotFoundError,
     IntegrityError,
-    SourceUnavailableError,
     SuspiciousFilingSizeError,
 )
 
@@ -47,14 +42,34 @@ REPO_ROOT = paths.CODE_ROOT
 SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik_padded}.json"
 ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data/{cik_int}/{accession_no_dashes}/{filename}"
 
-REQUEST_INTERVAL_SECONDS = 0.1  # SEC limit is 10 req/sec; we use far less
-
 PROTOCOL_VERSION = "0.1.0-draft"
 
 # SEC form types this fetcher knows how to ask for. The fetcher passes
 # the form_type through to the API filter, so adding new types is just
 # extending this set (no parser changes needed).
 SEC_FORM_TYPES = ("10-K", "10-Q", "20-F")
+
+
+def get_submissions(cik: str) -> dict:
+    """The company's EDGAR submissions index (recent filings)."""
+    cik_padded = cik.lstrip("0").zfill(10)
+    return sec_http.get_json(SUBMISSIONS_URL.format(cik_padded=cik_padded))
+
+
+def list_filings(
+    submissions: dict, form_type: str, *, include_amendments: bool = False,
+) -> list[dict[str, str]]:
+    """Filings of `form_type` in the submissions index, newest first.
+
+    Each dict has accessionNumber, filingDate, reportDate, primaryDocument
+    and form. Amendments (`<form>/A`) are skipped unless asked for: they
+    restate an already-processed period and would clobber its row.
+    """
+    recent = submissions.get("filings", {}).get("recent", {})
+    columns = ("accessionNumber", "filingDate", "reportDate", "primaryDocument", "form")
+    rows = zip(*(recent.get(c, []) for c in columns), strict=False)
+    wanted = {form_type, f"{form_type}/A"} if include_amendments else {form_type}
+    return [dict(zip(columns, row, strict=True)) for row in rows if row[4] in wanted]
 
 
 def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
@@ -81,17 +96,22 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
     if form_type not in SEC_FORM_TYPES:
         # Caller should have caught this in the dispatcher; defensive check.
         raise ValueError(f"sec fetcher does not support form_type={form_type!r}")
-
-    cik_padded = cik.lstrip("0").zfill(10)
-    cik_int = str(int(cik))  # no leading zeros for the archive URL
-
-    # 1. Get the company's recent filings index.
-    submissions = _http_get_json(SUBMISSIONS_URL.format(cik_padded=cik_padded))
-
-    # 2. Find the most recent matching filing.
-    filing = _find_latest(submissions, form_type)
-    if filing is None:
+    filings = list_filings(get_submissions(cik), form_type)
+    if not filings:
         raise FilingNotFoundError(ticker, form_type)
+    return fetch_accession(ticker, cik, form_type, filings[0])
+
+
+def fetch_accession(
+    ticker: str, cik: str, form_type: str, filing: dict[str, str],
+) -> dict[str, Any]:
+    """Download one specific filing (an entry from list_filings()).
+
+    Same return value and errors as fetch_latest().
+    """
+    if form_type not in SEC_FORM_TYPES:
+        raise ValueError(f"sec fetcher does not support form_type={form_type!r}")
+    cik_int = str(int(cik))  # no leading zeros for the archive URL
 
     accession = filing["accessionNumber"]
     accession_no_dashes = accession.replace("-", "")
@@ -105,10 +125,8 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
         filename=primary_doc,
     )
 
-    time.sleep(REQUEST_INTERVAL_SECONDS)
-
     # 3. Download the primary document bytes.
-    body = _http_get_bytes(source_url)
+    body = sec_http.get_bytes(source_url)
 
     # 4. Sanity-check size.
     size = len(body)
@@ -174,33 +192,6 @@ def fetch_latest(ticker: str, cik: str, form_type: str) -> dict[str, Any]:
 # ----------------------------------------------------------------------------
 
 
-def _find_latest(submissions: dict, form_type: str) -> dict | None:
-    """Pick the most recent filing matching form_type from the submissions JSON.
-
-    Returns a dict with keys: accessionNumber, filingDate, reportDate,
-    primaryDocument. Returns None if no match.
-
-    Only looks at filings.recent (typically the most recent ~1000 filings,
-    plenty for finding the latest annual or quarterly).
-    """
-    recent = submissions.get("filings", {}).get("recent", {})
-    forms = recent.get("form", [])
-    accessions = recent.get("accessionNumber", [])
-    filing_dates = recent.get("filingDate", [])
-    report_dates = recent.get("reportDate", [])
-    primary_docs = recent.get("primaryDocument", [])
-
-    for i, form in enumerate(forms):
-        if form == form_type:
-            return {
-                "accessionNumber": accessions[i],
-                "filingDate": filing_dates[i],
-                "reportDate": report_dates[i],
-                "primaryDocument": primary_docs[i],
-            }
-    return None
-
-
 def _build_metadata(
     *,
     ticker: str,
@@ -227,37 +218,6 @@ def _build_metadata(
         "fetcher_version": FETCHER_VERSION,
         "protocol_version": PROTOCOL_VERSION,
     }
-
-
-def _http_get_json(url: str) -> dict:
-    """GET a JSON resource with the project User-Agent. Raises SourceUnavailableError on failure."""
-    raw = _http_get_bytes(url)
-    try:
-        return json.loads(raw.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as e:
-        raise SourceUnavailableError("sec_edgar", None, f"unparseable JSON from {url}: {e}") from e
-
-
-def _http_get_bytes(url: str) -> bytes:
-    """GET raw bytes with the project User-Agent. Raises SourceUnavailableError on failure."""
-    headers = {"User-Agent": get_user_agent(), "Accept-Encoding": "gzip, deflate"}
-    req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = resp.read()
-            # urllib doesn't auto-decompress; do it manually if needed.
-            encoding = resp.headers.get("Content-Encoding", "").lower()
-            if encoding == "gzip":
-                import gzip
-                data = gzip.decompress(data)
-            elif encoding == "deflate":
-                import zlib
-                data = zlib.decompress(data)
-            return data
-    except urllib.error.HTTPError as e:
-        raise SourceUnavailableError("sec_edgar", e.code, f"GET {url}: {e.reason}") from e
-    except urllib.error.URLError as e:
-        raise SourceUnavailableError("sec_edgar", None, f"GET {url}: {e.reason}") from e
 
 
 def _get_fye_month(ticker: str) -> int:

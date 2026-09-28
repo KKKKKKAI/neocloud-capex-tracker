@@ -29,18 +29,28 @@ from .errors import FormTypeMismatchError, UnknownCompanyError
 from .hkex import HKEX_FORM_TYPES
 from .hkex import fetch_latest as hkex_fetch_latest
 from .sec import SEC_FORM_TYPES
+from .sec import fetch_accession as sec_fetch_accession
 from .sec import fetch_latest as sec_fetch_latest
 from .sidecar import write_sidecar
 
 ACTOR_FETCH = "fetch-company-report@0.1.0"
 
 
-def fetch_filing(ticker: str, form_type: str, db: Database | None = None) -> dict[str, Any]:
-    """Fetch the latest filing matching (ticker, form_type) from the regulator.
+def fetch_filing(
+    ticker: str,
+    form_type: str,
+    db: Database | None = None,
+    *,
+    filing: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Fetch a filing matching (ticker, form_type) from the regulator.
 
-    Writes the bytes to data/_sources/<TICKER>/_raw/, writes the sidecar JSON,
-    and returns the metadata dict. Does NOT touch the database — call
-    fetch_and_record() if you want a DB row.
+    With `filing` (an entry from sec.list_filings()), that exact SEC
+    accession is downloaded; otherwise the latest one.
+
+    Writes the bytes under paths.sources_dir()/<TICKER>/_raw/, writes the
+    sidecar JSON, and returns the metadata dict. Does NOT touch the
+    database — call fetch_and_record() if you want a DB row.
     """
     db = db or Database()
     company = _lookup_company(db, ticker)
@@ -57,7 +67,10 @@ def fetch_filing(ticker: str, form_type: str, db: Database | None = None) -> dic
             raise FormTypeMismatchError(
                 ticker, form_type, HKEX_FORM_TYPES
             )
-        metadata = sec_fetch_latest(ticker, cik, form_type)
+        if filing is not None:
+            metadata = sec_fetch_accession(ticker, cik, form_type, filing)
+        else:
+            metadata = sec_fetch_latest(ticker, cik, form_type)
     elif form_type in HKEX_FORM_TYPES:
         hk_code = company.get("hkex_stock_code")
         if not hk_code:
@@ -75,22 +88,39 @@ def fetch_filing(ticker: str, form_type: str, db: Database | None = None) -> dic
 
 
 def fetch_and_record(
-    ticker: str, form_type: str, db: Database | None = None
+    ticker: str,
+    form_type: str,
+    db: Database | None = None,
+    *,
+    filing: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Fetch + write source_documents row + audit_log row, all atomic."""
     db = db or Database()
-    metadata = fetch_filing(ticker, form_type, db=db)
+    metadata = fetch_filing(ticker, form_type, db=db, filing=filing)
+    return record_source_document(metadata, db=db)
 
-    # Compute derived fields needed for the source_documents row.
+
+def record_source_document(metadata: dict[str, Any], db: Database) -> dict[str, Any]:
+    """Insert the source_documents + audit_log rows for fetched metadata.
+
+    Idempotent: a filing already recorded (same bytes, same accession,
+    or the same ticker/form/period) returns the existing row id with
+    `already_existed=True` instead of inserting.
+    """
+    ticker, form_type = metadata["ticker"], metadata["form_type"]
     company = _lookup_company(db, ticker)
     fye_month = company["fiscal_year_end_month"]
     period_token = _compute_period_token(form_type, metadata["period_of_report"], fye_month)
     fiscal_year = _compute_fiscal_year(metadata["period_of_report"], fye_month)
 
     with db.mutating() as conn:
-        # Idempotent on sha256 — same filing fetched twice produces no new rows.
         existing = conn.execute(
-            "SELECT id FROM source_documents WHERE sha256 = ?", (metadata["sha256"],)
+            "SELECT id FROM source_documents WHERE sha256 = ? "
+            "OR (accession_number = ? AND form_type = ?) "
+            "OR (ticker = ? AND form_type = ? AND period_of_report = ?) "
+            "ORDER BY id LIMIT 1",
+            (metadata["sha256"], metadata.get("accession_number") or "", form_type,
+             ticker, form_type, metadata["period_of_report"]),
         ).fetchone()
         if existing:
             metadata["id"] = existing[0]

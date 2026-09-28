@@ -105,13 +105,16 @@ def _db_command(argv: list[str]) -> int:
         print(f"synced {n} quarterly_convention rows")
         return 0
     if sub == "sync-all":
+        from capex.monitor.watchlist import sync_watchlist
+
         migrate()
         nc = sync_companies()
         nm = sync_metric_definitions()
         nq = sync_coverage_treatments()
+        nw = sync_watchlist()
         print(
             f"migrate OK; synced {nc} companies, {nm} metric definitions, "
-            f"{nq} quarterly conventions"
+            f"{nq} quarterly conventions; {nw} new watchlist row(s)"
         )
         return 0
 
@@ -554,22 +557,27 @@ def _calendar_command(argv: list[str]) -> int:
     subcmd = argv[0]
 
     if subcmd == "sync":
-        import os
-
-        from capex.monitor.calendar import sync_earnings_calendar
-        api_key = os.environ.get("ALPHA_VANTAGE_API_KEY", "demo")
-        result = sync_earnings_calendar(api_key=api_key)
+        from capex.monitor.calendar import CalendarError, sync_earnings_calendar
+        try:
+            result = sync_earnings_calendar()
+        except CalendarError as e:
+            print(f"calendar sync failed: {e}", file=sys.stderr)
+            return 1
         print(f"Synced {result['synced']} earnings dates, skipped {result['skipped']}")
-        if result["errors"]:
-            for e in result["errors"]:
-                print(f"  error: {e}")
-        return 0
+        for e in result["errors"]:
+            print(f"  error: {e}")
+        return 1 if result["errors"] else 0
 
     if subcmd == "show":
         return _calendar_show(argv[1:])
 
+    if subcmd == "requeue":
+        return _calendar_requeue(argv[1:])
+
     print(f"unknown calendar subcommand: {subcmd}", file=sys.stderr)
     print("  capex calendar sync         sync from Alpha Vantage")
+    print("  capex calendar requeue [--status failed,stale] [--since DATE] "
+          "[--ticker T] [--refresh-forms]")
     print("  capex calendar show         show upcoming + recent dates")
     print("  capex calendar show --week         next 7 days only")
     print("  capex calendar show --days N       custom upcoming window")
@@ -577,6 +585,42 @@ def _calendar_command(argv: list[str]) -> int:
     print("  capex calendar show --no-past      skip recent-filings section")
     print("  capex calendar show --format json  emit JSON instead of table")
     return 2
+
+
+def _calendar_requeue(flags: list[str]) -> int:
+    """Put failed / stale (or any listed status) rows back in the queue."""
+    from capex.monitor.calendar import requeue
+
+    statuses = ("failed", "stale")
+    since = None
+    tickers = None
+    refresh = False
+    i = 0
+    while i < len(flags):
+        flag = flags[i]
+        value = flags[i + 1] if i + 1 < len(flags) else None
+        if flag == "--status" and value:
+            statuses = tuple(s.strip() for s in value.split(",") if s.strip())
+            i += 1
+        elif flag == "--since" and value:
+            since = value
+            i += 1
+        elif flag == "--ticker" and value:
+            tickers = {t.strip().upper() for t in value.split(",")}
+            i += 1
+        elif flag == "--refresh-forms":
+            refresh = True
+        else:
+            print(f"unknown flag: {flag}", file=sys.stderr)
+            return 2
+        i += 1
+
+    rows = requeue(statuses=statuses, since=since, tickers=tickers, refresh_forms=refresh)
+    for r in rows:
+        print(f"  requeued {r['ticker']:5} {r['fiscal_date_ending']} "
+              f"(was {r['status']}) → upcoming, form {r['form_type']}")
+    print(f"{len(rows)} row(s) requeued")
+    return 0
 
 
 def _calendar_show(flags: list[str]) -> int:

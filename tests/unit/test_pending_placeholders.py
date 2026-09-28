@@ -6,12 +6,88 @@ import re
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
 from capex.exporters.interactive_chart import (
     PLACEHOLDER_GREY,
     _apply_pending_placeholders,
 )
+
+# Synthetic values in $M. BABA (FYE March) has no Jan-Mar 2026 quarter
+# yet, so the loaders see a trailing incomplete 2026Q1 for it.
+_COMPANIES = [
+    # ticker, name, CIK, fiscal-year-end month
+    ("AMZN", "Amazon", "0001018724", 12),
+    ("MSFT", "Microsoft", "0000789019", 6),
+    ("BABA", "Alibaba", "0001577552", 3),
+]
+_ROWS = [
+    # ticker, fiscal_year, period_type, period_of_report, revenue, cloud
+    ("AMZN", 2025, "Q3", "2025-09-30", 1000.0, 300.0),
+    ("AMZN", 2025, "Q4", "2025-12-31", 1100.0, 310.0),
+    ("AMZN", 2026, "Q1", "2026-03-31", 1050.0, 320.0),
+    ("MSFT", 2026, "Q1", "2025-09-30", 700.0, 280.0),
+    ("MSFT", 2026, "Q2", "2025-12-31", 720.0, 290.0),
+    ("MSFT", 2026, "Q3", "2026-03-31", 740.0, 300.0),
+    ("BABA", 2026, "Q2", "2025-09-30", 340.0, 55.0),
+    ("BABA", 2026, "Q3", "2025-12-31", 380.0, 60.0),
+    ("AMZN", 2025, "FY", "2025-12-31", 4200.0, 1200.0),
+    ("MSFT", 2025, "FY", "2025-06-30", 2800.0, 1060.0),
+]
+
+
+@pytest.fixture(scope="module")
+def chart_db(tmp_path_factory) -> Path:
+    """Small migrated DB for the HTML tests.
+
+    Keeps them independent of data/db/capex.db — production data lives
+    on the server and is not tracked in git.
+    """
+    from capex.db.schema import Database, migrate
+
+    path = tmp_path_factory.mktemp("charts") / "chart.db"
+    db = Database(path=path)
+    migrate(db)
+    ts = "2026-04-29T00:00:00+00:00"
+    with db.mutating() as conn:
+        for key, label in (("revenue", "Revenue"), ("cloud_segment_revenue", "Cloud")):
+            conn.execute(
+                "INSERT INTO metric_definitions (key, label, aliases, unit_default, "
+                "description) VALUES (?, ?, '[]', 'USD_millions', 'x')",
+                (key, label),
+            )
+        for ticker, name, cik, fye in _COMPANIES:
+            conn.execute(
+                "INSERT INTO companies (ticker, name, preferred_source, edgar_cik, "
+                "fiscal_year_end_month, reporting_currency, synced_at) "
+                "VALUES (?, ?, 'sec_edgar', ?, ?, 'USD', ?)",
+                (ticker, name, cik, fye, ts),
+            )
+        for ticker, fy, ptype, period_end, revenue, cloud in _ROWS:
+            annual = ptype == "FY"
+            cur = conn.execute(
+                "INSERT INTO source_documents (ticker, form_type, filing_date, "
+                "period_of_report, fiscal_year, period_token, sha256, raw_path, "
+                "source, source_url, accession_number, fetched_at, fetcher_version, "
+                "protocol_version) VALUES (?, ?, ?, ?, ?, ?, ?, 'x', 'sec_edgar', "
+                "'http://x', 'acc', ?, 'test-1.0', '0.1.0')",
+                (ticker, "10-K" if annual else "10-Q", period_end, period_end, fy,
+                 "AR" if annual else ptype, f"sha-{ticker}-{fy}-{ptype}", ts),
+            )
+            for metric_key, value in (("revenue", revenue), ("cloud_segment_revenue", cloud)):
+                conn.execute(
+                    "INSERT INTO extractions (source_document_id, metric_key, value, "
+                    "value_usd, value_text, unit, quote, locator_section, "
+                    "extraction_type, extracting_model, protocol_version, "
+                    "extracted_at, period_type, basis_period_months) "
+                    "VALUES (?, ?, ?, ?, '$x', 'USD_millions', 'q', 'l', 'direct', "
+                    "'xbrl-verified', '0.1.0-draft', ?, ?, ?)",
+                    (cur.lastrowid, metric_key, value, value, ts, ptype,
+                     12 if annual else 3),
+                )
+    return path
 
 
 def _qs(*labels):
@@ -164,7 +240,7 @@ def test_gap_cap_honours_custom_value():
 
 # ---- HTML integration --------------------------------------------
 
-def _render_html_for_metric(metric_key):
+def _render_html_for_metric(metric_key, db_path):
     """Render an interactive chart HTML for the given metric."""
     import sqlite3
 
@@ -174,7 +250,6 @@ def _render_html_for_metric(metric_key):
         _load_annual,
         _load_quarterly,
     )
-    db_path = Path(__file__).resolve().parents[2] / "data" / "db" / "capex.db"
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     cfg = METRIC_CONFIGS[metric_key]
@@ -184,8 +259,8 @@ def _render_html_for_metric(metric_key):
     return _build_html(annual, quarterly, metric_key, cfg)
 
 
-def test_html_embeds_incomplete_quarters_global():
-    html = _render_html_for_metric("revenue")
+def test_html_embeds_incomplete_quarters_global(chart_db):
+    html = _render_html_for_metric("revenue", chart_db)
     # The global must exist in output; value may be [] or list of strings.
     m = re.search(r"window\.__INCOMPLETE_QUARTERS\s*=\s*(\[[^\]]*\])", html)
     assert m, "missing window.__INCOMPLETE_QUARTERS in output"
@@ -193,8 +268,8 @@ def test_html_embeds_incomplete_quarters_global():
     assert isinstance(parsed, list)
 
 
-def test_html_quarterly_traces_have_per_bar_marker_color_arrays():
-    html = _render_html_for_metric("cloud_segment_revenue")
+def test_html_quarterly_traces_have_per_bar_marker_color_arrays(chart_db):
+    html = _render_html_for_metric("cloud_segment_revenue", chart_db)
     # Grab the quarterly traces JSON block from `var quarterlyTraces = [...];`
     m = re.search(r"var quarterlyTraces\s*=\s*(\[.*?\]);", html, re.DOTALL)
     assert m, "quarterly traces assignment not found in HTML"
@@ -212,9 +287,9 @@ def test_html_quarterly_traces_have_per_bar_marker_color_arrays():
         assert len(trace["customdata"]) == len(trace["x"])
 
 
-def test_placeholder_grey_appears_only_when_quarter_incomplete(monkeypatch):
-    """Inject a synthetic incomplete scenario via monkeypatch, confirm
-    at least one bar in one trace is the placeholder grey."""
+def test_placeholder_grey_appears_only_when_quarter_incomplete(chart_db):
+    """Inject a synthetic incomplete scenario, confirm at least one bar
+    in one trace is the placeholder grey."""
     import sqlite3
 
     from capex.exporters.interactive_chart import (
@@ -222,8 +297,7 @@ def test_placeholder_grey_appears_only_when_quarter_incomplete(monkeypatch):
         _build_html,
         _load_annual,
     )
-    db_path = Path(__file__).resolve().parents[2] / "data" / "db" / "capex.db"
-    conn = sqlite3.connect(str(db_path))
+    conn = sqlite3.connect(str(chart_db))
     conn.row_factory = sqlite3.Row
     cfg = METRIC_CONFIGS["revenue"]
     annual = _load_annual(conn, "revenue", cfg["exclude_tickers"])
@@ -247,11 +321,24 @@ def test_placeholder_grey_appears_only_when_quarter_incomplete(monkeypatch):
     assert "2026Q1" in json.loads(m.group(1))
 
 
-def test_pending_caption_only_renders_when_incomplete_non_empty():
-    # Cloud chart likely has no placeholders right now (data up to 2025Q4)
-    html_clean = _render_html_for_metric("cloud_segment_revenue")
-    if not re.search(r"window\.__INCOMPLETE_QUARTERS\s*=\s*\[\s*\]", html_clean):
-        # There are incomplete quarters — then caption should render
-        assert 'class="note pending-note"' in html_clean
-    else:
-        assert 'class="note pending-note"' not in html_clean
+def test_pending_caption_renders_when_a_quarter_is_incomplete(chart_db):
+    # The fixture leaves BABA without a Jan-Mar 2026 quarter.
+    html = _render_html_for_metric("cloud_segment_revenue", chart_db)
+    m = re.search(r"window\.__INCOMPLETE_QUARTERS\s*=\s*(\[[^\]]*\])", html)
+    assert m and "2026Q1" in json.loads(m.group(1))
+    assert 'class="note pending-note"' in html
+
+
+def test_pending_caption_absent_when_every_quarter_is_complete():
+    from capex.exporters.interactive_chart import METRIC_CONFIGS, _build_html
+    cfg = METRIC_CONFIGS["cloud_segment_revenue"]
+    quarterly = {
+        "quarters": ["2025Q4", "2026Q1"],
+        "by_quarter": {
+            "AMZN": {"2025Q4": 310.0, "2026Q1": 320.0},
+            "MSFT": {"2025Q4": 290.0, "2026Q1": 300.0},
+        },
+    }
+    html = _build_html({"years": [], "by_year": {}}, quarterly, "cloud_segment_revenue", cfg)
+    assert re.search(r"window\.__INCOMPLETE_QUARTERS\s*=\s*\[\s*\]", html)
+    assert 'class="note pending-note"' not in html

@@ -52,6 +52,8 @@ desktop.ini
 # ---- Editors ----
 .idea/
 .vscode/
+# Per-user Claude Code settings (permission grants) — never shared.
+.claude/settings.local.json
 *.swp
 *.swo
 *~

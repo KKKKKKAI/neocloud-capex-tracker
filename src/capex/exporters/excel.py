@@ -19,17 +19,20 @@ Reads the extractions DB and produces an 8-sheet Excel workbook:
 
 Usage:
     from capex.exporters.excel import export_workbook
-    export_workbook()  # auto-names "[yyyy.mm.dd - HH:MM] financials sourcebook.xlsx"
+    export_workbook()  # auto-names "[yyyy.mm.dd - HHhMM] financials sourcebook.xlsx"
 
     # Or via CLI:
     capex export
 """
 from __future__ import annotations
 
+import os
+import re
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from ..extract.decumulate import FLOW_METRICS
 
@@ -39,13 +42,67 @@ WORKBOOK_DIR = REPO_ROOT / "workbook"
 # Workbook file naming convention
 # --------------------------------
 # Each exported workbook is named:
-#     [YYYY.MM.DD - HH:MM] financials sourcebook.xlsx
+#     [YYYY.MM.DD - HHhMM] financials sourcebook.xlsx
 #
 # Minute precision lets multiple exports per day coexist without
 # collision. If two exports *do* land in the same minute (rare), a
 # ` v2`, ` v3`, ... suffix disambiguates. See
 # `default_workbook_path()` for the generator used by `capex export`.
+#
+# The hour/minute separator is `h`, not `:`. A colon is illegal in
+# Windows filenames: WSL stores it as U+F03A on NTFS, and Windows Git
+# then reports every such workbook as deleted + untracked. The clock is
+# CAPEX_TZ (default Europe/London), so a UTC server names files the
+# same way the laptop did.
 WORKBOOK_STEM_SUFFIX = "financials sourcebook"
+WORKBOOK_TZ_DEFAULT = "Europe/London"
+
+# Accepts the current `HHhMM` form plus the legacy `HH:MM` form (and
+# U+F03A, which is how WSL writes ':' to NTFS) so old files still parse.
+_WORKBOOK_NAME_RE = re.compile(
+    r"^\[(\d{4})\.(\d{2})\.(\d{2}) - (\d{2})[h:\uf03a](\d{2})\] "
+    + re.escape(WORKBOOK_STEM_SUFFIX)
+    + r"(?: v(\d+))?\.xlsx$"
+)
+
+
+def workbook_tz() -> ZoneInfo:
+    """Timezone used to stamp workbook filenames (env CAPEX_TZ)."""
+    return ZoneInfo(os.environ.get("CAPEX_TZ", WORKBOOK_TZ_DEFAULT))
+
+
+def format_workbook_name(ts: datetime, version: int = 1) -> str:
+    """`[YYYY.MM.DD - HHhMM] financials sourcebook[ vN].xlsx` for `ts`."""
+    suffix = "" if version == 1 else f" v{version}"
+    return f"[{ts:%Y.%m.%d - %Hh%M}] {WORKBOOK_STEM_SUFFIX}{suffix}.xlsx"
+
+
+def parse_workbook_name(name: str) -> tuple[datetime, int] | None:
+    """Return `(timestamp, version)` for a workbook filename, else None.
+
+    The un-suffixed file of a minute is version 1; ` v2` is 2, etc.
+    """
+    m = _WORKBOOK_NAME_RE.match(name)
+    if not m:
+        return None
+    year, month, day, hour, minute, version = m.groups()
+    ts = datetime(int(year), int(month), int(day), int(hour), int(minute))
+    return ts, int(version) if version else 1
+
+
+def latest_workbook(workbook_dir: Path | None = None) -> Path | None:
+    """Newest workbook in `workbook_dir`, ranked by (timestamp, version).
+
+    A plain lexicographic sort gets this wrong: ` v2.xlsx` sorts before
+    `.xlsx`, and ` v10` before ` v2`.
+    """
+    workbook_dir = workbook_dir or WORKBOOK_DIR
+    ranked = [
+        (key, path)
+        for path in workbook_dir.glob("*.xlsx")
+        if (key := parse_workbook_name(path.name)) is not None
+    ]
+    return max(ranked)[1] if ranked else None
 
 
 def default_workbook_path(
@@ -55,18 +112,16 @@ def default_workbook_path(
 ) -> Path:
     """Canonical output path for a `capex export` run.
 
-    Returns `workbook/[YYYY.MM.DD - HH:MM] financials sourcebook.xlsx`,
+    Returns `workbook/[YYYY.MM.DD - HHhMM] financials sourcebook.xlsx`,
     escalating to ` v2`, ` v3`, ... if a file already exists at the
     same minute-stamped name.
     """
-    now = now or datetime.now()
+    now = now or datetime.now(workbook_tz())
     workbook_dir = workbook_dir or WORKBOOK_DIR
-    ts = now.strftime("%Y.%m.%d - %H:%M")
-    base = f"[{ts}] {WORKBOOK_STEM_SUFFIX}"
-    path = workbook_dir / f"{base}.xlsx"
+    path = workbook_dir / format_workbook_name(now)
     n = 2
     while path.exists():
-        path = workbook_dir / f"{base} v{n}.xlsx"
+        path = workbook_dir / format_workbook_name(now, n)
         n += 1
     return path
 

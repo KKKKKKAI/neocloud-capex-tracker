@@ -2,8 +2,8 @@
 # Daily watcher entry — invoked by cron. Catches up any earnings days
 # that have been announced but not yet extracted. Idempotent.
 #
-# Cron line (installed by scripts/install_cron.sh):
-#   0 18 * * 1-5  /path/to/repo/scripts/run_monitor.sh
+# Manual runs from WSL only. Scheduling moves to the always-on server
+# (docs/SERVER_MIGRATION_CHECKLIST.md); this wrapper retires at go-live.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

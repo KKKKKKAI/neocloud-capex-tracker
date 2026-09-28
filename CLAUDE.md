@@ -3,6 +3,26 @@
 This is the master reference for any Claude agent working on this
 codebase. Read this FIRST before making any changes.
 
+## Environment: Windows checkout, WSL workflow
+
+The checkout lives on the Windows filesystem
+(`C:\Users\FKaiY\Desktop\AI Agent Repos\Claude\neocloud-capex-tracker`)
+but is developed and run from WSL Ubuntu
+(`/mnt/c/Users/FKaiY/Desktop/AI Agent Repos/Claude/neocloud-capex-tracker`).
+
+- Run git, Python, tests and scripts **from WSL**. Never `git add -A`,
+  stash, checkout or clean from Windows Git: it runs with
+  `core.autocrlf=true` and sees NTFS-mangled filenames differently.
+- Dev environment: uv-managed Python 3.12 venv at `~/.venvs/capex` (on
+  the Linux filesystem; WSL's system Python is 3.10, below the
+  project's 3.11 floor). `source ~/.venvs/capex/bin/activate`.
+- `.gitattributes` pins LF (`*.sh` must stay LF or bash breaks), and
+  `tests/unit/test_repo_hygiene.py` fails CI on any tracked path that
+  Windows can't check out (`<>:"|?*`, reserved names, trailing dot or
+  space, case-only collisions).
+- The move to an always-on AWS server is tracked step by step in
+  `docs/SERVER_MIGRATION_CHECKLIST.md`.
+
 ## CLI Commands
 
 ```bash
@@ -67,12 +87,16 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 ## Critical Rules
 
 0. **Excel workbook filenames.** Every exported workbook under
-   `workbook/` is named `[YYYY.MM.DD - HH:MM] financials sourcebook.xlsx`
-   (minute precision). If two exports land in the same minute, append
-   ` v2`, ` v3`, ... — do NOT revert to the old `capex_tracker_vN.xlsx`
-   scheme. `capex export` auto-generates this name via
-   `default_workbook_path()` in `src/capex/exporters/excel.py`. Manually
-   writing a workbook? Follow the same format.
+   `workbook/` is named `[YYYY.MM.DD - HHhMM] financials sourcebook.xlsx`
+   (minute precision, `h` between hour and minute, clock = `CAPEX_TZ`,
+   default Europe/London). If two exports land in the same minute,
+   append ` v2`, ` v3`, ... — do NOT revert to the old
+   `capex_tracker_vN.xlsx` scheme, and never put `:` in a filename: it
+   is illegal on Windows, and WSL stores it as U+F03A, which Windows Git
+   reports as deleted + untracked. `capex export` auto-generates the
+   name via `default_workbook_path()` in `src/capex/exporters/excel.py`;
+   use `latest_workbook()` to find the newest one (a plain sort ranks
+   ` v2` wrongly). Manually writing a workbook? Follow the same format.
 
 1. **ALWAYS fetch before extracting.** Use `capex fetch` to download
    reports to `data/_sources/<TICKER>/_raw/` BEFORE extracting data.
@@ -111,7 +135,7 @@ capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
 
 **Regenerate outputs after data changes:**
 ```bash
-capex export -o workbook/capex_tracker.xlsx
+capex export          # auto-named per Rule 0
 capex chart
 git add charts/ workbook/ data/db/ && git commit && git push
 ```

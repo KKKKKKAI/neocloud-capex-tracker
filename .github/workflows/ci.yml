@@ -35,7 +35,7 @@ jobs:
 
       - name: Lint
         run: |
-          ruff check src tests scripts
+          ruff check src tests scripts deploy
           cfn-lint deploy/aws/*.yaml
           shellcheck deploy/*.sh deploy/aws/*.sh scripts/*.sh
 

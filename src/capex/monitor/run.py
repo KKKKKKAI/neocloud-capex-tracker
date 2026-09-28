@@ -26,14 +26,14 @@ from __future__ import annotations
 import subprocess
 import sys
 from datetime import date
-from pathlib import Path
 
+from .. import paths
 from ..adapters.cli_backend import CLIBackend
 from ..db import Database
 from .calendar import get_pending_earnings, get_todays_earnings
 from .watcher import watch_and_extract
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = paths.CODE_ROOT
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -225,13 +225,8 @@ def _regenerate_outputs() -> None:
         print(f"  Chart error: {e}")
 
     try:
-        from pathlib import Path
-
         from ..db.dump import dump_to_sql
-        dump_to_sql(
-            Path("data/db/capex.db"),
-            Path("data/db/dump.sql"),
-        )
+        dump_to_sql(paths.db_path(), paths.dump_path())
         print("  dump.sql regenerated")
     except Exception as e:
         print(f"  dump.sql error: {e}")

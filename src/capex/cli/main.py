@@ -254,8 +254,9 @@ def _audit_command(argv: list[str]) -> int:
         return _audit_review_command(argv[1:])
 
     import subprocess
-    from pathlib import Path
-    script = Path(__file__).resolve().parents[3] / "scripts" / "audit_data_quality.py"
+
+    from capex.paths import SCRIPTS_DIR
+    script = SCRIPTS_DIR / "audit_data_quality.py"
     return subprocess.call([sys.executable, str(script), *argv])
 
 
@@ -398,13 +399,16 @@ def _extract_command(argv: list[str]) -> int:
         return 1
 
     doc_id, doc_ticker, doc_form, doc_period, raw_path = tuple(row)
-    from capex.db.schema import REPO_ROOT
-    abs_path = REPO_ROOT / raw_path
+    from capex.paths import resolve_raw_path
+    abs_path = resolve_raw_path(raw_path)
 
     print(f"source_documents id={doc_id}: {doc_ticker} {doc_form} period={doc_period}")
     print(f"  raw_path: {raw_path}")
     print()
 
+    if abs_path is None:
+        print("virtual source document (no file on disk)", file=sys.stderr)
+        return 1
     if not abs_path.exists():
         print(f"file not found: {abs_path}", file=sys.stderr)
         print("re-run `capex fetch` to download", file=sys.stderr)
@@ -572,9 +576,8 @@ def _calendar_command(argv: list[str]) -> int:
 def _calendar_show(flags: list[str]) -> int:
     """Render the boxed-table view of the earnings calendar."""
     import json
-    import sqlite3
-    from pathlib import Path
 
+    from capex.db import Database
     from capex.monitor.calendar import query_for_viewer
 
     days = 90
@@ -604,15 +607,11 @@ def _calendar_show(flags: list[str]) -> int:
             return 2
         i += 1
 
-    repo_root = Path(__file__).resolve().parents[3]
-    db_path = repo_root / "data" / "db" / "capex.db"
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
     past = 30 if include_past else 0
-    events = query_for_viewer(
-        conn, upcoming_days=days, past_days=past, ticker_filter=ticker,
-    )
-    conn.close()
+    with Database().connect_ro() as conn:
+        events = query_for_viewer(
+            conn, upcoming_days=days, past_days=past, ticker_filter=ticker,
+        )
 
     if fmt == "json":
         payload = [

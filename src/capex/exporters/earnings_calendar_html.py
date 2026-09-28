@@ -12,12 +12,9 @@ from collections import defaultdict
 from datetime import date
 from pathlib import Path
 
+from .. import paths
 from ..monitor.calendar import CalendarEvent, query_for_viewer
 from .interactive_chart import COLORS, _build_nav_html
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DB_PATH = REPO_ROOT / "data" / "db" / "capex.db"
-DOCS_DIR = REPO_ROOT / "docs"
 
 STATUS_COLORS = {
     "upcoming":  ("#2E75B6", "#E8F0F8"),   # blue
@@ -35,9 +32,9 @@ def generate_earnings_calendar_html(
     past_days: int = 30,
 ) -> Path:
     """Render `docs/calendar.html` (or the given `output` path)."""
-    output = Path(output or DOCS_DIR / "calendar.html")
+    output = Path(output or paths.site_dir() / "calendar.html")
     output.parent.mkdir(parents=True, exist_ok=True)
-    db_path = db_path or DB_PATH
+    db_path = db_path or paths.db_path()
 
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row

@@ -20,21 +20,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .. import paths
 from ..db import Database
 from ..pel import Anomaly, Artifact, Formalizer, ReviewSession
 from ..pel.formalizer import FormalizerResult
 from ..pel.session import ReviewCallbacks
 from . import human_notes
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-REPORT_JSON = REPO_ROOT / "output" / "data_quality_report.json"
 PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "formalize_note.md"
 
 
 # ---- Load the audit sidecar + build anomalies ----------------------
 
 def _load_report(path: Path | None = None) -> dict[str, Any]:
-    path = path or REPORT_JSON
+    path = path or paths.output_dir() / "data_quality_report.json"
     if not path.exists():
         raise FileNotFoundError(
             f"audit sidecar not found: {path}\n"

@@ -27,9 +27,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DB_PATH = REPO_ROOT / "data" / "db" / "capex.db"
-CHARTS_DIR = REPO_ROOT / "charts"
+from .. import paths
 
 # Company display config
 STACK_ORDER = [
@@ -116,9 +114,9 @@ def generate_metric_chart(
     import matplotlib.ticker as mticker
     import numpy as np
 
-    output = Path(output or CHARTS_DIR / cfg["output_name"])
+    output = Path(output or paths.charts_dir() / cfg["output_name"])
     output.parent.mkdir(parents=True, exist_ok=True)
-    db_path = db_path or DB_PATH
+    db_path = db_path or paths.db_path()
     exclude = cfg["exclude_tickers"]
 
     # --- STEP 1: Load data from DB ---
@@ -272,12 +270,12 @@ def generate_all_metric_charts(
     out_dir: str | Path | None = None,
 ) -> list[Path]:
     """Emit a PNG for every metric in METRIC_PNG_CONFIGS."""
-    out_dir = Path(out_dir or CHARTS_DIR)
-    paths: list[Path] = []
+    out_dir = Path(out_dir or paths.charts_dir())
+    written: list[Path] = []
     for metric_key, cfg in METRIC_PNG_CONFIGS.items():
-        paths.append(generate_metric_chart(
+        written.append(generate_metric_chart(
             metric_key,
             output=out_dir / cfg["output_name"],
             db_path=db_path,
         ))
-    return paths
+    return written

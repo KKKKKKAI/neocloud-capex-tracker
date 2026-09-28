@@ -10,12 +10,12 @@ the extraction router.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from pathlib import Path
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-COVERAGE_PATH = REPO_ROOT / "data" / "seeds" / "coverage.yaml"
+from .. import paths
+
+COVERAGE_PATH = paths.COVERAGE_YAML
 
 _cache: dict | None = None
 

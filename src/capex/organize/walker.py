@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .. import paths
 from ..db import Database
 from .namer import (
     canonical_name,
@@ -27,9 +28,10 @@ from .namer import (
     compute_period_token,
 )
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-SOURCES_DIR = REPO_ROOT / "data" / "_sources"
-ORGANIZER_LOG = SOURCES_DIR / "_organizer_log.csv"
+# Raw filings live under the runtime home; the organizer log is a
+# tracked file next to the company registry in the checkout.
+SOURCES_DIR = paths.sources_dir()
+ORGANIZER_LOG = paths.IDENTITY_YAML.parent / "_organizer_log.csv"
 
 ACTOR_ORGANIZE = "organize-sources@0.1.0"
 
@@ -129,7 +131,7 @@ def _process_one(
     source_path = sidecar_path.parent / source_name
     if not source_path.exists():
         raise FileNotFoundError(
-            f"sidecar references missing file: {source_path.relative_to(REPO_ROOT)}"
+            f"sidecar references missing file: {source_path}"
         )
 
     form_type = sidecar["form_type"]
@@ -203,7 +205,7 @@ def _process_one(
 
     summary["copied"] += 1
 
-    canonical_rel = str(target_path.relative_to(REPO_ROOT)).replace("\\", "/")
+    canonical_rel = paths.raw_path_key(target_path)
     _update_db_canonical_path(db, sha256, canonical_rel, ticker, period_token, fiscal_year)
 
     _append_log(
@@ -224,7 +226,7 @@ def _ensure_db_canonical_path(
     db: Database, sha256: str, target_path: Path, *, dry_run: bool
 ) -> None:
     """If the DB row's canonical_path is null or stale, fix it. No-op otherwise."""
-    canonical_rel = str(target_path.relative_to(REPO_ROOT)).replace("\\", "/")
+    canonical_rel = paths.raw_path_key(target_path)
     with db.connect() as conn:
         row = conn.execute(
             "SELECT id, canonical_path FROM source_documents WHERE sha256 = ?",
@@ -346,8 +348,8 @@ def _append_log(
                 "form_type": form_type,
                 "period_token": period_token,
                 "fiscal_year": fiscal_year,
-                "source_path": str(source_path.relative_to(REPO_ROOT)).replace("\\", "/"),
-                "target_path": str(target_path.relative_to(REPO_ROOT)).replace("\\", "/"),
+                "source_path": paths.raw_path_key(source_path),
+                "target_path": paths.raw_path_key(target_path),
                 "sha256": sha256,
                 "notes": notes,
             }

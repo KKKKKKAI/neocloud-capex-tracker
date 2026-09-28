@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import sqlite3
 from collections import defaultdict
-from pathlib import Path
 from typing import Any
 
 from . import checks as audit_checks
@@ -13,7 +12,6 @@ from .report import METRIC_NAMES, CellRecord
 # Short alias for readability.
 C = audit_checks  # noqa: N816
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
 
 # Company fiscal year end month fallback (used for universe generation).
 DEFAULT_PERIODS = ["Q1", "Q2", "Q3", "Q4", "H1", "9M", "FY"]

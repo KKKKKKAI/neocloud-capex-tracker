@@ -12,10 +12,10 @@ the Anthropic API directly.
 """
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 from ...db import Database
+from ...paths import resolve_raw_path
 from ...read.sections import get_extraction_sections, parse_sections
 from ...read.text import extract_text
 from ..base import ExtractionCandidate
@@ -79,8 +79,8 @@ class LLMInteractiveExtractor:
         if not row:
             return None
 
-        filepath = Path(row["raw_path"])
-        if not filepath.exists():
+        filepath = resolve_raw_path(row["raw_path"])
+        if filepath is None or not filepath.exists():
             return None
 
         # Extract text and sections
@@ -146,8 +146,8 @@ class LLMInteractiveExtractor:
         if not row:
             return None
 
-        filepath = Path(row["raw_path"])
-        if not filepath.exists():
+        filepath = resolve_raw_path(row["raw_path"])
+        if filepath is None or not filepath.exists():
             return None
 
         text = extract_text(str(filepath))

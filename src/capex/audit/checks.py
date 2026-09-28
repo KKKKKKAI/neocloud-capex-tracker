@@ -12,14 +12,14 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-COVERAGE_PATH = REPO_ROOT / "data" / "seeds" / "coverage.yaml"
-BOUNDS_PATH = REPO_ROOT / "data" / "seeds" / "audit_bounds.yaml"
+from .. import paths
+
+COVERAGE_PATH = paths.COVERAGE_YAML
+BOUNDS_PATH = paths.AUDIT_BOUNDS_YAML
 
 # Tolerances
 IDENTITY_TOLERANCE = 0.005       # 0.5 %

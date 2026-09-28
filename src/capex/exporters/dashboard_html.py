@@ -20,19 +20,16 @@ import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .. import paths
 from .interactive_chart import (
     COLORS,
     METRIC_CONFIGS,
     _build_nav_html,
 )
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DB_PATH = REPO_ROOT / "data" / "db" / "capex.db"
-DOCS_DIR = REPO_ROOT / "docs"
-CHARTS_DIR = REPO_ROOT / "charts"
-# Thumbnails are mirrored into docs/ so GitHub Pages (which serves docs/
-# as the site root) can resolve them without a ../ escape hatch.
-DOCS_CHARTS_DIR = DOCS_DIR / "charts"
+# Output goes to paths.site_dir() (the published site root). Thumbnails
+# are mirrored into site/charts/ so the page resolves them without a
+# ../ escape hatch.
 
 # The four chart cards. Order matches the nav pill order so visitors
 # land → scan → click with minimal cognitive switching.
@@ -68,13 +65,13 @@ def generate_dashboard_html(
     output: str | Path | None = None,
     db_path: str | Path | None = None,
 ) -> Path:
-    """Write the dashboard to `output` (defaults to docs/index.html)."""
-    output = Path(output or DOCS_DIR / "index.html")
+    """Write the dashboard to `output` (defaults to site/index.html)."""
+    output = Path(output or paths.site_dir() / "index.html")
     output.parent.mkdir(parents=True, exist_ok=True)
-    db_path = Path(db_path) if db_path else DB_PATH
+    db_path = Path(db_path) if db_path else paths.db_path()
 
-    # Mirror thumbnails into the docs/ tree so GitHub Pages can serve
-    # them. Keeps the source-of-truth in charts/ for README embedding.
+    # Mirror thumbnails next to the page so the site is self-contained.
+    # The source of truth stays in charts/.
     _mirror_thumbnails(output.parent / "charts")
 
     stats = _load_stats(db_path)
@@ -102,7 +99,7 @@ def _mirror_thumbnails(dest_dir: Path) -> None:
     """
     dest_dir.mkdir(parents=True, exist_ok=True)
     for card in CHART_CARDS:
-        src = CHARTS_DIR / card["png"]
+        src = paths.charts_dir() / card["png"]
         if src.exists():
             shutil.copy2(src, dest_dir / card["png"])
 

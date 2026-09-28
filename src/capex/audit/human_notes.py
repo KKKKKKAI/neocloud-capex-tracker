@@ -37,8 +37,9 @@ from typing import Any
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-NOTES_PATH = REPO_ROOT / "data" / "seeds" / "human_notes.yaml"
+from .. import paths
+
+NOTES_PATH = paths.HUMAN_NOTES_YAML
 
 _cache: dict | None = None
 

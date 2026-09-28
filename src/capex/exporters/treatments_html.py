@@ -15,6 +15,7 @@ import html
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .. import paths
 from ..audit.treatments_query import (
     CompanyTreatmentView,
     DatasetRule,
@@ -22,9 +23,6 @@ from ..audit.treatments_query import (
     query_treatments,
 )
 from .interactive_chart import COLORS, _build_nav_html
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DOCS_DIR = REPO_ROOT / "docs"
 
 STATE_COLORS = {
     "active":     ("#2F855A", "#D1FAE5"),   # green
@@ -53,7 +51,7 @@ def generate_treatments_html(
     db_path: str | Path | None = None,
 ) -> Path:
     """Write the treatments audit page to `output` and return the path."""
-    output = Path(output or DOCS_DIR / "treatments.html")
+    output = Path(output or paths.site_dir() / "treatments.html")
     output.parent.mkdir(parents=True, exist_ok=True)
     views = query_treatments(db_path=db_path)
     html_str = _build_html(views)

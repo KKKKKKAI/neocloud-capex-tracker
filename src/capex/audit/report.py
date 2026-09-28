@@ -17,8 +17,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-
 
 @dataclass
 class CellRecord:

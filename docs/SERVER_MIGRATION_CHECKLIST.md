@@ -55,14 +55,26 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 2.3 `capex-secrets.service` + `capex.server.secrets` (fetch / check); `capex.server.doctor` for the smoke test and later health checks
 - [x] 2.4 `deploy/aws/deploy_stack.sh`, `deploy/aws/allow_my_ip.sh`, `scripts/ssh_config.example`, `deploy/README.md`
 - [x] `secrets check` against the real account (names and types only): two `String` params, the Gmail pair missing
-- [ ] 2.5 Stack deployed; `deploy/smoke_test.sh` passes (claude, SEC, Alpha Vantage, Gmail, S3/CloudFront, memory, disk, data volume)
+- [x] PR merged — 2026-09-28, #3 (`ecab9b2`)
+- [x] Parameters fixed: Claude token + Alpha Vantage key re-saved as SecureString — 2026-09-28
+- [x] 2.5 Stack `capex` deployed in `eu-north-1` (maintainer approved cost) — 2026-09-28
+- [x] 2.5 Smoke test on the host: 8/9 PASS
+  - claude answered via the SSM token in ~1 s
+  - SEC HTTP 200 from the AWS IP
+  - Alpha Vantage returned 4,597 upcoming rows
+  - S3 → CloudFront round trip OK; placeholder page live
+  - RAM 909 MiB + 2 GiB swap
+  - data volume mounted, 14.8 GiB free
+- [ ] Gmail: parameters exist at the top level (`GMAIL_USERNAME`, `GMAIL_APP_PASSWORD`); re-create them under `/capex/`, then restart `capex-secrets` and re-run the gmail check
+- [x] The SSH key is passphrase-protected, so agent-side host commands go through SSM Run Command (`deploy/aws/run_on_host.py`)
 
-## Phase 3: Code/data split, central paths, DB concurrency (PR 3)
-- [ ] 3.1 `capex/paths.py`
-- [ ] 3.2 Path derivations routed through `paths`
-- [ ] 3.3 Generated HTML moves to the site dir; `workbooks.html`
-- [ ] 3.4 `Database`: busy timeout, journal mode from env, `connect_ro()`, dump opt-in
-- [ ] 3.5 `audit/fixes.py` env merge
+## Phase 3: Code/data split, central paths, DB concurrency (PR 4)
+- [x] 3.1 `capex/paths.py`: code/config under the checkout, runtime data under `$CAPEX_HOME`; `raw_path_key()` / `resolve_raw_path()` (303 file rows + 167 virtual rows need no rewrite)
+- [x] 3.2 Every `parents[3]` data path and direct DB path routed through `paths`: fetchers, extractors, exporters, audit, CLI, monitor, subscribers, scripts
+- [x] 3.3 Generated HTML goes to `site/` (dashboard thumbnails in `site/charts/`); `docs/` is frozen until go-live. `workbooks.html` moves to Phase 7 (publish).
+- [x] 3.4 `Database`: 30 s busy timeout, `CAPEX_DB_JOURNAL_MODE` (WAL on the server), `connect_ro()`. Dumps stay on in a plain checkout and are off under `CAPEX_HOME` (`CAPEX_DUMP_SQL` overrides).
+- [x] 3.5 `audit/fixes.py` inherits the environment and reports failures instead of swallowing them
+- [x] Verified: outputs regenerated under a scratch `CAPEX_HOME` match the committed `docs/*.html` (6/7 identical; `calendar.html` differs only in date-relative text); `capex extract MSFT` resolves raw files there; 250 tests pass
 
 ## Phase 4: LLM backend hardening and runtime-control schema (PR 4)
 - [ ] 4.1 Migration 0011 (settings, watchlist, job_schedules, job_requests, runs, subscribers, alerts_sent, llm_calls)

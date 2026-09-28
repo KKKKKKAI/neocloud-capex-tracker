@@ -19,6 +19,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from capex import paths
 from capex.audit import fixes, orchestrator, report, restatement
 from capex.db import Database
 
@@ -34,7 +35,7 @@ def main() -> int:
     ap.add_argument("--start-year", type=int, default=2015)
     ap.add_argument("--end-year", type=int, default=2025)
     ap.add_argument("--output", default=str(
-        REPO_ROOT / "output" / "data_quality_report.md"))
+        paths.output_dir() / "data_quality_report.md"))
     args = ap.parse_args()
 
     run_id = datetime.now(timezone.utc).strftime("audit-%Y%m%d-%H%M%S")

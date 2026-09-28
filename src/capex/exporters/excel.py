@@ -34,10 +34,8 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
+from .. import paths
 from ..extract.decumulate import FLOW_METRICS
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-WORKBOOK_DIR = REPO_ROOT / "workbook"
 
 # Workbook file naming convention
 # --------------------------------
@@ -96,7 +94,7 @@ def latest_workbook(workbook_dir: Path | None = None) -> Path | None:
     A plain lexicographic sort gets this wrong: ` v2.xlsx` sorts before
     `.xlsx`, and ` v10` before ` v2`.
     """
-    workbook_dir = workbook_dir or WORKBOOK_DIR
+    workbook_dir = workbook_dir or paths.workbook_dir()
     ranked = [
         (key, path)
         for path in workbook_dir.glob("*.xlsx")
@@ -117,7 +115,7 @@ def default_workbook_path(
     same minute-stamped name.
     """
     now = now or datetime.now(workbook_tz())
-    workbook_dir = workbook_dir or WORKBOOK_DIR
+    workbook_dir = workbook_dir or paths.workbook_dir()
     path = workbook_dir / format_workbook_name(now)
     n = 2
     while path.exists():
@@ -149,7 +147,7 @@ def export_workbook(
     output_path = Path(output_path) if output_path else default_workbook_path()
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    db_path = db_path or (REPO_ROOT / "data" / "db" / "capex.db")
+    db_path = db_path or paths.db_path()
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
 

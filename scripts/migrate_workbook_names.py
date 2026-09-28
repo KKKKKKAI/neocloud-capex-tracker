@@ -22,8 +22,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from capex import paths  # noqa: E402
 from capex.exporters.excel import (  # noqa: E402
-    WORKBOOK_DIR,
     format_workbook_name,
     parse_workbook_name,
 )
@@ -53,7 +53,8 @@ def main(argv: list[str] | None = None) -> int:
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--git", action="store_true", help="rename with `git mv`")
     mode.add_argument("--copy-to", type=Path, metavar="DIR", help="copy renamed files into DIR")
-    parser.add_argument("--dir", type=Path, default=WORKBOOK_DIR, help="workbook directory")
+    parser.add_argument("--dir", type=Path, default=paths.workbook_dir(),
+                        help="workbook directory")
     args = parser.parse_args(argv)
 
     pairs = plan_renames(args.dir)

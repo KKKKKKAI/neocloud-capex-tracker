@@ -67,9 +67,9 @@ class SegmentExtractor:
         if not row or not row["raw_path"]:
             return None
 
-        from pathlib import Path
-        filepath = Path(row["raw_path"])
-        if not filepath.exists():
+        from ...paths import resolve_raw_path
+        filepath = resolve_raw_path(row["raw_path"])
+        if filepath is None or not filepath.exists():
             return None
 
         # Merge in keyword phrases from any applicable human_notes —

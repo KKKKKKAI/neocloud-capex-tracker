@@ -16,9 +16,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DB_PATH = REPO_ROOT / "data" / "db" / "capex.db"
-DOCS_DIR = REPO_ROOT / "docs"
+from .. import paths
 
 STACK_ORDER = [
     "AMZN", "MSFT", "GOOGL", "META", "ORCL", "0700", "CRWV",
@@ -81,9 +79,9 @@ def generate_interactive(
     if cfg is None:
         raise ValueError(f"unknown metric_key: {metric_key!r}")
 
-    output = Path(output or DOCS_DIR / cfg["page_name"])
+    output = Path(output or paths.site_dir() / cfg["page_name"])
     output.parent.mkdir(parents=True, exist_ok=True)
-    db_path = db_path or DB_PATH
+    db_path = db_path or paths.db_path()
 
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
@@ -102,15 +100,15 @@ def generate_all_interactive(
     out_dir: str | Path | None = None,
 ) -> list[Path]:
     """Emit all 4 metric chart pages. Returns the list of written paths."""
-    out_dir = Path(out_dir or DOCS_DIR)
-    paths: list[Path] = []
+    out_dir = Path(out_dir or paths.site_dir())
+    written: list[Path] = []
     for metric_key, cfg in METRIC_CONFIGS.items():
-        paths.append(generate_interactive(
+        written.append(generate_interactive(
             output=out_dir / cfg["page_name"],
             db_path=db_path,
             metric_key=metric_key,
         ))
-    return paths
+    return written
 
 
 def _load_annual(

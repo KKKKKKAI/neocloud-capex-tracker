@@ -13,7 +13,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
 PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "reverify.md"
 
 

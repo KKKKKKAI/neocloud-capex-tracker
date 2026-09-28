@@ -44,8 +44,16 @@ class Database:
     """Thin wrapper around a SQLite file with a mutating-write discipline."""
 
     def __init__(self, path: Path | None = None, dump_path: Path | None = None) -> None:
-        self.path = path or DB_PATH
-        self.dump_path = dump_path or DUMP_PATH
+        self.path = Path(path) if path else DB_PATH
+        if dump_path is None:
+            # A DB at a custom path (tests, scratch copies) dumps next to
+            # itself — never over the canonical data/db/dump.sql.
+            dump_path = (
+                DUMP_PATH
+                if self.path.resolve() == DB_PATH.resolve()
+                else self.path.with_name(f"{self.path.stem}.dump.sql")
+            )
+        self.dump_path = Path(dump_path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
 
     @contextmanager

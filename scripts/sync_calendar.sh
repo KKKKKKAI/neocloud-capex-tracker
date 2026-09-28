@@ -3,8 +3,8 @@
 # fiscal_calendar table with the next 3 months of earnings dates.
 # Cheap (one HTTP call), idempotent (UPSERT on ticker+fiscal_date).
 #
-# Cron line (installed by scripts/install_cron.sh):
-#   0 8 * * 0  /path/to/repo/scripts/sync_calendar.sh
+# Manual runs from WSL only. Scheduling moves to the always-on server
+# (docs/SERVER_MIGRATION_CHECKLIST.md); this wrapper retires at go-live.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

@@ -1,0 +1,10 @@
+[Unit]
+Description=capex: look for a new release every 10 minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitInactiveSec=10min
+RandomizedDelaySec=30s
+
+[Install]
+WantedBy=timers.target

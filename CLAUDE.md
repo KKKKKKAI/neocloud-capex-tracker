@@ -15,7 +15,10 @@ but is developed and run from WSL Ubuntu
   `core.autocrlf=true` and sees NTFS-mangled filenames differently.
 - Dev environment: uv-managed Python 3.12 venv at `~/.venvs/capex` (on
   the Linux filesystem; WSL's system Python is 3.10, below the
-  project's 3.11 floor). `source ~/.venvs/capex/bin/activate`.
+  project's 3.11 floor), built from `uv.lock` by `scripts/dev_setup.sh`.
+  `source ~/.venvs/capex/bin/activate`. After changing dependencies in
+  `pyproject.toml`, run `uv lock` and commit `uv.lock`: CI and the
+  server install exactly the locked versions (CI fails on a stale lock).
 - `.gitattributes` pins LF (`*.sh` must stay LF or bash breaks), and
   `tests/unit/test_repo_hygiene.py` fails CI on any tracked path that
   Windows can't check out (`<>:"|?*`, reserved names, trailing dot or
@@ -23,7 +26,9 @@ but is developed and run from WSL Ubuntu
 - The move to an always-on AWS server is tracked step by step in
   `docs/SERVER_MIGRATION_CHECKLIST.md`. Server infrastructure lives in
   `deploy/` (see `deploy/README.md`); `deploy/aws/run_on_host.py` runs a
-  command on the host via SSM without SSH.
+  command on the host via SSM without SSH. Merging to `main` deploys to
+  the server once CI passes (`capex-deploy`); operations are in
+  `docs/SERVER_OPERATIONS.md`.
 - `CAPEX_HOME` moves all runtime data (see `src/capex/paths.py`). To try
   something against a scratch copy: `CAPEX_HOME=$(mktemp -d)`, copy
   `data/db/capex.db` into `$CAPEX_HOME/data/db/`, and symlink

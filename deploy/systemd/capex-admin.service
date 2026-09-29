@@ -1,0 +1,27 @@
+[Unit]
+Description=capex: admin panel on 127.0.0.1:8081 (reach it with scripts/admin_tunnel.sh)
+Documentation=file:///opt/capex/current/docs/SERVER_OPERATIONS.md
+Requires=capex-secrets.service
+After=capex-secrets.service network-online.target
+Wants=network-online.target
+OnFailure=capex-alert@%n.service
+
+[Service]
+Type=simple
+User=capex
+Group=capex
+EnvironmentFile=/etc/capex/capex.conf
+EnvironmentFile=/run/capex/capex.env
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=/var/lib/capex
+ExecStart=/opt/capex/current/.venv/bin/capex server admin --port 8081
+Restart=always
+RestartSec=5
+ProtectSystem=strict
+ReadWritePaths=/var/lib/capex
+ProtectHome=read-only
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=capex: email the operator that %i failed
+
+[Service]
+Type=oneshot
+User=capex
+Group=capex
+EnvironmentFile=/etc/capex/capex.conf
+EnvironmentFile=-/run/capex/capex.env
+ExecStart=/opt/capex/current/.venv/bin/capex server alert "unit:%i" "%i failed" "The systemd unit %i failed. On the server: journalctl -u %i -n 100 --no-pager"

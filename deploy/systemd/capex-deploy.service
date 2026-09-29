@@ -1,0 +1,12 @@
+[Unit]
+Description=capex: deploy origin/main once its CI passed (capex-deploy --status)
+Documentation=file:///opt/capex/current/docs/SERVER_OPERATIONS.md
+Wants=network-online.target
+After=network-online.target capex-secrets.service
+OnFailure=capex-alert@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/capex-deploy
+# Draining the scheduler can take up to its 15 min stop timeout.
+TimeoutStartSec=45min

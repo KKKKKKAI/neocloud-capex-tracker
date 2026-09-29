@@ -13,6 +13,7 @@
     capex server backups                        DB backups in the bucket
     capex server restore KEY|FILE --to PATH [--force]
     capex server health [--alert]
+    capex server alert KEY SUBJECT BODY         email the operator (de-duplicated per KEY)
     capex server doctor [...]                   smoke test (python -m capex.server.doctor)
     capex server secrets fetch|check            SSM secrets (python -m capex.server.secrets)
 """
@@ -75,6 +76,12 @@ def server_command(argv: list[str]) -> int:
     p.add_argument("--force", action="store_true")
     p = sub.add_parser("health", help="health checks")
     p.add_argument("--alert", action="store_true", help="email the operator about problems")
+    p = sub.add_parser("alert", help="email the operator (for scripts and systemd)")
+    p.add_argument("key", help="de-duplication key, e.g. unit:capex-scheduler.service")
+    p.add_argument("subject")
+    p.add_argument("body")
+    p.add_argument("--every-hours", type=float, default=6.0,
+                   help="send the same key at most this often (default 6)")
     args = parser.parse_args(argv)
     return COMMANDS[args.cmd](args)
 
@@ -267,8 +274,21 @@ def cmd_health(args: argparse.Namespace) -> int:
     return health.exit_code(results)
 
 
+def cmd_alert(args: argparse.Namespace) -> int:
+    from datetime import timedelta
+
+    from ..notify.ops import alert
+
+    sent = alert(args.key, args.subject, args.body, db=_db(),
+                 min_interval=timedelta(hours=args.every_hours))
+    print("sent" if sent else "not sent (repeat within the interval, alerts off, "
+                              "or no operator emails)")
+    return 0
+
+
 COMMANDS = {
     "init": cmd_init, "jobs": cmd_jobs, "schedule": cmd_schedule, "run": cmd_run,
     "runs": cmd_runs, "log": cmd_log, "publish": cmd_publish, "backup": cmd_backup,
     "backups": cmd_backups, "restore": cmd_restore, "health": cmd_health,
+    "alert": cmd_alert,
 }

@@ -41,6 +41,8 @@ dev = [
     "moto[s3,cloudfront]>=5.0",
     # FastAPI's TestClient (admin panel tests).
     "httpx>=0.27",
+    # The shellcheck binary, so local lint matches CI.
+    "shellcheck-py>=0.10",
 ]
 fetch = [
     "requests>=2.31",

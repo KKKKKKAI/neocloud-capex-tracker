@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Phase 2 smoke test. Run on the server:
-#     sudo bash /opt/capex/src/deploy/smoke_test.sh
+#     sudo bash /opt/capex/current/deploy/smoke_test.sh
 # Checks the whole path the tracker depends on (claude with the SSM
 # token, SEC, Alpha Vantage, Gmail, S3 -> CloudFront, memory, disk, data
 # volume) as the capex user, with the same environment the services get.
@@ -19,5 +19,5 @@ exec sudo -u capex -H bash -c '
   . /run/capex/capex.env
   set +a
   cd "$CAPEX_HOME"
-  exec /opt/capex/venv/bin/python -m capex.server.doctor --placeholder
+  exec /opt/capex/current/.venv/bin/python -m capex.server.doctor --placeholder
 '

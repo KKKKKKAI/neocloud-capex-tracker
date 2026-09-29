@@ -163,7 +163,9 @@ def requeue(
     refresh_forms: bool = False,
     db: Database | None = None,
 ) -> list[dict[str, Any]]:
-    """Put calendar rows back in the watcher's queue ('upcoming', 0 attempts).
+    """Put calendar rows back in the watcher's queue ('upcoming', 0 attempts,
+    never polled — so the next run looks at each one before it can go
+    stale again).
 
     `refresh_forms` recomputes each row's expected form from the watchlist
     (e.g. after correcting a company's filing cadence). Returns the rows
@@ -190,8 +192,8 @@ def requeue(
                 r["form_type"] = expected_form(r["ticker"], r["fiscal_date_ending"], db)
             conn.execute(
                 "UPDATE fiscal_calendar SET status = 'upcoming', attempts = 0, "
-                "last_error = NULL, next_attempt_at = NULL, form_type = ?, "
-                "updated_at = ? WHERE id = ?",
+                "last_error = NULL, last_attempt_at = NULL, next_attempt_at = NULL, "
+                "form_type = ?, updated_at = ? WHERE id = ?",
                 (r["form_type"], now, r["id"]),
             )
     return rows

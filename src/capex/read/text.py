@@ -45,8 +45,11 @@ def extract_text_from_html(path: Path) -> str:
     5. Decode HTML entities.
     6. Collapse excessive whitespace while preserving paragraph structure.
     """
-    raw = path.read_text(encoding="utf-8", errors="replace")
+    return html_to_text(path.read_text(encoding="utf-8", errors="replace"))
 
+
+def html_to_text(raw: str) -> str:
+    """The text of an HTML document (see extract_text_from_html)."""
     # 1. Remove script, style, head blocks
     text = re.sub(r"<script[^>]*>.*?</script>", "", raw, flags=re.DOTALL | re.IGNORECASE)
     text = re.sub(r"<style[^>]*>.*?</style>", "", text, flags=re.DOTALL | re.IGNORECASE)

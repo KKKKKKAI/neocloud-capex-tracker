@@ -38,6 +38,7 @@ from ..adapters.errors import (
     LLMUsageLimitError,
 )
 from ..db import Database
+from ..fetch import sec_6k
 from ..fetch.dispatcher import fetch_and_record
 from ..fetch.errors import SourceUnavailableError
 from ..fetch.sec import SEC_FORM_TYPES, list_filings
@@ -45,10 +46,12 @@ from .clock import today_eastern, utc_iso, utc_now
 from .watcher import (
     ERROR,
     HIT,
+    KNOWN,
     MATCH_WINDOW_DAYS,
     NOT_YET,
     PollResult,
     already_in_db,
+    edgar_cik,
     poll_for_row,
     submissions_for,
 )
@@ -112,17 +115,29 @@ class RunSummary:
 # ---- calendar maintenance ----------------------------------------------------
 
 def mark_stale_rows(db: Database, today: date) -> int:
-    """'upcoming' rows whose filing never appeared → 'stale'. Returns count."""
+    """'upcoming' rows whose filing never appeared → 'stale'. Returns count.
+
+    A row is stale once its deadline (report date + watcher.stale_after_days
+    for its form) has passed AND it was polled on or after that deadline,
+    so a requeued or long-unpolled row always gets one more look. Rows
+    older than the lookback window are never polled, so they go stale on
+    the deadline alone.
+    """
     windows = settings.get("watcher.stale_after_days", db)
+    floor = today - timedelta(days=settings.get("watcher.lookback_days", db))
     with db.connect() as conn:
         rows = conn.execute(
-            "SELECT id, form_type, report_date FROM fiscal_calendar WHERE status = 'upcoming'"
+            "SELECT id, form_type, report_date, last_attempt_at FROM fiscal_calendar "
+            "WHERE status = 'upcoming'"
         ).fetchall()
     now = utc_iso()
     stale = []
     for r in rows:
         days = windows.get(r["form_type"] or "", DEFAULT_STALE_DAYS)
-        if date.fromisoformat(r["report_date"]) + timedelta(days=days) < today:
+        reported = date.fromisoformat(r["report_date"])
+        deadline = reported + timedelta(days=days)
+        looked_after = (r["last_attempt_at"] or "")[:10] >= deadline.isoformat()
+        if deadline < today and (looked_after or reported < floor):
             reason = (f"no {r['form_type'] or 'filing'} within {days} days of the "
                       f"{r['report_date']} report date")
             stale.append((reason, now, r["id"]))
@@ -193,6 +208,24 @@ def record_poll(conn: sqlite3.Connection, row: dict[str, Any], result: PollResul
                 now: datetime) -> int | None:
     """Persist one poll result on its calendar row; a hit creates an event."""
     stamp = utc_iso(now)
+    for filing, reason in result.ignored:
+        # 6-Ks that aren't earnings releases: remember, never re-download.
+        # EDGAR's reportDate on a 6-K is no fiscal period, so it is dropped.
+        ignored_id = _insert_event(conn, row["ticker"], row["form_type"],
+                                   {**filing, "reportDate": ""},
+                                   discovered_by="calendar", calendar_id=None, stamp=stamp)
+        conn.execute(
+            "UPDATE filing_events SET status = 'ignored', last_error = ? "
+            "WHERE id = ? AND status = 'discovered'",
+            (reason[:500], ignored_id),
+        )
+    if result.status == KNOWN:
+        conn.execute(
+            "UPDATE fiscal_calendar SET status = 'skipped', last_error = ?, "
+            "last_attempt_at = ?, updated_at = ? WHERE id = ?",
+            (result.detail[:500], stamp, stamp, row["id"]),
+        )
+        return None
     if result.status == HIT:
         event_id = _insert_event(conn, row["ticker"], row["form_type"], result.filing,
                                  discovered_by="calendar", calendar_id=row["id"], stamp=stamp)
@@ -272,14 +305,27 @@ def sweep_new_filings(
 
 def enqueue_latest(ticker: str, form_type: str, *, db: Database,
                    cache: dict[str, Any] | None = None) -> int:
-    """Manual run: queue (or re-queue) the newest `form_type` filing of `ticker`."""
+    """Manual run: queue (or re-queue) the newest `form_type` filing of `ticker`.
+
+    For 6-K that is the newest earnings release, not the newest 6-K
+    (which is usually a buyback return or a meeting notice).
+    """
     submissions = submissions_for(ticker, db, cache if cache is not None else {})
-    filings = list_filings(submissions, form_type)
-    if not filings:
-        raise LookupError(f"no {form_type} filings for {ticker} on EDGAR")
+    if form_type == "6-K":
+        release = sec_6k.find_latest_release(edgar_cik(ticker, db) or "", submissions,
+                                             today=today_eastern())
+        if release is None:
+            raise LookupError(f"no 6-K earnings release for {ticker} on EDGAR in the last "
+                              f"{sec_6k.MAX_LAG_DAYS + 90} days")
+        filing = release
+    else:
+        filings = list_filings(submissions, form_type)
+        if not filings:
+            raise LookupError(f"no {form_type} filings for {ticker} on EDGAR")
+        filing = filings[0]
     stamp = utc_iso()
     with db.mutating() as conn:
-        event_id = _insert_event(conn, ticker, form_type, filings[0], discovered_by="manual",
+        event_id = _insert_event(conn, ticker, form_type, filing, discovered_by="manual",
                                  calendar_id=None, stamp=stamp)
         conn.execute(
             "UPDATE filing_events SET status = CASE WHEN source_document_id IS NULL "
@@ -496,7 +542,7 @@ def run_watcher(
     results: list[tuple[dict[str, Any], PollResult]] = []
     for row in rows:
         result = poll_for_row(row["ticker"], row["form_type"], row["fiscal_date_ending"],
-                              db=db, cache=cache)
+                              db=db, cache=cache, report_date=row["report_date"])
         summary.polls[result.status] = summary.polls.get(result.status, 0) + 1
         results.append((row, result))
         what = (f"{row['ticker']} {row['form_type']} period {row['fiscal_date_ending']} "
@@ -506,7 +552,10 @@ def run_watcher(
             log(f"found   {what}: {result.filing['accessionNumber']} "
                 f"filed {result.filing['filingDate']}")
         elif result.status == NOT_YET:
-            log(f"waiting {what}: not on EDGAR yet")
+            log(f"waiting {what}: not on EDGAR yet"
+                + (f" ({len(result.ignored)} other 6-K(s) ruled out)" if result.ignored else ""))
+        elif result.status == KNOWN:
+            log(f"skip    {what}: {result.detail}")
         else:
             log(f"{result.status:7} {what}: {result.detail}")
     if dry_run:

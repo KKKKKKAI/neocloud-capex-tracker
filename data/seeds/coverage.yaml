@@ -191,6 +191,10 @@ companies:
     filing_cadence:
       annual: 20-F
       quarterly: null  # 20-F filers don't file 10-Q; 6-K has quarterly press releases
+      # Fiscal Q4 (the March quarter) is derived from the 20-F as
+      # FY - Q1 - Q2 - Q3 (see notes), so the watcher expects the 20-F
+      # for the fiscal year-end period instead of a 6-K release.
+      fiscal_q4: annual
     extraction_approach: llm_primary  # IFRS reporting, segment names change
     quarterly_convention:
       default: standalone_quarterly   # 6-K press releases report 3-month values directly

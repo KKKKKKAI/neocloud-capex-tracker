@@ -73,6 +73,7 @@ flowchart TD
 
     subgraph L1["1 — Fetch"]
         SECF["fetch/sec.py"]
+        SEC6K["fetch/sec_6k.py\n6-K earnings-release finder"]
         HKEXF["fetch/hkex.py"]
         DISP["dispatcher.py"]
     end
@@ -127,6 +128,7 @@ flowchart TD
     end
 
     SEC --> SECF --> DISP
+    SEC --> SEC6K --> DISP
     HKEX --> HKEXF --> DISP
     DISP --> RAW
     RAW --> TEXT --> SECT
@@ -165,7 +167,7 @@ flowchart TD
 
     class SEC,HKEX,XBRL,ECB source
     class RAW,DB,DUMP,HNYAML store
-    class SECF,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,TREATHTML,DASHHTML,AUDIT,REVIEW process
+    class SECF,SEC6K,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,TREATHTML,DASHHTML,AUDIT,REVIEW process
     class XLSX,PNG,GHPAGES,CALPAGE,TREATPAGE,DASHPAGE output
 ```
 <!-- ARCHITECTURE_END -->
@@ -318,7 +320,8 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 6b | XBRL filing-text quote backfill | 📋 | `xbrl_excerpt.py` to locate filing HTML snippets and populate `extraction_evidence` for XBRL-sourced rows |
 | 7a | Fiscal calendar monitor | 🚧 | **Alpha Vantage = date discovery only (no data extraction).** It populates `fiscal_calendar` with forward earnings *dates* (3-month horizon) so the watcher knows when to start polling SEC. All financial data extraction is our own LLM dual-agent framework — Alpha Vantage never sees a value. `capex monitor --catch-up [--since YYYY-MM-DD] [--dry-run]` runs the watcher pipeline (`monitor/pipeline.py`):
 - For every watched company whose report date has passed, it polls SEC and matches the filing to the period.
-- It then fetches that exact accession and extracts (XBRL first, then LLM), tracking each filing in `filing_events`.
+- Foreign filers (NBIS, GDS, BIDU, BABA) report quarters in 6-K press releases. `fetch/sec_6k.py` picks the earnings release out of their buyback returns and meeting notices, reads its period from the text, and remembers the 6-Ks it ruled out.
+- It then fetches that exact accession and extracts (XBRL first, then LLM; 6-K releases go straight to the LLM), tracking each filing in `filing_events`.
 - Partial extractions are retried with backoff, rows whose filing never arrives go stale, and an LLM auth or usage-limit error stops the run instead of marking filings done.
 
 **Scheduling is moving to an always-on AWS server** (see `docs/SERVER_MIGRATION_CHECKLIST.md`); until it is live, run `capex monitor --catch-up` manually from WSL. The WSL cron installer and the GitHub calendar-sync workflow were removed: the cron was never installed and the workflow had no API key, so it synced nothing. |

@@ -28,7 +28,7 @@ Fiscal year for the folder:
 """
 from __future__ import annotations
 
-VALID_FORM_TYPES = ("10-K", "10-Q", "20-F", "HK-AR", "HK-IR")
+VALID_FORM_TYPES = ("10-K", "10-Q", "20-F", "6-K", "HK-AR", "HK-IR")
 ANNUAL_FORM_TYPES = ("10-K", "20-F", "HK-AR")
 
 
@@ -89,6 +89,11 @@ def compute_period_token(
             f"computes to Q4 (month {period_month} of FYE {fiscal_year_end_month} fiscal year, "
             f"elapsed={elapsed}); 10-Q does not cover Q4",
         )
+
+    if form_type == "6-K":
+        # Quarterly earnings releases: fiscal Q4 exists here (unlike 10-Q),
+        # e.g. BIDU's February release for the December quarter.
+        return f"Q{(elapsed - 1) // 3 + 1}"
 
     if form_type == "HK-IR":
         return "H1" if elapsed <= 6 else "H2"

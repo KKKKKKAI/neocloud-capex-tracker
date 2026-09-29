@@ -34,7 +34,7 @@ but is developed and run from WSL Ubuntu
 ```bash
 capex db migrate              # apply pending DB migrations
 capex db sync-all             # migrate + sync companies + metrics from YAML
-capex fetch <TICKER> <FORM>   # download latest filing from SEC/HKEX → _raw/
+capex fetch <TICKER> <FORM>   # download latest filing from SEC/HKEX → _raw/ (6-K: latest earnings release)
 capex extract <TICKER>        # dry-run: show sections + metrics for extraction
 capex export [-o PATH]        # generate Excel workbook from DB
 capex chart [-o PATH]         # regenerate PNG chart (YoY auto-recalculated)
@@ -58,6 +58,7 @@ capex settings list|set K V   # runtime settings (audited; see `capex settings h
 | `src/capex/monitor/watchlist.py` | Runtime watch list (which companies, which forms); `expected_form()` |
 | `src/capex/fetch/sec_http.py` | The only way to call SEC: contact UA, ≤ 5 req/s, retries honouring Retry-After |
 | `src/capex/fetch/sec.py` | SEC EDGAR fetcher — `list_filings()` / `fetch_accession()` / `fetch_latest()` with canonical names |
+| `src/capex/fetch/sec_6k.py` | 6-K earnings releases: `find_earnings_release()` picks the release out of a foreign filer's 6-Ks (EDGAR gives a 6-K no period; most are buyback returns or notices) and derives its period from the text; `fetch_release()` saves the EX-99 exhibits as one `[filed][T][Qn][6-K].htm` |
 | `src/capex/fetch/hkex.py` | HKEXnews fetcher — downloads HKEX annual/interim reports |
 | `src/capex/fetch/dispatcher.py` | Routes fetch requests by form_type + source |
 | `src/capex/fetch/sidecar.py` | JSON sidecar writer/reader for raw archive |

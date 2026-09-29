@@ -82,6 +82,8 @@ def get_extraction_sections(
         target_prefixes = EXTRACTION_SECTIONS_SEC
     elif form_type in ("HK-AR", "HK-IR"):
         target_prefixes = EXTRACTION_SECTIONS_HKEX
+    elif form_type == "6-K":
+        return press_release_sections(sections.get("_full", ""))
     else:
         return {"_full": sections.get("_full", "")}
 
@@ -101,6 +103,23 @@ def get_extraction_sections(
         result["_full (truncated)"] = full[:500_000]
 
     return result
+
+
+# The extraction prompt holds ~100K characters of filing text.
+PRESS_RELEASE_HEAD = 35_000
+PRESS_RELEASE_TAIL = 60_000
+
+
+def press_release_sections(text: str) -> dict[str, str]:
+    """Earnings releases open with narrative highlights and close with the
+    condensed financial statements. When a release is longer than the
+    prompt window, keep both ends rather than only the beginning."""
+    if len(text) <= PRESS_RELEASE_HEAD + PRESS_RELEASE_TAIL:
+        return {"Press release": text}
+    return {
+        "Press release (highlights)": text[:PRESS_RELEASE_HEAD],
+        "Press release (financial statements)": text[-PRESS_RELEASE_TAIL:],
+    }
 
 
 def estimate_tokens(sections: dict[str, str]) -> int:

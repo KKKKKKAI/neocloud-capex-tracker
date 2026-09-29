@@ -41,6 +41,16 @@ EXTRACTORS = {
 }
 
 
+def _chain_for_form(chain: list[str], form_type: str | None) -> list[str]:
+    """6-K releases skip XBRL: a foreign filer's companyfacts only carry
+    annual 20-F facts, and one ending on a quarter date would pass as a
+    quarterly value. The regex `6k_press` extractor stays out as well —
+    it labels RMB amounts as USD; the LLM path normalises currency."""
+    if form_type == "6-K":
+        return [name for name in chain if name == "llm"]
+    return chain
+
+
 def extract_metric(
     ticker: str,
     metric_key: str,
@@ -73,7 +83,7 @@ def extract_metric(
     """
     db = db or Database()
     treatment = get_dataset_treatment(ticker, metric_key)
-    chain = get_extraction_chain(ticker, metric_key)
+    chain = _chain_for_form(get_extraction_chain(ticker, metric_key), form_type)
     tried = []
 
     for extractor_name in chain:
@@ -285,7 +295,7 @@ def extract_filing(
 
     # Phase 1: try XBRL per metric. Anything that succeeds is done.
     for mk in metric_keys:
-        chain = get_extraction_chain(ticker, mk)
+        chain = _chain_for_form(get_extraction_chain(ticker, mk), form_type)
         if not chain:
             out[mk] = ExtractResult(status="no_extractor", chain_tried=[])
             continue

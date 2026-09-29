@@ -1,0 +1,30 @@
+[Unit]
+Description=capex: scheduler (runs the tracker's jobs)
+Documentation=file:///opt/capex/current/docs/SERVER_OPERATIONS.md
+Requires=capex-secrets.service
+After=capex-secrets.service network-online.target
+Wants=network-online.target
+OnFailure=capex-alert@%n.service
+
+[Service]
+Type=simple
+User=capex
+Group=capex
+EnvironmentFile=/etc/capex/capex.conf
+EnvironmentFile=/run/capex/capex.env
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=/var/lib/capex
+ExecStart=/opt/capex/current/.venv/bin/capex server scheduler
+# SIGTERM to the scheduler only: it finishes the running job, then exits.
+KillMode=mixed
+TimeoutStopSec=15min
+Restart=always
+RestartSec=15
+# Code is read-only; data, logs and claude's own files are writable.
+ProtectSystem=strict
+ReadWritePaths=/var/lib/capex /home/capex
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

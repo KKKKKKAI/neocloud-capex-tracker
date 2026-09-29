@@ -2,16 +2,21 @@
 # Bootstrap an Ubuntu 24.04 EC2 host for the capex tracker.
 #
 # Runs as root: first from cloud-init UserData (deploy/aws/capex-stack.yaml),
-# then by hand whenever this file changes:
-#     sudo bash /opt/capex/src/deploy/bootstrap.sh
+# then by hand whenever this file changes (from the live release):
+#     sudo bash /opt/capex/current/deploy/bootstrap.sh
 # Every step is idempotent. Stack values arrive as CAPEX_* environment
 # variables on the first run and are kept in /etc/capex/capex.conf.
 # No secret ever passes through this script: capex-secrets.service reads
 # them from SSM Parameter Store at boot.
 set -euo pipefail
 
+# The deployer's git clone (cloned by UserData); releases are worktrees of it.
 SRC_DIR=/opt/capex/src
-VENV=/opt/capex/venv
+RELEASES=/opt/capex/releases
+CURRENT=/opt/capex/current
+LEGACY_VENV=/opt/capex/venv   # pre-release layout, removed once a release is live
+# Files come from the tree this script lives in (a release or the clone).
+CODE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 DATA_DIR=/var/lib/capex
 CONF=/etc/capex/capex.conf
 UV_VERSION=0.12.19
@@ -121,15 +126,12 @@ EOF
 install -m 0640 -o root -g capex "$tmp" "$CONF"
 rm -f "$tmp"
 
-# ---- 7. uv + Python venv with the package -----------------------------
+# ---- 7. uv (each release gets its own venv from uv.lock) --------------
 if ! /usr/local/bin/uv --version 2>/dev/null | grep -q " $UV_VERSION"; then
   log "uv $UV_VERSION"
   curl -LsSf "https://astral.sh/uv/$UV_VERSION/install.sh" \
     | env UV_INSTALL_DIR=/usr/local/bin UV_NO_MODIFY_PATH=1 sh
 fi
-[ -x "$VENV/bin/python" ] || /usr/local/bin/uv venv "$VENV" --python /usr/bin/python3.12
-/usr/local/bin/uv pip install --python "$VENV/bin/python" \
-  -e "${SRC_DIR}[server,fetch,read,extract,export,charts]"
 
 # ---- 8. Claude Code (native build, pinned, no auto-update) ------------
 if ! sudo -u capex -H "$CLAUDE_BIN" --version 2>/dev/null | grep -q "^$CLAUDE_CODE_VERSION "; then
@@ -137,7 +139,7 @@ if ! sudo -u capex -H "$CLAUDE_BIN" --version 2>/dev/null | grep -q "^$CLAUDE_CO
   sudo -u capex -H bash -c "curl -fsSL https://claude.ai/install.sh | bash -s $CLAUDE_CODE_VERSION"
 fi
 
-# ---- 9. Journald cap and systemd units --------------------------------
+# ---- 9. Journald cap ------------------------------------------------------
 install -d /etc/systemd/journald.conf.d
 cat >/etc/systemd/journald.conf.d/capex.conf <<'EOF'
 [Journal]
@@ -145,11 +147,34 @@ SystemMaxUse=200M
 EOF
 systemctl restart systemd-journald
 
-install -m 0644 "$SRC_DIR"/deploy/systemd/*.service /etc/systemd/system/
+# ---- 10. Deployer: tooling, units, first release -----------------------
+chown -R capex-deploy:capex-deploy "$SRC_DIR"
+install -d -m 0755 -o capex-deploy -g capex-deploy "$RELEASES"
+install -m 0755 "$CODE_DIR/deploy/capex-deploy.sh" /usr/local/sbin/capex-deploy
+install -m 0755 "$CODE_DIR/deploy/capex-cli.sh" /usr/local/bin/capex
+install -D -m 0644 "$CODE_DIR/deploy/ci_gate.py" /usr/local/lib/capex-deploy/ci_gate.py
+install -m 0644 "$CODE_DIR"/deploy/systemd/*.service "$CODE_DIR"/deploy/systemd/*.timer \
+  /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable capex-secrets.service
-if ! systemctl restart capex-secrets.service; then
-  log "capex-secrets failed: check the /capex/ parameters (journalctl -u capex-secrets)"
+if [ ! -L "$CURRENT" ]; then
+  log "first release (CI-gated; pin one first with: echo SHA > /etc/capex/deploy-pin)"
+  /usr/local/sbin/capex-deploy || true
 fi
 
+# ---- 11. Services -------------------------------------------------------
+systemctl enable capex-secrets.service capex-deploy.timer
+systemctl start capex-deploy.timer
+if [ -L "$CURRENT" ]; then
+  if ! systemctl restart capex-secrets.service; then
+    log "capex-secrets failed: check the /capex/ parameters (journalctl -u capex-secrets)"
+  fi
+  if grep -q "$CURRENT/" /etc/systemd/system/capex-secrets.service && [ -d "$LEGACY_VENV" ]; then
+    log "removing the pre-release venv $LEGACY_VENV"
+    rm -rf "$LEGACY_VENV"
+  fi
+else
+  log "no release yet: capex-deploy.timer retries every 10 minutes (capex-deploy --status)"
+fi
+# The scheduler and admin panel start at go-live, once the data is in:
+#     sudo systemctl enable --now capex-scheduler capex-admin
 log "done"

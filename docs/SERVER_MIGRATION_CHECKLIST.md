@@ -195,16 +195,31 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] Verified:
   - 463 tests pass, 23 of them for the panel: guards, every page, every action, audit rows
   - the panel ran on the scratch DB copy in a browser: Overview and Schedule render, and a Companies save round-trips (token, origin, form association) into the audit log
-- [ ] PR merged
+- [x] PR merged — 2026-09-29, #9 (`cf58084`)
 - [ ] On the server: `capex-admin` unit (Phase 9), then the tunnel from WSL
 
-## Phase 9: Deploy pipeline and runbooks (PR 9)
-- [ ] 9.1 `uv.lock`
-- [ ] 9.2 systemd units
-- [ ] 9.3 CI-gated pull deploy with rollback
-- [ ] 9.4 `dev_setup.sh`, `pull_server_snapshot.sh`
-- [ ] 9.5 `docs/SERVER_OPERATIONS.md`
-- [ ] 9.6 shellcheck + cfn-lint in CI
+## Phase 9: Deploy pipeline and runbooks (PR 10)
+- [x] 9.1 `uv.lock` committed (73 packages). CI now installs from it (`uv lock --check`, then `uv sync --frozen --all-extras` via setup-uv), so CI tests exactly what the server runs.
+- [x] 9.2 systemd units:
+  - `capex-scheduler`: KillMode=mixed drain, 15 min stop timeout, Restart=always, ProtectSystem=strict
+  - `capex-admin`
+  - `capex-deploy.service` + `.timer` (every 10 min)
+  - `capex-alert@`: OnFailure emails through `capex server alert`
+  - `capex-secrets` now runs from the live release
+- [x] 9.3 `capex-deploy` (`deploy/capex-deploy.sh`) with `deploy/ci_gate.py`:
+  - fetch, then the CI gate (`lint-and-test` passed for that exact commit)
+  - build `releases/<sha>` as `capex-deploy` (git worktree + `uv sync --frozen`), then smoke-import
+  - drain the scheduler, local backup, then `db migrate` / `sync-all` / `server init` (once a DB exists)
+  - install units, switch `current` atomically, restart what was running, health check
+  - roll back and alert on failure; keep 3 releases
+  - flags: `--status`, `--pin`, `--unpin`, `--rollback`, `--force-gate`
+  - scheduler and admin are enabled only at go-live
+- [x] 9.4 `scripts/dev_setup.sh` (the dev venv from the lock), `scripts/pull_server_snapshot.sh` (newest S3 DB backup into a local CAPEX_HOME; `--raw` adds the filings), and the `/usr/local/bin/capex` wrapper on the host
+- [x] 9.5 `docs/SERVER_OPERATIONS.md`: everyday use, deploys, token renewal, restore, IP change, key rotation, full disk, adding a company, maintenance scripts, go-live, rebuild
+- [x] 9.6 shellcheck + cfn-lint in CI (since Phase 2)
+- [x] Verified locally: 473 tests pass (gate verdicts; units call real CLI commands), and `dev_setup.sh` rebuilt the venv from the lock
+- [ ] On the server: bootstrap with this branch's commit pinned to get the first release; after merge, unpin to deploy main, then `--rollback` and back
+- [ ] PR merged
 
 ## Phase 10: Migrate data and go live
 - [ ] 10.1 First deploy + `capex server doctor`

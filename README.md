@@ -3,9 +3,9 @@
 Automated tracker for AI-related capital expenditure and cloud revenue
 disclosures across major hyperscalers and neocloud providers.
 
-![Cloud Revenue](charts/cloud_revenue_annual.png)
+![Cloud Revenue](https://d1pdb32k3hz8st.cloudfront.net/charts/cloud_revenue_annual.png)
 
-**[Dashboard](https://KKKKKKAI.github.io/neocloud-capex-tracker/)** | **[Cloud / DC Revenue](https://KKKKKKAI.github.io/neocloud-capex-tracker/cloud.html)** | **[Earnings Calendar](https://KKKKKKAI.github.io/neocloud-capex-tracker/calendar.html)** | **[Treatments Audit](https://KKKKKKAI.github.io/neocloud-capex-tracker/treatments.html)** | **[Download Excel](workbook/%5B2026.08.14%20-%2011h03%5D%20financials%20sourcebook%20v2.xlsx)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)** | **[Restatement Policy](docs/RESTATEMENT_POLICY.md)**
+**[Dashboard](https://d1pdb32k3hz8st.cloudfront.net/)** | **[Cloud / DC Revenue](https://d1pdb32k3hz8st.cloudfront.net/cloud.html)** | **[Earnings Calendar](https://d1pdb32k3hz8st.cloudfront.net/calendar.html)** | **[Treatments Audit](https://d1pdb32k3hz8st.cloudfront.net/treatments.html)** | **[Download latest Excel](https://d1pdb32k3hz8st.cloudfront.net/download/latest.xlsx)** | **[All workbooks](https://d1pdb32k3hz8st.cloudfront.net/workbooks.html)** | **[Review Workflow (PEL)](docs/PROTOCOL_ELICITATION_LOOP.md)** | **[Restatement Policy](docs/RESTATEMENT_POLICY.md)**
 
 ---
 
@@ -17,8 +17,9 @@ every data point, and outputs an auditable Excel workbook where every
 cell has a Shift+F2 citation linking to the exact filing, section, and
 line item the number came from.
 
-**13 companies** tracked. **1,455 data points** extracted.
-**267 quarterly revenue** series across 12 companies.
+**13 companies** tracked by an always-on server that picks up each new
+filing within the hour and republishes the site. Live counts and the
+newest filing are on the [dashboard](https://d1pdb32k3hz8st.cloudfront.net/).
 
 ---
 
@@ -121,10 +122,10 @@ flowchart TD
     subgraph Out["Outputs"]
         XLSX["Excel workbook\nShift+F2 citations"]
         PNG["Chart PNG"]
-        GHPAGES["GitHub Pages\ninteractive chart"]
-        CALPAGE["docs/calendar.html\nearnings calendar"]
-        TREATPAGE["docs/treatments.html\ntreatments audit"]
-        DASHPAGE["docs/index.html\ndashboard landing"]
+        GHPAGES["site/*.html\ninteractive charts"]
+        CALPAGE["site/calendar.html\nearnings calendar"]
+        TREATPAGE["site/treatments.html\ntreatments audit"]
+        DASHPAGE["site/index.html\ndashboard landing"]
         CFSITE["CloudFront site\ndashboard + workbook downloads"]
     end
 
@@ -262,9 +263,9 @@ src/capex/
   exporters/
     excel.py              Excel workbook generator (all values in USD)
     citations.py          Cell-level source citations for Shift+F2
-    interactive_chart.py  Plotly HTML chart for GitHub Pages
+    interactive_chart.py  Plotly HTML chart pages (site/)
     charts.py             Static PNG chart generator
-    dashboard_html.py     Dashboard landing page (docs/index.html)
+    dashboard_html.py     Dashboard landing page (site/index.html)
   db/                     SQLite schema + migrations
   cli/                    Command-line interface
 
@@ -276,9 +277,9 @@ data/
     metric_definitions.yaml  Canonical metric registry
     chart_config.yaml     Chart visual standards
 
-workbook/                 Generated Excel output (download above)
-docs/                     GitHub Pages (interactive chart)
-charts/                   Generated PNG charts
+deploy/                   AWS stack, server bootstrap, deploys, systemd units
+docs/                     Design docs and runbooks (SERVER_OPERATIONS.md)
+workbook/, charts/, site/ Generated outputs (published by the server)
 ```
 
 ## CLI commands
@@ -290,7 +291,8 @@ capex extract MSFT --metric revenue  # extract via unified router
 capex extract --batch                # batch extract all companies
 capex review                         # show items pending human verification
 capex export                         # generate Excel workbook
-capex chart --interactive            # regenerate charts + GitHub Pages
+capex chart --interactive            # regenerate charts + the site/ pages
+capex server jobs | runs | health    # on the server (docs/SERVER_OPERATIONS.md)
 ```
 
 ## Development status
@@ -333,33 +335,39 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 5b | Annual data validation | 🚧 | Cross-checking LLM extractions vs XBRL anchors |
 | 6 | Quarterly cloud segment extraction | 📋 | LLM-extract AWS/Azure/GCP quarterly segment revenue from 10-Qs so `cloud_segment_revenue` Q4 2019/2020 can be reconciled |
 | 6b | XBRL filing-text quote backfill | 📋 | `xbrl_excerpt.py` to locate filing HTML snippets and populate `extraction_evidence` for XBRL-sourced rows |
-| 7a | Fiscal calendar monitor | 🚧 | **Alpha Vantage = date discovery only (no data extraction).** It populates `fiscal_calendar` with forward earnings *dates* (3-month horizon) so the watcher knows when to start polling SEC. All financial data extraction is our own LLM dual-agent framework — Alpha Vantage never sees a value. `capex monitor --catch-up [--since YYYY-MM-DD] [--dry-run]` runs the watcher pipeline (`monitor/pipeline.py`):
+| 7a | Fiscal calendar monitor | ✅ | **Alpha Vantage = date discovery only (no data extraction).** It populates `fiscal_calendar` with forward earnings *dates* (3-month horizon) so the watcher knows when to start polling SEC. All financial data extraction is our own LLM dual-agent framework — Alpha Vantage never sees a value. `capex monitor --catch-up [--since YYYY-MM-DD] [--dry-run]` runs the watcher pipeline (`monitor/pipeline.py`):
 - For every watched company whose report date has passed, it polls SEC and matches the filing to the period.
 - Foreign filers (NBIS, GDS, BIDU, BABA) report quarters in 6-K press releases. `fetch/sec_6k.py` picks the earnings release out of their buyback returns and meeting notices, reads its period from the text, and remembers the 6-Ks it ruled out.
 - It then fetches that exact accession and extracts (XBRL first, then LLM; 6-K releases go straight to the LLM), tracking each filing in `filing_events`.
 - Partial extractions are retried with backoff, rows whose filing never arrives go stale, and an LLM auth or usage-limit error stops the run instead of marking filings done.
 
-**Scheduling is moving to an always-on AWS server** (see `docs/SERVER_MIGRATION_CHECKLIST.md`); until it is live, run `capex monitor --catch-up` manually from WSL. The WSL cron installer and the GitHub calendar-sync workflow were removed: the cron was never installed and the workflow had no API key, so it synced nothing. |
+**It runs on the always-on server** (row 7e): the watcher every 20 minutes and the calendar sync daily, with no laptop involved. `capex monitor` still works locally against a snapshot (`scripts/pull_server_snapshot.sh`). |
 | 7b | Headless LLM extraction (CLI `-p` mode) | ✅ | Unattended cron extraction via `claude -p`. `LLMHeadlessExtractor` (per-metric) drives the per-metric flow used by PEL re-extract, audit re-verify, and the restatement sweep. Dual-agent verification runs without an interactive session. |
 | 7c | Multi-metric Agent A per filing | ✅ | Watcher's `extract_filing()` makes ONE Agent A call per filing covering all 6 metrics (~106K input chars), then ONE Agent B call per metric (each batched across periods). Cost drops from ~600K → ~112K input chars per filing (~5× cheaper, ~5× faster). Per-metric fallback fires automatically for any metric the multi-metric pass can't satisfy — worst case = today's per-metric cost. `LLMHeadlessFilingExtractor` + `build_agent_a_multi_metric_prompt` + `parse_agent_a_multi_metric_response`. Per-metric `extract_metric()` API preserved for PEL/audit. |
 | 7d | Email notifications on new filings | ✅ | After every successful auto-update, sends one HTML+text email per (subscriber, filing) pair. Subject leads with the headline metric (e.g. `📊 GOOGL Q1 FY2026 10-Q — revenue $109.9B (+12.1% YoY, -3.5% QoQ)`); body has a clean table with each metric's current value + prior-quarter delta + prior-year delta. Subscribers live in the server DB's `subscribers` table (every change audited). Real emails never enter the public repo. Per-subscriber ticker / metric filters supported. Gmail SMTP via stdlib (`GMAIL_USERNAME` + `GMAIL_APP_PASSWORD`, loaded from SSM on the server). Links point at the public site. CLI: `capex notify {list,add,remove,enable,disable,test,import-yaml}`. Crash-safe — SMTP failures log but never break the run that just succeeded at extraction. |
-| 7e | Always-on server: scheduler and jobs | 🚧 | `capex server scheduler` runs every job on a cron schedule in Europe/London (missed runs collapse into one). Each run is a process with a timeout, logged in `runs`. The jobs are watcher every 20 min, filings sweep, calendar sync, regenerate, publish, backups, health, LLM check and prune. `server/publish.py` mirrors the site and every workbook to S3 behind CloudFront: only changed files, `download/latest.xlsx`, and workbooks served under their real names. Nightly verified DB backups go to S3. Health checks and failures email the operator, de-duplicated. Goes live with the deploy pipeline (Phase 9) and the data migration (Phase 10). |
-| 7f | Admin panel (SSH tunnel) | 🚧 | `capex server admin` on the server's 127.0.0.1:8081, opened with `scripts/admin_tunnel.sh`. It controls which companies are watched and with which forms, calendar dates, retry/ignore/ingest of filings, job schedules with Run now, subscribers and alert emails, and every runtime setting, including Claude budget and pause. It also shows runs with logs, health and an audit trail. No password: the SSH key is the gate. Host check, form tokens and same-origin POSTs block browser-based attacks. |
-| 8a | Auto-publish pipeline | 🚧 | Replaced by the server's `publish` job (row 7e): S3 + CloudFront instead of CI |
+| 7e | Always-on server: scheduler and jobs | ✅ | `capex server scheduler` runs every job on a cron schedule in Europe/London (missed runs collapse into one). Each run is a process with a timeout, logged in `runs`. The jobs are watcher every 20 min, filings sweep, calendar sync, regenerate, publish, backups, health, LLM check and prune. `server/publish.py` mirrors the site and every workbook to S3 behind CloudFront: only changed files, `download/latest.xlsx`, and workbooks served under their real names. Nightly verified DB backups go to S3. Health checks and failures email the operator, de-duplicated. Live since 2026-09-29 on AWS (EC2 + S3 + CloudFront). Merges to `main` deploy themselves once CI passes, and roll back if unhealthy. Runbook: `docs/SERVER_OPERATIONS.md`. |
+| 7f | Admin panel (SSH tunnel) | ✅ | `capex server admin` on the server's 127.0.0.1:8081, opened with `scripts/admin_tunnel.sh`. It controls which companies are watched and with which forms, calendar dates, retry/ignore/ingest of filings, job schedules with Run now, subscribers and alert emails, and every runtime setting, including Claude budget and pause. It also shows runs with logs, health and an audit trail. No password: the SSH key is the gate. Host check, form tokens and same-origin POSTs block browser-based attacks. |
+| 8a | Auto-publish pipeline | ✅ | The server's `publish` job (row 7e): S3 + CloudFront instead of CI. |
 | 8b | CSV / JSON / Parquet exporters | 📋 | Additional output formats from DB |
-| 9a | Always-on AWS server | 🚧 | `deploy/aws/capex-stack.yaml` (EC2 + persistent data volume, S3 + CloudFront site, versioned backup bucket), `deploy/bootstrap.sh`, secrets from SSM Parameter Store (`capex.server.secrets`), health checks (`capex.server.doctor`). Progress: `docs/SERVER_MIGRATION_CHECKLIST.md` |
+| 9a | Always-on AWS server | ✅ | Live since 2026-09-29. `deploy/aws/capex-stack.yaml` (EC2 + persistent data volume, S3 + CloudFront site, versioned backup bucket), `deploy/bootstrap.sh`, secrets from SSM Parameter Store, `deploy/capex-deploy.sh` (merges to `main` deploy themselves once CI passes, with automatic rollback), health checks and operator alerts. Runbook: `docs/SERVER_OPERATIONS.md`; history: `docs/SERVER_MIGRATION_CHECKLIST.md` |
 | — | Pluggable LLM adapters (Anthropic, Gemini, OpenAI) | 📋 | Replace interactive Claude Code extraction |
 
-**Current data:** 13 companies, 1,455 data points, 267 quarterly revenue series, 92 dual-agent verified extractions.
+**Current data:** 13 companies. The live data-point count and the newest filing are on the [dashboard](https://d1pdb32k3hz8st.cloudfront.net/), updated by the server as filings arrive.
 
 ## Getting started
 
+The tracker runs itself on its server; the public site is the way to read it. To develop
+locally (WSL), set up the locked environment and work on a copy of the server's data:
+
 ```bash
-pip install -e ".[export]"
-capex db sync-all
-capex extract --batch --metric revenue
-capex export
+scripts/dev_setup.sh                       # uv + Python 3.12 venv from uv.lock
+source ~/.venvs/capex/bin/activate
+scripts/pull_server_snapshot.sh            # newest server backup -> ~/capex-snapshot
+CAPEX_HOME=~/capex-snapshot capex export   # e.g. rebuild a workbook locally
+pytest -q
 ```
+
+Changes reach the server by merging to `main`: it deploys the commit once CI passes.
 
 ## License
 

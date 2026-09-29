@@ -256,6 +256,71 @@ def test_extract_filing_uses_xbrl_when_it_satisfies(monkeypatch):
     assert out["revenue"].status == "success"
 
 
+def _fake_multi_pass(monkeypatch, returns):
+    """Script the multi-metric LLM pass; returns the metric lists it was asked for."""
+    asked: list[list[str]] = []
+
+    class FakeFiling:
+        def extract_filing(self, ticker, form_type, period, metric_keys, *, backend, db=None):
+            asked.append(list(metric_keys))
+            return {k: returns(k) for k in metric_keys}
+
+    monkeypatch.setattr(
+        "capex.extract.extractors.llm_headless_filing.LLMHeadlessFilingExtractor", FakeFiling)
+    monkeypatch.setattr(router, "_try_xbrl_only", lambda *a, **kw: None)
+    return asked
+
+
+def _capture_writes(monkeypatch) -> list[dict]:
+    writes: list[dict] = []
+    monkeypatch.setattr(router, "write_extractions", lambda results, **kw: writes.extend(results) or {
+        "inserted": len(results), "overwritten": 0, "skipped_existing": 0, "errors": [], "ids": []})
+    return writes
+
+
+def test_pure_play_cloud_revenue_is_the_filings_revenue_copied(monkeypatch):
+    """GDS (cloud treatment whole_company): the LLM is not asked for a cloud
+    segment the release doesn't have; the revenue rows are copied."""
+    asked = _fake_multi_pass(monkeypatch, lambda k: [_candidate(k, value=3087.95)])
+    writes = _capture_writes(monkeypatch)
+
+    out = router.extract_filing("GDS", "6-K", "2026-06-30",
+                                metric_keys=["revenue", "cloud_segment_revenue"],
+                                write=True, backend=_FakeBackend())
+
+    assert asked == [["revenue"]]
+    cloud = out["cloud_segment_revenue"]
+    assert (cloud.status, cloud.extractor) == ("success", router.WHOLE_COMPANY_MODEL)
+    (row,) = [w for w in writes if w["metric_key"] == "cloud_segment_revenue"]
+    assert (row["value"], row["period_type"], row["extracting_model"], row["extraction_type"]) == (
+        3087.95, "Q3", router.WHOLE_COMPANY_MODEL, "inferred")
+    assert row["excerpts"]                        # the revenue line travels with the copy
+
+
+def test_pure_play_cloud_follows_revenue_when_it_fails(monkeypatch):
+    _fake_multi_pass(monkeypatch, lambda k: None)
+    writes = _capture_writes(monkeypatch)
+    monkeypatch.setattr(router, "extract_metric", lambda ticker, mk, **kw: ExtractResult(
+        status="needs_interactive", needs_interactive=True, chain_tried=["llm"]))
+
+    out = router.extract_filing("GDS", "6-K", "2026-06-30",
+                                metric_keys=["revenue", "cloud_segment_revenue"],
+                                write=True, backend=_FakeBackend())
+
+    assert out["cloud_segment_revenue"].status == "needs_interactive"
+    assert writes == []
+
+
+def test_segment_reporters_still_extract_cloud_revenue(monkeypatch):
+    asked = _fake_multi_pass(monkeypatch, lambda k: [_candidate(k)])
+    _capture_writes(monkeypatch)
+    out = router.extract_filing("MSFT", "10-Q", "2026-03-31",
+                                metric_keys=["revenue", "cloud_segment_revenue"],
+                                write=True, backend=_FakeBackend())
+    assert asked == [["revenue", "cloud_segment_revenue"]]
+    assert out["cloud_segment_revenue"].extractor == "llm-filing"
+
+
 def test_extract_filing_records_no_extractor_when_chain_empty(monkeypatch):
     monkeypatch.setattr(router, "get_extraction_chain", lambda t, m: [])
     out = router.extract_filing(

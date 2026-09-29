@@ -128,9 +128,14 @@ the server deploys commits whose `lint-and-test` CI run passed.
   - long releases send both the highlights and the financial statements
   - BABA's March quarter still comes from the 20-F (`coverage.yaml` `fiscal_q4: annual`)
 - [x] 6.5 Stale rule (Phase 5 bug): a real run marked every row older than its 14–45-day window stale *before* polling it, so a requeued backlog row was dropped unseen. Now a row goes stale only after a poll on or after its deadline, or once it falls out of the lookback; `requeue` clears `last_attempt_at`.
-- [x] Verified against live EDGAR on a scratch copy of the real DB: after `requeue --refresh-forms`, the dry-run catch-up finds all six backlog quarters (NBIS Q1, GDS Q1 + Q2, BIDU Q1 + Q2, BABA June quarter, each with score 9) plus ORCL's 10-Q. 384 tests pass; the opt-in live test finds GDS Q2.
+- [x] 6.6 Pure-play cloud revenue (found in the GDS spot-check). For whole-company companies (GDS, CRWV, APLD, IREN, NBIS), cloud revenue came only from a one-off backfill script. The watcher asked the LLM for a cloud segment instead, got "not found" from GDS's release, and counted it as success, so the cloud chart would never get new quarters. `extract_filing()` now copies the filing's revenue rows as `whole-company-copy@0.1.0` rows, only for that filing, so history is untouched.
+- [x] 6.7 `llm_calls.input_tokens` now counts cache writes and reads. It read 1 for every call, because the CLI caches its prompts.
+- [x] Verified against live EDGAR on a scratch copy of the real DB: after `requeue --refresh-forms`, the dry-run catch-up finds all six backlog quarters (NBIS Q1, GDS Q1 + Q2, BIDU Q1 + Q2, BABA June quarter, each with score 9) plus ORCL's 10-Q. 388 tests pass; the opt-in live test finds GDS Q2.
+- [x] GDS Q2 2026 run end to end on the scratch copy with the real Claude login. `capex monitor GDS 6-K` fetched `0001104659-26-095498` and extracted all six metrics on the first attempt, then regenerated the workbook, charts and site. Reconcile conflicts are unchanged at 9, all pre-existing.
+  - Q2, RMB m: revenue 3,087.950, capex 1,249.766, OCF 1,416.260, D&A 851.428, PP&E 38,734.730, cloud revenue 3,087.950
+  - Each value matches the release's financial statements to the thousand.
 - [ ] PR merged
-- [ ] GDS Q2 2026 extracted — pause (d) spot-check
+- [ ] Pause (d): maintainer spot-check of the GDS Q2 values against the release
 
 ## Phase 7: Scheduler, jobs, publish, backups, health, alerts, subscribers (PR 7)
 - [ ] 7.1 Jobs

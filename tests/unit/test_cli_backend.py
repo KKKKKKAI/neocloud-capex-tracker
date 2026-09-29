@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from capex import paths, settings
-from capex.adapters.cli_backend import CLIBackend
+from capex.adapters.cli_backend import CLIBackend, prompt_tokens
 from capex.adapters.errors import (
     FATAL_LLM_ERRORS,
     LLMAuthError,
@@ -184,3 +184,11 @@ def test_router_falls_back_on_ordinary_errors(monkeypatch):
     out = router.extract_filing("MSFT", "10-Q", "2026-03-31", ["revenue"],
                                 backend=object(), write=False)
     assert out["revenue"] is sentinel
+
+
+def test_prompt_tokens_count_cached_input():
+    usage = {"input_tokens": 1, "cache_creation_input_tokens": 9_500,
+             "cache_read_input_tokens": 14_200, "output_tokens": 7_475}
+    assert prompt_tokens(usage) == 23_701
+    assert prompt_tokens({"input_tokens": 11, "output_tokens": 2}) == 11
+    assert prompt_tokens({}) is None

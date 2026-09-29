@@ -218,15 +218,24 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 9.5 `docs/SERVER_OPERATIONS.md`: everyday use, deploys, token renewal, restore, IP change, key rotation, full disk, adding a company, maintenance scripts, go-live, rebuild
 - [x] 9.6 shellcheck + cfn-lint in CI (since Phase 2)
 - [x] Verified locally: 473 tests pass (gate verdicts; units call real CLI commands), and `dev_setup.sh` rebuilt the venv from the lock
-- [ ] On the server: bootstrap with this branch's commit pinned to get the first release; after merge, unpin to deploy main, then `--rollback` and back
-- [ ] PR merged
+- [x] On the server (2026-09-29):
+  - bootstrap installed the tooling and units with the branch commit pinned; the gate refused it because its CI had failed (a `setup-uv` tag)
+  - after the fix, `a7e4012` deployed as the first release (built from the lock, migration skipped with no DB)
+  - `capex-secrets` runs from the release; the old venv is removed; `systemd-analyze verify` passes on every unit
+  - after merge, unpinned: the host deployed `ec38426`; `--rollback` went back to `a7e4012` (pinned), and `--unpin` returned to `ec38426`, each switch a few seconds
+- [x] PR merged — 2026-09-29, #10 (`ec38426`)
 
-## Phase 10: Migrate data and go live
-- [ ] 10.1 First deploy + `capex server doctor`
-- [ ] 10.2–10.3 Data copied and imported
-- [ ] 10.4 Settings pre-filled
-- [ ] 10.4b Calendar forms refreshed: `capex calendar requeue --status upcoming,failed,stale --since 2026-03-01 --refresh-forms`. This fixes IREN's rows and the foreign filers' 2026 rows, which still say `20-F`.
-- [ ] 10.5 Backlog caught up — pause (d) spot-check
+## Phase 10: Migrate data and go live (2026-09-29)
+- [x] 10.1 First real deploys through the pipeline (Phase 9 rollout). After go-live the smoke test (`capex server doctor`) passes 8/8.
+- [x] 10.2–10.3 Data moved through the backup bucket (no SSH needed):
+  - from the laptop: a verified DB snapshot as a regular backup (`db/capex-20260929T153714Z.db.gz` + SQL dump), the raw filings to `raw/` (621 files, 983 MiB, in the weekly `backup_raw` layout), and the 41 historical workbooks
+  - on the host: `capex server restore` (integrity ok), files downloaded as `capex`, then migrate to v12, `sync-all`, `server init`
+  - `raw_path` report: 470 source documents, 303 files found, 167 virtual, 0 missing
+- [x] 10.4 Settings: operator email and subscriber `kaiye.devacc@gmail.com` (all companies, all metrics), `llm.token_created_at` 2026-09-28; the public URL comes from the stack
+- [x] 10.4b Calendar forms refreshed: 9 rows requeued (IREN 10-Q/10-K; NBIS, GDS, BIDU and BABA 6-K; ORCL 10-Q)
+- [x] First real publish: 55 objects, CloudFront invalidated. https://d1pdb32k3hz8st.cloudfront.net serves the dashboard, chart pages, `workbooks.html` (42 workbooks) and `download/latest.xlsx` under its real name.
+- [x] Go live: `capex-scheduler` and `capex-admin` enabled; the panel answers on 127.0.0.1:8081. The first calendar sync and S3 backup ran at once; health is all ok.
+- [ ] 10.5 Backlog caught up (9 filings) — pause (d) spot-check
 
 ## Phase 11: Go-live repo cleanup (PR 10) — pause (c)
 - [ ] 11.1 Data untracked + `.gitignore`

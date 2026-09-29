@@ -1,17 +1,54 @@
-"""Subscriber YAML round-trip + filter logic."""
+"""Subscribers in the DB (default) and in YAML (explicit path), + filters."""
 from __future__ import annotations
 
 from pathlib import Path
+
+import pytest
 
 from capex.notify.subscribers import (
     Subscriber,
     add_subscriber,
     filter_for_ticker,
+    import_yaml,
     load_subscribers,
     remove_subscriber,
     save_subscribers,
     set_enabled,
 )
+
+
+@pytest.fixture
+def db_mode(capex_db, monkeypatch):
+    monkeypatch.delenv("NOTIFY_SUBSCRIBERS_PATH", raising=False)
+    return capex_db
+
+
+def test_db_subscribers_are_audited_and_case_insensitive(db_mode):
+    db = db_mode
+    add_subscriber("Alice@Example.com", tickers=["MSFT"], db=db, actor="kai")
+    add_subscriber("alice@example.com", tickers=["GOOGL"], db=db)       # same person
+    subs = load_subscribers(db=db)
+    assert [(s.email, s.tickers) for s in subs] == [("Alice@Example.com", ["GOOGL"])]
+    assert set_enabled("alice@example.com", False, db=db) is True
+    assert load_subscribers(db=db)[0].enabled is False
+    assert remove_subscriber("ALICE@example.com", db=db) is True
+    assert remove_subscriber("alice@example.com", db=db) is False
+    assert load_subscribers(db=db) == []
+    with db.connect() as conn:
+        actors = [r[0] for r in conn.execute(
+            "SELECT actor FROM settings_audit WHERE entity = 'subscriber' ORDER BY id")]
+    assert actors == ["kai", "cli", "cli", "cli"]
+    with pytest.raises(ValueError):
+        add_subscriber("not-an-email", db=db)
+
+
+def test_import_yaml_into_the_db(db_mode, tmp_path: Path):
+    p = tmp_path / "subs.yaml"
+    add_subscriber("a@x.com", path=p)
+    add_subscriber("b@x.com", tickers=["MSFT"], path=p)
+    assert import_yaml(p, db=db_mode) == 2
+    assert [(s.email, s.tickers) for s in load_subscribers(db=db_mode)] == [
+        ("a@x.com", ["*"]), ("b@x.com", ["MSFT"])]
 
 
 def test_load_missing_file_returns_empty_list(tmp_path: Path):

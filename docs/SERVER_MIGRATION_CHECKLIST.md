@@ -134,19 +134,41 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] GDS Q2 2026 run end to end on the scratch copy with the real Claude login. `capex monitor GDS 6-K` fetched `0001104659-26-095498` and extracted all six metrics on the first attempt, then regenerated the workbook, charts and site. Reconcile conflicts are unchanged at 9, all pre-existing.
   - Q2, RMB m: revenue 3,087.950, capex 1,249.766, OCF 1,416.260, D&A 851.428, PP&E 38,734.730, cloud revenue 3,087.950
   - Each value matches the release's financial statements to the thousand.
-- [ ] PR merged
+- [x] PR merged — 2026-09-29, #7 (`fd9bbef`)
 - [ ] Pause (d): maintainer spot-check of the GDS Q2 values against the release
 
-## Phase 7: Scheduler, jobs, publish, backups, health, alerts, subscribers (PR 7)
-- [ ] 7.1 Jobs
-- [ ] 7.2 Scheduler
-- [ ] 7.3 Default schedules
-- [ ] 7.4 Publish to S3 + CloudFront invalidation
-- [ ] 7.5 Backups to S3
-- [ ] 7.6 Health
-- [ ] 7.7 Operator alerts
-- [ ] 7.8 Subscribers in DB
-- [ ] 7.9 `server` extra
+## Phase 7: Scheduler, jobs, publish, backups, health, alerts, subscribers (PR 8)
+- [x] 7.1 `server/jobs.py`: watcher, filings_sweep, calendar_sync, regenerate_outputs, publish, backup, backup_raw (new: weekly raw sync), health, llm_check, prune.
+  - Each runs as `python -m capex.server.jobs JOB --run-id N` and records its summary in `runs`.
+  - Exit codes: 0 / 3 partial / 4 skipped / 75 deferred / 77 auth.
+  - Jobs that change the site queue a `publish`.
+- [x] 7.2 `server/scheduler.py` (`capex server scheduler [--once]`):
+  - startup: lock, schema check, orphaned runs → failed, default schedules
+  - every 30 s: heartbeat file, due schedules queued (croniter in the schedule's time zone; missed runs collapse), one request claimed atomically (`UPDATE … RETURNING`)
+  - each job runs as a child process logging to `logs/runs/<id>.log`; on timeout SIGTERM, then SIGKILL
+  - SIGTERM drains the current job. `server/locks.py` holds a `pipeline` lock that manual `capex monitor` runs share.
+- [x] 7.3 Default schedules (Europe/London, editable with `capex server schedule`, later the panel): watcher `*/20`, filings_sweep 06:10 and 18:10, calendar_sync 07:00, regenerate 05:30, publish hourly at :15 and after every regenerate, backup 03:15, backup_raw Sundays 03:45, health hourly at :05, llm_check 08:00, prune Sundays 04:30.
+- [x] 7.4 `server/publish.py`:
+  - changed files only: MD5 against the ETag, plus a header signature
+  - `max-age=300` for pages and `download/latest.xlsx`; `immutable` for `workbooks/YYYYMMDD-HHMM[-vN].xlsx`, whose Content-Disposition carries the real name
+  - generated `workbooks.html`; one `/*` invalidation per change
+  - refuses to delete more than half the bucket unless forced
+- [x] 7.5 `server/backup.py`:
+  - nightly: SQLite online backup, `integrity_check`, gzip plus `dump.sql.gz`, uploaded to `db/`, with `backup.keep_daily` local copies
+  - weekly: raw filings (missing keys only) to `raw/`
+  - `capex server backup|backups|restore`. Restore verifies the copy and clears stale WAL files; replacing the live DB needs the services stopped.
+- [x] 7.6 `server/health.py`: heartbeat, token age (warn 330 days, critical 355), last calendar sync / publish / backup, failed jobs and filings, LLM pause and budget, disk, the claude binary, email and SEC contact configuration. `capex server health [--alert]`.
+- [x] 7.7 `notify/ops.py`: operator alerts via Gmail, de-duplicated per key in `alerts_sent` (6 h default). Failed or timed-out runs alert; exit 77 sends the renew-token alert. The health job alerts per check and records findings as `partial`, so it doesn't send a second "failed" email.
+- [x] 7.8 Subscribers in the DB:
+  - `capex notify` add/remove/enable/disable are audited; `import-yaml` imports an old YAML file
+  - YAML is used only with an explicit path or `NOTIFY_SUBSCRIBERS_PATH`
+  - emails resolve the filing by `source_document_id`, link to `publish.public_base_url` (`/download/latest.xlsx`), and the footer now says "reply to unsubscribe"
+- [x] 7.9 `server` extra adds croniter; dev adds `moto[s3,cloudfront]`. New settings: `backup.bucket`, `prune.keep_workbooks`, `prune.run_log_days`. The daily regenerate exports a workbook only when the data changed.
+- [x] Verified:
+  - 440 tests pass: scheduler loop with real child processes (exit codes, timeout kill, alerts, pause, orphans), publish and backup against moto S3, jobs, health, alerts, subscribers
+  - smoke run on a scratch DB copy: `server init`, `run health --now`, and `run regenerate_outputs` through `scheduler --once`. It wrote the workbook and queued a publish, which was skipped with no bucket; a local verified backup; cron validation.
+- [ ] PR merged
+- [ ] On the server (needs `aws login`): pull, reinstall the venv, `capex server init`, `capex server publish` to the real bucket, `capex server backup` to the real bucket
 
 ## Phase 8: Admin panel over the SSH tunnel (PR 8)
 - [ ] 8.1 FastAPI admin (Host check, CSRF, all pages)

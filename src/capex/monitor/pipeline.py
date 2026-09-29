@@ -27,9 +27,10 @@ import sqlite3
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
+from pathlib import Path
 from typing import Any
 
-from .. import settings
+from .. import paths, settings
 from ..adapters.errors import (
     FATAL_LLM_ERRORS,
     LLMAuthError,
@@ -84,6 +85,7 @@ class EventOutcome:
     status: str                  # extracted | partial | failed | retry
     metrics_extracted: list[str] = field(default_factory=list)
     issues: list[str] = field(default_factory=list)
+    source_document_id: int | None = None
 
 
 @dataclass
@@ -397,6 +399,7 @@ def process_event(event: dict[str, Any], *, db: Database, backend: Any,
             event.update(status="fetched", source_document_id=meta["id"],
                          period_of_report=meta["period_of_report"])
             outcome.period = meta["period_of_report"]
+        outcome.source_document_id = event["source_document_id"]
         results = extract_filing(event["ticker"], event["form_type"],
                                  period=event["period_of_report"], write=True,
                                  backend=backend, db=db)
@@ -450,25 +453,55 @@ def _pause_llm(db: Database, error: LLMUsageLimitError, now: datetime) -> None:
 
 # ---- outputs and notifications ------------------------------------------------------
 
-def regenerate_outputs(log: Callable[[str], None] = print) -> None:
+def data_fingerprint(db: Database) -> str:
+    """Changes whenever filings or extracted values change."""
+    with db.connect() as conn:
+        e = conn.execute("SELECT COUNT(*), MAX(id), MAX(extracted_at) FROM extractions").fetchone()
+        s = conn.execute("SELECT COUNT(*), MAX(id) FROM source_documents").fetchone()
+    return json.dumps([list(e), list(s)])
+
+
+def _fingerprint_path() -> Path:
+    return paths.run_dir() / "workbook-fingerprint.json"
+
+
+def regenerate_outputs(
+    log: Callable[[str], None] = print, *, workbook: bool | None = None,
+) -> dict[str, Any]:
     """Reconcile period types, then rebuild the workbook, charts and site.
 
     Reconcile MUST run before the exporters: XBRL-extracted rows land
     with `period_type=''` and the chart selectors filter by period_type,
     so without it a new period would be invisible to every chart.
-    Each step is independent; a failure is logged and the rest still run.
+    `workbook`: True exports one, False skips it, None (default) exports
+    only when the data changed since the last export, so the daily
+    refresh of the site's date-relative pages adds no workbook on a quiet
+    day. Each step is independent; a failure is logged and the rest still
+    run. Returns {"workbook": file name or None, "errors": [...]}.
     """
+    result: dict[str, Any] = {"workbook": None, "errors": []}
     try:
         from ..extract.reconcile import reconcile
         s = reconcile(write=True)
         log(f"  reconcile: derived={s.derived} conflicts={s.conflicts} "
             f"unresolved={s.unresolved}")
     except Exception as e:
+        result["errors"].append(f"reconcile: {type(e).__name__}: {e}")
         log(f"  reconcile error: {type(e).__name__}: {e}")
     try:
-        from ..exporters.excel import export_workbook
-        log(f"  workbook: {export_workbook().name}")
+        fingerprint = data_fingerprint(Database())
+        state = _fingerprint_path()
+        unchanged = state.exists() and state.read_text(encoding="utf-8") == fingerprint
+        if workbook is False or (workbook is None and unchanged):
+            log("  workbook: unchanged data, none exported")
+        else:
+            from ..exporters.excel import export_workbook
+            result["workbook"] = export_workbook().name
+            state.parent.mkdir(parents=True, exist_ok=True)
+            state.write_text(fingerprint, encoding="utf-8")
+            log(f"  workbook: {result['workbook']}")
     except Exception as e:
+        result["errors"].append(f"workbook: {type(e).__name__}: {e}")
         log(f"  workbook error: {type(e).__name__}: {e}")
     try:
         from ..exporters.charts import generate_all_metric_charts
@@ -483,7 +516,9 @@ def regenerate_outputs(log: Callable[[str], None] = print) -> None:
         generate_treatments_html()
         log("  charts + site regenerated")
     except Exception as e:
+        result["errors"].append(f"charts/site: {type(e).__name__}: {e}")
         log(f"  chart/site error: {type(e).__name__}: {e}")
+    return result
 
 
 def notify_fresh(outcomes: list[EventOutcome], *, db: Database, today: date) -> dict | None:
@@ -501,6 +536,7 @@ def notify_fresh(outcomes: list[EventOutcome], *, db: Database, today: date) -> 
     from ..notify import notify_subscribers
     return notify_subscribers([
         {"status": "success", "ticker": o.ticker, "period": o.period, "filed": o.filing_date,
+         "source_document_id": o.source_document_id,
          "metrics_extracted": o.metrics_extracted, "issues": o.issues}
         for o in fresh
     ], db=db)

@@ -122,10 +122,18 @@ REGISTRY: dict[str, Setting] = {s.key: s for s in [
             env="CAPEX_SITE_BUCKET"),
     Setting("publish.distribution_id", str, "", "CloudFront distribution to invalidate.",
             env="CAPEX_DISTRIBUTION_ID"),
-    # ---- Scheduler and backups --------------------------------------------
-    Setting("scheduler.paused", bool, False, "Pause every scheduled job."),
+    # ---- Scheduler, backups, housekeeping -----------------------------------
+    Setting("scheduler.paused", bool, False,
+            "Pause every scheduled job (Run now still works)."),
+    Setting("backup.bucket", str, "", "S3 bucket for DB and raw-filing backups.",
+            env="CAPEX_BACKUP_BUCKET"),
     Setting("backup.keep_daily", int, 7, "Local daily DB backups to keep.",
             check=_between(1, 90)),
+    Setting("prune.keep_workbooks", int, 90,
+            "Workbooks kept on the server (and so on the public site).",
+            check=_between(1, 5000)),
+    Setting("prune.run_log_days", int, 30, "Days of per-run log files to keep.",
+            check=_between(1, 3650)),
 ]}
 
 

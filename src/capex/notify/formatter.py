@@ -25,10 +25,33 @@ METRIC_LABELS = {
     "property_plant_equipment_net": "PP&E (net)",
 }
 
+# Used until the server publishes the site (publish.public_base_url unset).
 DASHBOARD_URL = "https://KKKKKKAI.github.io/neocloud-capex-tracker/"
 REPO_WORKBOOK_URL_PREFIX = (
     "https://github.com/KKKKKKAI/neocloud-capex-tracker/tree/main/workbook"
 )
+FOOTER = ("You get this because you subscribed to neocloud-capex-tracker filing "
+          "alerts. To unsubscribe, reply to this email.")
+
+
+@dataclass(frozen=True)
+class SiteLinks:
+    dashboard: str
+    workbook: str
+
+
+DEFAULT_LINKS = SiteLinks(DASHBOARD_URL, REPO_WORKBOOK_URL_PREFIX)
+
+
+def site_links(db=None) -> SiteLinks:
+    """Dashboard and latest-workbook links on the public site (CloudFront),
+    falling back to the GitHub pages until the server publishes."""
+    from .. import settings
+
+    base = (settings.get("publish.public_base_url", db) or "").rstrip("/")
+    if not base:
+        return DEFAULT_LINKS
+    return SiteLinks(f"{base}/", f"{base}/download/latest.xlsx")
 
 
 @dataclass
@@ -92,7 +115,7 @@ def build_subject(ctx: FilingContext) -> str:
     return " ".join(parts)
 
 
-def build_html(ctx: FilingContext) -> str:
+def build_html(ctx: FilingContext, links: SiteLinks = DEFAULT_LINKS) -> str:
     """Self-contained HTML with inline CSS (Gmail-safe)."""
     rows = []
     for p in ctx.performances:
@@ -146,18 +169,18 @@ def build_html(ctx: FilingContext) -> str:
         f"</tr></thead>"
         f"<tbody>{''.join(rows)}</tbody></table>"
         f"<p style='margin:20px 0 8px 0;font-size:14px;'>"
-        f"<a href='{DASHBOARD_URL}' style='color:#0969da;text-decoration:none;'>Open dashboard ↗</a>"
+        f"<a href='{html.escape(links.dashboard)}' style='color:#0969da;text-decoration:none;'>Open dashboard ↗</a>"
         f" &nbsp;·&nbsp; "
-        f"<a href='{REPO_WORKBOOK_URL_PREFIX}' style='color:#0969da;text-decoration:none;'>Excel workbook ↗</a>"
+        f"<a href='{html.escape(links.workbook)}' style='color:#0969da;text-decoration:none;'>Excel workbook ↗</a>"
         f"</p>"
         f"<p style='margin:16px 0 0 0;font-size:12px;color:#8b949e;'>"
         f"— neocloud-capex-tracker auto-update<br>"
-        f"To unsubscribe, edit data/_local/subscribers.yaml on the maintainer's machine."
+        f"{html.escape(FOOTER)}"
         f"</p></div>"
     )
 
 
-def build_text(ctx: FilingContext) -> str:
+def build_text(ctx: FilingContext, links: SiteLinks = DEFAULT_LINKS) -> str:
     """Plain-text mirror, ASCII table."""
     lines = [
         f"{ctx.ticker} — {ctx.company_name}",
@@ -206,11 +229,10 @@ def build_text(ctx: FilingContext) -> str:
         lines.append(f"{label.ljust(metric_w)}   {cur}   {pq}   {py}")
     lines.extend([
         "",
-        f"Dashboard: {DASHBOARD_URL}",
-        f"Workbook:  {REPO_WORKBOOK_URL_PREFIX}",
+        f"Dashboard: {links.dashboard}",
+        f"Workbook:  {links.workbook}",
         "",
         "— neocloud-capex-tracker auto-update",
-        "To unsubscribe, edit data/_local/subscribers.yaml on the "
-        "maintainer's machine.",
+        FOOTER,
     ])
     return "\n".join(lines)

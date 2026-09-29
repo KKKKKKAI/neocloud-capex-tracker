@@ -42,6 +42,10 @@ capex monitor --catch-up [--dry-run] [--sweep]   # one watcher run (see monitor/
 capex calendar requeue --since DATE --refresh-forms
 capex llm ping                # one real call through the production LLM backend
 capex settings list|set K V   # runtime settings (audited; see `capex settings help`)
+capex server jobs|runs|log N  # schedules, recent runs, one run's log
+capex server run JOB [--now]  # queue a job for the scheduler (--now: run it here)
+capex server scheduler        # the always-on scheduler (systemd on the server)
+capex server publish --dry-run | backup | restore | health | doctor
 ```
 
 ## Key Modules
@@ -54,6 +58,14 @@ capex settings list|set K V   # runtime settings (audited; see `capex settings h
 | `src/capex/settings.py` | Runtime settings registry (`settings` table, audited). Add new knobs here, never as ad-hoc env vars. |
 | `src/capex/server/secrets.py` | Server: SSM Parameter Store `/capex/*` → `/run/capex/capex.env` at boot (`check` shows names/types only) |
 | `src/capex/server/doctor.py` | Server health checks (claude, SEC, Alpha Vantage, Gmail, S3→CloudFront, memory, disk, data volume) |
+| `src/capex/server/scheduler.py` | The always-on scheduler: every 30 s a heartbeat, due schedules queued (cron in Europe/London, missed runs collapse to one), one request claimed and run as `python -m capex.server.jobs JOB` with a timeout; failures email the operator |
+| `src/capex/server/schedules.py` | `job_schedules` / `job_requests` / `runs` helpers and the default schedule of every job (`JOBS`). Operational writes use `Database.ops_write()` (no dump.sql churn). |
+| `src/capex/server/jobs.py` | The jobs: watcher, filings_sweep, calendar_sync, regenerate_outputs, publish, backup, backup_raw, health, llm_check, prune. Exit codes 0 / 3 partial / 4 skipped / 75 deferred / 77 auth. |
+| `src/capex/server/locks.py` | File locks under `run/`: `pipeline` (every writer of filings, extractions or the site, including `capex monitor`) and `scheduler` |
+| `src/capex/server/publish.py` | Site + workbooks → S3 (changed files only, safe workbook keys served under their real names, `download/latest.xlsx`, `workbooks.html`) → one CloudFront invalidation |
+| `src/capex/server/backup.py` | Nightly verified DB backups (gz + SQL dump) to S3 with local rotation, weekly raw-filing sync, verified restore |
+| `src/capex/server/health.py` | Heartbeat, token age, job freshness, failed jobs/filings, LLM pause/budget, disk, claude, email — alerts via `notify/ops.py` |
+| `src/capex/notify/ops.py` | Operator alert emails, de-duplicated per key through `alerts_sent` |
 | `src/capex/monitor/pipeline.py` | The watcher state machine: calendar row → `filing_events` → fetch the exact accession → extract → outputs. Retries with backoff, stale rows, fatal-LLM stop. `run.py` is its CLI. |
 | `src/capex/monitor/watchlist.py` | Runtime watch list (which companies, which forms); `expected_form()` |
 | `src/capex/fetch/sec_http.py` | The only way to call SEC: contact UA, ≤ 5 req/s, retries honouring Retry-After |
@@ -69,8 +81,8 @@ capex settings list|set K V   # runtime settings (audited; see `capex settings h
 | `src/capex/extract/extractors/llm_headless.py` | Per-metric dual-agent extractor — used by PEL re-extract, audit re-verify, restatement sweep, and as the fallback for the multi-metric path |
 | `src/capex/extract/extractors/llm_headless_filing.py` | Per-filing dual-agent extractor — one Agent A call covers all 6 metrics, then one Agent B call per metric. Used by `monitor/watcher.py` via `router.extract_filing()` |
 | `src/capex/extract/router.py` | `extract_metric()` (per-metric, retained for PEL/audit) and `extract_filing()` (per-filing bulk path used by the auto-update watcher) |
-| `src/capex/notify/orchestrator.py` | `notify_subscribers(results)` — entry point called by `monitor/run.py` after auto-commit/push. Builds one email per (subscriber, filing). |
-| `src/capex/notify/subscribers.py` | YAML load/save + filter for `data/_local/subscribers.yaml` (gitignored) |
+| `src/capex/notify/orchestrator.py` | `notify_subscribers(results)` — called by the watcher pipeline for fresh filings. Builds one email per (subscriber, filing), resolving the filing by `source_document_id`; links come from `publish.public_base_url`. |
+| `src/capex/notify/subscribers.py` | Subscribers in the DB `subscribers` table (private, audited); YAML only with an explicit path or `NOTIFY_SUBSCRIBERS_PATH` (`capex notify import-yaml` moves it into the DB) |
 | `src/capex/notify/performance.py` | QoQ + YoY comparisons for the email's metric table |
 | `src/capex/notify/formatter.py` | HTML + plain-text body builder, subject-line generator |
 | `src/capex/notify/email_sender.py` | Gmail SMTP via stdlib `smtplib.SMTP_SSL`, reads `GMAIL_USERNAME` / `GMAIL_APP_PASSWORD` from env |

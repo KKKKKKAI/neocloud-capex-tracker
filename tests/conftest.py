@@ -113,7 +113,7 @@ def fake_claude(tmp_path, monkeypatch):
     import json
 
     home = tmp_path / "home"
-    home.mkdir()
+    home.mkdir(exist_ok=True)  # shared with capex_db when a test uses both
     monkeypatch.setenv("CAPEX_HOME", str(home))
     binary = tmp_path / "claude"
     binary.write_text(_FAKE_CLAUDE.format(python=sys.executable), encoding="utf-8")

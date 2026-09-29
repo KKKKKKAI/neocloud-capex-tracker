@@ -138,6 +138,25 @@ class Database:
 
         if not self.dump_enabled:
             return
+        self._dump()
+
+    @contextmanager
+    def ops_write(self) -> Iterator[sqlite3.Connection]:
+        """One write transaction for operational bookkeeping (scheduler
+        runs and requests, schedules, alerts, telemetry). Unlike
+        mutating() it never regenerates dump.sql: the dump mirrors the
+        system-of-record data for review, not the server's own logs."""
+        conn = self._open()
+        try:
+            yield conn
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
+
+    def _dump(self) -> None:
         # Only reached on successful commit. Keep the dump import local
         # to avoid a circular import and to make failures in dump
         # generation surface at the right point in the stack trace.
@@ -180,6 +199,21 @@ def migrate(db: Database | None = None) -> int:
             new_version = version
 
         return new_version
+
+
+def latest_version() -> int:
+    """The newest migration this code ships."""
+    return max(_parse_version(p.name) for p in MIGRATIONS_DIR.glob("[0-9]*.sql"))
+
+
+def current_version(db: Database) -> int:
+    """The DB's applied schema version (0 for a new or unmigrated DB)."""
+    try:
+        with db.connect() as conn:
+            row = conn.execute("SELECT MAX(version) FROM schema_version").fetchone()
+    except sqlite3.Error:
+        return 0
+    return (row[0] or 0) if row else 0
 
 
 def _parse_version(filename: str) -> int:

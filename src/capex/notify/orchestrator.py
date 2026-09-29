@@ -19,9 +19,10 @@ from .formatter import (
     build_html,
     build_subject,
     build_text,
+    site_links,
 )
 from .performance import get_performance
-from .subscribers import filter_for_ticker, load_subscribers
+from .subscribers import Subscriber, filter_for_ticker, load_subscribers
 
 
 def _resolve_filing_context(
@@ -29,22 +30,35 @@ def _resolve_filing_context(
     db: Database,
     metric_keys: list[str],
 ) -> FilingContext | None:
-    """Pull source_documents row + per-metric performance for one filing."""
+    """Pull source_documents row + per-metric performance for one filing.
+
+    The watcher passes the filing's `source_document_id`; the (ticker,
+    period) lookup is the fallback, and could pick a later filing's
+    restated-comparative row for the same period.
+    """
     ticker = result["ticker"]
     period = result.get("period")
     if not period:
         return None
 
     with db.connect() as conn:
-        sd = conn.execute(
-            """
-            SELECT form_type, filing_date, source_url
-            FROM source_documents
-            WHERE ticker = ? AND period_of_report = ?
-            ORDER BY filing_date DESC LIMIT 1
-            """,
-            (ticker, period),
-        ).fetchone()
+        sd = None
+        if result.get("source_document_id"):
+            sd = conn.execute(
+                "SELECT form_type, filing_date, source_url FROM source_documents "
+                "WHERE id = ?",
+                (result["source_document_id"],),
+            ).fetchone()
+        if sd is None:
+            sd = conn.execute(
+                """
+                SELECT form_type, filing_date, source_url
+                FROM source_documents
+                WHERE ticker = ? AND period_of_report = ?
+                ORDER BY filing_date DESC LIMIT 1
+                """,
+                (ticker, period),
+            ).fetchone()
     if sd is None:
         return None
 
@@ -77,9 +91,11 @@ def notify_subscribers(
     *,
     db: Database | None = None,
     send_fn=send_email,
+    subscribers: list[Subscriber] | None = None,
 ) -> dict[str, Any]:
     """Send one email per (subscriber, successful filing) pair.
 
+    `subscribers` overrides the stored list (`capex notify test <email>`).
     Returns a summary dict {sent: N, skipped: N, errors: [...]} so the
     caller can log results. Never raises — SMTP / formatting errors
     surface in `errors` but the function always returns cleanly.
@@ -88,7 +104,7 @@ def notify_subscribers(
     summary: dict[str, Any] = {"sent": 0, "skipped": 0, "errors": []}
 
     try:
-        subs = load_subscribers()
+        subs = subscribers if subscribers is not None else load_subscribers(db=db)
     except Exception as e:
         summary["errors"].append({"phase": "load_subscribers", "error": str(e)})
         return summary
@@ -114,11 +130,12 @@ def notify_subscribers(
                 if ctx is None:
                     summary["skipped"] += 1
                     continue
+                links = site_links(db)
                 send_fn(
                     to_email=sub.email,
                     subject=build_subject(ctx),
-                    html_body=build_html(ctx),
-                    text_body=build_text(ctx),
+                    html_body=build_html(ctx, links=links),
+                    text_body=build_text(ctx, links=links),
                 )
                 summary["sent"] += 1
             except SMTPNotConfigured as e:

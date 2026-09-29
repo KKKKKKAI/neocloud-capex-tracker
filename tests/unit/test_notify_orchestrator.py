@@ -154,3 +154,35 @@ def test_orchestrator_logs_send_errors_continues(
     assert summary["sent"] == 1
     assert len(summary["errors"]) == 1
     assert summary["errors"][0]["subscriber"] == "alice@example.com"
+
+
+def test_links_point_at_the_public_site_and_the_exact_filing(seeded_db: Database):
+    from capex import settings
+    from capex.notify.subscribers import Subscriber
+
+    settings.set("publish.public_base_url", "https://d123.cloudfront.net/", db=seeded_db)
+    with seeded_db.mutating() as conn:
+        real_id = conn.execute("SELECT id FROM source_documents "
+                               "WHERE period_of_report = '2026-03-31'").fetchone()[0]
+        # A later filing's comparative column for the same period: newer
+        # filing_date, so a (ticker, period) lookup would pick it.
+        conn.execute(
+            "INSERT INTO source_documents (ticker, form_type, filing_date, period_of_report, "
+            "fiscal_year, period_token, sha256, raw_path, source, source_url, "
+            "accession_number, fetched_at, fetcher_version, protocol_version) VALUES "
+            "('GOOGL', '6-K', '2027-04-30', '2026-03-31', 2026, 'Q1', 'sha-virtual', "
+            "'restated-virtual://GOOGL/2026-03-31/acc2', 'sec_edgar', "
+            "'https://example/later.htm', 'acc2', 'x', 't', 'p')")
+    captured: list[dict] = []
+    summary = notify_subscribers(
+        [{"status": "success", "ticker": "GOOGL", "period": "2026-03-31",
+          "filed": "2026-04-30", "source_document_id": real_id}],
+        db=seeded_db, subscribers=[Subscriber("alice@example.com")],
+        send_fn=lambda **kw: captured.append(kw),
+    )
+    assert summary["sent"] == 1
+    html, text = captured[0]["html_body"], captured[0]["text_body"]
+    assert "https://d123.cloudfront.net/download/latest.xlsx" in html
+    assert "Dashboard: https://d123.cloudfront.net/" in text
+    assert "https://example/x.htm" in html and "later.htm" not in html
+    assert "maintainer" not in html and "reply to this email" in text

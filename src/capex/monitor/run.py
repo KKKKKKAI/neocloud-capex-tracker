@@ -11,7 +11,8 @@
 --dry-run polls SEC and prints what would happen, changing nothing.
 
 Exit codes: 0 ok; 1 error; 3 some filings partial or failed; 75 deferred
-(LLM usage limit, budget or pause); 77 LLM authentication failed.
+(LLM usage limit, budget or pause, or another pipeline run holds the
+lock); 77 LLM authentication failed.
 Nothing here commits or pushes: the server publishes outputs itself.
 """
 from __future__ import annotations
@@ -40,7 +41,21 @@ def main(argv: list[str] | None = None) -> int:
     if not argv or argv[0] in ("-h", "--help"):
         print(__doc__)
         return 0 if argv else pipeline.EXIT_ERROR
+    if "--dry-run" in argv:
+        return _run(argv)
+    # One pipeline writer at a time: the server's watcher jobs hold the same lock.
+    from ..server.locks import PIPELINE, LockBusyError, file_lock
 
+    try:
+        with file_lock(PIPELINE):
+            return _run(argv)
+    except LockBusyError:
+        print("another pipeline run (the scheduler's or a manual one) is in progress; "
+              "try again later", file=sys.stderr)
+        return pipeline.EXIT_DEFERRED
+
+
+def _run(argv: list[str]) -> int:
     db = Database()
     dry_run = "--dry-run" in argv
     kwargs: dict = {"db": db, "dry_run": dry_run}

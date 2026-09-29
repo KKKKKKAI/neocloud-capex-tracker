@@ -65,6 +65,9 @@ def main(argv: list[str] | None = None) -> int:
     if cmd == "settings":
         from capex.cli.control import settings_command
         return settings_command(rest)
+    if cmd == "server":
+        from capex.cli.server import server_command
+        return server_command(rest)
 
     print(f"unknown command: {cmd}", file=sys.stderr)
     _print_help()
@@ -943,6 +946,16 @@ def _notify_command(argv: list[str]) -> int:
         return 0 if ok else 1
     if sub == "test":
         return _notify_test(rest)
+    if sub == "import-yaml":
+        from pathlib import Path
+
+        from capex.notify.subscribers import import_yaml, subscribers_path
+        source = Path(rest[0]) if rest else subscribers_path()
+        if not source.exists():
+            print(f"no such file: {source}", file=sys.stderr)
+            return 1
+        print(f"imported {import_yaml(source)} subscriber(s) from {source} into the DB")
+        return 0
     print(f"unknown notify subcommand: {sub}", file=sys.stderr)
     _print_notify_usage()
     return 2
@@ -961,11 +974,7 @@ def _notify_test(rest: list[str]) -> int:
     """Send a sample email built from the most recent extracted filing."""
     from capex.db import Database
     from capex.notify import notify_subscribers
-    from capex.notify.subscribers import (
-        add_subscriber,
-        load_subscribers,
-        remove_subscriber,
-    )
+    from capex.notify.subscribers import Subscriber
 
     target = rest[0] if rest else None
     db = Database()
@@ -997,19 +1006,11 @@ def _notify_test(rest: list[str]) -> int:
     }]
     print(f"sample filing: {row['ticker']} period={row['period_of_report']}")
 
-    if target:
-        # Temporary one-off subscriber so the test isolates to this email.
-        existing = {s.email for s in load_subscribers()}
-        added_for_test = target not in existing
-        if added_for_test:
-            add_subscriber(target)
-        try:
-            summary = notify_subscribers(fake_results, db=db)
-        finally:
-            if added_for_test:
-                remove_subscriber(target)
-    else:
-        summary = notify_subscribers(fake_results, db=db)
+    # With an address, only that address gets the sample; the stored list is untouched.
+    summary = notify_subscribers(
+        fake_results, db=db,
+        subscribers=[Subscriber(email=target)] if target else None,
+    )
 
     print(f"sent={summary['sent']}  skipped={summary['skipped']}  "
           f"errors={len(summary['errors'])}")
@@ -1027,7 +1028,8 @@ def _print_notify_usage() -> None:
         "  capex notify enable <email>\n"
         "  capex notify disable <email>\n"
         "  capex notify test [<email>]              send a sample email "
-        "built from the most-recent extracted filing\n",
+        "built from the most-recent extracted filing\n"
+        "  capex notify import-yaml [PATH]          copy a subscribers.yaml into the DB\n",
         file=sys.stderr,
     )
 
@@ -1077,6 +1079,8 @@ def _print_help() -> None:
         "    llm usage           LLM calls today vs the daily budget\n"
         "    settings list       runtime settings (see `capex settings help`)\n"
         "    settings set K V    change a runtime setting (audited)\n"
+        "    server ...          always-on host: scheduler, jobs, runs, publish, backup,\n"
+        "                        restore, health, doctor (see `capex server -h`)\n"
     )
 
 

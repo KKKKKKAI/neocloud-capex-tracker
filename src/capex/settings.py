@@ -97,6 +97,9 @@ REGISTRY: dict[str, Setting] = {s.key: s for s in [
             check=_between(1, 3650)),
     Setting("watcher.max_attempts", int, 6,
             "Attempts per filing before it is marked failed.", check=_between(1, 50)),
+    Setting("watcher.sweep_days", int, 30,
+            "The filings sweep queues periodic filings from the last N days "
+            "that no calendar row pointed at.", check=_between(1, 365)),
     Setting("watcher.stale_after_days", dict,
             {"10-Q": 21, "10-K": 45, "6-K": 14, "20-F": 150},
             "Days after the report date before an unfound filing is marked stale.",

@@ -1,69 +1,77 @@
-"""Filing watcher — polls SEC EDGAR / HKEX for new filings.
+"""SEC EDGAR polling for the watcher pipeline (see pipeline.py).
 
-Called on earnings days by the cron runner. Polls until the filing
-appears, then downloads and triggers extraction.
+poll_for_row() answers one question for a calendar row: has the filing
+for this period appeared yet? It separates four outcomes that used to
+collapse into "nothing new": a hit, not filed yet, SEC unreachable, and
+no automated fetcher for this form.
 """
 from __future__ import annotations
 
-import json
-import time
-import urllib.request
+from dataclasses import dataclass
+from datetime import date
 from typing import Any
 
-from ..adapters.errors import FATAL_LLM_ERRORS
 from ..db import Database
-from ..fetch import get_user_agent
-from ..fetch.dispatcher import fetch_and_record
-from .calendar import update_status
+from ..fetch.errors import SourceUnavailableError
+from ..fetch.sec import SEC_FORM_TYPES, get_submissions, list_filings
+
+# A filing's EDGAR reportDate should equal the calendar's fiscal period
+# end; allow for 52/53-week years and provider rounding.
+MATCH_WINDOW_DAYS = 10
+
+HIT, NOT_YET, ERROR, UNSUPPORTED = "hit", "not_yet", "error", "unsupported"
 
 
-def poll_sec_latest(
-    ticker: str,
-    form_type: str,
-    *,
-    db: Database | None = None,
-) -> dict[str, Any] | None:
-    """Check SEC EDGAR for the latest filing of a given type.
+@dataclass
+class PollResult:
+    status: str                       # hit | not_yet | error | unsupported
+    filing: dict[str, str] | None = None
+    detail: str = ""
 
-    Returns {period, filed, accession, doc} or None if nothing new.
-    """
-    db = db or Database()
+
+def edgar_cik(ticker: str, db: Database) -> str | None:
     with db.connect() as conn:
         row = conn.execute(
-            "SELECT edgar_cik FROM companies WHERE ticker = ?",
-            (ticker,),
+            "SELECT edgar_cik FROM companies WHERE ticker = ?", (ticker,)
         ).fetchone()
-    if not row or not row["edgar_cik"]:
-        return None
+    return row["edgar_cik"] if row and row["edgar_cik"] else None
 
-    cik = row["edgar_cik"]
-    padded = cik.lstrip("0").zfill(10)
-    url = f"https://data.sec.gov/submissions/CIK{padded}.json"
-    ua = get_user_agent()
-    req = urllib.request.Request(url, headers={"User-Agent": ua})
 
+def submissions_for(ticker: str, db: Database, cache: dict[str, Any]) -> dict:
+    """EDGAR submissions for `ticker`, fetched once per run via `cache`."""
+    if ticker not in cache:
+        cik = edgar_cik(ticker, db)
+        if cik is None:
+            raise LookupError(f"{ticker} has no EDGAR CIK")
+        cache[ticker] = get_submissions(cik)
+    return cache[ticker]
+
+
+def poll_for_row(
+    ticker: str,
+    form_type: str | None,
+    fiscal_date_ending: str,
+    *,
+    db: Database,
+    cache: dict[str, Any] | None = None,
+) -> PollResult:
+    """Has `ticker` filed its `form_type` for the period ending then?"""
+    if form_type not in SEC_FORM_TYPES:
+        return PollResult(UNSUPPORTED, detail=f"no automated fetcher for {form_type or '?'} yet")
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read())
-    except Exception:
-        return None
-
-    recent = data.get("filings", {}).get("recent", {})
-    forms = recent.get("form", [])
-    dates = recent.get("filingDate", [])
-    report_dates = recent.get("reportDate", [])
-    accns = recent.get("accessionNumber", [])
-    docs = recent.get("primaryDocument", [])
-
-    for i, f in enumerate(forms):
-        if f == form_type or f == f"{form_type}/A":
-            return {
-                "period": report_dates[i] if i < len(report_dates) else "",
-                "filed": dates[i] if i < len(dates) else "",
-                "accession": accns[i] if i < len(accns) else "",
-                "doc": docs[i] if i < len(docs) else "",
-            }
-    return None
+        submissions = submissions_for(ticker, db, cache if cache is not None else {})
+    except LookupError as e:
+        return PollResult(ERROR, detail=str(e))
+    except SourceUnavailableError as e:
+        return PollResult(ERROR, detail=str(e))
+    target = date.fromisoformat(fiscal_date_ending)
+    for filing in list_filings(submissions, form_type):  # amendments excluded
+        report_date = filing.get("reportDate")
+        if not report_date:
+            continue
+        if abs((date.fromisoformat(report_date) - target).days) <= MATCH_WINDOW_DAYS:
+            return PollResult(HIT, filing=filing)
+    return PollResult(NOT_YET)
 
 
 def already_in_db(
@@ -71,122 +79,15 @@ def already_in_db(
     form_type: str,
     period: str,
     *,
-    db: Database | None = None,
+    db: Database,
+    accession: str | None = None,
 ) -> bool:
-    """Check if we already have this filing in source_documents."""
-    db = db or Database()
+    """Is this filing already in source_documents (by accession or period)?"""
     with db.connect() as conn:
         row = conn.execute(
             "SELECT id FROM source_documents "
-            "WHERE ticker = ? AND form_type = ? AND period_of_report = ?",
-            (ticker, form_type, period),
+            "WHERE (accession_number = ? AND accession_number != '') "
+            "OR (ticker = ? AND form_type = ? AND period_of_report = ?)",
+            (accession or "", ticker, form_type, period),
         ).fetchone()
     return row is not None
-
-
-def watch_and_extract(
-    ticker: str,
-    form_type: str,
-    *,
-    backend: Any,
-    db: Database | None = None,
-    metric_keys: list[str] | None = None,
-    max_polls: int = 48,
-    interval: int = 1800,
-) -> dict[str, Any]:
-    """Poll for a filing, download when found, run extraction.
-
-    Args:
-        ticker: company ticker
-        form_type: expected filing type (10-Q, 10-K, 20-F, 6-K)
-        backend: CLIBackend for LLM calls
-        db: database instance
-        metric_keys: metrics to extract (default: all configured)
-        max_polls: maximum polling attempts (default: 48 = 24 hours)
-        interval: seconds between polls (default: 1800 = 30 min)
-
-    Returns:
-        {status, ticker, period, metrics_extracted, issues}
-    """
-    db = db or Database()
-
-    if metric_keys is None:
-        metric_keys = [
-            "capital_expenditures", "revenue", "operating_cash_flow",
-            "depreciation_amortization", "property_plant_equipment_net",
-            "cloud_segment_revenue",
-        ]
-
-    for attempt in range(1, max_polls + 1):
-        latest = poll_sec_latest(ticker, form_type, db=db)
-
-        if latest and latest.get("period") and not already_in_db(
-            ticker, form_type, latest["period"], db=db
-        ):
-            # Found new filing!
-            print(f"  [{ticker}] New {form_type} detected: period={latest['period']}, "
-                  f"filed={latest['filed']}")
-
-            # 1. Download
-            try:
-                fetch_and_record(ticker, form_type, db=db)
-            except Exception as e:
-                return {
-                    "status": "fetch_failed",
-                    "ticker": ticker,
-                    "error": str(e),
-                }
-
-            # 2. One Agent A call per filing (multi-metric) +
-            #    one Agent B call per metric. Per-metric fallback
-            #    is wired inside extract_filing for any metric that
-            #    the multi-metric pass couldn't satisfy.
-            from ..extract.router import extract_filing
-
-            extracted = []
-            issues = []
-            try:
-                results = extract_filing(
-                    ticker, form_type,
-                    period=latest["period"],
-                    metric_keys=metric_keys,
-                    write=True, backend=backend, db=db,
-                )
-            except FATAL_LLM_ERRORS:
-                # Auth / usage limit / budget: don't mark the filing
-                # extracted; let the run fail loudly.
-                raise
-            except Exception as e:
-                results = {}
-                issues.append(f"extract_filing: {type(e).__name__}: {e}")
-
-            for metric_key in metric_keys:
-                r = results.get(metric_key)
-                if r is None:
-                    continue  # error already in `issues`
-                if r.status == "success":
-                    extracted.append(metric_key)
-                else:
-                    issues.append(f"{metric_key}: {r.status}")
-
-            # 3. Update calendar status
-            try:
-                update_status(ticker, latest["period"], "extracted", db=db)
-            except Exception:
-                pass
-
-            return {
-                "status": "success",
-                "ticker": ticker,
-                "period": latest["period"],
-                "filed": latest["filed"],
-                "metrics_extracted": extracted,
-                "issues": issues,
-            }
-
-        if attempt < max_polls:
-            print(f"  [{ticker}] Poll {attempt}/{max_polls}: no new {form_type} yet. "
-                  f"Next check in {interval}s...")
-            time.sleep(interval)
-
-    return {"status": "timeout", "ticker": ticker, "form_type": form_type}

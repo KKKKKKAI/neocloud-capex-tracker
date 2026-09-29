@@ -22,13 +22,11 @@ a code change.
 from __future__ import annotations
 
 import json
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from typing import Any
 
 from ..db import Database
-from ..fetch import get_user_agent
+from ..fetch import sec_http
 
 COMPANYFACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik_padded}.json"
 
@@ -214,10 +212,7 @@ def _get_doc_info(db: Database, source_document_id: int) -> dict | None:
 def _fetch_companyfacts(cik: str) -> dict:
     """Fetch the XBRL companyfacts JSON from SEC."""
     padded = cik.lstrip("0").zfill(10)
-    url = COMPANYFACTS_URL.format(cik_padded=padded)
-    req = urllib.request.Request(url, headers={"User-Agent": get_user_agent()})
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    return sec_http.get_json(COMPANYFACTS_URL.format(cik_padded=padded))
 
 
 def _find_fact_value(

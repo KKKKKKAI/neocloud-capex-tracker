@@ -32,14 +32,12 @@ Key design decisions:
 """
 from __future__ import annotations
 
-import json
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from typing import Any
 
 from ..db import Database
-from ..fetch import get_user_agent
+from ..fetch import sec_http
+from ..fetch.errors import SourceUnavailableError
 from ..fx.rates import normalize_to_usd
 
 COMPANYFACTS_URL = (
@@ -322,15 +320,10 @@ def write_timeseries_to_db(
 def _fetch_companyfacts(cik: str) -> dict:
     padded = cik.lstrip("0").zfill(10)
     url = COMPANYFACTS_URL.format(cik_padded=padded)
-    headers = {"User-Agent": get_user_agent()}
-    req = urllib.request.Request(url, headers=headers)
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(
-            f"companyfacts API error: {e.code} for {url}"
-        ) from e
+        return sec_http.get_json(url)
+    except SourceUnavailableError as e:
+        raise RuntimeError(f"companyfacts API error: {e}") from e
 
 
 def _ensure_source_doc(

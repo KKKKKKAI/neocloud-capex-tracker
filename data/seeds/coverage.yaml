@@ -364,19 +364,23 @@ companies:
     reporting_currency: USD
     coverage_start: "2022-11-17"  # IPO date on NASDAQ
     filing_cadence:
-      annual: 20-F
-      quarterly: null
+      # Filed 20-F + 6-K as a foreign private issuer until FY2024; since
+      # FY2025 it files US domestic forms (10-K 2025-08-28, then 10-Qs).
+      annual: 10-K
+      quarterly: 10-Q
     extraction_approach: xbrl_primary
     quarterly_convention:
-      default: standalone_quarterly   # 6-K press releases; 20-F annual only
+      default: three_month_column
       filing_header_signatures:
         expect_any_of:
-          - "Three months ended"
-          - "quarter ended"
+          - "Three Months Ended"
+          - "Six Months Ended"
+          - "Nine Months Ended"
     notes: |
       Australian company, NASDAQ-listed, reports in USD. Formerly Iris
       Energy. Primarily Bitcoin mining + HPC hosting. FYE June. Total
-      revenue treated as datacenter revenue. Annual data only from 20-F.
+      revenue treated as datacenter revenue. Pre-FY2025 history comes
+      from 20-F annuals; from FY2025 on, 10-K annuals and 10-Q quarters.
 
   NBIS:
     full_name: Nebius Group N.V.

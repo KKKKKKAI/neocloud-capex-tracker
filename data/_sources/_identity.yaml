@@ -133,8 +133,9 @@ companies:
     fiscal_year_end_month: 5
 
   IREN:
-    # IREN Limited (formerly Iris Energy). Australian incorporation, NASDAQ-listed,
-    # files 20-F as a foreign private issuer. FYE June.
+    # IREN Limited (formerly Iris Energy). Australian incorporation, NASDAQ-listed.
+    # Filed 20-F as a foreign private issuer until FY2024; files 10-K / 10-Q
+    # since FY2025. FYE June.
     name: IREN Limited
     preferred_source: sec_edgar
     edgar_cik: "0001878848"

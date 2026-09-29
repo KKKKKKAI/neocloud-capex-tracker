@@ -235,14 +235,21 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 10.4b Calendar forms refreshed: 9 rows requeued (IREN 10-Q/10-K; NBIS, GDS, BIDU and BABA 6-K; ORCL 10-Q)
 - [x] First real publish: 55 objects, CloudFront invalidated. https://d1pdb32k3hz8st.cloudfront.net serves the dashboard, chart pages, `workbooks.html` (42 workbooks) and `download/latest.xlsx` under its real name.
 - [x] Go live: `capex-scheduler` and `capex-admin` enabled; the panel answers on 127.0.0.1:8081. The first calendar sync and S3 backup ran at once; health is all ok.
-- [ ] 10.5 Backlog caught up (9 filings) — pause (d) spot-check
+- [ ] 10.5 Backlog catch-up (9 filings). The first run found all 9, and IREN 10-Q, NBIS Q1, IREN 10-K and ORCL 10-Q were extracted.
+  - Then the Claude plan's session limit ran out: "You've hit your session limit · resets 7:10pm (UTC)". The classifier didn't know that wording, so it read as a transient error: 54 calls failed, and 5 of the 6-Ks were charged 4 of 6 attempts.
+  - Fix: #12 recognises the message and pauses until the reset. The 5 events were reset to 0 attempts with the audited `retry_event` after the limit lifted.
+  - Pause (d) spot-check once the rest are in.
 
-## Phase 11: Go-live repo cleanup (PR 10) — pause (c)
-- [ ] 11.1 Data untracked + `.gitignore`
-- [ ] 11.2 Local wrappers removed
-- [ ] 11.3 README links, diagram, status table
-- [ ] 11.4 Docs
-- [ ] 11.5 GitHub Pages redirect/disable; branch protection on `main`
+## Phase 11: Go-live repo cleanup (PR 13) — pause (c)
+- [x] 11.1 Untracked: `data/db/capex.db` + `dump.sql`, the 41 workbooks, `charts/`, `output/`, `docs/charts/` (history not rewritten), plus `.gitignore` entries
+- [x] 11.2 Removed `scripts/run_monitor.sh`, `sync_calendar.sh`, `initial_push.sh`, `bootstrap.sh` (replaced by `dev_setup.sh`)
+- [x] 11.3 README: live-site links, hero image, `site/` labels, status rows, getting started. Merged on its own as #11 at the maintainer's request; the "GitHub holds code only" line comes with this PR.
+- [x] 11.4 Docs:
+  - `CLAUDE.md`, `SYSTEM_DESIGN` §4 / §5.2 / §10.2–10.3, `MONITOR_DESIGN` marked superseded, `.env.example`
+  - `dump.sql` is opt-in (`CAPEX_DUMP_SQL=1`)
+  - `docs/*.html` are redirect stubs to CloudFront
+- [ ] 11.5 GitHub settings (maintainer's OK): Pages keeps serving `docs/`, now the redirect stubs, with no setting change. Protect `main` by requiring `lint-and-test`.
+- [ ] PR merged. A pull of it deletes the local copies of the now-untracked files; restore them with `git restore --source=<commit before the merge> --worktree -- data/db/capex.db data/db/dump.sql workbook charts output docs/charts`, or pull a fresh snapshot.
 
 ## Phase 12: After launch
 - [ ] First calendar sync observed

@@ -279,7 +279,7 @@ data/
 
 deploy/                   AWS stack, server bootstrap, deploys, systemd units
 docs/                     Design docs and runbooks (SERVER_OPERATIONS.md)
-workbook/, charts/, site/ Generated outputs (published by the server)
+workbook/, charts/, site/ Generated outputs (untracked; published by the server)
 ```
 
 ## CLI commands
@@ -347,7 +347,7 @@ capex server jobs | runs | health    # on the server (docs/SERVER_OPERATIONS.md)
 | 7d | Email notifications on new filings | ✅ | After every successful auto-update, sends one HTML+text email per (subscriber, filing) pair. Subject leads with the headline metric (e.g. `📊 GOOGL Q1 FY2026 10-Q — revenue $109.9B (+12.1% YoY, -3.5% QoQ)`); body has a clean table with each metric's current value + prior-quarter delta + prior-year delta. Subscribers live in the server DB's `subscribers` table (every change audited). Real emails never enter the public repo. Per-subscriber ticker / metric filters supported. Gmail SMTP via stdlib (`GMAIL_USERNAME` + `GMAIL_APP_PASSWORD`, loaded from SSM on the server). Links point at the public site. CLI: `capex notify {list,add,remove,enable,disable,test,import-yaml}`. Crash-safe — SMTP failures log but never break the run that just succeeded at extraction. |
 | 7e | Always-on server: scheduler and jobs | ✅ | `capex server scheduler` runs every job on a cron schedule in Europe/London (missed runs collapse into one). Each run is a process with a timeout, logged in `runs`. The jobs are watcher every 20 min, filings sweep, calendar sync, regenerate, publish, backups, health, LLM check and prune. `server/publish.py` mirrors the site and every workbook to S3 behind CloudFront: only changed files, `download/latest.xlsx`, and workbooks served under their real names. Nightly verified DB backups go to S3. Health checks and failures email the operator, de-duplicated. Live since 2026-09-29 on AWS (EC2 + S3 + CloudFront). Merges to `main` deploy themselves once CI passes, and roll back if unhealthy. Runbook: `docs/SERVER_OPERATIONS.md`. |
 | 7f | Admin panel (SSH tunnel) | ✅ | `capex server admin` on the server's 127.0.0.1:8081, opened with `scripts/admin_tunnel.sh`. It controls which companies are watched and with which forms, calendar dates, retry/ignore/ingest of filings, job schedules with Run now, subscribers and alert emails, and every runtime setting, including Claude budget and pause. It also shows runs with logs, health and an audit trail. No password: the SSH key is the gate. Host check, form tokens and same-origin POSTs block browser-based attacks. |
-| 8a | Auto-publish pipeline | ✅ | The server's `publish` job (row 7e): S3 + CloudFront instead of CI. |
+| 8a | Auto-publish pipeline | ✅ | The server's `publish` job (row 7e): S3 + CloudFront instead of CI. GitHub holds code only; `docs/*.html` redirect to the live site. |
 | 8b | CSV / JSON / Parquet exporters | 📋 | Additional output formats from DB |
 | 9a | Always-on AWS server | ✅ | Live since 2026-09-29. `deploy/aws/capex-stack.yaml` (EC2 + persistent data volume, S3 + CloudFront site, versioned backup bucket), `deploy/bootstrap.sh`, secrets from SSM Parameter Store, `deploy/capex-deploy.sh` (merges to `main` deploy themselves once CI passes, with automatic rollback), health checks and operator alerts. Runbook: `docs/SERVER_OPERATIONS.md`; history: `docs/SERVER_MIGRATION_CHECKLIST.md` |
 | — | Pluggable LLM adapters (Anthropic, Gemini, OpenAI) | 📋 | Replace interactive Claude Code extraction |

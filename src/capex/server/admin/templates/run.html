@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Run {{ run.id }}: {{ run.job }} <span class="badge {{ run.status }}">{{ run.status }}</span></h1>
+<div class="grid">
+  <div class="card">
+    <table class="kv">
+      <tr><td>started</td><td>{{ run.started_at | local }} ({{ run.started_at | ago }})</td></tr>
+      <tr><td>finished</td><td>{{ run.finished_at | local }}</td></tr>
+      <tr><td>trigger</td><td>{{ run.trigger_kind }}</td></tr>
+      <tr><td>exit code</td><td>{{ run.exit_code if run.exit_code is not none else '–' }}</td></tr>
+      <tr><td>code</td><td class="mono">{{ run.code_sha or '–' }}</td></tr>
+      <tr><td>log file</td><td class="mono small">{{ run.log_path or '–' }}</td></tr>
+    </table>
+    <form class="inline" method="post" action="/jobs/{{ run.job }}/run">{{ csrf_field }}
+      <input type="hidden" name="next" value="/runs"><button>Run {{ run.job }} again</button></form>
+  </div>
+  <div class="card">
+    <h2>Summary</h2>
+    {% if run.summary_json %}<pre>{{ run.summary_json | pretty }}</pre>{% else %}<p class="muted">none</p>{% endif %}
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <h2>Log</h2>
+  <pre>{{ log or '(empty)' }}</pre>
+</div>
+{% endblock %}

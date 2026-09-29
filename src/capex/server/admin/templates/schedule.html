@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Schedule</h1>
+<p class="muted">Cron times are local to each schedule's time zone (Europe/London), so they follow
+  daylight saving. Runs missed while the server was down collapse into one. Five fields:
+  <span class="mono">minute hour day-of-month month day-of-week</span>.</p>
+{% if paused %}<div class="flash err">Schedules are paused: nothing runs on schedule, but Run now works.
+  <form class="inline" method="post" action="/scheduler/resume">{{ csrf_field }}
+  <input type="hidden" name="next" value="/schedule"><button>Resume</button></form></div>{% endif %}
+<div class="card">
+<table>
+  <tr><th>job</th><th>schedule</th><th>on</th><th>timeout (s)</th><th></th><th>next run</th><th>last run</th><th></th></tr>
+  {% for s in rows %}{% set f_id = "sch-" ~ s.job %}
+  <tr>
+    <td><form id="{{ f_id }}" method="post" action="/schedule/{{ s.job }}">{{ csrf_field }}</form>
+      <b>{{ s.job }}</b><br><span class="muted small">{{ s.help }}</span></td>
+    <td><input form="{{ f_id }}" class="mono" type="text" name="cron" value="{{ s.cron }}" size="14" aria-label="cron for {{ s.job }}">
+      <br><select form="{{ f_id }}" name="preset" class="small" aria-label="preset for {{ s.job }}"><option value="">or a preset…</option>
+        {% for expr, label in presets %}<option value="{{ expr }}">{{ label }}</option>{% endfor %}</select></td>
+    <td><input form="{{ f_id }}" type="checkbox" name="enabled" {% if s.enabled %}checked{% endif %} aria-label="enable {{ s.job }}"></td>
+    <td><input form="{{ f_id }}" type="number" name="timeout_s" value="{{ s.timeout_s }}" min="30" max="86400" style="width:6em" aria-label="timeout for {{ s.job }}"></td>
+    <td><button form="{{ f_id }}">Save</button></td>
+    <td>{% if s.enabled and s.next_run_at %}{{ s.next_run_at | local }}<br><span class="muted small">{{ s.next_run_at | ago }}</span>{% else %}<span class="muted">off</span>{% endif %}</td>
+    <td>{% if s.last_status %}<a href="/runs?job={{ s.job }}"><span class="badge {{ s.last_status }}">{{ s.last_status }}</span></a>
+      <br><span class="muted small">{{ s.last_started_at | ago }}</span>{% else %}<span class="muted">never</span>{% endif %}</td>
+    <td><form class="inline" method="post" action="/jobs/{{ s.job }}/run">{{ csrf_field }}
+      <input type="hidden" name="next" value="/schedule"><button>Run now</button></form></td>
+  </tr>
+  {% endfor %}
+</table>
+<p class="muted small">A preset, when picked, replaces the cron in the text field.</p>
+</div>
+{% endblock %}

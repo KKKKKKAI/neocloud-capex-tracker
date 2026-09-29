@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Settings</h1>
+<div class="card">
+  <h2>Claude calls</h2>
+  {% if paused_until %}
+    <p><span class="badge warn">paused until {{ paused_until | local }}</span></p>
+    <form class="inline" method="post" action="/llm/resume">{{ csrf_field }}<button class="primary">Resume now</button></form>
+  {% else %}
+    <form class="row" method="post" action="/llm/pause">{{ csrf_field }}
+      <label class="field">pause Claude calls for (hours)<input type="number" name="hours" value="6" min="0.5" step="0.5" style="width:6em"></label>
+      <button>Pause</button>
+    </form>
+  {% endif %}
+  <p class="muted small">A usage limit pauses calls automatically until it resets.</p>
+</div>
+{% for group, items in groups.items() %}
+<div class="card">
+  <h2>{{ group }}</h2>
+  <table>
+    {% for s in items %}{% set f_id = "set-" ~ s.key %}
+    <tr>
+      <td style="width:28%"><span class="mono">{{ s.key }}</span>{% if s.is_default %} <span class="muted small">(default)</span>{% endif %}
+        <br><span class="muted small">{{ s.help }}</span></td>
+      <td><form id="{{ f_id }}" method="post" action="/settings/{{ s.key }}">{{ csrf_field }}</form>
+        {% if s.type == 'bool' %}
+          <select form="{{ f_id }}" name="value" aria-label="{{ s.key }}">
+            <option value="true" {% if s.value == 'true' %}selected{% endif %}>true</option>
+            <option value="false" {% if s.value == 'false' %}selected{% endif %}>false</option></select>
+        {% else %}
+          <input form="{{ f_id }}" class="mono" type="text" name="value" value="{{ s.value }}" size="44" aria-label="{{ s.key }}">
+        {% endif %}
+        <span class="muted small">{{ s.type }}</span></td>
+      <td><div class="actions"><button form="{{ f_id }}">Save</button>
+        {% if not s.is_default %}<button form="{{ f_id }}" name="reset" value="1">Reset</button>{% endif %}</div></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endfor %}
+<p class="muted small">Lists take JSON or comma-separated values; objects take JSON. Every change is in the Audit page.</p>
+{% endblock %}

@@ -45,6 +45,7 @@ capex settings list|set K V   # runtime settings (audited; see `capex settings h
 capex server jobs|runs|log N  # schedules, recent runs, one run's log
 capex server run JOB [--now]  # queue a job for the scheduler (--now: run it here)
 capex server scheduler        # the always-on scheduler (systemd on the server)
+capex server admin            # admin panel on 127.0.0.1:8081 (scripts/admin_tunnel.sh from WSL)
 capex server publish --dry-run | backup | restore | health | doctor
 ```
 
@@ -66,6 +67,7 @@ capex server publish --dry-run | backup | restore | health | doctor
 | `src/capex/server/backup.py` | Nightly verified DB backups (gz + SQL dump) to S3 with local rotation, weekly raw-filing sync, verified restore |
 | `src/capex/server/health.py` | Heartbeat, token age, job freshness, failed jobs/filings, LLM pause/budget, disk, claude, email — alerts via `notify/ops.py` |
 | `src/capex/notify/ops.py` | Operator alert emails, de-duplicated per key through `alerts_sent` |
+| `src/capex/server/admin/` | The admin panel (FastAPI + Jinja2 templates, no JS): watchlist, calendar and filings, schedules, runs, subscribers, settings, audit. Localhost-only via SSH tunnel; Host check + form token + same-origin POSTs. It edits control tables (audited as `admin`) and queues `job_requests` — never runs jobs itself. |
 | `src/capex/monitor/pipeline.py` | The watcher state machine: calendar row → `filing_events` → fetch the exact accession → extract → outputs. Retries with backoff, stale rows, fatal-LLM stop. `run.py` is its CLI. |
 | `src/capex/monitor/watchlist.py` | Runtime watch list (which companies, which forms); `expected_form()` |
 | `src/capex/fetch/sec_http.py` | The only way to call SEC: contact UA, ≤ 5 req/s, retries honouring Retry-After |

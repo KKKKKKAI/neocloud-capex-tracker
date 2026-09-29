@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Notifications</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Alerts and filing emails</h2>
+    <form method="post" action="/notifications/settings">{{ csrf_field }}
+      <table class="kv">
+        <tr><td>operator alerts</td><td><input type="checkbox" name="alerts_enabled" {% if alerts_enabled %}checked{% endif %} aria-label="operator alerts on"> on</td></tr>
+        <tr><td>operator emails</td><td><input type="text" name="operator_emails" value="{{ operator_emails }}" size="28" aria-label="operator emails"><br>
+          <span class="muted small">comma-separated</span></td></tr>
+        <tr><td>filing emails to subscribers</td><td><input type="checkbox" name="notify_enabled" {% if notify_enabled %}checked{% endif %} aria-label="filing emails on"> on</td></tr>
+        <tr><td>skip filings older than (days)</td><td><input type="number" name="max_age" value="{{ max_age }}" min="1" max="365" style="width:5em" aria-label="max age"></td></tr>
+      </table>
+      <button class="primary">Save</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Test</h2>
+    <form class="row" method="post" action="/notifications/test">{{ csrf_field }}
+      <input type="hidden" name="kind" value="sample">
+      <label class="field">send a sample filing email to<input type="email" name="email" size="24" required></label>
+      <button>Send</button>
+    </form>
+    <p></p>
+    <form class="row" method="post" action="/notifications/test">{{ csrf_field }}
+      <input type="hidden" name="kind" value="alert">
+      <button>Send a test alert to the operator emails</button>
+    </form>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2>Subscribers</h2>
+  <table>
+    <tr><th>email</th><th>companies</th><th>metrics</th><th>status</th><th></th></tr>
+    {% for s in subscribers %}
+    <tr><td>{{ s.email }}</td><td>{{ s.tickers | join(', ') }}</td><td>{{ s.metrics | join(', ') }}</td>
+      <td><span class="badge {{ 'ok' if s.enabled else 'skipped' }}">{{ 'on' if s.enabled else 'off' }}</span></td>
+      <td><div class="actions">
+        <form class="inline" method="post" action="/notifications/subscribers/toggle">{{ csrf_field }}
+          <input type="hidden" name="email" value="{{ s.email }}"><button>{{ 'Disable' if s.enabled else 'Enable' }}</button></form>
+        <form class="inline" method="post" action="/notifications/subscribers/delete">{{ csrf_field }}
+          <input type="hidden" name="email" value="{{ s.email }}"><button class="danger">Remove</button></form>
+      </div></td></tr>
+    {% else %}<tr><td colspan="5" class="muted">No subscribers yet.</td></tr>{% endfor %}
+  </table>
+  <h2 style="margin-top:14px">Add or change a subscriber</h2>
+  <form class="row" method="post" action="/notifications/subscribers">{{ csrf_field }}
+    <label class="field">email<input type="email" name="email" size="24" required></label>
+    <label class="field">companies (* = all)<input type="text" name="tickers" value="*" size="16"></label>
+    <label class="field">metrics (* = all)<input type="text" name="metrics" value="*" size="16"></label>
+    <button class="primary">Save</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Recent operator alerts</h2>
+  <table>
+    <tr><th>alert</th><th>last sent</th><th>times raised</th></tr>
+    {% for a in sent %}<tr><td class="mono">{{ a.key }}</td><td>{{ a.last_sent_at | local }}</td><td>{{ a.count }}</td></tr>
+    {% else %}<tr><td colspan="3" class="muted">None yet.</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Runs</h1>
+<div class="card">
+  <form class="row" method="get" action="/runs">
+    <label class="field">job<select name="job"><option value="">all</option>
+      {% for j in jobs %}<option {% if j == job %}selected{% endif %}>{{ j }}</option>{% endfor %}</select></label>
+    <label class="field">status<select name="status"><option value="">all</option>
+      {% for s in ['running', 'success', 'partial', 'skipped', 'deferred', 'failed', 'timeout'] %}
+      <option {% if s == status %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label>
+    <button>Filter</button>
+  </form>
+</div>
+<div class="card">
+<table>
+  <tr><th>#</th><th>job</th><th>status</th><th>started</th><th>took</th><th>trigger</th><th>exit</th><th>code</th></tr>
+  {% for r in rows %}
+  <tr><td><a href="/runs/{{ r.id }}">{{ r.id }}</a></td><td>{{ r.job }}</td>
+    <td><span class="badge {{ r.status }}">{{ r.status }}</span></td>
+    <td>{{ r.started_at | local }} <span class="muted small">{{ r.started_at | ago }}</span></td>
+    <td class="muted">{{ took(r.started_at, r.finished_at) }}</td>
+    <td class="muted">{{ r.trigger_kind }}</td>
+    <td class="muted">{{ r.exit_code if r.exit_code is not none else '' }}</td>
+    <td class="mono muted">{{ (r.code_sha or '')[:8] }}</td></tr>
+  {% else %}<tr><td colspan="8" class="muted">No runs yet.</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

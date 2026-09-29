@@ -135,7 +135,7 @@ the server deploys commits whose `lint-and-test` CI run passed.
   - Q2, RMB m: revenue 3,087.950, capex 1,249.766, OCF 1,416.260, D&A 851.428, PP&E 38,734.730, cloud revenue 3,087.950
   - Each value matches the release's financial statements to the thousand.
 - [x] PR merged — 2026-09-29, #7 (`fd9bbef`)
-- [ ] Pause (d): maintainer spot-check of the GDS Q2 values against the release
+- [x] Pause (d): maintainer confirmed the GDS Q2 values against the release — 2026-09-29
 
 ## Phase 7: Scheduler, jobs, publish, backups, health, alerts, subscribers (PR 8)
 - [x] 7.1 `server/jobs.py`: watcher, filings_sweep, calendar_sync, regenerate_outputs, publish, backup, backup_raw (new: weekly raw sync), health, llm_check, prune.
@@ -167,13 +167,36 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] Verified:
   - 440 tests pass: scheduler loop with real child processes (exit codes, timeout kill, alerts, pause, orphans), publish and backup against moto S3, jobs, health, alerts, subscribers
   - smoke run on a scratch DB copy: `server init`, `run health --now`, and `run regenerate_outputs` through `scheduler --once`. It wrote the workbook and queued a publish, which was skipped with no bucket; a local verified backup; cron validation.
-- [ ] PR merged
-- [ ] On the server (needs `aws login`): pull, reinstall the venv, `capex server init`, `capex server publish` to the real bucket, `capex server backup` to the real bucket
+- [x] PR merged — 2026-09-29, #8 (`1a08b0b`)
+- [x] On the server via SSM: code at `1a08b0b`, venv reinstalled (croniter). In a throwaway home, migrate + `server init` + `server jobs` work, and `server publish --dry-run` lists the real site bucket through the instance role: would upload index.html and workbooks.html, delete nothing. The first real publish and backup run with the real data in Phase 10.
 
-## Phase 8: Admin panel over the SSH tunnel (PR 8)
-- [ ] 8.1 FastAPI admin (Host check, CSRF, all pages)
-- [ ] 8.2 `scripts/admin_tunnel.sh` / `.ps1`
-- [ ] 8.3 Download-latest and workbooks links on the site
+## Phase 8: Admin panel over the SSH tunnel (PR 9)
+- [x] 8.1 `server/admin/`: FastAPI + Jinja2, no JavaScript, on 127.0.0.1:8081 (`capex server admin`).
+  - **Guards:**
+    - the Host must be localhost:8081 or 127.0.0.1:8081 (blocks DNS rebinding)
+    - every POST needs the form token and a same-origin Origin/Referer
+    - `no-store`; CSP with no scripts and no framing
+  - **Pages:**
+    - Overview: heartbeat and pause, Claude budget and token age, backlog, publish status, health, queue, coming up, recent runs
+    - Companies: watch, forms, notes, Check, Newest FORM
+    - Calendar: manual dates, retry/skip rows, ingest an accession, retry/ignore filings
+    - Schedule: cron with presets, on/off, timeout, Run now
+    - Runs, with the log and summary
+    - Notifications: subscribers, alert and filing-email settings, test email, test alert
+    - Settings: every registry key, plus Claude pause/resume
+    - Audit
+  - The panel only edits control tables (audited as `admin`) and queues `job_requests`.
+  - **New audited operations:**
+    - `watchlist.update_entry`; `calendar.save_manual_entry` / `retry_row` / `skip_row`
+    - `pipeline.retry_event` / `ignore_event` / `ingest_accession` (a 6-K goes through `sec_6k.release_from_filing`)
+    - watcher job params `tickers`, `event_ids`, `ticker` + `form`
+- [x] 8.2 `scripts/admin_tunnel.sh` (WSL) and `scripts/admin_tunnel.ps1` (Windows OpenSSH)
+- [x] 8.3 A "⬇ Latest Excel" pill in every page's nav (`download/latest.xlsx`) and a Workbooks card on the dashboard (`workbooks.html`), both served by the publisher
+- [x] Verified:
+  - 463 tests pass, 23 of them for the panel: guards, every page, every action, audit rows
+  - the panel ran on the scratch DB copy in a browser: Overview and Schedule render, and a Companies save round-trips (token, origin, form association) into the audit log
+- [ ] PR merged
+- [ ] On the server: `capex-admin` unit (Phase 9), then the tunnel from WSL
 
 ## Phase 9: Deploy pipeline and runbooks (PR 9)
 - [ ] 9.1 `uv.lock`

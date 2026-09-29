@@ -54,16 +54,18 @@ def test_dashboard_has_seven_nav_pills_with_home_active(tmp_path):
         "Operating Cash Flow", "Calendar", "Treatments",
     ]
     assert 'class="nav-pill active" href="index.html"' in txt
+    # ...then the download pill, which the published site serves.
+    assert 'href="download/latest.xlsx" download' in txt
 
 
-def test_dashboard_has_six_cards(tmp_path):
+def test_dashboard_has_seven_cards(tmp_path):
     from capex.exporters.dashboard_html import generate_dashboard_html
     db = _make_empty_db(tmp_path)
     out = tmp_path / "index.html"
     generate_dashboard_html(output=out, db_path=db)
     txt = out.read_text(encoding="utf-8")
     assert txt.count('class="card chart-card"') == 4
-    assert txt.count('class="card preview-card"') == 2
+    assert txt.count('class="card preview-card"') == 3     # calendar, treatments, workbooks
 
 
 def test_dashboard_links_to_all_sub_pages(tmp_path):
@@ -75,6 +77,7 @@ def test_dashboard_links_to_all_sub_pages(tmp_path):
     for href in (
         "cloud.html", "revenue.html", "capex.html",
         "operating_cash_flow.html", "calendar.html", "treatments.html",
+        "workbooks.html",
     ):
         assert f'href="{href}"' in txt, f"missing link: {href}"
 

@@ -473,6 +473,10 @@ NAV_EXTRAS: list[dict[str, str]] = [
      "position": "after"},
     {"key": "treatments", "page_name": "treatments.html",
      "nav_label": "Treatments", "position": "after"},
+    # Served by the published site (server/publish.py), not written to site/.
+    {"key": "download", "page_name": "download/latest.xlsx",
+     "nav_label": "⬇ Latest Excel", "position": "after",
+     "attrs": ' download style="border-color:#1f883d;color:#1f883d"'},
 ]
 
 
@@ -501,7 +505,8 @@ def _build_nav_html(current_key: str) -> str:
             continue
         cls = "nav-pill active" if extra["key"] == current_key else "nav-pill"
         pills.append(
-            f'<a class="{cls}" href="{extra["page_name"]}">{extra["nav_label"]}</a>'
+            f'<a class="{cls}" href="{extra["page_name"]}"{extra.get("attrs", "")}>'
+            f'{extra["nav_label"]}</a>'
         )
     return '<div class="nav">' + "".join(pills) + "</div>"
 

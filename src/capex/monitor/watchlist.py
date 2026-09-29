@@ -73,6 +73,56 @@ def get_entry(ticker: str, db: Database) -> dict[str, Any] | None:
     return dict(row) if row else None
 
 
+_UNSET: Any = object()
+
+
+def update_entry(
+    ticker: str,
+    *,
+    watch: bool | None = None,
+    quarterly_form: str | None = _UNSET,
+    annual_form: str | None = _UNSET,
+    notes: str | None = _UNSET,
+    db: Database,
+    actor: str = "cli",
+) -> dict[str, Any]:
+    """Change a company's watchlist row (validated, audited); returns it.
+
+    Forms may be set to None ("no automated form"). Unchanged fields keep
+    their value. The watcher reads the row on its next run.
+    """
+    from .. import settings
+
+    old = get_entry(ticker, db)
+    if old is None:
+        raise LookupError(f"{ticker} is not on the watchlist")
+    new = dict(old)
+    if watch is not None:
+        new["watch"] = int(watch)
+    if quarterly_form is not _UNSET:
+        if quarterly_form not in (None, *QUARTERLY_FORMS):
+            raise ValueError(f"quarterly form must be one of {', '.join(QUARTERLY_FORMS)}")
+        new["quarterly_form"] = quarterly_form
+    if annual_form is not _UNSET:
+        if annual_form not in (None, *ANNUAL_FORMS):
+            raise ValueError(f"annual form must be one of {', '.join(ANNUAL_FORMS)}")
+        new["annual_form"] = annual_form
+    if notes is not _UNSET:
+        new["notes"] = (notes or "").strip() or None
+    if new == old:
+        return new
+    with db.mutating() as conn:
+        conn.execute(
+            "UPDATE watchlist SET watch = ?, quarterly_form = ?, annual_form = ?, notes = ?, "
+            "updated_at = ? WHERE ticker = ?",
+            (new["watch"], new["quarterly_form"], new["annual_form"], new["notes"], utc_iso(),
+             ticker),
+        )
+        settings.record_change(conn, actor=actor, entity="watchlist", key=ticker,
+                               old=old, new=new)
+    return new
+
+
 def watched_tickers(db: Database) -> set[str]:
     with db.connect() as conn:
         return {r["ticker"] for r in conn.execute("SELECT ticker FROM watchlist WHERE watch = 1")}

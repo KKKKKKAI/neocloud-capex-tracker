@@ -252,6 +252,24 @@ def fetch_release(ticker: str, cik: str, filing: dict[str, str]) -> dict[str, An
     return metadata
 
 
+def release_from_filing(cik: str, filing: dict[str, str]) -> dict[str, str] | None:
+    """One chosen 6-K as a release: an operator override (admin "ingest"),
+    so the classifier isn't consulted. Its first big EX-99 exhibit and the
+    period read from it, or None when it has no exhibit or no period."""
+    exhibits = exhibit_items(cik, filing["accessionNumber"])
+    main = next((e for e in exhibits if e["size"] >= MIN_RELEASE_BYTES or not e["size"]),
+                exhibits[0] if exhibits else None)
+    if main is None:
+        return None
+    raw = sec_http.get_bytes(accession_base(cik, filing["accessionNumber"]) + main["name"])
+    period = derive_period(html_to_text(raw.decode("utf-8", errors="replace")),
+                           date.fromisoformat(filing["filingDate"]))
+    if period is None:
+        return None
+    return {"accessionNumber": filing["accessionNumber"], "filingDate": filing["filingDate"],
+            "reportDate": period.isoformat(), "primaryDocument": main["name"], "form": "6-K"}
+
+
 def find_latest_release(cik: str, submissions: dict, *, today: date) -> dict[str, str] | None:
     """Most recent earnings release in the last MAX_LAG_DAYS + 90 days
     (for `capex fetch <T> 6-K` without a period)."""

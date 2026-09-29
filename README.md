@@ -132,8 +132,10 @@ flowchart TD
         SCHED["server/scheduler.py\njobs on cron schedules"]
         PUBLISH["server/publish.py\nS3 + CloudFront"]
         BACKUP["server/backup.py\nverified S3 backups"]
+        ADMIN["server/admin\npanel via SSH tunnel"]
     end
 
+    ADMIN -.-> SCHED
     SCHED -.-> DISP
     XLSX --> PUBLISH
     DASHPAGE --> PUBLISH
@@ -180,7 +182,7 @@ flowchart TD
 
     class SEC,HKEX,XBRL,ECB source
     class RAW,DB,DUMP,HNYAML store
-    class SECF,SEC6K,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,TREATHTML,DASHHTML,AUDIT,REVIEW,SCHED,PUBLISH,BACKUP process
+    class SECF,SEC6K,HKEXF,DISP,TEXT,SECT,CVAL,EX_XBRL,EX_LLM,EX_SEG,EX_6K,FXR,WRITER,RECONCILE,EXCEL,CHART,ICHART,CALHTML,TREATHTML,DASHHTML,AUDIT,REVIEW,SCHED,PUBLISH,BACKUP,ADMIN process
     class XLSX,PNG,GHPAGES,CALPAGE,TREATPAGE,DASHPAGE,CFSITE output
 ```
 <!-- ARCHITECTURE_END -->
@@ -342,6 +344,7 @@ capex chart --interactive            # regenerate charts + GitHub Pages
 | 7c | Multi-metric Agent A per filing | ✅ | Watcher's `extract_filing()` makes ONE Agent A call per filing covering all 6 metrics (~106K input chars), then ONE Agent B call per metric (each batched across periods). Cost drops from ~600K → ~112K input chars per filing (~5× cheaper, ~5× faster). Per-metric fallback fires automatically for any metric the multi-metric pass can't satisfy — worst case = today's per-metric cost. `LLMHeadlessFilingExtractor` + `build_agent_a_multi_metric_prompt` + `parse_agent_a_multi_metric_response`. Per-metric `extract_metric()` API preserved for PEL/audit. |
 | 7d | Email notifications on new filings | ✅ | After every successful auto-update, sends one HTML+text email per (subscriber, filing) pair. Subject leads with the headline metric (e.g. `📊 GOOGL Q1 FY2026 10-Q — revenue $109.9B (+12.1% YoY, -3.5% QoQ)`); body has a clean table with each metric's current value + prior-quarter delta + prior-year delta. Subscribers live in the server DB's `subscribers` table (every change audited). Real emails never enter the public repo. Per-subscriber ticker / metric filters supported. Gmail SMTP via stdlib (`GMAIL_USERNAME` + `GMAIL_APP_PASSWORD`, loaded from SSM on the server). Links point at the public site. CLI: `capex notify {list,add,remove,enable,disable,test,import-yaml}`. Crash-safe — SMTP failures log but never break the run that just succeeded at extraction. |
 | 7e | Always-on server: scheduler and jobs | 🚧 | `capex server scheduler` runs every job on a cron schedule in Europe/London (missed runs collapse into one). Each run is a process with a timeout, logged in `runs`. The jobs are watcher every 20 min, filings sweep, calendar sync, regenerate, publish, backups, health, LLM check and prune. `server/publish.py` mirrors the site and every workbook to S3 behind CloudFront: only changed files, `download/latest.xlsx`, and workbooks served under their real names. Nightly verified DB backups go to S3. Health checks and failures email the operator, de-duplicated. Goes live with the deploy pipeline (Phase 9) and the data migration (Phase 10). |
+| 7f | Admin panel (SSH tunnel) | 🚧 | `capex server admin` on the server's 127.0.0.1:8081, opened with `scripts/admin_tunnel.sh`. It controls which companies are watched and with which forms, calendar dates, retry/ignore/ingest of filings, job schedules with Run now, subscribers and alert emails, and every runtime setting, including Claude budget and pause. It also shows runs with logs, health and an audit trail. No password: the SSH key is the gate. Host check, form tokens and same-origin POSTs block browser-based attacks. |
 | 8a | Auto-publish pipeline | 🚧 | Replaced by the server's `publish` job (row 7e): S3 + CloudFront instead of CI |
 | 8b | CSV / JSON / Parquet exporters | 📋 | Additional output formats from DB |
 | 9a | Always-on AWS server | 🚧 | `deploy/aws/capex-stack.yaml` (EC2 + persistent data volume, S3 + CloudFront site, versioned backup bucket), `deploy/bootstrap.sh`, secrets from SSM Parameter Store (`capex.server.secrets`), health checks (`capex.server.doctor`). Progress: `docs/SERVER_MIGRATION_CHECKLIST.md` |

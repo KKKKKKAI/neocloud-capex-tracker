@@ -65,13 +65,23 @@ data/_logs/
 *.log
 logs/
 
-# ---- Runtime dirs under CAPEX_HOME (= the checkout by default) ----
-# See src/capex/paths.py. The server keeps these on its data volume.
+# ---- Runtime data under CAPEX_HOME (= the checkout by default) ----
+# GitHub holds code only. The always-on server is the system of record:
+# its DB, workbooks, charts and site live on its data volume and in S3
+# (docs/SERVER_OPERATIONS.md). A local copy comes from
+# scripts/pull_server_snapshot.sh. See src/capex/paths.py.
+/data/db/*.db
+/data/db/*.db-*
+/data/db/dump.sql
+/workbook/*
+!/workbook/.gitkeep
+/charts/
+/output/
 /site/
 /run/
 /backups/
 /llm-cwd/
-# Dumps of scratch/test DBs (the canonical one is data/db/dump.sql).
+/docs/charts/
 *.dump.sql
 
 # Local DB rollback snapshots (taken before destructive migrations /

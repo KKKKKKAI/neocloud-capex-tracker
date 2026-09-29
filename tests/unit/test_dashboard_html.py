@@ -1,4 +1,4 @@
-"""Sanity checks for the dashboard landing page (docs/index.html)."""
+"""Sanity checks for the dashboard landing page (site/index.html)."""
 from __future__ import annotations
 
 import re

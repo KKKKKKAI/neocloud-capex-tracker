@@ -5,7 +5,8 @@ from __future__ import annotations
 from capex.db.schema import DB_PATH, DUMP_PATH, Database, migrate
 
 
-def test_custom_db_path_dumps_next_to_itself(tmp_path):
+def test_custom_db_path_dumps_next_to_itself(tmp_path, monkeypatch):
+    monkeypatch.setenv("CAPEX_DUMP_SQL", "1")   # dumps are opt-in
     db = Database(path=tmp_path / "scratch.db")
     assert db.dump_path == tmp_path / "scratch.dump.sql"
     migrate(db)

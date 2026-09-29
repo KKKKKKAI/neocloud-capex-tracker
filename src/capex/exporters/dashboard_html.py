@@ -1,4 +1,4 @@
-"""Dashboard landing page (docs/index.html).
+"""Dashboard landing page (site/index.html, published by the server).
 
 Renders a responsive grid of preview cards — one card per subpage — so
 a first-time visitor sees every surface at a glance and can click into

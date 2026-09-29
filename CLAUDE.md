@@ -29,10 +29,12 @@ but is developed and run from WSL Ubuntu
   command on the host via SSM without SSH. Merging to `main` deploys to
   the server once CI passes (`capex-deploy`); operations are in
   `docs/SERVER_OPERATIONS.md`.
-- `CAPEX_HOME` moves all runtime data (see `src/capex/paths.py`). To try
-  something against a scratch copy: `CAPEX_HOME=$(mktemp -d)`, copy
-  `data/db/capex.db` into `$CAPEX_HOME/data/db/`, and symlink
-  `data/_sources` in.
+- `CAPEX_HOME` moves all runtime data (see `src/capex/paths.py`).
+  **GitHub holds code only**: the DB, workbooks, charts and site live on
+  the server (the only writer) and in S3. To work on real data locally:
+  `scripts/pull_server_snapshot.sh [--raw]`, then
+  `CAPEX_HOME=~/capex-snapshot capex …`. Local changes to data are never
+  sent back; data fixes run on the server (docs/SERVER_OPERATIONS.md).
 
 ## CLI Commands
 
@@ -111,8 +113,8 @@ capex server publish --dry-run | backup | restore | health | doctor
 | `data/_sources/_identity.yaml` | Company registry — ticker, CIK, FYE, currency |
 | `data/seeds/coverage.yaml` | Coverage treatments — per-company adjustments, derivations |
 | `data/seeds/metric_definitions.yaml` | Metric registry with XBRL concepts + aliases |
-| `data/db/capex.db` | SQLite database (the system of record) |
-| `data/db/dump.sql` | Auto-generated SQL dump (for PR review) |
+| `$CAPEX_HOME/data/db/capex.db` | SQLite database. The system of record is the server's (`/var/lib/capex`); any local copy is untracked |
+| `dump.sql` | Optional SQL dump next to the DB (`CAPEX_DUMP_SQL=1`); the server's nightly backups include one |
 
 ## Skills
 
@@ -178,10 +180,10 @@ capex export          # auto-named per Rule 0
 capex chart
 ```
 Outputs land under `$CAPEX_HOME` (the checkout by default): `workbook/`,
-`charts/`, and the HTML pages in `site/` (gitignored). The committed
-`docs/*.html` (GitHub Pages) are frozen until the always-on server
-publishes the site to S3 + CloudFront; data is no longer committed from
-local runs. See `docs/SERVER_MIGRATION_CHECKLIST.md`.
+`charts/`, and the HTML pages in `site/`, all gitignored. The server
+regenerates and publishes them itself (S3 + CloudFront,
+https://d1pdb32k3hz8st.cloudfront.net); `docs/*.html` only redirect
+there. Never commit generated outputs or data.
 
 **Update README architecture diagram and status table when adding features:**
 

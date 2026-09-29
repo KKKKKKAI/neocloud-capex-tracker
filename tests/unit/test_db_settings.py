@@ -62,11 +62,11 @@ def test_default_db_follows_capex_home(tmp_path, monkeypatch):
     assert db.dump_path == paths.dump_path()
 
 
-def test_dumps_on_in_a_plain_checkout_off_on_the_server(tmp_path, monkeypatch):
+def test_dumps_are_opt_in(tmp_path, monkeypatch):
+    assert not Database(path=tmp_path / "a.db").dump_enabled      # data isn't in git
+    monkeypatch.setenv("CAPEX_DUMP_SQL", "1")
     assert Database(path=tmp_path / "a.db").dump_enabled
     monkeypatch.setenv("CAPEX_HOME", str(tmp_path))
-    assert not Database(path=tmp_path / "a.db").dump_enabled
-    monkeypatch.setenv("CAPEX_DUMP_SQL", "1")
     assert Database(path=tmp_path / "a.db").dump_enabled
 
 

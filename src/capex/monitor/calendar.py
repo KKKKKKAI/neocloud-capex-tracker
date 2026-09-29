@@ -413,6 +413,113 @@ def add_manual_entry(
         )
 
 
+# ---- operator actions (admin panel) ----------------------------------------------
+CALENDAR_FORMS = ("10-Q", "10-K", "20-F", "6-K", "HK-IR", "HK-AR")
+RETRYABLE = ("upcoming", "failed", "stale", "skipped")
+
+
+def _row(conn: Any, row_id: int) -> dict[str, Any]:
+    row = conn.execute("SELECT * FROM fiscal_calendar WHERE id = ?", (row_id,)).fetchone()
+    if row is None:
+        raise LookupError(f"no calendar row {row_id}")
+    return dict(row)
+
+
+def _check_date(value: str, what: str) -> str:
+    try:
+        return date.fromisoformat(value.strip()).isoformat()
+    except (ValueError, AttributeError):
+        raise ValueError(f"{what} must be a date (YYYY-MM-DD)") from None
+
+
+def save_manual_entry(
+    ticker: str,
+    report_date: str,
+    fiscal_date_ending: str,
+    form_type: str | None = None,
+    *,
+    db: Database,
+    actor: str = "cli",
+) -> int:
+    """Add or correct a calendar row by hand; returns its id.
+
+    The row becomes source 'manual', so the Alpha Vantage sync never
+    overwrites it, and it is queued again (unless already extracted). The
+    form defaults to the watchlist's expected form for that period.
+    """
+    ticker = ticker.strip().upper()
+    report_date = _check_date(report_date, "report date")
+    fiscal_date_ending = _check_date(fiscal_date_ending, "period end")
+    with db.connect() as conn:
+        if conn.execute("SELECT 1 FROM companies WHERE ticker = ?", (ticker,)).fetchone() is None:
+            raise LookupError(f"{ticker} is not a tracked company")
+    form_type = form_type or expected_form(ticker, fiscal_date_ending, db)
+    if form_type not in CALENDAR_FORMS:
+        raise ValueError(f"form must be one of {', '.join(CALENDAR_FORMS)}")
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    with db.mutating() as conn:
+        old = conn.execute("SELECT * FROM fiscal_calendar WHERE ticker = ? AND "
+                           "fiscal_date_ending = ?", (ticker, fiscal_date_ending)).fetchone()
+        if old is None:
+            cur = conn.execute(
+                "INSERT INTO fiscal_calendar (ticker, report_date, fiscal_date_ending, "
+                "form_type, status, source, updated_at) VALUES (?, ?, ?, ?, 'upcoming', "
+                "'manual', ?)",
+                (ticker, report_date, fiscal_date_ending, form_type, now))
+            row_id = cur.lastrowid
+        else:
+            row_id = old["id"]
+            requeue_it = old["status"] != "extracted"
+            conn.execute(
+                "UPDATE fiscal_calendar SET report_date = ?, form_type = ?, source = 'manual', "
+                "updated_at = ?"
+                + (", status = 'upcoming', attempts = 0, last_error = NULL, "
+                   "last_attempt_at = NULL, next_attempt_at = NULL" if requeue_it else "")
+                + " WHERE id = ?",
+                (report_date, form_type, now, row_id))
+        settings.record_change(
+            conn, actor=actor, entity="calendar", key=f"{ticker} {fiscal_date_ending}",
+            old=dict(old) if old else None,
+            new={"report_date": report_date, "form_type": form_type, "source": "manual"},
+            now=now)
+    return row_id
+
+
+def retry_row(row_id: int, *, db: Database, actor: str = "cli") -> None:
+    """Poll a failed, stale or skipped row again from scratch."""
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    with db.mutating() as conn:
+        old = _row(conn, row_id)
+        if old["status"] not in RETRYABLE:
+            raise ValueError(f"a '{old['status']}' row can't be retried; retry its filing instead")
+        conn.execute(
+            "UPDATE fiscal_calendar SET status = 'upcoming', attempts = 0, last_error = NULL, "
+            "last_attempt_at = NULL, next_attempt_at = NULL, updated_at = ? WHERE id = ?",
+            (now, row_id))
+        settings.record_change(conn, actor=actor, entity="calendar",
+                               key=f"{old['ticker']} {old['fiscal_date_ending']}",
+                               old={"status": old["status"]}, new={"status": "upcoming"},
+                               now=now)
+
+
+def skip_row(row_id: int, *, db: Database, actor: str = "cli", reason: str = "") -> None:
+    """Stop polling a row (e.g. a date Alpha Vantage got wrong)."""
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    note = f"skipped by {actor}" + (f": {reason.strip()}" if reason.strip() else "")
+    with db.mutating() as conn:
+        old = _row(conn, row_id)
+        if old["status"] == "extracted":
+            raise ValueError("an extracted row can't be skipped")
+        conn.execute(
+            "UPDATE fiscal_calendar SET status = 'skipped', last_error = ?, "
+            "next_attempt_at = NULL, updated_at = ? WHERE id = ?",
+            (note[:500], now, row_id))
+        settings.record_change(conn, actor=actor, entity="calendar",
+                               key=f"{old['ticker']} {old['fiscal_date_ending']}",
+                               old={"status": old["status"]},
+                               new={"status": "skipped", "reason": reason}, now=now)
+
+
 if __name__ == "__main__":
     import sys
 

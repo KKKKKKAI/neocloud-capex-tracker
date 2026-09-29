@@ -135,6 +135,7 @@ def _render_cards() -> str:
     pieces = [_render_chart_card(c) for c in CHART_CARDS]
     pieces.append(_render_calendar_card())
     pieces.append(_render_treatments_card())
+    pieces.append(_render_workbooks_card())
     return "\n".join(pieces)
 
 
@@ -223,6 +224,32 @@ def _render_treatments_card() -> str:
         f'<p>Full rule book: coverage.yaml structured treatments '
         f'+ human_notes.yaml audit annotations, per company.</p>'
         f'<span class="cta">Open treatments →</span>'
+        f'</div>'
+        f'</a>'
+    )
+
+
+def _render_workbooks_card() -> str:
+    # workbooks.html and download/latest.xlsx are written by the publisher
+    # (server/publish.py) when it uploads the site.
+    accent = "#1f883d"
+    cells = "".join(
+        f'<span class="wb-cell{" hdr" if i < 4 else ""}"></span>' for i in range(20)
+    )
+    return (
+        f'<a class="card preview-card" href="workbooks.html" '
+        f'style="--accent:{accent};">'
+        f'<div class="thumb thumb-mock">'
+        f'<div class="wb-mock">'
+        f'<div class="wb-mock-hdr">financials sourcebook.xlsx</div>'
+        f'<div class="wb-grid">{cells}</div>'
+        f'</div>'
+        f'</div>'
+        f'<div class="card-body">'
+        f'<h2>Excel Workbooks</h2>'
+        f'<p>Every metric in USD, each cell citing its SEC or HKEX source. '
+        f'Download the latest workbook or any earlier one.</p>'
+        f'<span class="cta">Open workbooks →</span>'
         f'</div>'
         f'</a>'
     )
@@ -324,6 +351,14 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
     padding: 3px 8px; border-radius: 10px; }}
   .tr-bullets {{ margin: 0; padding-left: 18px; color: #444; font-size: 12px;
     line-height: 1.6; }}
+
+  /* Workbooks mock */
+  .wb-mock {{ width: 100%; }}
+  .wb-mock-hdr {{ font-size: 12px; color: #555; font-weight: 600; margin-bottom: 8px; }}
+  .wb-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }}
+  .wb-cell {{ height: 16px; background: #fff; border: 1px solid var(--border);
+    border-radius: 2px; }}
+  .wb-cell.hdr {{ background: #1f883d; opacity: 0.75; border-color: #1f883d; }}
 
   footer.foot {{
     max-width: 1200px; margin: 28px auto 10px; text-align: center;

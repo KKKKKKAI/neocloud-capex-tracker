@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Companies</h1>
+<p class="muted">Which companies the watcher follows and which forms carry their results. Changes
+apply from the next watcher run. Adding a brand-new company is a code change
+(<span class="mono">_identity.yaml</span> + <span class="mono">coverage.yaml</span>).</p>
+<div class="card">
+<table>
+  <tr><th>company</th><th>watch</th><th>quarterly form</th><th>annual form</th><th>notes</th>
+      <th></th><th>latest period · open calendar row</th><th>run now</th></tr>
+  {% for c in rows %}{% set f_id = "co-" ~ c.ticker %}
+  <tr>
+    <td><form id="{{ f_id }}" method="post" action="/companies/{{ c.ticker }}">{{ csrf_field }}</form>
+      <b>{{ c.ticker }}</b><br><span class="muted small">{{ c.name }} · FYE month {{ c.fye }} · {{ c.preferred_source }}</span></td>
+    <td><input form="{{ f_id }}" type="checkbox" name="watch" {% if c.watch %}checked{% endif %} aria-label="watch {{ c.ticker }}"></td>
+    <td><select form="{{ f_id }}" name="quarterly_form" aria-label="quarterly form of {{ c.ticker }}"><option value="">none</option>
+      {% for f in quarterly_forms %}<option {% if f == c.quarterly_form %}selected{% endif %}>{{ f }}</option>{% endfor %}</select></td>
+    <td><select form="{{ f_id }}" name="annual_form" aria-label="annual form of {{ c.ticker }}"><option value="">none</option>
+      {% for f in annual_forms %}<option {% if f == c.annual_form %}selected{% endif %}>{{ f }}</option>{% endfor %}</select></td>
+    <td><input form="{{ f_id }}" type="text" name="notes" value="{{ c.notes or '' }}" size="18" aria-label="notes on {{ c.ticker }}"></td>
+    <td><button form="{{ f_id }}">Save</button></td>
+    <td class="small">{{ c.last_period or '–' }}<br><span class="muted">{{ c.next_row or '' }}</span></td>
+    <td><div class="actions">
+      <form class="inline" method="post" action="/companies/{{ c.ticker }}/check">{{ csrf_field }}
+        <button title="Poll SEC for this company's due calendar rows">Check</button></form>
+      {% for f in [c.quarterly_form, c.annual_form] if f %}
+      <form class="inline" method="post" action="/companies/{{ c.ticker }}/fetch">{{ csrf_field }}
+        <input type="hidden" name="form" value="{{ f }}">
+        <button title="Fetch and extract the newest {{ f }} now">Newest {{ f }}</button></form>
+      {% endfor %}
+    </div></td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

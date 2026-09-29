@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }} · capex admin</title>
+<style>
+:root { --bg:#f6f8fa; --card:#fff; --border:#d0d7de; --line:#eaeef2; --text:#1f2328;
+        --muted:#57606a; --accent:#0969da; --ok:#1a7f37; --warn:#9a6700; --bad:#cf222e; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+       background: var(--bg); color: var(--text); }
+header { background: #24292f; color: #fff; padding: 10px 20px; display: flex; gap: 6px 16px;
+         align-items: center; flex-wrap: wrap; }
+header .brand { font-weight: 600; margin-right: 10px; }
+header nav a { color: #c9d1d9; text-decoration: none; margin-right: 12px; }
+header nav a.active, header nav a:hover { color: #fff; border-bottom: 2px solid #fff; }
+header a.site { margin-left: auto; color: #c9d1d9; font-size: 13px; }
+main { max-width: 1240px; margin: 18px auto 40px; padding: 0 16px; }
+h1 { font-size: 20px; margin: 0 0 14px; }
+h2 { font-size: 15px; margin: 0 0 10px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+        padding: 14px 18px; margin-bottom: 16px; overflow-x: auto; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
+.grid .card { margin-bottom: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line);
+         vertical-align: top; }
+th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.kv td:first-child { color: var(--muted); width: 45%; }
+.badge { display: inline-block; padding: 0 8px; border-radius: 10px; font-size: 12px;
+         background: var(--line); white-space: nowrap; }
+.badge.success, .badge.extracted, .badge.ok, .badge.done { background: #dafbe1; color: var(--ok); }
+.badge.partial, .badge.warn, .badge.deferred, .badge.stale, .badge.skipped,
+.badge.ignored { background: #fff8c5; color: var(--warn); }
+.badge.failed, .badge.timeout, .badge.critical { background: #ffebe9; color: var(--bad); }
+.badge.running, .badge.detected, .badge.fetched, .badge.discovered, .badge.upcoming,
+.badge.queued { background: #ddf4ff; color: var(--accent); }
+.flash { padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; border: 1px solid; }
+.flash.msg { background: #dafbe1; border-color: #aceebb; }
+.flash.err { background: #ffebe9; border-color: #ffcecb; }
+form.inline { display: inline; margin: 0; }
+form.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; margin: 0; }
+label.field { display: flex; flex-direction: column; font-size: 12px; color: var(--muted); gap: 2px; }
+input, select, button, textarea { font: inherit; font-size: 13px; }
+input[type=text], input[type=date], input[type=email], input[type=number], select, textarea {
+  padding: 4px 7px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
+button { padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px;
+         background: #f6f8fa; cursor: pointer; white-space: nowrap; }
+button:hover { background: #eef1f4; }
+button.primary { background: #1f883d; color: #fff; border-color: #1a7f37; }
+button.danger { color: var(--bad); }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+pre { background: #f6f8fa; border: 1px solid var(--border); border-radius: 6px; padding: 10px;
+      overflow: auto; font-size: 12px; max-height: 640px; white-space: pre-wrap; }
+.actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.big { font-size: 22px; font-weight: 600; }
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">capex admin</span>
+  <nav>{% for href, label in nav %}<a href="{{ href }}"
+    class="{{ 'active' if (href == '/' and path == '/') or (href != '/' and path.startswith(href)) else '' }}">{{ label }}</a>{% endfor %}</nav>
+  {% if public_url %}<a class="site" href="{{ public_url }}">public site ↗</a>{% endif %}
+</header>
+<main>
+  {% if msg %}<div class="flash msg">{{ msg }}</div>{% endif %}
+  {% if err %}<div class="flash err">{{ err }}</div>{% endif %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

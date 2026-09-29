@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Overview</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Scheduler</h2>
+    {% if o.heartbeat %}
+      <p class="big">{{ o.heartbeat | ago }}</p>
+      <p class="muted small">last tick ({{ o.heartbeat | local }})</p>
+    {% else %}
+      <p class="big">not running</p><p class="muted small">no heartbeat yet</p>
+    {% endif %}
+    <form class="inline" method="post" action="/scheduler/{{ 'resume' if o.scheduler_paused else 'pause' }}">
+      {{ csrf_field }}<input type="hidden" name="next" value="/">
+      {% if o.scheduler_paused %}<span class="badge warn">schedules paused</span>
+        <button>Resume schedules</button>
+      {% else %}<button>Pause schedules</button>{% endif %}
+    </form>
+  </div>
+  <div class="card">
+    <h2>Claude</h2>
+    <p class="big">{{ o.calls }} / {{ o.budget }}</p>
+    <p class="muted small">calls today (UTC){% if o.calls_failed %}, {{ o.calls_failed }} failed{% endif %}</p>
+    <p class="small">Token:
+      {% if o.token_days is none %}<span class="badge warn">age unknown</span>
+      {% elif o.token_days >= 330 %}<span class="badge critical">{{ o.token_days }} days old: renew</span>
+      {% else %}{{ o.token_days }} days old{% endif %}
+      {% if o.llm_paused_until %}<br><span class="badge warn">paused until {{ o.llm_paused_until | local }}</span>{% endif %}
+    </p>
+  </div>
+  <div class="card">
+    <h2>Backlog</h2>
+    <table class="kv">
+      <tr><td>calendar rows due</td><td>{{ o.due }}</td></tr>
+      {% for s in ['discovered', 'fetched', 'partial', 'failed'] %}
+      <tr><td>filings {{ s }}</td><td>{{ o.backlog.get(s, 0) }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h2>Public site</h2>
+    {% if o.publish %}
+      <p><span class="badge {{ o.publish.status }}">{{ o.publish.status }}</span>
+        {{ o.publish.started_at | ago }}</p>
+      {% if o.publish.summary.invalidation %}<p class="muted small">invalidation {{ o.publish.summary.invalidation }}</p>{% endif %}
+      {% if o.publish.summary.reason %}<p class="muted small">{{ o.publish.summary.reason }}</p>{% endif %}
+    {% else %}<p class="muted">never published</p>{% endif %}
+    <div class="actions">
+      {% for job, label in [('publish', 'Publish now'), ('regenerate_outputs', 'Regenerate site')] %}
+      <form class="inline" method="post" action="/jobs/{{ job }}/run">{{ csrf_field }}
+        <input type="hidden" name="next" value="/"><button>{{ label }}</button></form>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2>Health {% if o.health %}<span class="muted small">(checked {{ o.health.started_at | ago }})</span>{% endif %}</h2>
+  {% if o.health and o.health.summary.checks %}
+  <table>
+    {% for name, check in o.health.summary.checks.items() %}
+    <tr><td><span class="badge {{ check[0] }}">{{ check[0] }}</span></td><td>{{ name }}</td><td>{{ check[1] }}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}<p class="muted">No health run yet.</p>{% endif %}
+  <form class="inline" method="post" action="/jobs/health/run">{{ csrf_field }}
+    <input type="hidden" name="next" value="/"><button>Check now</button></form>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Queue</h2>
+    {% if o.queued %}<table>
+      {% for q in o.queued %}<tr><td>{{ q.job }}</td><td><span class="badge {{ q.status }}">{{ q.status }}</span></td>
+        <td class="muted small">{{ q.requested_by }}, {{ q.requested_at | ago }}</td></tr>{% endfor %}
+    </table>{% else %}<p class="muted">Nothing waiting.</p>{% endif %}
+    <form class="row" method="post" action="/jobs/watcher/run" style="margin-top:10px">
+      {{ csrf_field }}<input type="hidden" name="next" value="/">
+      <button class="primary">Run the watcher now</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Coming up</h2>
+    <table>{% for s in o.upcoming %}<tr><td>{{ s.job }}</td><td>{{ s.next_run_at | local }}</td>
+      <td class="muted small">{{ s.next_run_at | ago }}</td></tr>{% endfor %}</table>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2>Recent runs <a class="small" href="/runs">all runs →</a></h2>
+  <table>
+    <tr><th>#</th><th>job</th><th>status</th><th>started</th><th>trigger</th><th>exit</th></tr>
+    {% for r in o.recent %}
+    <tr><td><a href="/runs/{{ r.id }}">{{ r.id }}</a></td><td>{{ r.job }}</td>
+      <td><span class="badge {{ r.status }}">{{ r.status }}</span></td>
+      <td>{{ r.started_at | local }} <span class="muted small">{{ r.started_at | ago }}</span></td>
+      <td class="muted">{{ r.trigger_kind }}</td><td class="muted">{{ r.exit_code if r.exit_code is not none else '' }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

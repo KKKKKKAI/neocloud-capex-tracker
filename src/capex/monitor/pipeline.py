@@ -23,6 +23,7 @@ also pauses LLM calls until it resets.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -335,6 +336,100 @@ def enqueue_latest(ticker: str, form_type: str, *, db: Database,
             "updated_at = ? WHERE id = ?",
             (stamp, event_id),
         )
+    return event_id
+
+
+# ---- operator actions (admin panel) ------------------------------------------------
+
+ACCESSION_RE = re.compile(r"^\d{10}-\d{2}-\d{6}$")
+
+
+def _event(conn: sqlite3.Connection, event_id: int) -> dict[str, Any]:
+    row = conn.execute("SELECT * FROM filing_events WHERE id = ?", (event_id,)).fetchone()
+    if row is None:
+        raise LookupError(f"no filing event {event_id}")
+    return dict(row)
+
+
+def retry_event(event_id: int, *, db: Database, actor: str = "cli") -> None:
+    """Process a failed, partial or ignored filing again from attempt 1."""
+    stamp = utc_iso()
+    with db.mutating() as conn:
+        old = _event(conn, event_id)
+        status = "fetched" if old["source_document_id"] else "discovered"
+        conn.execute(
+            "UPDATE filing_events SET status = ?, attempts = 0, last_error = NULL, "
+            "next_attempt_at = NULL, updated_at = ? WHERE id = ?", (status, stamp, event_id))
+        if old["calendar_id"]:
+            conn.execute(
+                "UPDATE fiscal_calendar SET status = 'detected', filing_event_id = ?, "
+                "last_error = NULL, next_attempt_at = NULL, updated_at = ? WHERE id = ?",
+                (event_id, stamp, old["calendar_id"]))
+        settings.record_change(conn, actor=actor, entity="filing", key=old["accession_number"],
+                               old={"status": old["status"], "attempts": old["attempts"]},
+                               new={"status": status, "attempts": 0}, now=stamp)
+
+
+def ignore_event(event_id: int, *, db: Database, actor: str = "cli", reason: str = "") -> None:
+    """Never process this filing (e.g. a 6-K wrongly taken for a release).
+    Its calendar row goes back to polling, which skips ignored 6-Ks."""
+    stamp = utc_iso()
+    note = f"ignored by {actor}" + (f": {reason.strip()}" if reason.strip() else "")
+    with db.mutating() as conn:
+        old = _event(conn, event_id)
+        conn.execute(
+            "UPDATE filing_events SET status = 'ignored', last_error = ?, next_attempt_at = NULL, "
+            "updated_at = ? WHERE id = ?", (note[:500], stamp, event_id))
+        if old["calendar_id"]:
+            conn.execute(
+                "UPDATE fiscal_calendar SET status = 'upcoming', filing_event_id = NULL, "
+                "attempts = 0, last_error = ?, last_attempt_at = NULL, next_attempt_at = NULL, "
+                "updated_at = ? WHERE id = ? AND status != 'extracted'",
+                (note[:500], stamp, old["calendar_id"]))
+        settings.record_change(conn, actor=actor, entity="filing", key=old["accession_number"],
+                               old={"status": old["status"]},
+                               new={"status": "ignored", "reason": reason}, now=stamp)
+
+
+def ingest_accession(ticker: str, accession: str, *, db: Database, actor: str = "cli",
+                     cache: dict[str, Any] | None = None) -> int:
+    """Queue one specific filing by its accession number; returns the event id.
+
+    For a filing the watcher missed or misjudged. It must be among the
+    company's recent EDGAR filings; a 6-K is taken as a release, with its
+    period read from the exhibit text.
+    """
+    ticker, accession = ticker.strip().upper(), accession.strip()
+    if not ACCESSION_RE.match(accession):
+        raise ValueError("an accession number looks like 0001104659-26-095498")
+    submissions = submissions_for(ticker, db, cache if cache is not None else {})
+    recent = submissions.get("filings", {}).get("recent", {})
+    columns = ("accessionNumber", "filingDate", "reportDate", "primaryDocument", "form")
+    filing = next((dict(zip(columns, row, strict=True))
+                   for row in zip(*(recent.get(c, []) for c in columns), strict=False)
+                   if row[0] == accession), None)
+    if filing is None:
+        raise LookupError(f"{accession} is not among {ticker}'s recent EDGAR filings")
+    form = filing["form"]
+    if form == "6-K":
+        release = sec_6k.release_from_filing(edgar_cik(ticker, db) or "", filing)
+        if release is None:
+            raise LookupError(f"{accession}: no EX-99 exhibit with a 'three months ended' period")
+        filing = release
+    elif form not in SEC_FORM_TYPES:
+        raise ValueError(f"{form} filings aren't handled (only {', '.join(SEC_FORM_TYPES)} "
+                         "and 6-K)")
+    stamp = utc_iso()
+    with db.mutating() as conn:
+        event_id = _insert_event(conn, ticker, form, filing, discovered_by="manual",
+                                 calendar_id=None, stamp=stamp)
+        conn.execute(
+            "UPDATE filing_events SET status = CASE WHEN source_document_id IS NULL "
+            "THEN 'discovered' ELSE 'fetched' END, attempts = 0, last_error = NULL, "
+            "next_attempt_at = NULL, updated_at = ? WHERE id = ?", (stamp, event_id))
+        settings.record_change(conn, actor=actor, entity="filing", key=accession, old=None,
+                               new={"ticker": ticker, "form": form,
+                                    "period": filing.get("reportDate")}, now=stamp)
     return event_id
 
 

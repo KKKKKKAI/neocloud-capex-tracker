@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Calendar and filings</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Add or correct a date</h2>
+    <p class="muted small">For companies Alpha Vantage misses or gets wrong. The sync never overwrites
+      a row entered here, and the row is queued again.</p>
+    <form class="row" method="post" action="/calendar/add">{{ csrf_field }}
+      <label class="field">company<select name="ticker">{% for t in tickers %}<option>{{ t }}</option>{% endfor %}</select></label>
+      <label class="field">report date<input type="date" name="report_date" required></label>
+      <label class="field">period end<input type="date" name="fiscal_date_ending" required></label>
+      <label class="field">form<select name="form_type"><option value="">expected</option>
+        {% for f in forms %}<option>{{ f }}</option>{% endfor %}</select></label>
+      <button class="primary">Save</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Ingest one filing</h2>
+    <p class="muted small">A filing the watcher missed or misjudged, by accession number. It is fetched
+      and extracted on the next watcher run (queued now). A 6-K is taken as the quarter's release.</p>
+    <form class="row" method="post" action="/filings/ingest">{{ csrf_field }}
+      <label class="field">company<select name="ticker">{% for t in tickers %}<option>{{ t }}</option>{% endfor %}</select></label>
+      <label class="field">accession number<input type="text" name="accession" placeholder="0001104659-26-095498" size="22" required></label>
+      <button class="primary">Ingest</button>
+    </form>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2>Filings (newest first)</h2>
+  <table>
+    <tr><th>#</th><th>company</th><th>form</th><th>period</th><th>filed</th><th>accession</th>
+        <th>status</th><th>attempts</th><th>note</th><th></th></tr>
+    {% for e in events %}
+    <tr>
+      <td>{{ e.id }}</td><td>{{ e.ticker }}</td><td>{{ e.form_type }}</td><td>{{ e.period_of_report or '–' }}</td>
+      <td>{{ e.filing_date }}</td><td class="mono">{{ e.accession_number }}</td>
+      <td><span class="badge {{ e.status }}">{{ e.status }}</span><br><span class="muted small">{{ e.discovered_by }}</span></td>
+      <td>{{ e.attempts }}{% if e.next_attempt_at %}<br><span class="muted small">next {{ e.next_attempt_at | ago }}</span>{% endif %}</td>
+      <td class="small">{{ e.last_error or '' }}</td>
+      <td><div class="actions">
+        {% if e.status in ['failed', 'partial', 'ignored'] %}
+        <form class="inline" method="post" action="/filings/{{ e.id }}/retry">{{ csrf_field }}<button>Retry</button></form>
+        {% endif %}
+        {% if e.status not in ['extracted', 'ignored'] %}
+        <form class="inline" method="post" action="/filings/{{ e.id }}/ignore">{{ csrf_field }}
+          <input type="text" name="reason" placeholder="reason" size="8"><button class="danger">Ignore</button></form>
+        {% endif %}
+      </div></td>
+    </tr>
+    {% else %}<tr><td colspan="10" class="muted">No filings yet.</td></tr>{% endfor %}
+  </table>
+</div>
+
+<div class="card">
+  <h2>Earnings calendar (last 150 days to next 100)</h2>
+  <table>
+    <tr><th>report date</th><th>company</th><th>period end</th><th>form</th><th>status</th>
+        <th>attempts</th><th>last check</th><th>note</th><th>source</th><th></th></tr>
+    {% for r in rows %}
+    <tr>
+      <td>{{ r.report_date }}</td><td>{{ r.ticker }}</td><td>{{ r.fiscal_date_ending }}</td><td>{{ r.form_type or '–' }}</td>
+      <td><span class="badge {{ r.status }}">{{ r.status }}</span></td>
+      <td>{{ r.attempts }}{% if r.next_attempt_at %}<br><span class="muted small">next {{ r.next_attempt_at | ago }}</span>{% endif %}</td>
+      <td class="small">{{ r.last_attempt_at | ago }}</td>
+      <td class="small">{{ r.last_error or '' }}</td>
+      <td class="muted small">{{ r.source }}</td>
+      <td><div class="actions">
+        {% if r.status in retryable %}
+        <form class="inline" method="post" action="/calendar/{{ r.id }}/retry">{{ csrf_field }}<button>Retry</button></form>
+        {% endif %}
+        {% if r.status not in ['extracted', 'skipped'] %}
+        <form class="inline" method="post" action="/calendar/{{ r.id }}/skip">{{ csrf_field }}
+          <input type="text" name="reason" placeholder="reason" size="8"><button class="danger">Skip</button></form>
+        {% endif %}
+      </div></td>
+    </tr>
+    {% else %}<tr><td colspan="10" class="muted">No calendar rows in this window.</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

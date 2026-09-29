@@ -1,6 +1,7 @@
 """`capex server ...`: commands for the always-on host.
 
     capex server scheduler [--once]            the long-running scheduler
+    capex server admin [--port 8081]            the admin panel (127.0.0.1; SSH tunnel)
     capex server init                           default schedules + watchlist rows
     capex server jobs                           schedules with next and last runs
     capex server schedule JOB [--cron EXPR] [--tz TZ] [--enable|--disable] [--timeout S]
@@ -35,6 +36,9 @@ def server_command(argv: list[str]) -> int:
     if argv and argv[0] == "scheduler":
         from ..server.scheduler import main as scheduler_main
         return scheduler_main(argv[1:])
+    if argv and argv[0] == "admin":
+        from ..server.admin.app import main as admin_main
+        return admin_main(argv[1:])
 
     parser = argparse.ArgumentParser(prog="capex server", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)

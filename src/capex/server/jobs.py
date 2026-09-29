@@ -52,11 +52,19 @@ def _queue_publish(ctx: JobContext, by: str) -> None:
 # ---- jobs ------------------------------------------------------------------------
 
 def job_watcher(ctx: JobContext, *, sweep: bool = False) -> int:
+    """Params (all optional): `tickers` limits polling to those companies;
+    `event_ids` processes only those filing events; `ticker` + `form`
+    queues that company's newest filing of the form and processes it."""
     from ..monitor import pipeline
 
+    p = ctx.params
     with file_lock(PIPELINE, wait_s=PIPELINE_WAIT_S):
-        s = pipeline.run_watcher(db=ctx.db, sweep=sweep, since=ctx.params.get("since"),
-                                 log=ctx.log)
+        event_ids = p.get("event_ids")
+        if p.get("ticker") and p.get("form"):
+            event_ids = [pipeline.enqueue_latest(p["ticker"], p["form"], db=ctx.db)]
+        s = pipeline.run_watcher(db=ctx.db, sweep=sweep, since=p.get("since"),
+                                 tickers=set(p["tickers"]) if p.get("tickers") else None,
+                                 event_ids=event_ids, log=ctx.log)
     ctx.summary.update(
         due=s.due, polls=s.polls, discovered=s.discovered, swept=s.swept, stale=s.stale,
         outcomes=[{"ticker": o.ticker, "form": o.form_type, "period": o.period,

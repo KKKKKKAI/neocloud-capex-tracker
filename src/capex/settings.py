@@ -137,6 +137,19 @@ REGISTRY: dict[str, Setting] = {s.key: s for s in [
 ]}
 
 
+def record_change(conn: sqlite3.Connection, *, actor: str, entity: str, key: str,
+                  old: Any, new: Any, now: str | None = None) -> None:
+    """One settings_audit row: who changed which runtime-control entity
+    ('setting', 'watchlist', 'schedule', 'subscriber', 'calendar', 'filing')."""
+    conn.execute(
+        "INSERT INTO settings_audit (ts, actor, entity, entity_key, old_json, new_json) "
+        "VALUES (?, ?, ?, ?, ?, ?)",
+        (now or datetime.now(timezone.utc).isoformat(timespec="seconds"), actor, entity, key,
+         None if old is None else json.dumps(old, default=str),
+         None if new is None else json.dumps(new, default=str)),
+    )
+
+
 def _lookup(key: str) -> Setting:
     try:
         return REGISTRY[key]

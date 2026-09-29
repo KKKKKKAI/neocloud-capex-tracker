@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Audit</h1>
+<div class="card">
+  <form class="row" method="get" action="/audit">
+    <label class="field">what<select name="entity"><option value="">everything</option>
+      {% for e in entities %}<option {% if e == entity %}selected{% endif %}>{{ e }}</option>{% endfor %}</select></label>
+    <button>Filter</button>
+  </form>
+</div>
+<div class="card">
+<table>
+  <tr><th>when</th><th>who</th><th>what</th><th>which</th><th>before</th><th>after</th></tr>
+  {% for a in rows %}
+  <tr><td>{{ a.ts | local }}</td><td>{{ a.actor }}</td><td>{{ a.entity }}</td><td class="mono">{{ a.entity_key }}</td>
+    <td class="mono small">{{ a.old_json or '' }}</td><td class="mono small">{{ a.new_json or '' }}</td></tr>
+  {% else %}<tr><td colspan="6" class="muted">No changes recorded yet.</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

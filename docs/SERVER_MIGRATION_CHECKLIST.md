@@ -25,9 +25,10 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] `gh` logged in from WSL — 2026-09-28
 - [x] Operator and subscriber email agreed (same address, all companies) — 2026-09-28
 - [x] `/capex/CLAUDE_CODE_OAUTH_TOKEN` and `/capex/ALPHA_VANTAGE_API_KEY` exist in `eu-north-1` — 2026-09-28
-- [ ] Re-save both as **SecureString**; they are type `String` now. Rotate the Claude token while doing it (`claude setup-token`).
-- [ ] Create `/capex/GMAIL_APP_PASSWORD` (SecureString) and `/capex/GMAIL_USERNAME` (String) in `eu-north-1`. They don't exist in any region yet.
-- [ ] Create a non-root admin identity for the CLI (the CLI currently uses the root user). Needed before Phase 2.
+- [x] Re-save both as **SecureString** — 2026-09-28 (see Phase 2)
+- [ ] Rotate the Claude token (`claude setup-token`) and re-save `/capex/CLAUDE_CODE_OAUTH_TOKEN`
+- [x] Create `/capex/GMAIL_APP_PASSWORD` (SecureString) and `/capex/GMAIL_USERNAME` (String) in `eu-north-1` — 2026-09-28 (see Phase 2). The unused top-level `GMAIL_*` parameters can be deleted.
+- [ ] Create a non-root admin identity for the CLI (the CLI currently uses the root user).
 
 ### 0B. Baseline (2026-09-28)
 - [x] 0.1 No crontab, no monitor process. WSL git clean at `279bc70`; Windows Git shows 41 `D` + 41 `??` workbook entries.
@@ -110,11 +111,31 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [x] 5.9 `run.py` is now a thin CLI with no git push or gh issue. Exit codes 0 / 1 / 3 partial / 75 deferred / 77 auth; `--dry-run`, `--sweep`, `TICKER [FORM]`.
 - [x] 5.10 `capex calendar requeue [--status] [--since] [--ticker] [--refresh-forms]`
 - [x] Verified on a scratch DB copy against live EDGAR: migrated to v12, 13 watchlist rows correct, requeue fixed IREN's forms, and the dry-run catch-up found IREN 10-Q (2026-03-31), IREN 10-K (2026-06-30) and ORCL 10-Q (2026-08-31). The six 6-K rows show as unsupported until Phase 6. 350 tests pass.
+- [x] PR merged — 2026-09-29, #6 (`9cc29f9`)
 
-## Phase 6: 6-K quarterly results for NBIS, GDS, BIDU, BABA (PR 6)
-- [ ] 6.1 `fetch/sec_6k.py`
-- [ ] 6.2 namer / dispatcher / sections / router / coverage fixes
-- [ ] GDS Q2 2026 extracted — pause (d) spot-check
+## Phase 6: 6-K quarterly results for NBIS, GDS, BIDU, BABA (PR 7)
+- [x] 6.1 `fetch/sec_6k.py` finds the earnings release among a foreign filer's 6-Ks. EDGAR gives a 6-K no period (its reportDate is the filing date), and most 6-Ks are buyback returns, AGM notices or circulars. The search:
+  - looks only at 6-Ks filed 7–120 days after the quarter end, the announced day first
+  - takes the first EX-99 .htm exhibit ≥ 40 KB, judged from the filing index, so small 6-Ks are never downloaded
+  - scores the text: results title, "financial results for the", condensed statements, "quarter ended"; notices are rejected by their title
+  - reads the period from "three months ended <date>" phrases and accepts it within ±7 days of the calendar row
+  - stores certain rejections as `filing_events` status `ignored`, never fetched again; borderline ones are looked at again
+- [x] 6.2 The release plus up to 3 more EX-99 exhibits are saved as one `[filed][T][Qn][6-K].htm`; `source_url` is the release exhibit
+- [x] 6.3 Watcher: 6-K rows are polled (found / waiting / already recorded → `skipped`). `capex monitor BIDU 6-K` queues the newest release, not the newest 6-K.
+- [x] 6.4 Fixes:
+  - a fiscal-Q4 6-K was tokenised `Q3`; now `Q4` (namer + dispatcher)
+  - 6-K extraction goes straight to the LLM: companyfacts hold only 20-F facts, and the `6k_press` regex labelled RMB as USD
+  - long releases send both the highlights and the financial statements
+  - BABA's March quarter still comes from the 20-F (`coverage.yaml` `fiscal_q4: annual`)
+- [x] 6.5 Stale rule (Phase 5 bug): a real run marked every row older than its 14–45-day window stale *before* polling it, so a requeued backlog row was dropped unseen. Now a row goes stale only after a poll on or after its deadline, or once it falls out of the lookback; `requeue` clears `last_attempt_at`.
+- [x] 6.6 Pure-play cloud revenue (found in the GDS spot-check). For whole-company companies (GDS, CRWV, APLD, IREN, NBIS), cloud revenue came only from a one-off backfill script. The watcher asked the LLM for a cloud segment instead, got "not found" from GDS's release, and counted it as success, so the cloud chart would never get new quarters. `extract_filing()` now copies the filing's revenue rows as `whole-company-copy@0.1.0` rows, only for that filing, so history is untouched.
+- [x] 6.7 `llm_calls.input_tokens` now counts cache writes and reads. It read 1 for every call, because the CLI caches its prompts.
+- [x] Verified against live EDGAR on a scratch copy of the real DB: after `requeue --refresh-forms`, the dry-run catch-up finds all six backlog quarters (NBIS Q1, GDS Q1 + Q2, BIDU Q1 + Q2, BABA June quarter, each with score 9) plus ORCL's 10-Q. 388 tests pass; the opt-in live test finds GDS Q2.
+- [x] GDS Q2 2026 run end to end on the scratch copy with the real Claude login. `capex monitor GDS 6-K` fetched `0001104659-26-095498` and extracted all six metrics on the first attempt, then regenerated the workbook, charts and site. Reconcile conflicts are unchanged at 9, all pre-existing.
+  - Q2, RMB m: revenue 3,087.950, capex 1,249.766, OCF 1,416.260, D&A 851.428, PP&E 38,734.730, cloud revenue 3,087.950
+  - Each value matches the release's financial statements to the thousand.
+- [ ] PR merged
+- [ ] Pause (d): maintainer spot-check of the GDS Q2 values against the release
 
 ## Phase 7: Scheduler, jobs, publish, backups, health, alerts, subscribers (PR 7)
 - [ ] 7.1 Jobs
@@ -144,6 +165,7 @@ the server deploys commits whose `lint-and-test` CI run passed.
 - [ ] 10.1 First deploy + `capex server doctor`
 - [ ] 10.2–10.3 Data copied and imported
 - [ ] 10.4 Settings pre-filled
+- [ ] 10.4b Calendar forms refreshed: `capex calendar requeue --status upcoming,failed,stale --since 2026-03-01 --refresh-forms`. This fixes IREN's rows and the foreign filers' 2026 rows, which still say `20-F`.
 - [ ] 10.5 Backlog caught up — pause (d) spot-check
 
 ## Phase 11: Go-live repo cleanup (PR 10) — pause (c)

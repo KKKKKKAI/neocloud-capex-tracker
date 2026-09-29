@@ -76,6 +76,16 @@ def llm_child_env() -> dict[str, str]:
     return env
 
 
+def prompt_tokens(usage: dict) -> int | None:
+    """Every input token of a call: uncached plus cache writes and reads.
+    The CLI caches its prompts, so `input_tokens` alone is often 1."""
+    parts = [usage.get(k) for k in
+             ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens")]
+    if all(p is None for p in parts):
+        return None
+    return sum(p or 0 for p in parts)
+
+
 def last_json_object(text: str) -> dict | None:
     """The last line of `text` that parses as a JSON object."""
     for line in reversed(text.strip().splitlines()):
@@ -294,7 +304,7 @@ class CLIBackend:
             "ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "model": self.model,
             "prompt_chars": len(prompt),
-            "input_tokens": usage.get("input_tokens"),
+            "input_tokens": prompt_tokens(usage),
             "output_tokens": usage.get("output_tokens"),
             "duration_ms": int((time.monotonic() - started) * 1000),
             "ok": error is None,

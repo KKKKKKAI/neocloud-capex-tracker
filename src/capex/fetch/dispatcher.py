@@ -25,12 +25,14 @@ from typing import Any
 
 from .. import paths
 from ..db import Database
-from .errors import FormTypeMismatchError, UnknownCompanyError
+from . import sec_6k
+from .errors import FilingNotFoundError, FormTypeMismatchError, UnknownCompanyError
 from .hkex import HKEX_FORM_TYPES
 from .hkex import fetch_latest as hkex_fetch_latest
 from .sec import SEC_FORM_TYPES
 from .sec import fetch_accession as sec_fetch_accession
 from .sec import fetch_latest as sec_fetch_latest
+from .sec import get_submissions as sec_get_submissions
 from .sidecar import write_sidecar
 
 ACTOR_FETCH = "fetch-company-report@0.1.0"
@@ -59,7 +61,17 @@ def fetch_filing(
 
     # Form-type-based dispatch: SEC forms → sec.py, HKEX forms → hkex.py.
     # For dual-listed companies, the form_type itself determines the source.
-    if form_type in SEC_FORM_TYPES:
+    if form_type == "6-K":
+        cik = company["edgar_cik"]
+        if not cik:
+            raise FormTypeMismatchError(ticker, form_type, HKEX_FORM_TYPES)
+        if filing is None:
+            filing = sec_6k.find_latest_release(cik, sec_get_submissions(cik),
+                                                today=datetime.now(timezone.utc).date())
+            if filing is None:
+                raise FilingNotFoundError(ticker, form_type)
+        metadata = sec_6k.fetch_release(ticker, cik, filing)
+    elif form_type in SEC_FORM_TYPES:
         if source == "hkex" and not company.get("edgar_cik"):
             raise FormTypeMismatchError(ticker, form_type, HKEX_FORM_TYPES)
         cik = company["edgar_cik"]
@@ -77,7 +89,7 @@ def fetch_filing(
             raise FormTypeMismatchError(ticker, form_type, SEC_FORM_TYPES)
         metadata = hkex_fetch_latest(ticker, hk_code, form_type)
     else:
-        all_supported = SEC_FORM_TYPES + HKEX_FORM_TYPES
+        all_supported = (*SEC_FORM_TYPES, "6-K", *HKEX_FORM_TYPES)
         raise FormTypeMismatchError(ticker, form_type, all_supported)
 
     # Write the sidecar next to the file. The fetcher gave us a path
@@ -224,8 +236,8 @@ def _compute_period_token(form_type: str, period_of_report: str, fye_month: int)
         if elapsed <= 9:
             return "Q3"
         if form_type == "6-K":
-            # Q4 for 6-K is valid (quarterly earnings press release)
-            return "Q3"  # last quarter before FY end
+            # A fiscal-Q4 earnings release is its own quarter (migration 0008).
+            return "Q4"
         # Elapsed > 9 means we landed in Q4, which 10-Q doesn't cover.
         from .errors import FetchError
         raise FetchError(

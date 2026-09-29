@@ -9,7 +9,7 @@ import pytest
 from capex import settings
 from capex.adapters.errors import LLMAuthError, LLMUsageLimitError
 from capex.monitor import pipeline
-from capex.monitor.watcher import ERROR, HIT, NOT_YET, UNSUPPORTED, PollResult
+from capex.monitor.watcher import ERROR, HIT, KNOWN, NOT_YET, UNSUPPORTED, PollResult
 
 TODAY = date(2026, 10, 30)
 NOW = datetime(2026, 10, 30, 22, 0, tzinfo=timezone.utc)
@@ -29,7 +29,8 @@ def world(capex_db, monkeypatch):
     calls = {"fetch": [], "extract": [], "regen": 0, "notify": []}
 
     monkeypatch.setattr(pipeline, "poll_for_row",
-                        lambda ticker, form, fde, db, cache: polls.get(ticker, PollResult(NOT_YET)))
+                        lambda ticker, form, fde, db, cache, report_date:
+                        polls.get(ticker, PollResult(NOT_YET)))
 
     def fake_fetch(ticker, form_type, db, filing):
         calls["fetch"].append((ticker, filing["accessionNumber"]))
@@ -173,9 +174,9 @@ def test_auth_failure_exits_77(world):
 def test_poll_outcomes_are_recorded(world):
     _add_row(world.db, "MSFT", "2026-09-30", "2026-10-28")
     _add_row(world.db, "ORCL", "2026-08-31", "2026-10-20")
-    _add_row(world.db, "BIDU", "2026-09-30", "2026-10-25", form="6-K")
+    _add_row(world.db, "BIDU", "2026-09-30", "2026-10-25", form="HK-IR")
     world.polls["ORCL"] = PollResult(ERROR, detail="sec_edgar: gave up")
-    world.polls["BIDU"] = PollResult(UNSUPPORTED, detail="no automated fetcher for 6-K yet")
+    world.polls["BIDU"] = PollResult(UNSUPPORTED, detail="no automated fetcher for HK-IR yet")
 
     summary = run(world)
 
@@ -188,8 +189,50 @@ def test_poll_outcomes_are_recorded(world):
     assert _events(world.db) == []
 
 
+def test_ruled_out_6ks_are_remembered(world):
+    _add_row(world.db, "BIDU", "2026-09-30", "2026-10-25", form="6-K")
+    buyback = {"accessionNumber": "acc-bb", "filingDate": "2026-10-28", "reportDate": "2026-10-28",
+               "primaryDocument": "bb.htm", "form": "6-K"}
+    world.polls["BIDU"] = PollResult(NOT_YET, ignored=[(buyback, "not an earnings release (score -6)")])
+
+    run(world)
+
+    (event,) = _events(world.db)
+    assert (event["accession_number"], event["status"], event["calendar_id"]) == ("acc-bb", "ignored", None)
+    assert event["period_of_report"] is None            # a 6-K's reportDate is no fiscal period
+    assert "score -6" in event["last_error"]
+    assert _row(world.db, "BIDU")["status"] == "upcoming"
+    assert world.calls["fetch"] == []
+
+
+def test_ruling_out_never_downgrades_an_event_in_progress(world):
+    filing = _filing("acc-1", "2026-06-30", filed="2026-08-18")
+    with world.db.mutating() as conn:
+        pipeline._insert_event(conn, "BIDU", "6-K", filing, discovered_by="manual",
+                               calendar_id=None, stamp="x")
+        conn.execute("UPDATE filing_events SET status = 'extracted'")
+    _add_row(world.db, "BIDU", "2026-09-30", "2026-10-25", form="6-K")
+    world.polls["BIDU"] = PollResult(NOT_YET, ignored=[(filing, "not an earnings release (score 0)")])
+    run(world)
+    assert [e["status"] for e in _events(world.db)] == ["extracted"]
+
+
+def test_known_release_skips_the_calendar_row(world):
+    _add_row(world.db, "BIDU", "2026-09-30", "2026-10-25", form="6-K")
+    world.polls["BIDU"] = PollResult(KNOWN, filing=_filing("acc-1", "2026-09-30"),
+                                     detail="period already recorded (source_documents id 7)")
+    summary = run(world)
+    row = _row(world.db, "BIDU")
+    assert (row["status"], row["last_error"]) == (
+        "skipped", "period already recorded (source_documents id 7)")
+    assert summary.polls == {"known": 1} and _events(world.db) == []
+
+
 def test_stale_rows_and_row_selection(world):
-    _add_row(world.db, "MSFT", "2026-06-30", "2026-07-29")                 # 93 days: stale
+    _add_row(world.db, "MSFT", "2026-06-30", "2026-07-29",                 # polled after its
+             last_attempt_at="2026-08-20T01:00:00+00:00")                   # 21-day window: stale
+    _add_row(world.db, "AMZN", "2026-06-30", "2026-07-30")                 # never polled: one more look
+    _add_row(world.db, "CRWV", "2026-03-31", "2026-04-20")                 # before the lookback: stale
     _add_row(world.db, "ORCL", "2026-08-31", "2026-10-20")                 # due
     _add_row(world.db, "GOOGL", "2026-09-30", "2026-11-05")                # not reported yet
     _add_row(world.db, "META", "2026-09-30", "2026-10-29",
@@ -198,10 +241,14 @@ def test_stale_rows_and_row_selection(world):
 
     summary = run(world)
 
-    assert summary.stale == 1
-    assert _row(world.db, "MSFT")["status"] == "stale"
-    assert summary.due == 1   # only ORCL
+    assert summary.stale == 2
+    assert (_row(world.db, "MSFT")["status"], _row(world.db, "CRWV")["status"]) == ("stale", "stale")
+    assert summary.due == 2   # AMZN and ORCL
     assert _row(world.db, "ORCL")["last_attempt_at"] is not None
+
+    pipeline.run_watcher(db=world.db, backend=object(), today=TODAY + timedelta(days=1),
+                         now=NOW + timedelta(days=1), log=lambda _: None)
+    assert _row(world.db, "AMZN")["status"] == "stale"      # looked at, still nothing
 
 
 def test_max_filings_per_run(world):

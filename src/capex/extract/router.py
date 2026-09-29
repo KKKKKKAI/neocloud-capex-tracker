@@ -15,7 +15,7 @@ Usage:
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 from ..adapters.errors import FATAL_LLM_ERRORS
@@ -39,6 +39,16 @@ EXTRACTORS = {
     "6k_press": PressReleaseExtractor(),
     "llm": LLMInteractiveExtractor(),
 }
+
+
+def _chain_for_form(chain: list[str], form_type: str | None) -> list[str]:
+    """6-K releases skip XBRL: a foreign filer's companyfacts only carry
+    annual 20-F facts, and one ending on a quarter date would pass as a
+    quarterly value. The regex `6k_press` extractor stays out as well —
+    it labels RMB amounts as USD; the LLM path normalises currency."""
+    if form_type == "6-K":
+        return [name for name in chain if name == "llm"]
+    return chain
 
 
 def extract_metric(
@@ -73,7 +83,7 @@ def extract_metric(
     """
     db = db or Database()
     treatment = get_dataset_treatment(ticker, metric_key)
-    chain = get_extraction_chain(ticker, metric_key)
+    chain = _chain_for_form(get_extraction_chain(ticker, metric_key), form_type)
     tried = []
 
     for extractor_name in chain:
@@ -267,6 +277,8 @@ def extract_filing(
       3. Any metric the multi-metric pass returned None for falls back
          to the per-metric extract_metric() path (which retains the
          3-attempt context-broadening loop).
+      4. Pure plays (see _copy_revenue_as_cloud): cloud_segment_revenue
+         is the filing's revenue rows, copied.
 
     Returns a dict {metric_key: ExtractResult} with one entry per
     requested metric. The watcher can iterate this exactly like the
@@ -282,10 +294,14 @@ def extract_filing(
 
     out: dict[str, ExtractResult] = {}
     pending_llm: list[str] = []
+    copy_cloud = ("cloud_segment_revenue" in metric_keys and "revenue" in metric_keys
+                  and _is_whole_company(ticker))
 
     # Phase 1: try XBRL per metric. Anything that succeeds is done.
     for mk in metric_keys:
-        chain = get_extraction_chain(ticker, mk)
+        if copy_cloud and mk == "cloud_segment_revenue":
+            continue  # step 4
+        chain = _chain_for_form(get_extraction_chain(ticker, mk), form_type)
         if not chain:
             out[mk] = ExtractResult(status="no_extractor", chain_tried=[])
             continue
@@ -360,7 +376,46 @@ def extract_filing(
                 write=write, backend=backend, db=db, force=force,
             )
 
+    if copy_cloud:
+        out["cloud_segment_revenue"] = _copy_revenue_as_cloud(
+            ticker, out["revenue"], write=write, db=db, force=force,
+        )
     return out
+
+
+WHOLE_COMPANY_MODEL = "whole-company-copy@0.1.0"
+
+
+def _is_whole_company(ticker: str) -> bool:
+    dataset = get_dataset_treatment(ticker, "cloud_segment_revenue")
+    return bool(dataset) and dataset.treatment == "whole_company"
+
+
+def _copy_revenue_as_cloud(
+    ticker: str, revenue: ExtractResult, *, write: bool, db: Database, force: bool,
+) -> ExtractResult:
+    """Pure plays (coverage.yaml cloud treatment `whole_company`: GDS,
+    CRWV, APLD, IREN, NBIS): cloud revenue IS total revenue, so the
+    filing's revenue rows are copied as cloud_segment_revenue — the same
+    rows scripts/backfill_cloud_segment_pureplay.py writes. Asking the
+    LLM for a cloud segment instead gets "not found" from a filing that
+    has none, and the cloud series never received the new quarter.
+    """
+    if revenue.status != "success":
+        return ExtractResult(status=revenue.status, extractor=WHOLE_COMPANY_MODEL,
+                             chain_tried=["revenue"], needs_interactive=revenue.needs_interactive)
+    copies = [
+        replace(c, metric_key="cloud_segment_revenue", extracting_model=WHOLE_COMPANY_MODEL,
+                extraction_type="inferred",
+                quote=f"whole-company treatment: total revenue = cloud revenue ({ticker})")
+        for c in revenue.candidates if c.value is not None
+    ]
+    summary = None
+    if write and copies:
+        summary = write_extractions([c.to_writer_dict() for c in copies], db=db, force=force)
+    return ExtractResult(status="success", extractor=WHOLE_COMPANY_MODEL, candidates=copies,
+                         write_summary=summary, chain_tried=["revenue"],
+                         verified=revenue.verified)
 
 
 def _try_xbrl_only(

@@ -48,6 +48,7 @@ def test_sync_never_overwrites_runtime_edits(capex_db):
     ("IREN", "2026-03-31", "10-Q"),
     ("BIDU", "2026-12-31", "6-K"),    # 6-K filers: every quarter incl. FY end
     ("BABA", "2026-06-30", "6-K"),
+    ("BABA", "2027-03-31", "20-F"),   # ...except where fiscal Q4 comes from the annual
 ])
 def test_expected_form(capex_db, ticker, fde, form):
     assert expected_form(ticker, fde, capex_db) == form
@@ -122,8 +123,8 @@ def test_requeue_resets_and_refreshes_forms(capex_db):
     with capex_db.mutating() as conn:
         conn.executemany(
             "INSERT INTO fiscal_calendar (ticker, report_date, fiscal_date_ending, form_type, "
-            "status, source, updated_at, attempts, last_error) "
-            "VALUES (?, ?, ?, ?, ?, 'alpha_vantage', 'x', 3, 'boom')",
+            "status, source, updated_at, attempts, last_error, last_attempt_at) "
+            "VALUES (?, ?, ?, ?, ?, 'alpha_vantage', 'x', 3, 'boom', '2026-09-20T00:00:00+00:00')",
             [("IREN", "2026-08-27", "2026-06-30", "20-F", "failed"),
              ("ORCL", "2026-09-09", "2026-08-31", "10-Q", "stale"),
              ("MSFT", "2026-07-29", "2026-06-30", "10-K", "extracted")],
@@ -133,6 +134,7 @@ def test_requeue_resets_and_refreshes_forms(capex_db):
     iren = _calendar(capex_db, "IREN", "2026-06-30")
     assert (iren["status"], iren["attempts"], iren["last_error"], iren["form_type"]) == (
         "upcoming", 0, None, "10-K")
+    assert iren["last_attempt_at"] is None      # so it is polled before it can go stale again
     assert _calendar(capex_db, "MSFT", "2026-06-30")["status"] == "extracted"
 
 

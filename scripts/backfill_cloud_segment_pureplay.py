@@ -9,6 +9,10 @@ metric_key='cloud_segment_revenue' and extracting_model='whole-company-copy'.
 Idempotent: skips rows that already exist for the same
 (source_document_id, metric_key, extracting_model, period_type).
 
+New filings get these rows from the watcher (`extract_filing()` copies
+each filing's revenue: `router._copy_revenue_as_cloud`); this script
+only backfills history.
+
 Usage:
     python scripts/backfill_cloud_segment_pureplay.py [--dry-run]
 """

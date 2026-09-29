@@ -83,21 +83,27 @@ def expected_form(ticker: str, fiscal_date_ending: str, db: Database) -> str | N
 
     6-K filers announce every quarter — the fiscal year-end one included —
     in a 6-K press release; their 20-F follows weeks later and is picked
-    up by the filings sweep. Everyone else files the annual form for the
-    fiscal year-end period and the quarterly form otherwise.
+    up by the filings sweep. The exception is a company whose fiscal Q4 is
+    derived from the annual report (coverage.yaml `filing_cadence.fiscal_q4:
+    annual`, e.g. BABA): its year-end period expects the annual form.
+    Everyone else files the annual form for the fiscal year-end period and
+    the quarterly form otherwise.
     """
     entry = get_entry(ticker, db)
     if entry is None:
         quarterly, annual = default_forms(ticker)
     else:
         quarterly, annual = entry["quarterly_form"], entry["annual_form"]
-    if quarterly == "6-K":
-        return "6-K"
     with db.connect() as conn:
         row = conn.execute(
             "SELECT fiscal_year_end_month FROM companies WHERE ticker = ?", (ticker,)
         ).fetchone()
     fye_month = row["fiscal_year_end_month"] if row else 12
-    if int(fiscal_date_ending[5:7]) == fye_month:
+    year_end = int(fiscal_date_ending[5:7]) == fye_month
+    if quarterly == "6-K":
+        company = get_company_treatment(ticker)
+        q4_from_annual = bool(company) and company.filing_cadence.get("fiscal_q4") == "annual"
+        return (annual or "6-K") if (year_end and q4_from_annual) else "6-K"
+    if year_end:
         return annual or quarterly
     return quarterly or annual

@@ -152,6 +152,30 @@ def test_classifier_samples():
     assert LLMTransientError not in FATAL_LLM_ERRORS
 
 
+UTC = timezone.utc
+
+
+@pytest.mark.parametrize("message, now, resets_at", [
+    # What the server saw on 2026-09-29 (it used to count as transient).
+    ("You've hit your session limit · resets 7:10pm (UTC)",
+     datetime(2026, 9, 29, 18, 20, tzinfo=UTC), datetime(2026, 9, 29, 19, 10, tzinfo=UTC)),
+    # A clock time already passed today means tomorrow.
+    ("You've hit your session limit · resets 7:10pm (UTC)",
+     datetime(2026, 9, 29, 19, 30, tzinfo=UTC), datetime(2026, 9, 30, 19, 10, tzinfo=UTC)),
+    ("You've hit your weekly limit · resets Oct 6, 9am (Europe/London)",
+     datetime(2026, 9, 29, 18, 0, tzinfo=UTC), datetime(2026, 10, 6, 8, 0, tzinfo=UTC)),
+    ("You've hit your Opus limit · resets 11pm (America/New_York)",
+     datetime(2026, 9, 29, 18, 0, tzinfo=UTC), datetime(2026, 9, 30, 3, 0, tzinfo=UTC)),
+    ("Claude AI usage limit reached|1759363200",
+     datetime(2026, 9, 29, tzinfo=UTC), datetime.fromtimestamp(1759363200, tz=UTC)),
+    ("You've hit your session limit", datetime(2026, 9, 29, tzinfo=UTC), None),
+])
+def test_usage_limits_pause_until_the_reset(message, now, resets_at):
+    error = classify_llm_failure(message, 1, now=now)
+    assert isinstance(error, LLMUsageLimitError)
+    assert error.resets_at == resets_at
+
+
 # ---- fatal errors stop the run instead of being swallowed -------------------
 
 def test_router_reraises_fatal_llm_errors(monkeypatch):

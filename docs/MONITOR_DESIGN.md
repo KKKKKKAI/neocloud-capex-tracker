@@ -1,6 +1,13 @@
 # Fiscal Calendar Monitor — System Design
 
-**Status:** Designed, not yet implemented.  
+> **Superseded (2026-09).** This is the original design. What runs today:
+> the watcher pipeline in `src/capex/monitor/pipeline.py` (calendar row →
+> filing event → fetch → extract, with retries and stale rows), scheduled
+> every 20 minutes by `src/capex/server/scheduler.py` on the always-on
+> server. See `docs/SERVER_OPERATIONS.md` and
+> `docs/SERVER_MIGRATION_CHECKLIST.md`.
+
+**Status:** Superseded (see above).  
 **Created:** 2026-04-15  
 **Owner:** @KKKKKKAI
 

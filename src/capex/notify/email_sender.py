@@ -1,9 +1,8 @@
 """Gmail SMTP sender — stdlib smtplib, no third-party deps.
 
-Reads GMAIL_USERNAME and GMAIL_APP_PASSWORD from the environment.
-The cron wrapper (`scripts/run_monitor.sh`) sources `.env` before
-invoking python, so these vars are already loaded by the time
-notify_subscribers runs.
+Reads GMAIL_USERNAME and GMAIL_APP_PASSWORD from the environment. On the
+server capex-secrets.service loads them from SSM Parameter Store into the
+services' environment; for a local run, `set -a; . ./.env; set +a` first.
 """
 from __future__ import annotations
 

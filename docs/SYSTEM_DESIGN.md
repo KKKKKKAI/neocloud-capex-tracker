@@ -62,7 +62,7 @@ as needed.
 |---|---|---|---|
 | 1 | **Source acquisition** | `src/capex/fetch/` + `data/_sources/<TICKER>/_raw/` | `fetch-company-report` |
 | 2 | **Canonicalization** | `src/capex/organize/` + `data/_sources/<TICKER>/<YYYY>/` | `organize-sources` |
-| 3 | **Storage trunk** | `src/capex/db/` + `data/db/capex.db` + `data/db/dump.sql` | every mutating skill |
+| 3 | **Storage trunk** | `src/capex/db/` + `$CAPEX_HOME/data/db/capex.db` (on the server, §5.2) | every mutating skill |
 | 4 | **Read + extract** | `src/capex/read/` + `src/capex/extract/` + `src/capex/adapters/` | `read-and-extract` (worker) |
 | 5 | **Query / lookup** | `src/capex/query/` | `query-line-item` (user front door) |
 | 6 | **Export** | `src/capex/exporters/` (excel, csv, json) | `export-workbook` |
@@ -85,23 +85,27 @@ reads from it; everything upstream writes into it.
 - Ships with Python's stdlib; no driver install, no container, no service.
 - Easy migration path: when scale demands it, `sqlite3 capex.db .dump | psql` is a ten-second port to Postgres.
 
-### 5.2 Files and commit strategy
+### 5.2 Where the database lives
 
-Two files, both committed:
+Since 2026-09-29 the always-on server is the only writer and the system of
+record: `/var/lib/capex/data/db/capex.db` on its data volume (`CAPEX_HOME`,
+WAL mode, since the scheduler and the admin panel share it). The database is
+no longer committed. The watcher changes it every 20 minutes, and committing
+those changes would turn each run into a git push.
 
-```
-data/db/capex.db     # binary SQLite database, runtime truth
-data/db/dump.sql     # plaintext SQL dump, auto-regenerated on every mutation
-```
+Auditability moved rather than disappeared:
+- **Every value** keeps its provenance in the DB: `extractions`,
+  `extraction_evidence`, `audit_log`, and `filing_events` for each filing's
+  lifecycle.
+- **Every runtime change** (settings, watchlist, schedules, subscribers,
+  calendar, filings) is in `settings_audit`, and every job execution in `runs`.
+- **Nightly backups** go to a versioned S3 bucket as a verified SQLite
+  snapshot plus a plaintext SQL dump, which is the old `dump.sql` without
+  the git churn.
 
-- **`capex.db`** is the runtime. Skills, CLIs, and queries all talk to this.
-- **`dump.sql`** is for humans. `git diff dump.sql` on a PR tells a reviewer exactly what a DB-mutating commit did — which tables got rows, which values changed, which audit entries were written. Without this, binary diffs would make every DB write a black-box commit and break the auditability principle in §3.
-
-Every successful mutation regenerates `dump.sql` via `capex.db.dump.dump_to_sql()`. This is wired into the `Database.mutating()` context manager, so there is no path to write the DB without also updating the dump.
-
-When the binary outgrows comfort (~10 MB), the plan is to drop the binary from
-the repo, keep only the dump, and rebuild the binary on clone via a
-`make db` step. We are nowhere near that threshold.
+For local work, `scripts/pull_server_snapshot.sh` copies the newest backup
+into a local `CAPEX_HOME`. `CAPEX_DUMP_SQL=1` still regenerates a local
+`dump.sql` after each mutation, to read a change as a diff.
 
 ### 5.3 Schema (v0.1)
 
@@ -311,18 +315,33 @@ storage.
 └── pyproject.toml
 ```
 
-### 10.2 Why GitHub for both code and data
+### 10.2 GitHub for code, the server for data
 
-- Single source of truth across code, DB dump, source archive, and history.
-- Every quarterly run is a commit → git-tracked time series of the dataset for free.
-- Actions concurrency groups enforce single-writer.
-- Free tier covers quarterly cadence comfortably.
+The original design committed the data too, with GitHub as the single
+source of truth. That worked while a person ran each update from a laptop.
+With an always-on watcher it doesn't: every 20-minute run would be a commit,
+the server would need push credentials, and binary DB history would bloat
+the repo. The split since 2026-09-29:
+
+- **GitHub:** code, seeds (`coverage.yaml`, `_identity.yaml`, metric
+  definitions, human notes), prompts and docs. A merge to `main` deploys
+  itself once CI passes (`deploy/capex-deploy.sh`).
+- **Server** (EC2 + a persistent data volume): DB, raw filings,
+  workbooks, logs. It is the only writer, and runtime control happens in its
+  admin panel.
+- **S3:** the public site behind CloudFront, plus versioned backups (DB
+  nightly, raw filings weekly).
 
 ### 10.3 Caveats handled
 
-- **Binary .db diffs are useless** → auto-generated `dump.sql` committed alongside every DB write.
-- **Repo bloat** → Git LFS for source PDFs is planned when the archive grows; `.db` stays in main repo until the single-file SQLite size warrants otherwise.
-- **Secrets** → GitHub Actions secrets only; nothing committed.
+- **Auditability without git history** → DB audit tables, `runs`, and SQL
+  dumps inside the versioned nightly backups (§5.2).
+- **Repo bloat** → no data in git; the ~1 GB raw archive lives on the data
+  volume and in S3.
+- **Secrets** → SSM Parameter Store (`/capex/*`), loaded at boot into a
+  tmpfs file; nothing in git or on the data volume.
+- **One writer** → the scheduler runs one job at a time under a file lock
+  that manual `capex monitor` runs share.
 
 ## 11. Rejected alternatives
 
